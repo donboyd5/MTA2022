@@ -1,0 +1,28 @@
+---
+title: "Current MTA taxes"
+format: html
+editor: visual
+---
+
+Examine questions such as:
+
+-   Who pays the taxes? (Commuters, others; businesses, commerical property, retail...)
+-   How would tax professionals think about issues such as:
+    -   Who's using the system, who's benefiting for it, and who's paying for it?
+    -   Geographic breakdown - NYC vs. Long Island vs. Other MTA counties
+    -   Payroll mobility tax - business on LI might be "unfairly" paying it (tax on wages of non-users of system)
+    -   Progressivity and regressivity of taxes? (Note that subsidies elsewhere for transit often rely heavily on sales taxes.)
+
+
+## Description
+
+
+## Geographic distribution
+
+
+## Payors
+
+
+## Progressivity and regressivity
+
+

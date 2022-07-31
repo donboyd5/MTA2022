@@ -1,0 +1,8 @@
+---
+title: "Miscellaneous notes"
+format: html
+editor: visual
+---
+
+
+*   According to the latest year-to-date data from May 2022, the farebox operating ratio for New York City Transit was 31.9 percent, compared to the budgeted 40 percent, a gap of more than 8 percent

@@ -1,0 +1,13 @@
+---
+title: "Payroll Mobility Tax"
+format: html
+editor: visual
+---
+
+## Payroll Mobility Tax - difference between economic data and tax base in practice
+
+-   BLS data on wages in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.7 billion. But actual revenue is more like \$1.7 billion.
+
+-   What accounts for the difference? Some is related to the fact that federal govt employers, school districts, and other governmental employers are exempt. What else? How much?
+
+-   Are there opportunities to broaden the base (reduce exemptions) to raise more revenue from the tax?

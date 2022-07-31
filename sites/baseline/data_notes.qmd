@@ -1,0 +1,56 @@
+---
+title: "Notes on data sources"
+format: html
+editor: visual
+---
+
+## Data about MTA finances and ridership
+
+### Finance data
+
+-   Does MTA have an online source for collections history of MTA taxes, ideally monthly, in spreadsheet form, or other computer friendly form? I have not found one yet. (I am not talking about ACFR/CAFR and AIS documents, which I have access to. I am interested in spreadsheets or other computerized forms such as csv files or database files.)
+-   
+
+### Other data
+
+-   [MTA Performance Dashboard](https://new.mta.info/transparency/metrics)
+-   [MTA Surveys from 2018](https://new.mta.info/transparency/surveys)
+-   Static and API [data for developers](http://web.mta.info/developers/developer-data-terms.html#data)
+-   Open data portals
+    -   [MTA Open Data Program](https://new.mta.info/open-data); listing of [MTA's OpenData files](https://new.mta.info/document/85371)
+
+    -   [NYC OpenData for MTA](https://data.cityofnewyork.us/Transportation/MTA-Data/mmu8-8w8b) - link at the site does not work; [this](https://data.cityofnewyork.us/browse?q=mta&sortBy=relevance) shows some related data but none looks especially relevant
+
+    -   [Data.Gov](https://catalog.data.gov/dataset/mta-data) data link for MTA - also does not work
+
+    -   [data.ny.gov MTA data](https://data.ny.gov/browse?q=mta&sortBy=relevance) -- NYS open data site
+
+        -   [MTA Daily Ridership Data: Beginning 2020](https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew)
+        -   [Monthly ridership 2008+](https://data.ny.gov/Transportation/Metropolitan-Transportation-Authority-MTA-Monthly-/qqdg-h2tq) (not as current as the daily data)
+-   OSC has a site for tracking subway [turnstile data](https://www.osc.state.ny.us/reports/osdc/impact-covid-19-pandemic-subway-ridership-new-york-city). They posted an Excel [data file](https://www.osc.state.ny.us/files/reports/osdc/excel/nyc-subway-usage-data-level-june-2022.xlsx) with monthly stats from June 2020 - June 2022.
+-   Add NYS tax data files from open data portal, which will include MTA taxes
+-   [NYC Independent Budget Office (IBO) Tax Revenue FY 1980 - FY 2020](https://data.cityofnewyork.us/City-Government/NYC-Independent-Budget-Office-IBO-Tax-Revenue-FY-1/hdnu-nbrh) - will soon be updated, and I can get more-current data directly from IBO.
+
+## Data for allocating current or new MTA taxes geographically
+
+-   [Taxable Sales And Purchases Quarterly Data: Beginning Sales Tax Year 2013-2014](v) -- to help with sales tax allocation
+
+-   [State and Local Sales Tax Distributions: Beginning Fiscal Years Ended March 31, 1995](https://data.ny.gov/Government-Finance/State-and-Local-Sales-Tax-Distributions-Beginning-/5g2s-tnb7) -- may also help with sales tax allocation
+
+-   [Taxable Sales and Purchases of Motor Fuel and Highway Diesel Fuel Quarterly Data: Beginning Sales Tax Year 2013‐2014](https://data.ny.gov/Government-Finance/Taxable-Sales-and-Purchases-of-Motor-Fuel-and-High/hgxa-ib84) - may be helpful with Petroleum Business Taxes, not sure yet
+
+-   [Property Assessment Data from Local Assessment Rolls](https://data.ny.gov/Government-Finance/Property-Assessment-Data-from-Local-Assessment-Rol/7vem-aaz7) - conceivably useful municipal-level data
+
+-   [Automated City Register Information System (ACRIS)](https://www1.nyc.gov/site/finance/taxes/acris.page) - potentially useful in relation to real estate, not sure yet
+
+-   [Personal Income Tax Filers, Summary Dataset 1 - Major Items by Liability Status and Place of Residence: Beginning Tax Year 2015](https://data.ny.gov/Government-Finance/Personal-Income-Tax-Filers-Summary-Dataset-1-Major/73iw-kuxv) - breakdown by county
+
+-   [New York State, Local, and Local Purpose Taxes and Fees Collected Monthly by the Department of Taxation and Finance: Beginning April 1996](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb) - not sure yet if useful, maybe for real estate
+
+-   
+
+## Comparative data
+
+-   [National Transit Database](https://www.transit.dot.gov/ntd) -- OSC uses this to compare transit revenue across transit systems in the U.S.
+-   [Kastle Systems](https://www.kastle.com/safety-wellness/getting-america-back-to-work/) -- has a "Back to Work" barometer (based on office occupancy rates)
+-   [transitapp.com](https://transitapp.com/APTA) McKinsey used this (with a predecessor link) in their May 2020 report [@metropolitantransportationauthorityMcKinseyAnalysisMetropolitan2020]

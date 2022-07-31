@@ -1,0 +1,11 @@
+---
+title: "Metropolitan Mass Transit Operating Assistance Account (MMTOA)"
+format: html
+editor: visual
+---
+
+## Metropolitan Mass Transit Operating Assistance Account (MMTOA)
+
+-   How does revenue from statutorily dedicated taxes compare to appropriations from MMTOA? How closely do they match?
+-   Beware issues such as the 18-b trick where spending previously paid from the state general fund is now paid from MMTOA
+

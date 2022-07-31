@@ -1,0 +1,33 @@
+project:
+  type: book
+  comments: 
+    hypothesis: true
+
+bibliography: _baseline.bib
+
+book:
+  title: "MTA baseline"
+  author: "Don Boyd"
+  date: today
+  date-format: long
+  chapters:
+    - index.qmd
+    - goals.qmd
+    - schedule.qmd
+    - boyd_questions.qmd
+    - data_notes.qmd
+    - resources.qmd
+    - misc_notes.qmd
+    - current_taxes.qmd
+    - mmtoa.qmd
+    - payroll_mobility_tax.qmd
+    - bibliography.qmd
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

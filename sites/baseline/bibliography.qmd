@@ -1,0 +1,10 @@
+# Bibliography {.unnumbered}
+
+<!-- --- -->
+<!-- nocite: | -->
+<!--   @* -->
+<!-- --- -->
+
+::: {#refs}
+{{< include bibs.qmd >}}
+:::

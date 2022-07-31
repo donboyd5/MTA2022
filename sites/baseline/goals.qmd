@@ -1,0 +1,37 @@
+---
+title: "Goals"
+format: html
+editor: visual
+---
+
+Take a deep dive into existing taxes and subsidies.
+
+## Overview
+
+-   Current MTA taxes
+-   Metropolitan Mass Transit Operating Assistance Account (MMTOA)
+-   Payroll Mobility Tax - difference between economic data and tax base as implemented
+
+## Current MTA taxes
+
+Examine questions such as:
+
+-   Who pays the taxes? (Commuters, others; businesses, commerical property, retail...)
+-   How would tax professionals think about issues such as:
+    -   Who's using the system, who's benefiting for it, and who's paying for it?
+    -   Geographic breakdown - NYC vs. Long Island vs. Other MTA counties
+    -   Payroll mobility tax - business on LI might be "unfairly" paying it (tax on wages of non-users of system)
+    -   Progressivity and regressivity of taxes? (Note that subsidies elsewhere for transit often rely heavily on sales taxes.)
+
+## Metropolitan Mass Transit Operating Assistance Account (MMTOA)
+
+-   How does revenue from statutorily dedicated taxes compare to appropriations from MMTOA? How closely do they match?
+-   Beware issues such as the 18-b trick where spending previously paid from the state general fund is now paid from MMTOA
+
+## Payroll Mobility Tax - difference between economic data and tax base in practice
+
+-   BLS data on wages in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.7 billion. But actual revenue is more like \$1.7 billion.
+
+-   What accounts for the difference? Some is related to the fact that federal govt employers, school districts, and other governmental employers are exempt. What else? How much?
+
+-   Are there opportunities to broaden the base (reduce exemptions) to raise more revenue from the tax?

@@ -1,0 +1,34 @@
+---
+title: "Resources"
+format: html
+editor: visual
+---
+
+## Links
+
+-   Google Drive or Teams folder (to come)
+-   [Zotero Group](https://www.zotero.org/groups/4744647/mta_revenue) - I have sent invitations to Kevin and Jai
+-   [MTA financial and budget statements](https://new.mta.info/transparency/financial-information/financial-and-budget-statements)
+-   [MTA subsidy descriptions](https://new.mta.info/budget/dedicated-taxes)
+
+## People
+
+-   David Keller - MTA, does forecasts of taxes
+
+## Organizations
+
+-   CBC
+
+-   Regional Plan Association
+
+## Documents to read
+
+-   MTA July financial plan update
+
+-   MTA AIS, OS, and continuing disclosure
+
+-   DOB writeups of MTA and MTA revenue
+
+-   CBC report on MTA finances
+
+-   RPA report (?) on Rockland County desired secession from MTA
