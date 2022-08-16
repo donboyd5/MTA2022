@@ -5,6 +5,10 @@
 <!--   @* -->
 <!-- --- -->
 
+<!-- ::: {.hidden} -->
+<!-- {{< include all_references.txt >}} -->
+<!-- ::: -->
+
+
 ::: {#refs}
-{{< include bibs.qmd >}}
 :::

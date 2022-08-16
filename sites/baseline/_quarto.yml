@@ -4,6 +4,8 @@ project:
     hypothesis: true
 
 bibliography: _baseline.bib
+nocite: |
+  @*
 
 book:
   title: "MTA baseline"
@@ -12,15 +14,29 @@ book:
   date-format: long
   chapters:
     - index.qmd
-    - goals.qmd
-    - schedule.qmd
-    - boyd_questions.qmd
-    - data_notes.qmd
-    - resources.qmd
-    - misc_notes.qmd
-    - current_taxes.qmd
-    - mmtoa.qmd
-    - payroll_mobility_tax.qmd
+    - part: "Project notes"
+      chapters:
+      - intro/goals.qmd
+      - intro/schedule.qmd
+      - intro/boyd_questions.qmd
+      - intro/data_notes.qmd
+      - intro/resources.qmd
+      - intro/misc_notes.qmd
+    - part: "Taxes"
+      chapters: 
+      - taxes/current_taxes.qmd
+      - taxes/payroll_mobility_tax.qmd
+      - taxes/petroleum_business_tax.qmd
+      - taxes/mortgage_recording_tax.qmd
+    - part: "MTOA and MMTOA questions"
+      chapters: 
+      - mtoa/mtoa.qmd
+    - part: "Payroll mobility tax-base questions"
+      chapters:
+      - pmtbase/payroll_mobility_tax_base.qmd
+    - part: "Options"
+      chapters: 
+      - options/options.qmd
     - bibliography.qmd
 
 format:

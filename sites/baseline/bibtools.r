@@ -32,8 +32,7 @@ df2 <- df1 |>
          sortyear=ifelse(str_detect(lastchar, "[0-9]"),
                           str_sub(bibtexkey, -4, -1),
                           str_sub(bibtexkey, -5, -1))) |> 
-  select(bibtexkey, full_name, sortyear) |> 
-  arrange(full_name, sortyear)
+  select(bibtexkey, full_name, sortyear) # |> arrange(full_name, sortyear)
 df2
 
 # 
@@ -43,6 +42,6 @@ df2
 
 df2 |> 
   pull(bibtexkey) |> 
-  writeLines(con=here::here("sites", "baseline", "bibs.qmd"), sep="\n")
+  writeLines(con=here::here("sites", "baseline", "all_references.txt"), sep="\n")
 
 

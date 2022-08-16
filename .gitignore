@@ -12,7 +12,8 @@ sites/baseline/.quarto/
 *.png
 *.xl*
 
-
 .Rdata
 .httr-oauth
 .DS_Store
+
+/.quarto/

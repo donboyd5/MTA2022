@@ -1,0 +1,47 @@
+# Payroll mobility tax
+
+## Overview
+
+See:
+
+-   
+
+## Tax structure
+
+The tax is based on place of work, not place of residence. Most of the following is from [DTF](https://www.tax.ny.gov/bus/mctmt/emp.htm).
+
+### Payroll tax
+
+Applies to employer if:
+
+-   required to withhold New York State income tax from wages; **and**
+
+-   [payroll expense](https://www.tax.ny.gov/bus/mctmt/def_ps.htm#pe) exceeds \$312,500 in any calendar quarter9 (\~\$1.2m/year)
+
+But not if:
+
+-   agency or instrumentality of the United States, United Nations, interstate or international-with-Canada public corporation, fed-chartered credit union
+
+-   K12 institution, libraries
+
+Tax rates:
+
+![](images/paste-A8A8B028.png)
+
+[Payroll expense](https://www.tax.ny.gov/bus/mctmt/def_ps.htm#pe) generally means a [covered employee's](https://www.tax.ny.gov/bus/mctmt/def_ce.htm#coveredemp "covered employee's") wages and compensation that are subject to either social security or railroad retirement tax, but with no annual cap applied.
+
+### Self-employment tax
+
+Net earnings from self-employment allocated to the MCTD means your net earnings from self-employment that are attributable to a business carried on within the MCTD. \[As with wages, this is a place of work concept.\]
+
+\[Note: This differs from the BEA definition of non-farm proprietors' income, which is discussed in their documentation [here](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf).\]
+
+### Tax base
+
+### Tax rates
+
+### Filing
+
+### Payment
+
+## Geographic allocation

@@ -9,7 +9,7 @@ Take a deep dive into existing taxes and subsidies.
 ## Overview
 
 -   Current MTA taxes
--   Metropolitan Mass Transit Operating Assistance Account (MMTOA)
+-   Mass Transportation Operating Assistance Fund (MTOA)
 -   Payroll Mobility Tax - difference between economic data and tax base as implemented
 
 ## Current MTA taxes
@@ -23,10 +23,10 @@ Examine questions such as:
     -   Payroll mobility tax - business on LI might be "unfairly" paying it (tax on wages of non-users of system)
     -   Progressivity and regressivity of taxes? (Note that subsidies elsewhere for transit often rely heavily on sales taxes.)
 
-## Metropolitan Mass Transit Operating Assistance Account (MMTOA)
+## Mass Transportation Operating Assistance Fund (MTOA)
 
--   How does revenue from statutorily dedicated taxes compare to appropriations from MMTOA? How closely do they match?
--   Beware issues such as the 18-b trick where spending previously paid from the state general fund is now paid from MMTOA
+-   How does revenue from statutorily dedicated taxes compare to appropriations from MTOA? How closely do they match?
+-   Beware issues such as the 18-b trick where spending previously paid from the state general fund is now paid from MTOA
 
 ## Payroll Mobility Tax - difference between economic data and tax base in practice
 

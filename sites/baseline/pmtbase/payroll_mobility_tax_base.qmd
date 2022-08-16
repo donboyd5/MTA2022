@@ -1,0 +1,60 @@
+# Payroll Mobility Tax Base Questions
+
+## Questions
+
+-   According to the MTA, BLS data on earnings in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.7 billion. But actual revenue is more like \$1.7 billion.
+
+-   What accounts for the difference? Some is related to the fact that federal govt employers, school districts, and other governmental employers are exempt. What else? How much?
+
+-   Are there opportunities to broaden the base (reduce exemptions) to raise more revenue from the tax?
+
+## The MTA analysis
+
+-   MTA used data from the Bureau of Economic Analysis (BEA), from table *CAINC5N Personal Income by Major Component and Earnings by NAICS Industry*, which can be found [here](https://apps.bea.gov/iTable/iTable.cfm?reqid=70&step=1#tabpanel_1_6).
+-   Here is a table from the MTA analysis. It shows \$815.803 billion of 2020 earnings in the MTA region which, at a 0.34% rate, would yield \$2.773 billion in revenue (if fully taxed).
+
+![](images/paste-7EB07C4D.png)
+
+## Why the difference?
+
+Recall that the MTA tax is based on wages plus self-employment income from activity in the MTA region, with certain exclusions and exemptions. BEA "earnings" include wages plus certain non-wage income so at first blush BEA may appear to measure something akin to the tax base, but there are important differences.
+
+### Wages
+
+-   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the calculation above. This is probably very small but I have not tried to estimate it;
+
+-   Wages paid by school districts and the federal government are excluded from the PMT base but are included in the calculation above. These exemptions appear to reduce PMT taxable wages by something more than 5%.
+
+    -   BEA wages do not have the detail needed to estimate the federal and K12 exemptions, but an important input to BEA wages, known as QCEW wages, do have details.
+
+    -   The QCEW is the quarterly Census of Employment and Wages, from the Bureau of Labor Statistics. It is a key input to BEA wages. It is slightly smaller than BEA wages. For example, QCEW wages in 2020 for NY County (Manhattan) were \$319.97 billion, as seen in the table below. BEA wages for NY County were \$332.8 billion, so QCEW wages were 96 percent of BEA wages. (The \$332.8 can be seen in the detailed county-level data available from *CAINC5N Personal Income by Major Component and Earnings by NAICS Industry*.)
+
+    -   We can use QCEW wages to calculate private, state and non-K12 local wages (excluding federal wages and local K12 wages), which gives us a better estimate of the PMT taxable wage base, although it is still too high because it includes exempt small employers and possibly other exempt employers. The table below shows the resulting PMT base as a percentage of QCEW total wages. For the MTA region as a whole, this base is 94.5% of QCEW wages.
+
+![](images/paste-15B07C79.png)
+
+### Self-employment income
+
+-   BEA earnings by place of work (the number MTA used in its PMT tax base calculation) are the sum of wages, "Supplements to wages and salaries", and "Proprietors' income", as shown in my extract below from the BEA CAINC5N table for New York County. .
+
+![](images/paste-13471D77.png)
+
+-   Supplements, which are included in the MTA estimate, are not self-employment income at all and should be excluded. They are 12.2% of BEA earnings (\$53.843 / \$439.599). They include employer contributions to pension plans, Social Security, and the like. While they are income to a wage worker in an economic sense, they are not self-employment income, which is what the PMT taxes.
+
+-   Proprietors' income, in concept, is similar to self-employment income in concept, but is vastly overstated copmpared to what is reported on tax returns. Table 11.3 in [BEA's documentation](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf), copied below, shows this for 2015 for the nation as a whole. As you can see, nonfarm proprietors' income (table line 11, \$1,130.8b) is about 36% greater than the related tax return concept (table line 1, \$831.7b). Most of the difference is due to misreporting (underreported income for tax purposes). So this should be scaled back dramatically in the estimate.
+
+![](images/paste-201C287E.png)
+
+### Wages and self-employment income combined
+
+-   We can do a rough re-estimate with the information above, or a more-detailed estimate if you want. We would recalculate the base by:
+
+    -   Reducing wages by 5.5%
+
+    -   
+
+        -   is included in the tax base "Non proprietors' income" is included in the
+
+Here's what I (Boyd) get from summarizing the QCEW (see data notes) for CY 2021 -- \$608b of total wages which, if taxed at 0.34%, would be \$2.07 billion. The private sector would be \$1.8 billion. This is crude - just raw data, with no attempt yet to examine the law and figure out what is taxed and what isn't.
+
+![](images/paste-B3DEDAC1.png)

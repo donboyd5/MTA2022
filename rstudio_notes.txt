@@ -1,0 +1,10 @@
+
+Code folding:
+  Collapse — Alt+L
+  Expand — Shift+Alt+L
+  Collapse All — Alt+O
+  Expand All — Shift+Alt+O
+  
+  
+  
+  

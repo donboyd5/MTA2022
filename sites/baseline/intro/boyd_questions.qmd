@@ -1,22 +1,26 @@
----
-title: "Questions for the MTA"
-format: html
-editor: visual
----
-
-I (Boyd) will put questions for the MTA here as they arise.
+# Questions for the MTA
 
 ## Questions relating to revenue and finances
 
--   I would like to be sure I am focusing on the right revenue sources. I have copied below p.II-8 (electronic page 21) from Volume 1 of the July Financial Plan update. [@metropolitantransportationauthorityMTA2023Preliminary2022a]
+-   I would like to be sure I am focusing on the right revenue sources.
 
-    -   Are the tax elements of this the right sources to focus on? (I will prioritize, likely by size.)
+-   I constructed the table below to help identify the revenue sources we will include in the analysis, using 2021 actuals on an accrual basis. I would like to discuss this table with you. The major categories are from the 2021 ACFR p. 36 [@willensMetropolitanTransportationAuthority2022] and certain details are from the the July Financial Plan update Volume 2 p.II-37 [@metropolitantransportationauthorityMTA2023Preliminary2022]. (We can construct such a table on a cash basis if you prefer.) Note: For most analyses, I will need to use cash numbers as they will be available at greater detail than accrual numbers.
+
+![](images/paste-D4A7F370.png)
+
+-   Regarding the table:
+
+    -   Are the tax elements of this the right sources to focus on? (I will break out the taxes in each category individually. In terms of where I will put the most effort, I will prioritize, likely by size.)
 
     -   Is there any tax item on the table that should be excluded from a baseline analysis?
 
     -   Are there any tax items not in the table that should be included in a baseline analysis?
 
+<!-- -->
+
 -   Does MTA have an online source for collections history of MTA taxes, ideally monthly, in spreadsheet form, or other computer friendly form? I have not found one yet. (I am not talking about ACFR/CAFR and AIS documents, which I have access to. I am interested in spreadsheets or other computerized forms such as csv files or database files.)
+
+-   Kevin, in relation to the payroll mobility tax, said something like, "BLS data on wages in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.7 billion. But actual revenue is more like \$1.7 billion." Can I see the calculations? Using QCEW data (see data notes) for 2021, I get about \$2.1 billion for all wages, and \$1.8 billion for private sector wages, so it does not seem as far off. (This doesn't incude self-employment estimates.) But I have not yet delved into the tax law to understand exactly how the base is defined.
 
 -   Kevin said something like, "Bridges and tunnels, net of operating and debt service, contribute \$1.2 billion toward \[MTA transit?\]". Where can I find that calculation?
 
@@ -31,5 +35,3 @@ While examining ridership it is not part of the project, I would like to underst
 -   Why did ridership plunge around Feb 2022 and fall off the prior recovery path? Was there some sort of glitch in the data or in transit at that point? See graph below from [@metropolitantransportationauthorityJuly2022Financial2022].
 
 ![](images/paste-F59D764A.png)
-
-![](images/paste-D402D82F.png)

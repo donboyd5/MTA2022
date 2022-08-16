@@ -1,15 +1,18 @@
----
-title: "Notes on data sources"
-format: html
-editor: visual
----
+# Notes on data sources
 
 ## Data about MTA finances and ridership
 
-### Finance data
+### Tax and finance data
 
--   Does MTA have an online source for collections history of MTA taxes, ideally monthly, in spreadsheet form, or other computer friendly form? I have not found one yet. (I am not talking about ACFR/CAFR and AIS documents, which I have access to. I am interested in spreadsheets or other computerized forms such as csv files or database files.)
--   
+-   MTA spreadsheet on annual taxes - via email
+
+-   [New York State, Local, and Local Purpose Taxes and Fees Collected Monthly by the Department of Taxation and Finance: Beginning April 1996](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb) -- [data file](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb/data)
+
+-   [Annual Statistical Report of New York State Tax Collections](https://www.tax.ny.gov/research/stats/statistics/stat_fy_collections.htm) - html and spreadsheet various years
+
+    -   [Real estate transfer tax by county](Table%2017:%20Real%20Estate%20Transfer%20Tax%20Collections%20by%20County)
+
+    -   [Table 23: Mortgage Tax Collections by County](https://www.tax.ny.gov/pdf/2020-2021%20collections/Table%2023.xlsx)
 
 ### Other data
 
@@ -33,7 +36,7 @@ editor: visual
 
 ## Data for allocating current or new MTA taxes geographically
 
--   [Taxable Sales And Purchases Quarterly Data: Beginning Sales Tax Year 2013-2014](v) -- to help with sales tax allocation
+-   [Taxable Sales And Purchases Quarterly Data: Beginning Sales Tax Year 2013-2014](https://data.ny.gov/Government-Finance/Taxable-Sales-And-Purchases-Quarterly-Data-Beginni/ny73-2j3u) -- to help with sales tax allocation
 
 -   [State and Local Sales Tax Distributions: Beginning Fiscal Years Ended March 31, 1995](https://data.ny.gov/Government-Finance/State-and-Local-Sales-Tax-Distributions-Beginning-/5g2s-tnb7) -- may also help with sales tax allocation
 
@@ -47,7 +50,7 @@ editor: visual
 
 -   [New York State, Local, and Local Purpose Taxes and Fees Collected Monthly by the Department of Taxation and Finance: Beginning April 1996](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb) - not sure yet if useful, maybe for real estate
 
--   
+-   [BLS Quarterly Census of Employment and Wages](https://www.bls.gov/cew/downloadable-data-files.htm)
 
 ## Comparative data
 
