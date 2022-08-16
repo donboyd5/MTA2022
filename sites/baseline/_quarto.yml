@@ -3,9 +3,16 @@ project:
   comments: 
     hypothesis: true
 
-bibliography: _baseline.bib
-nocite: |
-  @*
+# https://quarto.org/docs/computations/execution-options.html    
+# for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
+execute:
+  eval: true
+  echo: false
+  error: false
+  warning: false
+  message: false  # not sure if allowed
+  note: false  # not sure if allowed
+  
 
 book:
   title: "MTA baseline"
@@ -28,10 +35,10 @@ book:
       - taxes/payroll_mobility_tax.qmd
       - taxes/petroleum_business_tax.qmd
       - taxes/mortgage_recording_tax.qmd
-    - part: "MTOA and MMTOA questions"
+    - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa.qmd
-    - part: "Payroll mobility tax-base questions"
+    - part: "Payroll mobility tax base"
       chapters:
       - pmtbase/payroll_mobility_tax_base.qmd
     - part: "Options"
@@ -39,11 +46,17 @@ book:
       - options/options.qmd
     - bibliography.qmd
 
+
+bibliography: _baseline.bib
+nocite: |
+  @*
+
+
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
+  # pdf:
+  #   documentclass: scrreprt
 
 
 

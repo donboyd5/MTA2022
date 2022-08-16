@@ -81,20 +81,8 @@ pmt_base2 <- pmt_base1 |>
          pmtwages=wages * pmt_qcewbase / wage_tot,
          pmtnonwage=propinc * propinc_taxable_ratio,
          pmtbase=pmtwages + pmtnonwage) |> 
-  select(fips, year, mtasub, area, earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage)
-
-pmt_base2 |> 
-  group_by(year) |> 
-  summarise(across(c(earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage), sum), .groups="drop") |> 
-  mutate(pct=pmtbase / earnings,
-         pctwages=pmtwages / wages,
-         pctnonwage=pmtnonwage / nonwage,
-         dbase=earnings - pmtbase,
-         dwages=wages - pmtwages,
-         dnonwage=nonwage - pmtnonwage,
-         tax=pmtbase * .0034)
-  
-
+  select(fips, year, mtasub, area, earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, propinc, wage_tot, wage_fed, wage_k12, supplements)
+saveRDS(pmt_base2, here::here("data", "pmtbase.rds"))
 
 
 

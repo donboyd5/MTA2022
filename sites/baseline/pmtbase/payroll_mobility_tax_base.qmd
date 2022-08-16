@@ -2,7 +2,7 @@
 
 ## Questions
 
--   According to the MTA, BLS data on earnings in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.7 billion. But actual revenue is more like \$1.7 billion.
+-   According to the MTA, BLS data on earnings in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.8 billion. Actual revenue is more lower. \[If I read the data properly, in 2020 PMT receipts were \$1.56 billion.\]
 
 -   What accounts for the difference? Some is related to the fact that federal govt employers, school districts, and other governmental employers are exempt. What else? How much?
 
@@ -11,17 +11,126 @@
 ## The MTA analysis
 
 -   MTA used data from the Bureau of Economic Analysis (BEA), from table *CAINC5N Personal Income by Major Component and Earnings by NAICS Industry*, which can be found [here](https://apps.bea.gov/iTable/iTable.cfm?reqid=70&step=1#tabpanel_1_6).
--   Here is a table from the MTA analysis. It shows \$815.803 billion of 2020 earnings in the MTA region which, at a 0.34% rate, would yield \$2.773 billion in revenue (if fully taxed).
+-   Here is a table from the MTA analysis. It shows \$815.8 billion of 2020 earnings in the MTA region which, at a 0.34% rate, would yield \$2.8 billion in PMT revenue (if fully taxed). By contrast, PMT tax receipts in 2020 were \$1.56 billion.[@metropolitantransportationauthority2022CombinedContinuing2022]
 
 ![](images/paste-7EB07C4D.png)
 
-## Why the difference?
+```{r}
+#| include: false
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
 
-Recall that the MTA tax is based on wages plus self-employment income from activity in the MTA region, with certain exclusions and exemptions. BEA "earnings" include wages plus certain non-wage income so at first blush BEA may appear to measure something akin to the tax base, but there are important differences.
+pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
 
-### Wages
+```
 
--   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the calculation above. This is probably very small but I have not tried to estimate it;
+```{r}
+#| label: pmtbase
+#| include: false
+
+basecalc <- function(df){
+  vnames <- names(df)
+  df <- df |> 
+    mutate(
+     pct=pmtbase / earnings,
+     pctlost=1 - pct,
+     pctwages=pmtwages / wages,
+     pctnonwage=pmtnonwage / nonwage,
+     dbase=earnings - pmtbase,
+     dwages=wages - pmtwages,
+     dnonwage=nonwage - pmtnonwage,
+     tax=pmtbase * .0034,
+     # calc subtractions as pct of earnings
+     supp_pct=supplements / earnings,
+     propinc_pct=(propinc - pmtnonwage) / earnings,
+     wfed_pct=(wage_fed / wage_tot) * wages / earnings,
+     wk12_pct=(wage_k12 / wage_tot) * wages / earnings) 
+  df
+}
+
+
+tab_mtatotal <- pmtbase |> 
+  group_by(year) |> 
+  summarise(across(c(earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, wage_tot, wage_fed, wage_k12, propinc, supplements), sum), .groups="drop") |> 
+  basecalc()
+
+
+
+```
+
+## Why the difference (why do BEA earnings overstate the tax base and tax revenue)?
+
+Recall that the MTA tax is based on wages plus self-employment income from activity in the MTA region, with certain exclusions and exemptions.
+
+BEA "earnings" include wages plus certain non-wage income so at first blush BEA may appear to measure something akin to the tax base, but there are important differences.
+
+The main issues, discussed in more detail below are:
+
+-   BEA non-wage earnings include employer contributions to retirement systems (paid for the benefit of employees), which are not part of the PMT base. I estimate that this was about 15.2% of earnings in 2020.
+
+-   BEA proprietors' income, a component of non-wage earnings, is much larger than the analogous IRS concept self-employment income because BEA includes estimated amounts for underreporting. I estimate that this was 3.4% of earnings in 2020.
+
+-   BEA wages include wages paid by public school districts, which are not included in the PMT tax base. I estimate that this was 3.1% of earnings in 2020.
+
+-   BEA wages include wages paid by the federal government an related entities, which also are not in the PMT tax base. I estimate that this was 0.9% of earnings in 2020.
+
+The combination of these effects is to reduce earnings by 22.6% - that is, after these reductions the PMT base appears to be about 77.4% of BEA earnings in 2020.
+
+## Net impact
+
+The combination of these effects is to reduce earnings by 22.6% - that is, after these reductions the PMT base appears to be about 77.4% of BEA earnings in 2020.
+
+```{r}
+#| label: netimpact
+#| output: true
+#| echo: true
+
+tab_mtatotal |> 
+  select(year, supp_pct, propinc_pct, wk12_pct, wfed_pct, pctlost) |> 
+  gt() |> 
+  tab_header(
+    title = "% Reduction in BEA earnings needed to estimate PMT base",
+    subtitle = "Selected factors. Does not reflect small employer exemption, graduated rates, or noncompliance"
+  ) |> 
+  cols_label(
+    supp_pct = "Wage supplements (A)",
+    propinc_pct = "Proprietors' income misreporting (B)",
+    wk12_pct = "K12 school employers (C)",
+    wfed_pct = "Federal employers (D)",
+    pctlost="Total reduction (A+B+C+D)"
+  ) |> 
+  tab_spanner(
+    label = "Nonwage items",
+    columns = c(supp_pct, propinc_pct)
+    ) |> 
+  tab_spanner(
+    label = "Wage items",
+    columns = c(wk12_pct, wfed_pct)
+    ) |> 
+  fmt_percent(
+    columns=contains("pct"),
+    decimals=1
+  ) |> 
+  tab_source_note(source_note = "Author's analysis of BEA CAINC5N, BEA documentation, and QCEW data")
+
+
+	
+```
+
+In addition, there are several other factors that reduce PMT revenue, not considered above:
+
+-   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the MTA calculation. This is probably very small but I have not tried to estimate it. It is possible to do so.
+
+-   Very small employers (generally with annual wages less than about \$1.2 million) are exempt from the tax. I have not taken this into account but think it is small.
+
+-   Small employers (generally with annual wages of \$1.2 million to \$1.7 million pay graduated tax rates that are below the full statutory rate of 0.34%.
+
+-   As with all taxes, there is no doubt some avoidance and evasion further reducing revenue.
+
+### Details
+
+#### Estimating untaxed wages
 
 -   Wages paid by school districts and the federal government are excluded from the PMT base but are included in the calculation above. These exemptions appear to reduce PMT taxable wages by something more than 5%.
 
@@ -33,28 +142,14 @@ Recall that the MTA tax is based on wages plus self-employment income from activ
 
 ![](images/paste-15B07C79.png)
 
-### Self-employment income
+#### Self-employment income
 
 -   BEA earnings by place of work (the number MTA used in its PMT tax base calculation) are the sum of wages, "Supplements to wages and salaries", and "Proprietors' income", as shown in my extract below from the BEA CAINC5N table for New York County. .
 
 ![](images/paste-13471D77.png)
 
--   Supplements, which are included in the MTA estimate, are not self-employment income at all and should be excluded. They are 12.2% of BEA earnings (\$53.843 / \$439.599). They include employer contributions to pension plans, Social Security, and the like. While they are income to a wage worker in an economic sense, they are not self-employment income, which is what the PMT taxes.
+-   Supplements, which are included in the MTA estimate, are not self-employment income at all and should be excluded. They are 12.2% of BEA earnings in Manhattan in 2020 (\$53.843 / \$439.599). They include employer contributions to pension plans, Social Security, and the like. While they are income to a wage worker in an economic sense, they are not self-employment income, which is what the PMT taxes.
 
--   Proprietors' income, in concept, is similar to self-employment income in concept, but is vastly overstated copmpared to what is reported on tax returns. Table 11.3 in [BEA's documentation](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf), copied below, shows this for 2015 for the nation as a whole. As you can see, nonfarm proprietors' income (table line 11, \$1,130.8b) is about 36% greater than the related tax return concept (table line 1, \$831.7b). Most of the difference is due to misreporting (underreported income for tax purposes). So this should be scaled back dramatically in the estimate.
+-   Proprietors' income, in concept, is similar to self-employment income, but is vastly overstated compared to what is reported on tax returns. Table 11.3 in [BEA's documentation](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf), copied below, shows this for 2015 for the nation as a whole. As you can see, nonfarm proprietors' income (table line 11, \$1,130.8b) is about 36% greater than the related tax return concept (table line 1, \$831.7b). Most of the difference is due to misreporting (underreported income for tax purposes). So this should be scaled back dramatically in the estimate.
 
 ![](images/paste-201C287E.png)
-
-### Wages and self-employment income combined
-
--   We can do a rough re-estimate with the information above, or a more-detailed estimate if you want. We would recalculate the base by:
-
-    -   Reducing wages by 5.5%
-
-    -   
-
-        -   is included in the tax base "Non proprietors' income" is included in the
-
-Here's what I (Boyd) get from summarizing the QCEW (see data notes) for CY 2021 -- \$608b of total wages which, if taxed at 0.34%, would be \$2.07 billion. The private sector would be \$1.8 billion. This is crude - just raw data, with no attempt yet to examine the law and figure out what is taxed and what isn't.
-
-![](images/paste-B3DEDAC1.png)
