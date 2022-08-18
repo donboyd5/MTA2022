@@ -161,9 +161,9 @@ tab_mtatotal |>
 
 Several additional factors not considered above also reduce PMT revenue
 
--   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the MTA calculation. This is probably very small but I have not tried to estimate it. It is possible to do so.
+-   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the MTA calculation.
 
--   Very small employers (generally with annual wages less than about \$1.2 million) are exempt from the tax. I have not taken this into account but think it is small.
+-   Very small employers (generally with annual wages less than about \$1.2 million) are exempt from the tax.
 
 -   Small employers (generally with annual wages of \$1.2 million to \$1.7 million pay graduated tax rates that are below the full statutory rate of 0.34%.
 

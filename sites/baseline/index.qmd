@@ -1,15 +1,13 @@
-# Agenda items for August 19, 2022
+# Proposed agenda items for August 19, 2022
 
--   Review revenue included in baseline analysis
+-   Review revenue included in baseline analysis (see [this](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=888771929))
 
--   Analysis of payroll mobilility tax base
+-   Analysis of [payroll mobility tax base](pmtbase/payroll_mobility_tax_base.qmd)
 
--   Review themes and templates for revenue options
+-   Review themes and templates for [revenue options](options/revenue_options.qmd)
 
--   Other?
+-   Other discussion topics?
 
 -   Next steps
 
 -   Contract and billing
-
-
