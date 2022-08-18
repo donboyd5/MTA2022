@@ -1,12 +1,54 @@
 # Payroll Mobility Tax Base Questions
 
-## Questions
+## Question
 
--   According to the MTA, BLS data on earnings in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.8 billion. Actual revenue is more lower. \[If I read the data properly, in 2020 PMT receipts were \$1.56 billion.\]
+-   According to the MTA, BLS data on earnings in the transportation district suggest, at a rate of 34 basis points, revenue of about \$2.8 billion in 2020. Actual revenue was much lower. (Collections in 2020 appear to be \$1.56 billion.)
 
--   What accounts for the difference? Some is related to the fact that federal govt employers, school districts, and other governmental employers are exempt. What else? How much?
+-   What accounts for the difference?
 
--   Are there opportunities to broaden the base (reduce exemptions) to raise more revenue from the tax?
+## Short answer
+
+-   The BEA data used by MTA include items not taxed under the PMT:
+
+    1.  wage supplements (e.g., contributions to Social Security and pension funds),
+
+    2.  estimates by BEA of unreported proprietors' income,
+
+    3.  wages paid by K-12 schools,
+
+    4.  wages paid by federal agencies,
+
+    5.  wages paid by very small employers below the tax threshold, and
+
+    6.  self-employment income of very small businesses below the tax threshold.
+
+-   In addition, the PMT has lower rates for small employers who are large enough to pay tax.
+
+-   Adjusting for items 1-4 above, reduces the PMT estimate from \$2.8 billion to \$2.1 billion. (This does not adjust for the small-employer and small-business threshold or the small-employer low rates.)
+
+-   The biggest impact comes from removing wage supplements, followed by much smaller impacts from removing unreported proprietors' income and wages paid by K-12 schools. The impact of removing federal agency wages is minimal.
+
+-   This is still a big difference from actual collections: The adjusted BEA earnings data suggest revenue of about \$2.1 billion in 2020 vs. collections of about \$1.56 billion -- \$500 million, so the estimate is 30+% greater than actual collections.
+
+-   About 2/3 of the overestimate is due to an overestimate of the tax on employer wages, and the other 1/3 is an overestimate of the tax on self-employment income.
+
+-   What could account for the remaining overestimate?
+
+    -   Small employer and small business thresholds? I tentatively think this could be a sizable part of the overestimate. I looked at data from [Statistics of U.S. Businesses (SUSB)](https://www.census.gov/programs-surveys/susb/about.html) for [2019](https://www.census.gov/data/tables/2019/econ/susb/2019-susb-annual.html) (latest available) for [Metropolitan Statistical Areas](https://www2.census.gov/programs-surveys/susb/tables/2019/msa_3digitnaics_2019.xlsx). I looked at the New York-Newark-Jersey City, NY-NJ-PA Metro Area. The payroll of employers with fewer than 20 employees (many of which would be exempt from the PMT due to the size threshold) was 12.5 percent of total payroll in the metro area. So this could be significant part of the overestimate. It is possible to use the SUSB data to analyze this more carefully by using county-level data (constructing an estimate for the MTA region) and examining employer size more carefully.
+
+    -   Low rates for small employers? The SUSB data could be helpful here. My rough guess based on a simple look at the data suggests that the impact of the low rate might be about half as large as the impact of the small employer threshold so this, too, might not be trivial.
+
+    -   Other unaccounted-for differences between the legal tax base and economic data? I suspect this accounts for some of the difference, although I would need to talk to the Department of Taxation and Finance to understand likely differences.
+
+    -   Tax evasion? This could be part of the difference, as it is with any tax. Wages are not as easy to hide as self-employment income so the latter seems a more likely contributor to me.
+
+-   What should we do to learn more? This may be enough information for you. But if you want more in-depth analysis, I think the steps would be:
+
+    -   First, I should do more-serious estimates of the impact of the small employer and small business thresholds, and the low rates for small employers.
+
+    -   Second, I should talk to the NYS Tax Department to compare notes and learn what they know about differences between the legal tax base and economic data.
+
+-   If you want me to do this please let me know.
 
 ## The MTA analysis
 
@@ -50,13 +92,6 @@ basecalc <- function(df){
 }
 
 
-tab_mtatotal <- pmtbase |> 
-  group_by(year) |> 
-  summarise(across(c(earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, wage_tot, wage_fed, wage_k12, propinc, supplements), sum), .groups="drop") |> 
-  basecalc()
-
-
-
 ```
 
 ## Why the difference (why do BEA earnings overstate the tax base and tax revenue)?
@@ -79,19 +114,26 @@ The combination of these effects is to reduce earnings by 22.6% - that is, after
 
 ## Net impact
 
-The combination of these effects is to reduce earnings by 22.6% - that is, after these reductions the PMT base appears to be about 77.4% of BEA earnings in 2020.
+### Estimated impact on PMT tax base
+
+The combination of these effects is to reduce earnings by 22.6% in 2020 - that is, after these reductions the PMT base appears to be about 77.4% of BEA earnings in 2020. The adjustments have been stable over recent years as the table below shows.
 
 ```{r}
 #| label: netimpact
 #| output: true
-#| echo: true
+#| echo: false
+
+tab_mtatotal <- pmtbase |> 
+  group_by(year) |> 
+  summarise(across(c(earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, wage_tot, wage_fed, wage_k12, propinc, supplements), sum), .groups="drop") |> 
+  basecalc()
 
 tab_mtatotal |> 
   select(year, supp_pct, propinc_pct, wk12_pct, wfed_pct, pctlost) |> 
   gt() |> 
   tab_header(
-    title = "% Reduction in BEA earnings needed to estimate PMT base",
-    subtitle = "Selected factors. Does not reflect small employer exemption, graduated rates, or noncompliance"
+    title = "Items to remove from BEA earnings to approximate PMT base, as % of earnings",
+    subtitle = "Selected items. Does not reflect small employer exemption or noncompliance"
   ) |> 
   cols_label(
     supp_pct = "Wage supplements (A)",
@@ -112,13 +154,12 @@ tab_mtatotal |>
     columns=contains("pct"),
     decimals=1
   ) |> 
-  tab_source_note(source_note = "Author's analysis of BEA CAINC5N, BEA documentation, and QCEW data")
+  tab_source_note(source_note = "Author's estimates based on analysis of BEA CAINC5N, BEA documentation, and QCEW data")
 
-
-	
+  
 ```
 
-In addition, there are several other factors that reduce PMT revenue, not considered above:
+Several additional factors not considered above also reduce PMT revenue
 
 -   Wages paid by small employers (those with annual wages less than about \$1.2 million) are excluded from the tax base but are included in the MTA calculation. This is probably very small but I have not tried to estimate it. It is possible to do so.
 
@@ -128,11 +169,166 @@ In addition, there are several other factors that reduce PMT revenue, not consid
 
 -   As with all taxes, there is no doubt some avoidance and evasion further reducing revenue.
 
-### Details
+### Impact on estimated PMT revenue
 
-#### Estimating untaxed wages
+The following table shows BEA earnings, the estimated PMT tax base after the adjustments above, and estimated tax revenue at 0.34%, by county, in 2020. The adjustments have different impacts across counties - for example, they reduce the estimated PMT tax by 34.7% in the Bronx but only by 16.6% in Manhattan.
 
--   Wages paid by school districts and the federal government are excluded from the PMT base but are included in the calculation above. These exemptions appear to reduce PMT taxable wages by something more than 5%.
+```{r}
+#| label: countyimpact
+#| output: true
+#| echo: false
+
+tab_mtacounty <- pmtbase |> 
+  filter(year==2020) |> 
+  mutate(area=str_remove(area, ", New York")) |> 
+  group_by(mtasub, fips, area) |> 
+  summarise(across(c(earnings, pmtbase), sum), .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(tax_earnings=.0034 * earnings,
+         tax_pmtbase=.0034 * pmtbase,
+         pch=tax_pmtbase / tax_earnings - 1.)
+  
+
+tab_mtacounty |> 
+  gt() |> 
+  tab_header(
+    title = "Estimated PMT based on BEA earnings (unadjusted) and after adjustment, amounts in $ millions",
+    subtitle = "Adjusted to remove wage supplements, BEA estimates of underreported proprietors' income, and federal and K12 school wages. Does not reflect small employer exemption or noncompliance."
+  ) |> 
+  cols_label(
+    earnings = "Earnings",
+    pmtbase = "PMT base after adjustment",
+    tax_earnings = "BEA earnings (unadjusted)",
+    tax_pmtbase = "PMT base after adjustment",
+    pch="% reduction"
+  ) |> 
+  tab_spanner(
+    label = "Estimated tax at 0.34% rate",
+    columns = c(tax_earnings, tax_pmtbase)
+    ) |> 
+  fmt_currency(
+    columns=c(earnings, pmtbase, tax_earnings, tax_pmtbase),
+    rows = c(1, nrow(tab_mtacounty)),
+    decimals=0,
+    scale_by =1e-3,
+  ) |> 
+  fmt_number(
+      columns=c(earnings, pmtbase, tax_earnings, tax_pmtbase),
+      rows=2:(nrow(tab_mtacounty) - 1),
+      decimals=0,
+      scale_by=1e-3
+      ) |> 
+  fmt_percent(
+    columns=pch,
+    decimals=1
+  ) |> 
+    tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  ) |>
+    opt_row_striping() |> 
+  tab_source_note(source_note = "Author's estimates based on analysis of BEA CAINC5N, BEA documentation, and QCEW data")
+
+
+```
+
+## Comparing the estimated PMT base to tax collections
+
+```{r}
+pmtrev <- readRDS(here::here("data", "dtf", "pmt_collections.rds")) |> 
+  select(date, wagetax=local_mtapmt, nonwagetax=local_mtapmtpitnet) |> 
+  group_by(year=year(date)) |> 
+  summarise(across(-date, ~sum(.x, na.rm=TRUE)), .groups="drop") |> 
+  mutate(pmtax=wagetax + nonwagetax)
+
+tabdata <- pmtbase |> 
+  select(year, pmtwages, pmtnonwage) |> 
+  group_by(year) |> 
+  summarise(across(c(pmtwages, pmtnonwage), sum), .groups="drop") |> 
+  mutate(pmtbase=pmtwages + pmtnonwage,
+         ewagetax=.0034*pmtwages,
+         enonwagetax=.0034*pmtnonwage,
+         epmtax=ewagetax + enonwagetax) |> 
+  select(year, ewagetax, enonwagetax, epmtax) |> 
+  left_join(pmtrev, by="year") |> 
+  mutate(wagepct=wagetax / ewagetax,
+         nonwagepct=nonwagetax / enonwagetax,
+         pmtpct=pmtax / epmtax,
+         wagediff=ewagetax - wagetax,
+         nonwagediff=enonwagetax - nonwagetax)
+
+tabdata |>
+  gt() |> 
+  tab_header(
+    title = "Estimated wage and self-employment PMT based on adjusted BEA earnings, compared to actual collections, amounts in $ millions",
+    subtitle = "NOTE: collections not yet reconciled with financial reports."
+  ) |> 
+  cols_label(
+    ewagetax = "Wages",
+    enonwagetax = "Self-employment income",
+    epmtax = "Total",
+    wagetax = "Wages",
+    nonwagetax = "Self-employment income",
+    pmtax = "Total",
+    wagepct = "Wages",
+    nonwagepct = "Self-employment income",
+    pmtpct="Total",
+    wagediff = "Wages",
+    nonwagediff = "Self-employment income"
+  ) |> 
+  tab_spanner(
+    label = "Estimated tax at 0.34% rate",
+    columns = c(ewagetax, enonwagetax, epmtax)
+    ) |> 
+  tab_spanner(
+    label = "Actual collections",
+    columns = c(wagetax, nonwagetax, pmtax)
+    ) |> 
+  tab_spanner(
+    label = "Actual as % of estimated",
+    columns = contains("pct")
+    ) |> 
+    tab_spanner(
+    label = "Estimated minus actual",
+    columns = contains("diff")
+    ) |> 
+  fmt_currency(
+    columns=c(contains("tax"), contains("diff")),
+    rows = 1,
+    decimals=0,
+    scale_by =1e-3,
+  ) |> 
+  fmt_number(
+      columns=c(contains("tax"), contains("diff")),
+      rows=2:nrow(tabdata),
+      decimals=0,
+      scale_by=1e-3
+      ) |> 
+  fmt_percent(
+    columns=contains("pct"),
+    decimals=1
+  ) |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_spanners()
+  ) |>
+  opt_row_striping() |> 
+  tab_source_note(source_note = "Author's estimates based on BEA, QCEW, and Tax Department data")
+
+
+```
+
+## Implications
+
+The approach above makes better use of BEA and QCEW data to estimate the PMT tax base. As a result, the estimated PMT revenue in 2020 falls by \$600+ million from \$2.77 billion to \$2.15 billion, and the distribution across counties changes.
+
+However, the estimate is still substantially higher than actual revenue in 2020 of \$1.56 billion.
+
+## Details of calculations
+
+### Estimating wages excluded from the PMT
+
+-   Wages paid by school districts and the federal government are excluded from the PMT base but are included in BEA earnings.
 
     -   BEA wages do not have the detail needed to estimate the federal and K12 exemptions, but an important input to BEA wages, known as QCEW wages, do have details.
 
@@ -142,14 +338,14 @@ In addition, there are several other factors that reduce PMT revenue, not consid
 
 ![](images/paste-15B07C79.png)
 
-#### Self-employment income
+### Self-employment income
 
--   BEA earnings by place of work (the number MTA used in its PMT tax base calculation) are the sum of wages, "Supplements to wages and salaries", and "Proprietors' income", as shown in my extract below from the BEA CAINC5N table for New York County. .
+-   BEA earnings by place of work are the sum of wages, "Supplements to wages and salaries", and "Proprietors' income", as illustrated in the extract below from the BEA CAINC5N table for New York County.
 
 ![](images/paste-13471D77.png)
 
--   Supplements, which are included in the MTA estimate, are not self-employment income at all and should be excluded. They are 12.2% of BEA earnings in Manhattan in 2020 (\$53.843 / \$439.599). They include employer contributions to pension plans, Social Security, and the like. While they are income to a wage worker in an economic sense, they are not self-employment income, which is what the PMT taxes.
+-   Supplements, which are included in BEA earnings, are not self-employment income at all and should be excluded. They are 12.2% of BEA earnings in New York County in 2020 (\$53.843 / \$439.599). They include employer contributions to pension plans, Social Security, and the like. While they are income to a wage worker in an economic sense, they are not self-employment income, which is what the PMT taxes.
 
--   Proprietors' income, in concept, is similar to self-employment income, but is vastly overstated compared to what is reported on tax returns. Table 11.3 in [BEA's documentation](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf), copied below, shows this for 2015 for the nation as a whole. As you can see, nonfarm proprietors' income (table line 11, \$1,130.8b) is about 36% greater than the related tax return concept (table line 1, \$831.7b). Most of the difference is due to misreporting (underreported income for tax purposes). So this should be scaled back dramatically in the estimate.
+-   Proprietors' income, in concept, is similar to self-employment income, but is vastly overstated compared to what is reported on tax returns. Table 11.3 in [BEA's documentation](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf), copied below, shows this for 2015 for the nation as a whole. As you can see, nonfarm proprietors' income (table line 11, \$1,130.8b) is about 36% greater than the related tax return concept (table line 1, \$831.7b). Most of the difference is due to what BEA calls misreporting (underreported income for tax purposes). Under-reported income should be removed because if it is not in IRS measures of self-employment income for income tax purposes, it almost certainly is not being captured in self-employment income for payroll mobility tax purposes.
 
 ![](images/paste-201C287E.png)

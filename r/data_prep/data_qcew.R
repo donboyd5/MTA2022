@@ -16,6 +16,7 @@
 
 source(here::here("r", "libraries.r"))
 source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
 
 # get mta counties, all years 1990-2021 -----------------------------------
 (files <- list.files(qdir, full.names = TRUE))

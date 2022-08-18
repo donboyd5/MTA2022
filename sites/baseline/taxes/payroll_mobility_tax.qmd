@@ -8,7 +8,17 @@ See:
 
 ## Tax structure
 
-The tax is based on place of work, not place of residence. Most of the following is from [DTF](https://www.tax.ny.gov/bus/mctmt/emp.htm).
+The tax is based on place of work, not place of residence. Most of the following is from [DTF web page](https://www.tax.ny.gov/bus/mctmt/emp.htm) and from DTF Publication 420.
+
+Exemptions (420):
+
+-   Except for certain START-UP NY tax benefits, any exemption from tax allowed in any other New York State law does not apply to this tax.
+
+-   START-UP NY
+
+    -   Employers: The MCTMT exemption eliminates the MCTMT on the payroll expense attributable to an approved business location within the MCTD for 40 consecutive calendar quarters, beginning with the calendar quarter the business locates in a tax-free NY area.
+
+    -   Self-employed individuals. The MCTMT exemption eliminates the MCTMT on net earnings from self-employment attributable to an approved business location within the MCTD for 10 consecutive years, beginning with the tax year the business locates in a tax-free NY area.
 
 ### Payroll tax
 
@@ -35,6 +45,8 @@ Tax rates:
 Net earnings from self-employment allocated to the MCTD means your net earnings from self-employment that are attributable to a business carried on within the MCTD. \[As with wages, this is a place of work concept.\]
 
 \[Note: This differs from the BEA definition of non-farm proprietors' income, which is discussed in their documentation [here](https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf).\]
+
+Individuals who have net earnings from self-employment allocated to the MCTD are subject to the MCTMT. However, if your total net earnings from self-employment allocated to the MCTD are \$50,000 or less for the tax year, no MCTMT is due. (402)
 
 ### Tax base
 

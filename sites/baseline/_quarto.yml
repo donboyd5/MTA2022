@@ -12,7 +12,6 @@ execute:
   warning: false
   message: false  # not sure if allowed
   note: false  # not sure if allowed
-  
 
 book:
   title: "MTA baseline"
@@ -21,36 +20,37 @@ book:
   date-format: long
   chapters:
     - index.qmd
-    - part: "Project notes"
+    - part: "Baseline"
       chapters:
       - intro/goals.qmd
-      - intro/schedule.qmd
       - intro/boyd_questions.qmd
-      - intro/data_notes.qmd
-      - intro/resources.qmd
-      - intro/misc_notes.qmd
     - part: "Taxes"
       chapters: 
       - taxes/current_taxes.qmd
       - taxes/payroll_mobility_tax.qmd
       - taxes/petroleum_business_tax.qmd
       - taxes/mortgage_recording_tax.qmd
+      - taxes/miscellaneous_revenue.qmd
+    - part: "Revenue options"
+      chapters: 
+      - options/revenue_options.qmd      
     - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa.qmd
     - part: "Payroll mobility tax base"
       chapters:
       - pmtbase/payroll_mobility_tax_base.qmd
-    - part: "Options"
-      chapters: 
-      - options/options.qmd
-    - bibliography.qmd
-
+    - bibliography.qmd      
+    - part: "Appendix: Project notes"
+      chapters:
+      - project/schedule.qmd
+      - project/data_notes.qmd
+      - project/resources.qmd
+      - project/misc_notes.qmd      
 
 bibliography: _baseline.bib
 nocite: |
   @*
-
 
 format:
   html:

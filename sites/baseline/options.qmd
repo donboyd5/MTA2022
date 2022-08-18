@@ -1,9 +1,0 @@
----
-title: "Options - ideas"
-format: html
-editor: visual
----
-
-
-*   Mortgage recording tax - doesn't apply to co-ops?
-*   Payroll mobility tax - doesn't apply to federal, state, local governments??

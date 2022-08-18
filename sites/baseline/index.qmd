@@ -1,5 +1,15 @@
----
-title: "Introduction"
----
+# Agenda items for August 19, 2022
 
-This is the landing page for a project to conduct baseline analysis of MTA revenue.
+-   Review revenue included in baseline analysis
+
+-   Analysis of payroll mobilility tax base
+
+-   Review themes and templates for revenue options
+
+-   Other?
+
+-   Next steps
+
+-   Contract and billing
+
+

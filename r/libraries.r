@@ -35,6 +35,7 @@ library(knitr)
 library(kableExtra)
 library(DT)
 library(gt)
+library(janitor)
 
 # maps
 library(maps)
