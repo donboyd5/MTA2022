@@ -1,3 +1,17 @@
+# Agendas
+
+# Proposed agenda items for August 26, 2022
+
+-   [Impact of 20xx payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
+
+-   Approaches to [making the payroll tax progressive](options/progressivity.qmd)
+
+-   Review first-cut list of [revenue options](options/revenue_options.qmd)
+
+-   Other discussion topics?
+
+-   Next steps
+
 # Proposed agenda items for August 19, 2022
 
 -   Review revenue included in baseline analysis (see [this](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=888771929))
@@ -5,6 +19,8 @@
 -   Analysis of [payroll mobility tax base](pmtbase/payroll_mobility_tax_base.qmd)
 
 -   Review themes and templates for [revenue options](options/revenue_options.qmd)
+
+-   FYI - I added a discussion on the [incidence of payroll taxes](taxes/payroll_mobility_tax.qmd#incidence)
 
 -   Other discussion topics?
 

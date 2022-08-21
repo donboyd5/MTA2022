@@ -8,6 +8,8 @@ Possible themes for tax packages
 
 -   Tax owners/etc. of property that benefits from mass transportation
 
+-   Create a "capacity charge" (possibly tax WFH)
+
 -   Broad-based taxes (all of society benefits from transportation)
 
     -   Close loopholes

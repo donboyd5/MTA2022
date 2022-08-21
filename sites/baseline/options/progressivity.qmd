@@ -1,0 +1,23 @@
+# Making the payroll mobility tax progresssive
+
+Possible approaches:
+
+-   Create a progressive rate structure
+
+-   Flat rate but with an income tax credit
+
+## Progressive rate structure
+
+### Basic idea
+
+### Considerations
+
+### Next steps
+
+## Flat rate with income tax credit
+
+### Basic idea
+
+### Considerations
+
+### Next steps

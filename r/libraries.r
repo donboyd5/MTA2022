@@ -1,7 +1,7 @@
 # libraries ---------------------------------------------------------------
 
 library(tidyverse)
-tprint <- 50  # default tibble print
+tprint <- 70  # default tibble print
 options(tibble.print_max = tprint, tibble.print_min = tprint) # show up to tprint rows
 
 library(fs)

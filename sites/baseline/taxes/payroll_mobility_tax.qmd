@@ -2,13 +2,9 @@
 
 ## Overview
 
-See:
-
--   
-
 ## Tax structure
 
-The tax is based on place of work, not place of residence. Most of the following is from [DTF web page](https://www.tax.ny.gov/bus/mctmt/emp.htm) and from DTF Publication 420.
+The tax is based on place of work, not place of residence. Most of the following is from [DTF web page](https://www.tax.ny.gov/bus/mctmt/emp.htm) and from DTF Publication 420[@newyorkstatedepartmentoftaxationandfinancePublication420Guide].
 
 Exemptions (420):
 
@@ -48,12 +44,38 @@ Net earnings from self-employment allocated to the MCTD means your net earnings 
 
 Individuals who have net earnings from self-employment allocated to the MCTD are subject to the MCTMT. However, if your total net earnings from self-employment allocated to the MCTD are \$50,000 or less for the tax year, no MCTMT is due. (402)
 
-### Tax base
+## Incidence
 
-### Tax rates
+### Incidence in general
 
-### Filing
+The burden of a tax is not necessarily borne by the person required by law to pay it.
 
-### Payment
+The extent to which a tax can be shifted depends on who is most able and willing to change their behavior - how much they are able to change their supply of or demand for the good in question.
+
+For example, suppose the government imposes a new tax that landlords of residential apartments must pay. Perhaps the landlord will try to shift the tax to tenants by raising rents.
+
+Suppose the tenant can easily move to a similar nearby area where the tax is not imposed - the tenant can easily change behavior. And suppose the landlord is unwilling to leave the apartment vacant if tenants won't pay higher rents, because revenue will go down significantly but costs will not go down much. In this case, the landlord may have little success in raising rents to recoup the tax. Because the landlord will pay the tax but be unable to raise rents, he or she will bear the burden of the tax.
+
+Now instead suppose the tax applies to landlords everywhere, so that the tenant cannot simply move to an area where landlords don't face the tax. Suppose further that the landlord can easily convert the property to a different use not subject to the tax. Thus, the landlord may be happy to remove the property from the residential rental market. In this case the landlord can easily escape the tax by converting the property, and the tenant cannot escape higher rents by moving - if the landlord tries to recoup the tax by raising rents, the tenant will be stuck paying higher rent. In this case, the landlord will shift the tax to the tenant in the form of higher rent.
+
+The actual result could lie between these extremes - the tenant might have good but not great options for alternative untaxed places to live, and the landlord might face considerable costs for converting the property or lower rents for nonresidential purposes. The tenant isn't willing to move at the drop of a hat, and the landlord's options might be considerably less attractive than renting the property as apartments. In this case, rents might go up but not by the full amount of the tax.
+
+The landlord might also be able to shift some of the tax backward to its suppliers, in the form of lower wages for building workers or lower payments to other suppliers. Whether these options would be effective depend, also, on who can easily change their behavior - the supply and demand in these other markets.
+
+Whether and by how much taxes can be shifted is an empirical question, depending on estimates of how behavior of different parties may change. There aren't simple rules such as "property taxes are always borne by tenants" or "sales taxes are always borne by consumers". Economists have developed some broad general guidelines based on past empirical studies, but conclusions about who bears the burden of a tax can depend on nuances and specific facts of the situation.
+
+### Incidence of payroll taxes
+
+A tax paid by businesses on the wages they pay might not be borne entirely by the business.
+
+It might be possible for employers to shift the tax to workers in the form of lower wages. For example, a payroll tax newly imposed on businesses in a region might lead some businesses to shift production to a location outside of the region or to start up new operations elsewhere. Or businesses in the region might be willing to spend more on new equipment or technology that allows them to do their work with less labor, or might outsource activities to workers elsewhere. (There are other possibilities as well. For example, businesses might have the ability to raise prices for their goods, shifting part of the cost of a payroll tax to consumers.)
+
+Firms that can do this easily might only be willing to do business in the region if they can pay lower wages. Workers might be worried about the costs and risks of looking for work outside the region in the hope of working where an employer would not create pressure for lower wages - in other words, it might be hard for workers to move; in economic parlance, the supply of labor in the region might be quite inelastic.
+
+According to a well-known but 20-years-old summary of economic literature on tax incidence, "The standard view of the economic burden of the payroll tax in the United States is that it is borne entirely by employees...for the payroll tax, virtually all applied incidence studies assume that both the employee share and the employer share are borne by the employee (through a fall in the net wage by the full amount of payroll tax). This assumption has been tested and confirmed repeatedly..." [@fullertonChapter26Tax2002]. More recent studies have generally reached similar conclusions. For example, a recent Canadian study found, "significant impacts on wages, implying that payroll taxes are passed almost entirely to workers in the form of lower wages".[@deslauriersEstimatingImpactsPayroll2018] At least one study has found that firms may bear a substantial share of payroll taxes. [@carloniRevisitingExtentWhich2021]
+
+In a regional setting where a tax is imposed on one region but not another, both workers and firms may have greater opportunity to change their behavior by, for example, employing out-of-region labor or by accepting out-of-region work (or by moving out of the region). Some regional studies have found that some of the burden of payroll taxes is borne by employers. A study of regional payroll tax incentives in the Netherlands found that "Downward wage rigidity meant that employers could not simply pass the tax increase on to workers.". See [@kuPlacebasedPayrollTaxes2020].
+
+In summary, empirical tests of the incidence of payroll taxes suggest that the vast majority of such a tax is borne by employees, but that in some cases employers may bear a substantial share.
 
 ## Geographic allocation

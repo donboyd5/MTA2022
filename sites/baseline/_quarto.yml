@@ -33,6 +33,7 @@ book:
       - taxes/miscellaneous_revenue.qmd
     - part: "Revenue options"
       chapters: 
+      - options/progressivity.qmd
       - options/revenue_options.qmd      
     - part: "MTOA and MMTOA"
       chapters: 
@@ -40,6 +41,7 @@ book:
     - part: "Payroll mobility tax base"
       chapters:
       - pmtbase/payroll_mobility_tax_base.qmd
+      - pmtbase/pmt_legislation.qmd
     - bibliography.qmd      
     - part: "Appendix: Project notes"
       chapters:
