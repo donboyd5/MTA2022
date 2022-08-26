@@ -3,6 +3,7 @@
 # libraries ---------------------------------------------------------------
 
 source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
 source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
@@ -22,6 +23,8 @@ propinc_taxable_ratio <- 831.7 / 1130.8
 
 qdf <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
 beadf <- readRDS(here::here("data", "bea", "bea_mta.rds"))
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
+wagesize <- readRDS(here::here("data", "susb", "wagesize.rds"))
 
 # use QCEW wages to calculate the pmt wage base as percent of total wages ----
 
@@ -50,17 +53,25 @@ pmt_qcewbase2 <- pmt_qcewbase1 |>
                          TRUE ~ "ERROR")) |> 
   select(year, mtasub, fips, area, vname, wages) |>
   pivot_wider(names_from = vname, values_from = wages) |> 
-  mutate(pmt_qcewbase=wage_private + wage_state + wage_local - wage_k12)
+  mutate(pmt_gross_qcewbase=wage_private + wage_state + wage_local - wage_k12)
 
 pmt_qcewbase2 |> 
   filter(year==2020) |> 
-  mutate(pct=pmt_qcewbase / wage_tot)
+  mutate(pct=pmt_gross_qcewbase / wage_tot)
 
-# |> 
-#   janitor::adorn_totals() |> 
-#   mutate(pmtbase=wage_private + wage_state + wage_local - wage_k12,
-#          basepct=pmtbase / wage_tot)
 
+# bring in wages LT $1.2m in 2019, from SUSB ---------------------------------------
+
+pmt_qcewbase3 <- pmt_qcewbase2 |> 
+  left_join(wagesize |> select(fips, pctelt20), by = "fips") |> 
+  mutate(smallwages=wage_private * pctelt20,
+         pmt_qcewbase=pmt_gross_qcewbase - smallwages)
+
+pmt_qcewbase3 |> 
+  filter(year==2020) |> 
+  mutate(pctgross=pmt_gross_qcewbase / wage_tot,
+         pctnet=pmt_qcewbase / wage_tot) |> 
+  select(year, fips, area, pctgross, pctnet)
 
 # use BEA earnings data to calculate self-employment tax base -------------
 pmt_earnbase <- beadf |> 
@@ -71,114 +82,27 @@ pmt_earnbase <- beadf |>
 
 # payroll tax base -------------------------------------------------------
 pmt_base1 <- pmt_earnbase |>
-  select(-area) |> 
-  left_join(pmt_qcewbase2,
+  select(fips, year, earnings_bea=earnings, wages_bea=wages, supplements_bea=supplements,
+         propinc_bea=propinc, farminc_bea=farminc, nfpi_bea=nfpi) |> 
+  left_join(pmt_qcewbase3,
             by=c("fips", "year"))
+glimpse(pmt_base1)
 
 pmt_base2 <- pmt_base1 |> 
   mutate(mtasub=get_mtasub(fips),
-         nonwage=earnings - wages,
-         pmtwages=wages * pmt_qcewbase / wage_tot,
-         pmtnonwage=propinc * propinc_taxable_ratio,
-         pmtbase=pmtwages + pmtnonwage) |> 
-  select(fips, year, mtasub, area, earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, propinc, wage_tot, wage_fed, wage_k12, supplements)
+         nonwage_bea=earnings_bea - wages_bea,
+         wages_pmt=wages_bea * pmt_qcewbase / wage_tot,
+         nonwage_pmt=propinc_bea * propinc_taxable_ratio,
+         taxbase_pmt=wages_pmt + nonwage_pmt) |> 
+  select(fips, year, mtasub, area, 
+         ends_with("_bea"),
+         starts_with("wage_"), # qcew
+         pmt_gross_qcewbase, smallwages, pmt_qcewbase,
+         ends_with("_pmt"))
+glimpse(pmt_base2)
+
 saveRDS(pmt_base2, here::here("data", "pmtbase.rds"))
 
 
+df <- readRDS(here::here("data", "pmtbase.rds"))
 
-
-# OLD BELOW HERE ----------------------------------------------------------
-
-
-pmtbase2 |> 
-  mutate(area=str_remove(area, " County, New York")) |> 
-  gt() |> 
-  tab_header(
-    title = "BLS QCEW wages and PMT tax base, 2020, $ millions",
-    subtitle = "Calculated base = private + state + local - k12"
-  ) |> 
-  fmt_number(
-    columns = c(starts_with("wage"), pmtbase),
-    decimals=1,
-    scale_by=1e-6,
-    suffixing = FALSE
-  ) |> 
-  fmt_percent(
-    columns=basepct,
-    decimals=1
-  )
-
-
-
-
-qdf |> 
-  filter(fips=="36079", own==3, str_sub(ind, 1, 3)=="611", wages!=0) |> 
-  select(year, fips, area, own, ownf, agglev, agglevf, ind, indf, wages)
-
-
-# filter((own==0) |
-#          (own==1 & agglev==71) |
-#          (own==2 & agglev==71) |
-#          (own==5 & agglev==71) |
-#          (own==3), wages!=0)
-
-
-
-# get BEA data ------------------------------------------------------------
-df4
-
-qbea1 <- pmtbase2 |> 
-  filter(year=="2020") |> 
-  select(fips, area, wage_tot, pmtbase, basepct) |> 
-  left_join(df4 |> filter(year==2020) |> rename(fips=geofips), by = "fips") |> 
-  mutate(rgn=ifelse(fips %in% nycfips, "NYC", "Suburbs")) |> 
-  select(fips, geoname, rgn, wage_tot, pmtbase, earnings, wages, supplements, propinc, farminc, nfpi)
-qbea1
-
-subtots <- qbea1 |> 
-  group_by(rgn) |> 
-  summarise(across(wage_tot:nfpi, sum))
-
-tots <- qbea1 |> 
-  summarise(across(wage_tot:nfpi, sum)) |> 
-  mutate(rgn="Total")
-tots
-
-(qbea2 <- bind_rows(qbea, subtots, tots))
-
-qbea3 <- qbea2 |> 
-  select(rgn, fips, area, everything()) |> 
-  mutate(pmtpct=pmtbase / wage_tot,
-         wages_adj=wages * pmtpct,
-         earnings_adj=wages_adj + propinc * 831.7 / 1130.8,
-         adjpct=earnings_adj / earnings,
-         tax=earnings_adj * 0.0034) |> 
-  arrange(rgn, area)
-qbea3
-
-
-
-
-# temp <- qdf |> 
-#   filter(year==2020, own==0) |> 
-#   select(year, fips, area, ownf, wages)
-# # writeClipboard(temp) # must be vector
-# 
-# write.xlsx(temp, here::here("analysis", "temp.xlsx"))
-
-# nycounty <- qdf |> 
-#   filter(year==2020, fips=="36061") |> 
-#   filter((own==0) |
-#            (own==1 & agglev==71) |
-#            (own==2 & agglev==71) |
-#            (own==5 & agglev==71) |
-#            (own==3), wages!=0)
-# write.xlsx(nycounty, here::here("analysis", "nycounty.xlsx"))
-
-
-qdf |> 
-  filter(year==2020) |> 
-  filter(ind==10, agglev %in% 70:71) |> 
-  group_by(own, ownf) |> 
-  summarise(wages=sum(wages)) |> 
-  mutate(tax=wages * .0034)

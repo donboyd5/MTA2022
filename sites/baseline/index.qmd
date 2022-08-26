@@ -2,7 +2,7 @@
 
 # Proposed agenda items for August 26, 2022
 
--   [Impact of 20xx payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
+-   [Impact of 2011 payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
 
 -   Approaches to [making the payroll tax progressive](options/progressivity.qmd)
 

@@ -65,6 +65,7 @@ source(here::here("r", "functions.r"))
 
 pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
 
+
 ```
 
 ```{r}
@@ -72,22 +73,24 @@ pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
 #| include: false
 
 basecalc <- function(df){
-  vnames <- names(df)
+  # vnames <- names(df)
   df <- df |> 
     mutate(
-     pct=pmtbase / earnings,
+     pct=taxbase_pmt / earnings_bea,
      pctlost=1 - pct,
-     pctwages=pmtwages / wages,
-     pctnonwage=pmtnonwage / nonwage,
-     dbase=earnings - pmtbase,
-     dwages=wages - pmtwages,
-     dnonwage=nonwage - pmtnonwage,
-     tax=pmtbase * .0034,
-     # calc subtractions as pct of earnings
-     supp_pct=supplements / earnings,
-     propinc_pct=(propinc - pmtnonwage) / earnings,
-     wfed_pct=(wage_fed / wage_tot) * wages / earnings,
-     wk12_pct=(wage_k12 / wage_tot) * wages / earnings) 
+     pctwages=wages_pmt / wages_bea,
+     pctnonwage=nonwage_pmt / nonwage_bea,
+     dbase=earnings_bea - taxbase_pmt,
+     dwages=wages_bea - wages_pmt,
+     dnonwage=nonwage_bea - nonwage_pmt,
+     tax=taxbase_pmt * .0034,
+    # calc subtractions as pct of earnings
+     supp_pct=supplements_bea / earnings_bea,
+     propinc_pct=(propinc_bea - nonwage_pmt) / earnings_bea,
+     wfed_pct=(wage_fed / wage_tot) * wages_bea / earnings_bea,
+     wk12_pct=(wage_k12 / wage_tot) * wages_bea / earnings_bea,
+     wsmall_pct=(smallwages / wage_tot) * wages_bea / earnings_bea
+    )
   df
 }
 
@@ -96,7 +99,21 @@ basecalc <- function(df){
 
 ## Why the difference (why do BEA earnings overstate the tax base and tax revenue)?
 
+### The PMT tax base
+
 Recall that the MTA tax is based on wages plus self-employment income from activity in the MTA region, with certain exclusions and exemptions.
+
+-   Definition of the wage base of the PMT:
+
+    -   According to [@metropolitantransportationauthority2022CombinedContinuing2022] p.139, "Payroll expenses subject to the PMT includes all wages or compensation (as defined under sections 3121 or 3231 of the Internal Revenue Code), including back pay, sick pay, **deferred compensation**, and bonuses if the payroll payment is attributable to services performed while the employee is or was a covered employee...for most employers, payroll expense is the amount of the employee wages or other compensation that is subject to the Medicare portion of the federal social security taxes".
+
+    -   The "deferred compensation" term raises the question of whether SOME wage supplements are in fact included in the base.
+
+    -   Based on what [appears to be a reliable source](https://news.bloombergtax.com/payroll/payroll-in-practice-1-3-2022) \[subject to verification\], "A 401(k) plan is a qualified retirement plan that allows for **employer** contributions that are **exempt** from Social Security and Medicare taxes and tax-deferred for income tax. In addition, a 401(k) plan provides for **employee** contributions on a salary-reduction basis that are tax-deferred for income tax purposes, but **taxable** for Social Security and Medicare taxes."
+
+    -   Thus, wage supplements paid by the **employer** (those included in the BEA definition of wage supplements) appear to be exempt from the PMT.
+
+### BEA definitions
 
 BEA "earnings" include wages plus certain non-wage income so at first blush BEA may appear to measure something akin to the tax base, but there are important differences.
 
@@ -123,24 +140,28 @@ The combination of these effects is to reduce earnings by 22.6% in 2020 - that i
 #| output: true
 #| echo: false
 
+# get sums across counties
 tab_mtatotal <- pmtbase |> 
   group_by(year) |> 
-  summarise(across(c(earnings, wages, nonwage, pmtbase, pmtwages, pmtnonwage, wage_tot, wage_fed, wage_k12, propinc, supplements), sum), .groups="drop") |> 
+  summarise(across(c(earnings_bea, wages_bea, nonwage_bea, supplements_bea,
+                     taxbase_pmt, wages_pmt, nonwage_pmt,
+                     wage_tot, wage_fed, wage_k12, propinc_bea, smallwages), sum), .groups="drop") |> 
   basecalc()
 
-tab_mtatotal |> 
-  select(year, supp_pct, propinc_pct, wk12_pct, wfed_pct, pctlost) |> 
+tab <- tab_mtatotal |> 
+  select(year, supp_pct, propinc_pct, wk12_pct, wfed_pct, wsmall_pct, pctlost) |> 
   gt() |> 
   tab_header(
     title = "Items to remove from BEA earnings to approximate PMT base, as % of earnings",
-    subtitle = "Selected items. Does not reflect small employer exemption or noncompliance"
+    subtitle = "Selected items. Does not reflect impact of low rate for small employers or noncompliance"
   ) |> 
   cols_label(
     supp_pct = "Wage supplements (A)",
     propinc_pct = "Proprietors' income misreporting (B)",
     wk12_pct = "K12 school employers (C)",
     wfed_pct = "Federal employers (D)",
-    pctlost="Total reduction (A+B+C+D)"
+    wsmall_pct="Small employer exemption (E)",
+    pctlost="Total reduction (A+B+C+D+E)"
   ) |> 
   tab_spanner(
     label = "Nonwage items",
@@ -148,13 +169,19 @@ tab_mtatotal |>
     ) |> 
   tab_spanner(
     label = "Wage items",
-    columns = c(wk12_pct, wfed_pct)
+    columns = c(wk12_pct, wfed_pct, wsmall_pct)
     ) |> 
   fmt_percent(
     columns=contains("pct"),
     decimals=1
   ) |> 
-  tab_source_note(source_note = "Author's estimates based on analysis of BEA CAINC5N, BEA documentation, and QCEW data")
+  tab_source_note(source_note = "Author's estimates based on analysis of BEA CAINC5N, BEA documentation, QCEW data, and SUSB data")
+
+tab
+
+saveRDS(tab, here::here("sites", "baseline", "pmtbase", "pmt_revloss_tab.rds"))
+
+# gtsave(tab, filename, path = NULL, ...)
 
   
 ```
@@ -182,10 +209,10 @@ tab_mtacounty <- pmtbase |>
   filter(year==2020) |> 
   mutate(area=str_remove(area, ", New York")) |> 
   group_by(mtasub, fips, area) |> 
-  summarise(across(c(earnings, pmtbase), sum), .groups="drop") |> 
+  summarise(across(c(earnings_bea, taxbase_pmt), sum), .groups="drop") |> 
   adorn_totals() |> 
-  mutate(tax_earnings=.0034 * earnings,
-         tax_pmtbase=.0034 * pmtbase,
+  mutate(tax_earnings=.0034 * earnings_bea,
+         tax_pmtbase=.0034 * taxbase_pmt,
          pch=tax_pmtbase / tax_earnings - 1.)
   
 
@@ -196,8 +223,8 @@ tab_mtacounty |>
     subtitle = "Adjusted to remove wage supplements, BEA estimates of underreported proprietors' income, and federal and K12 school wages. Does not reflect small employer exemption or noncompliance."
   ) |> 
   cols_label(
-    earnings = "Earnings",
-    pmtbase = "PMT base after adjustment",
+    earnings_bea = "Earnings",
+    taxbase_pmt = "PMT base after adjustment",
     tax_earnings = "BEA earnings (unadjusted)",
     tax_pmtbase = "PMT base after adjustment",
     pch="% reduction"
@@ -207,13 +234,13 @@ tab_mtacounty |>
     columns = c(tax_earnings, tax_pmtbase)
     ) |> 
   fmt_currency(
-    columns=c(earnings, pmtbase, tax_earnings, tax_pmtbase),
+    columns=c(earnings_bea, taxbase_pmt, tax_earnings, tax_pmtbase),
     rows = c(1, nrow(tab_mtacounty)),
     decimals=0,
     scale_by =1e-3,
   ) |> 
   fmt_number(
-      columns=c(earnings, pmtbase, tax_earnings, tax_pmtbase),
+      columns=c(earnings_bea, taxbase_pmt, tax_earnings, tax_pmtbase),
       rows=2:(nrow(tab_mtacounty) - 1),
       decimals=0,
       scale_by=1e-3
@@ -242,12 +269,12 @@ pmtrev <- readRDS(here::here("data", "dtf", "pmt_collections.rds")) |>
   mutate(pmtax=wagetax + nonwagetax)
 
 tabdata <- pmtbase |> 
-  select(year, pmtwages, pmtnonwage) |> 
+  select(year, wages_pmt, nonwage_pmt) |> 
   group_by(year) |> 
-  summarise(across(c(pmtwages, pmtnonwage), sum), .groups="drop") |> 
-  mutate(pmtbase=pmtwages + pmtnonwage,
-         ewagetax=.0034*pmtwages,
-         enonwagetax=.0034*pmtnonwage,
+  summarise(across(c(wages_pmt, nonwage_pmt), sum), .groups="drop") |> 
+  mutate(pmtbase=wages_pmt + nonwage_pmt,
+         ewagetax=.0034*wages_pmt,
+         enonwagetax=.0034*nonwage_pmt,
          epmtax=ewagetax + enonwagetax) |> 
   select(year, ewagetax, enonwagetax, epmtax) |> 
   left_join(pmtrev, by="year") |> 
@@ -319,6 +346,8 @@ tabdata |>
 ```
 
 ## Implications
+
+** CAUTION: I HAVE NOT YET UPDATED NUMBERS IN THE TEXT BELOW TO REFLECT THE SMALL-EMPLOYER EXCLUSION, WHICH NOW IS INCLUDED IN THE ABOVE **
 
 The approach above makes better use of BEA and QCEW data to estimate the PMT tax base. As a result, the estimated PMT revenue in 2020 falls by \$600+ million from \$2.77 billion to \$2.15 billion, and the distribution across counties changes.
 

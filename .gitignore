@@ -10,6 +10,7 @@ sites/baseline/.quarto/
 *.docx
 *.pdf
 *.png
+*.rds
 *.xl*
 
 .Rdata

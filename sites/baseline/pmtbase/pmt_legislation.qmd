@@ -1,1 +1,156 @@
-# Impact of 20xx Payroll Mobility Tax Legislation
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Impact of 2011 Payroll Mobility Tax Legislation
+
+## The 2011 legislation
+
+Most of this section is based on [@metropolitantransportationauthority2022CombinedContinuing2022, pp.27+].
+
+In December 2011, Governor Cuomo signed legislation that made significant changes to the PMT, effective April 1, 2012.
+
+-   It newly excluded the following from the tax:
+
+    -   Employers with **payroll expense less than or equal to \$312,500 in any calendar quarter** (i.e., about \$1.2 million annually);
+
+    -   Any **public school district**, a board of cooperative educational services, a public elementary or secondary school, a school serving students with disabilities of school age and any nonpublic elementary or secondary school that provides instruction in grade one or above;
+
+    -   **Federal**, international, and interstate agencies;
+
+    -   Individuals with **net earnings from self-employment attributable to the MTA Commuter Transportation District that do not exceed \$50,000 for the tax year**
+
+-   It reduced the rate from 0.34% for certain taxpayers to 0.23% or 0.11%, based on quarterly payroll expense, as follows:
+
+![](images/paste-A8A8B028.png)
+
+-   (The 2015-16 state budget eliminated the PMT for all public library systems as well as public and free association libraries for taxable periods beginning on or after January 1, 2016. The impact of this likely was very small and I do not examine it below.)
+
+-   The 2011 legislation provided that any reductions in aid to MTA attributable to its reductions in the PMT "shall be offset through alternative sources that will be included in the state budget", subject to state appropriation.
+
+-   In most years before 2017, the annual PMT Revenue Offset was approximately \$309 million. The 2017-18 state budget lowered the appropriation to \$244.3 million for MTA's 2017 fiscal year and later. Here's the history and 2022 projection (p.28); 2020 and 2021 average to \$244 million, which suggests that the strange year to year changes were related to NYS or MTA cash flow objectives:
+
+![](images/paste-625B53A9.png)
+
+## What happened to PMT revenue after the 2011 legislation went into effect?
+
+```{r}
+#| label: source_files
+#  # | fig-cap: Temperature and ozone level.
+#  # | warning: false
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+```
+
+```{r }
+#| label: get_data
+
+qdf <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
+beadf <- readRDS(here::here("data", "bea", "bea_mta.rds"))
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
+pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
+
+tib <-  pmtdf |>
+  filter(year(date)>=2010, local_mtapmt != 0) |> 
+  select(date, local_mtapmt, local_mtapmtpitnet, totpmt)|> 
+  mutate(date=yearmonth(date)) |> 
+  as_tsibble(index=date)
+
+```
+
+We'd expect to start seeing impacts beginning April or May of 2012. The changes are large enough that we should be able to see some effect in simple plots.
+
+One crude but useful way to look at this is to examine year over year % change before and after the legislation went into effect. This is worth doing because it helps to remove some of the impact of wage growth (if year over year wage growth before and after the change were similar, then a lot of the pre- and post- difference in growth rates might be related to the legislation).
+
+The figure below, based on data from [@newyorkstatedepartmentoftaxationandfinanceNewYorkState2022], shows growth before and after the tax change and suggests that the growth rate fell off substantially during the 12 months in which collections under the reduced tax are compared to collections under the prior tax (ie., between the two green lines). Eyeballing it suggests that the reduction in the growth rate could be on the order of 15-20%. It's hard to be sure because underlying growth in wages could have changed substantially in this period. During this period the tax was raising about \$1.2-1.4 billion so the reduction was significant. It does not look to me like it would have exceeded the \$309 million offset in place at the time.
+
+In a later iteration of this document I'll use a regression approach that takes wage growth into account, that comes up with specific estimates, and that projects forward to the current level of tax (\$1.6-1.7 billion).
+
+```{r}
+#| label: plot_pmt
+#| include: true
+#| warning: false
+## | output: true
+
+# summary(df2)
+# count(df2, year(date))
+# interval(df2)
+# class(df2$date)
+
+p1 <- tib |> 
+  mutate(pch=local_mtapmt / lag(local_mtapmt, 12) - 1) |> 
+  filter(year(date) %in% 2010:2013, !is.na(pch)) |> 
+  ggplot(aes(date, pch)) +
+  geom_line(size=1.5, colour="blue") +
+  geom_point(size=2.5, colour="blue") +
+  geom_vline(xintercept = as.Date(c("2012-04-15", "2013-04-15")), size=1.5, colour="darkgreen") +
+  scale_y_continuous(name="% change vs year ago", breaks=seq(-1, 1, .025), labels = percent_format(accuracy = .1)) +
+  ggtitle("Wage-related PMT collections by month") +
+  # scale_y_continuous(name="Collections, $ millions", labels=scales::number_format(scale=1e-3)) +
+  labs(x="month") +
+  geom_hline(yintercept = 0) +
+  theme_bw()
+p1
+
+
+# p <- tib |> 
+#   mutate(pch=local_mtapmt / lag(local_mtapmt, 12) - 1) |> 
+#   filter(year(date) %in% 2010:2013) |> 
+#   gg_season(pch) +
+#   geom_line(size=1.5) +
+#   geom_point(size=2.5) +
+#   scale_y_continuous(name="% change vs year ago", breaks=seq(-1, 1, .025), labels = percent_format(accuracy = .1)) +
+#   ggtitle("Wage-related PMT collections by month") +
+#   # scale_y_continuous(name="Collections, $ millions", labels=scales::number_format(scale=1e-3)) +
+#   labs(x="month") +
+#   geom_hline(yintercept = 0) +
+#   theme_bw()
+# p
+
+
+```
+
+## What economic data suggest about the size of the 2011 tax reduction
+
+I have not finished an analysis of the 2011 tax reduction based on economic data. However, I reprise below the prior table showing the crosswalk from a simple construction of the tax base based on BEA data, to one that removes several effects we have discussed.
+
+
+```{r}
+
+tab <- readRDS(here::here("sites", "baseline", "pmtbase", "pmt_revloss_tab.rds"))
+tab
+
+#   #| output: true
+
+```
+
+
+We can take this a bit further, simply (until I have time for a better calculation), as follows:
+
+-   The tax base as a percentage of BEA earnings is approximately 69.9% of BEA earnings, including the reduction for small employers.
+
+-   Thus, if BEA earnings were \$100, then the base would be \$70. But this includes the impact of the reduction for small employers of 7.5%, or about \$7.50.
+
+-   Thus, if the pre-tax-reduction base was \$77.50 and the small employer reduction was \$7.50, that part of the 2011 legislation was approximately 9.7% of the pre-reduction base.
+
+-   That doesn't reflect the impact of the tax reduction for the next-larger group of employers. My back-of-the-envelope guess for this (to be refined) based on SUSB data is that this rate reduction is no more than a quarter as large as the small-employer base reduction.
+
+-   Wages in the next-higher employer group of 20-99 employees, which more than spans the income for the low tax rate thresholds, is about the same as for the smallest-group that is excluded from the tax. If even half of these wages were taxed at a lower rate - which seems high - and if that rate is approximately half of the full rate, then the reduction would be about 2.4% of the pre-reduction tax base (9.7% x 1/2 x 1/2).
+
+-   The combined impact would be on the order of 9.7% (base reduction) + 2.4% (rate reduction), or 12.1% of the pre-reduction base. If we use \$1.7 billion as the current amount of the tax, then pre-reduction would be \$1,700m / 0.879 = \$1,934 million, and the reduction would be about \$234 million.
+
+-   That glosses over a lot of details but I think it's in the right ballpartk.
+
+
+## Considering the two approaches together
+
+Considering both approaches to the issue, my rough guess is that the reduction was on the order of 10-15% of the prior base, although it's possible to get a more-serious estimate. 
+
+If the current tax is $1,700 million, and the tax cut was 15%, the pre-cut base would be $2,000 million (1,700 / .85), and the cut would be $300 million. This exceeds the current offset of $244 million, of course.
+
+

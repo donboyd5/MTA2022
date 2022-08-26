@@ -1,7 +1,12 @@
 project:
   type: book
-  comments: 
-    hypothesis: true
+  # comments: 
+  #   hypothesis: true
+
+# after checking out a new quarto-cli commit
+# exit terminal here, go to terminal in gitkraken, then
+#   cd C:\Users\donbo\quarto\quarto-cli
+#   .\configure.cmd
 
 # https://quarto.org/docs/computations/execution-options.html    
 # for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
@@ -17,7 +22,7 @@ book:
   title: "MTA baseline"
   author: "Don Boyd"
   date: today
-  date-format: long
+  # date-format: long
   chapters:
     - index.qmd
     - part: "Baseline"
