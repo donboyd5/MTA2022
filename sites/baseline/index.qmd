@@ -1,6 +1,6 @@
 # Agendas
 
-# Proposed agenda items for August 26, 2022
+## Proposed agenda items for August 26, 2022
 
 -   [Impact of 2011 payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
 
@@ -10,9 +10,11 @@
 
 -   Other discussion topics?
 
+-   Schedule next week (I may not be able to do a Friday meeting)
+
 -   Next steps
 
-# Proposed agenda items for August 19, 2022
+## Proposed agenda items for August 19, 2022
 
 -   Review revenue included in baseline analysis (see [this](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=888771929))
 
