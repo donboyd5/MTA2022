@@ -35,7 +35,7 @@ What (if anything) to do about:
 
 -   People who hold multiple jobs in the MTA region? E.g., someone who earns \$5k quarterly at 3 different jobs (\$15k in total) - pays no tax in example above but would pay \$50 annually if one job.
 
--    A person holds serial jobs in a quarter, each of which pays a high wage but none of which pushes the person into a high wage bracket for the quarter because of short duration.
+-   A person holds serial jobs in a quarter, each of which pays a high wage but none of which pushes the person into a high wage bracket for the quarter because of short duration.
 
 -   A married couple living outside the MCTD, where a non-commuting spouse earns \$500k annually and the commuting-into-MCTD spouse earns \$75k. Taxed as if lower income, even though in practical terms they are an upper income couple.
 

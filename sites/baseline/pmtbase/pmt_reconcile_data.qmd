@@ -1,0 +1,23 @@
+# Reconciling PMT data
+
+The biggest issue is that they have a mistake in their monthly data (main landing page here) but not in their fiscal year annual data, and so I'm guessing your numbers are ok.
+
+if you look at their monthly data for July 2021 (excerpt copied below) they show zero for the payroll mobility tax. In their August report (2nd screenshot below), they updated their fiscal year to date totals to include the missing amounts (you can see that the change in FYTD totals between July and August includes two months of data), although they did not double-up the August monthly amounts to include the July monthly amounts, and they didn't issue a corrected July report. Thus, their year to date totals are correct, and their eventual fiscal year numbers are correct, but July is not, and the month-to-month fiscal year to date change in August vs. July does not match the August monthly totals.
+
+They carried through their July mistake to the monthly database they post online, which is what I have been using, and thus my cumulative numbers are too low for any periods that include July 2021. They also have some differences in SFY 2018 and 2019 between reported SFY totals and their monthly database sums, which I haven't had time to track down yet but I'll do that. I'm guessing these result from similar issues.
+
+Aside from these differences, every month in my monthly database that I have compared to their online monthly collections reports match to the dollar.
+
+After I get it all sorted out, I'll correct my copy of their database and I'll send them a note in hopes they'll correct theirs (although I doubt they will). I'll also track down smaller differences in your data, which I suspect are attributable to minor timing and definitional differences between the Tax Department's data and the state Comptroller's data.
+
+![](images/paste-9BEA7ABC.png)
+
+![](images/paste-2A984750.png)
+
+## Appendix -- fixes to the DTF database
+
+I made the following corrections to the DTF database. The date signifies the month of the data -- e.g., 2016-11-01 is November 2016 and the final item in each row - the "fixval" - replaces whatever is in the DTF database, in most cases replacing a zero with a positive value. Except for July 2021, the DTF monthly values reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm) appear correct.
+
+![](images/paste-319D1FE7.png)
+
+With these changes, the state fiscal year totals match the March year to date values for each state fiscal year reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm). This does not guarantee that all months in the database are now correct, but it suggests they are.

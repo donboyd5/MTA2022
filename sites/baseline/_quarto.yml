@@ -47,6 +47,7 @@ book:
       chapters:
       - pmtbase/payroll_mobility_tax_base.qmd
       - pmtbase/pmt_legislation.qmd
+      - pmtbase/pmt_reconcile_data.qmd
     - bibliography.qmd      
     - part: "Appendix: Project notes"
       chapters:

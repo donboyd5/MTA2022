@@ -1,5 +1,18 @@
 # Agendas
 
+## Proposed agenda items for September 9, 2022
+
+-   Constitutional ways to credit PMT against income tax. Also, MTA passes that employers can give out to employees?
+
+-   Getting a share of the pass-through entity tax - how does it work?
+
+-   State-imposted property tax surcharge in the region
+
+-   Reconciling PMT data
+
+-   Options, options, options
+
+
 ## Proposed agenda items for August 26, 2022
 
 -   [Impact of 2011 payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
