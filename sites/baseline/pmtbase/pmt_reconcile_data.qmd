@@ -1,6 +1,29 @@
 # Reconciling PMT data
 
-The biggest issue is that they have a mistake in their monthly data (main landing page here) but not in their fiscal year annual data, and so I'm guessing your numbers are ok.
+In examining monthly data on the Payroll Mobility Tax from the New York Department of Taxation and Finance (DTF), we noticed that the 12-month totals of the DTF data in 2021 fell well short of the approximately \$1.7 billion reported by the MTA in its disclosure documents.
+
+Why?
+
+## Short answer
+
+There are two main problems with the DTF monthly tax data :
+
+-   Data reported in [spreadsheets](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm) on the DTF website have a few problems, most notably that the data are repoarted as zero.
+
+-   The DTF database of monthly tax collection data compounds this error by
+
+```{r}
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
+```
+
+## Details
+
+The biggest issue is that the Tax Department has a mistake in their monthly data (main landing page here) but not in their fiscal year annual data, and so I'm guessing your numbers are ok.
 
 if you look at their monthly data for July 2021 (excerpt copied below) they show zero for the payroll mobility tax. In their August report (2nd screenshot below), they updated their fiscal year to date totals to include the missing amounts (you can see that the change in FYTD totals between July and August includes two months of data), although they did not double-up the August monthly amounts to include the July monthly amounts, and they didn't issue a corrected July report. Thus, their year to date totals are correct, and their eventual fiscal year numbers are correct, but July is not, and the month-to-month fiscal year to date change in August vs. July does not match the August monthly totals.
 
@@ -10,14 +33,90 @@ Aside from these differences, every month in my monthly database that I have com
 
 After I get it all sorted out, I'll correct my copy of their database and I'll send them a note in hopes they'll correct theirs (although I doubt they will). I'll also track down smaller differences in your data, which I suspect are attributable to minor timing and definitional differences between the Tax Department's data and the state Comptroller's data.
 
-![](images/paste-9BEA7ABC.png)
+## Comparing monthly DTF data to MTA data
 
-![](images/paste-2A984750.png)
+Now that we appear to have reconciled the DTF monthly database to the DTF monthly online spreadsheets, and corrected apparent errors in the DTF database and one error in the DTF monthly spreadsheets, the next step is to reconcile with MTA monthly data.
+
+The figure below shows, on the left, total PMT (wage + self-employment) from the DTF database by collection month. On the right it shows a screenshot of data from Steve Wislo's monthly spreadsheet, from our August 26, 2022 phone call. Notice that in most months, as I had hypothesized, the monthly DTF numbers line up quite nicely with Steve's monthly figures (with very small differences), but with a few exceptions:
+
+-   As expected, December and January differ a lot. This, I presume, is because the state is accelerating money from January into December, perhaps on an estimated basis, boosting December and depressing January.
+
+-   Something is odd about April 2021, where the DTF database shows only \$123.0 million but in the corresponding May 2021, Steve shows \$148.3 million. I investigate that in the next section.
+
+```{r}
+
+tab <- pmtdf |> 
+  filter(date >= "2019-12-01", date<="2021-12-01") |> 
+  mutate(year=year(date), 
+         month=month(date),
+         month=factor(month, levels=1:12, labels=month.abb)) |> 
+  select(year, month, totpmt) |> 
+  pivot_wider(values_from = totpmt, names_from = year) |> 
+  gt() |> 
+  tab_header(title="PMT monthly collections",
+             subtitle = "Source: DTF monthly data, data.ny.gov") |> 
+  fmt_number(columns=-c(month),
+             decimals=0)
+
+gtsave(tab, here::here("sites", "baseline", "results", "monthlypmt.png"))
+  
+# A tibble: 25 × 2
+```
+
+::: {#fig-monthly layout-ncol="2"}
+![DTF monthly pmt](images/monthlypmt.png)
+
+![Screenshot of Wislo monthly](images/paste-A091190F.png)
+
+Comparing DTF and MTA monthly PMT amounts
+:::
+
+### What was going on in April 2021?
+
+I checked that my database from DTF correctly reflects what's in DTF spreadsheets for April 2021, and indeed it does. Here is a screenshot from the [relevant DTF spreadsheet](https://www.tax.ny.gov/research/collections/SFY21_22/April_2021_tax_collections.xls):
+
+![](images/paste-8ACBB0C0.png)
+
+## How do we compare to MTA annual totals
+
+```{r}
+
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
+
+pmtdf |> 
+  mutate(mtafy=ifelse(month(date)==12, 
+                      year(date) + 1,
+                      year(date))) |> 
+  filter(mtafy %in% 2012:2021) |> 
+  group_by(mtafy) |> 
+  summarise(totpmt=sum(totpmt)) |> 
+  gt() |> 
+  fmt_number(columns=totpmt,
+             decimals=1,
+             scale=1e-3)
+  
+           
+
+
+```
+
+![](images/paste-D1B6C7A0.png)
 
 ## Appendix -- fixes to the DTF database
 
-I made the following corrections to the DTF database. The date signifies the month of the data -- e.g., 2016-11-01 is November 2016 and the final item in each row - the "fixval" - replaces whatever is in the DTF database, in most cases replacing a zero with a positive value. Except for July 2021, the DTF monthly values reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm) appear correct.
+I made the following corrections to the DTF database (which can be downloaded [here](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb)). The date signifies the month of the data -- e.g., 2016-11-01 is November 2016 and the final item in each row - the "fixval" - replaces whatever is in the DTF database, in most cases replacing a zero with a positive value. Except for July 2021, the DTF monthly values reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm) appear correct.
 
-![](images/paste-319D1FE7.png)
+```{r}
 
-With these changes, the state fiscal year totals match the March year to date values for each state fiscal year reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm). This does not guarantee that all months in the database are now correct, but it suggests they are.
+taxmonthly <- readRDS(here::here("data", "dtf", "taxmonthly.rds"))
+
+taxmonthly |>
+  filter(value != value_original) |> 
+  gt() |> 
+  tab_header(title="Values in DTF monthly tax database that I changed from reported values") |> 
+  fmt_number(columns=c(value, value_original),
+             decimals = 0)
+
+```
+
+With these changes, the state fiscal year totals match the March year to date values for each state fiscal year reported [here](https://www.tax.ny.gov/research/collections/monthly_tax_collections.htm) except where those totals seem to wrong. This does not guarantee that all months in the database are now correct, but it suggests that most if not all are.

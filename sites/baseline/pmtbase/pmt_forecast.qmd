@@ -1,0 +1,218 @@
+# Implications of reconciled PMT data for near-term PMT revenue
+
+Reconciling and then correcting the Department of Taxation's erroneous PMT data in its [monthly database](https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb) added approximately \$100 million to several months (see separate discussion).
+
+After doing so, a simple plot of rolling 12-month PMT tax collections shows that revenue easily exceeds \$1.7 billion for recent 12-month periods, and in fact PMT revenue for the 12 months ending in July 2022 exceeded \$1.75 billion. This suggests that revenue for the 2022 calendar year might exceed the forecast of \$1.74 billion (I believe this is the current forecast). This seems quite reasonable, particularly if wages continue to grow, as we might expect if inflation drives average pay up and if the labor market continues to produce job growth, at least in the remainder of 2022.
+
+```{r}
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
+bvec <- seq(as.Date("2000-01-01"), as.Date("2030-01-01"), by="3 months")
+
+```
+
+```{r}
+#| label: rolling12
+
+# #| output: true
+# #| include: true 
+df <- pmtdf |> 
+  filter(date>"2009-11-01") |> # this value seems wrong
+  arrange(date) |> 
+  select(date, local_mtapmt, local_mtapmtpitnet, totpmt) |> 
+  mutate(cumsum=roll_sum(totpmt, n=12, fill=NA, align="right"))
+
+p <- df |> 
+  filter(year(date)>=2015) |> 
+  ggplot(aes(date, cumsum)) +
+  geom_line(color="blue", size=1) +
+  geom_point(color="blue", size=0.5) +
+  geom_hline(yintercept = 1.7e6) +
+  scale_y_continuous(name="$ millions", breaks=seq(0, 2e6, 50e3), labels=number_format(accuracy=1, scale=1e-3)) +
+  scale_x_date(name=NULL, breaks=bvec, date_labels = "%Y-%b", expand=expansion(mult = c(0.02, .02))) +
+  ggtitle("PMT revenue, rolling 12 month sums") +
+  theme_bw(base_size = 14) +
+  theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0.5))
+p
+
+```
+
+We can take this a step further using a simple forecasting method that essentially extrapolates a variable based on its own past values.
+
+```{r}
+df <- pmtdf |> 
+  filter(date>"2009-11-01") |> # this value seems wrong
+  arrange(date) |> 
+  select(date, totpmt) |> 
+  mutate(date=yearmonth(date)) |> 
+  as_tsibble(index = date) 
+
+mod <- df |> 
+  model(arima = ARIMA(log(totpmt))) 
+# mod
+# report(mod)
+
+fc <- mod |> 
+  forecast(h = "2 years")
+# str(fc)
+
+# fc |> 
+#   autoplot(filter(pmtdf, year(date) > 2010), level = NULL) +
+#   scale_x_date(name=NULL) +
+#   theme_bw()
+
+df2 <- df |> 
+  select(date, value=totpmt) |> 
+  as_tibble() |> 
+  mutate(hfc="history") |> 
+  bind_rows(
+    fc |> as_tibble() |> select(date, value=.mean) |> mutate(hfc="forecast"))
+# glimpse(df2)  
+```
+
+```{r}
+#| label: arima
+#| fig-width: 8
+#| fig-height: 8
+
+p <- df2 |> 
+  mutate(date=as.Date(date), hfc=factor(hfc, levels=c("history", "forecast"))) |> 
+  filter(year(date)>=2015, date<="2023-12-01") |> 
+  ggplot(aes(date, value, colour=hfc)) +
+  geom_line(size=1) +
+  geom_point(size=1) +
+  scale_colour_manual(values=c("blue", "red")) +
+  ggtitle("Total Payroll Mobility Tax (wages + self-employment)",
+          subtitle="History plus simple ARIMA forecast through 2023, monthly") +
+  scale_x_date(name=NULL, breaks=bvec, date_labels = "%Y-%b", expand=expansion(mult = c(0.01, .005))) +
+  scale_y_continuous(name="$ millions", breaks=seq(0, 10e6, 25e3), labels=number_format(accuracy=1, scale=1e-3)) +
+  theme_bw(base_size = 14) +
+  theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0.5)) +
+  theme(legend.position="bottom",
+        legend.title=element_blank())
+p
+
+
+
+# sz <- 1
+# df |> 
+#   filter(year(date) > 2015) |> 
+#   autoplot(totpmt, size=sz, colour="blue") +
+#   # autolayer(fc |> filter(year(date) <= 2022), size=sz, level=seq(10,90,by=10),
+#   #           color = 'red') +
+#   autolayer(fc |> filter(year(date) <= 2022), data=df, size=sz, colour="darkred", show_gap = FALSE) +
+#   geom_point(size=0.75) +
+#   scale_x_yearmonth(name=NULL, breaks="3 months", expand=expansion(mult = c(0.01, .005))) +
+#   scale_y_continuous(name="$ millions", breaks=seq(0, 1e6, 25e3), labels=number_format(scale=1e-3), limits=c(0, NA)) +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0.5))
+# # +  theme(legend.position="none")
+#   # guides(col= guide_legend(title= "Confidence\ninterval"))
+
+```
+
+```{r}
+#| label: table
+#| eval: false
+
+# fyfc <- df2 |> 
+#   as_tibble() |> 
+#   mutate(fy=year(date)) |> 
+#   group_by(fy) |> 
+#   summarise(n=n(), value=sum(value))
+# fyfc
+
+fyfc <- df2 |> 
+  as_tibble() |> 
+  mutate(mtafy=ifelse(month(date)==12,
+                   year(date) + 1,
+                   year(date))) |> 
+  filter(mtafy <= 2023) |> 
+  group_by(mtafy) |> 
+  summarise(n=n(), value=sum(value))
+
+fyfc |> 
+  select(-n) |> 
+  gt() |> 
+  tab_header(title="MTA total PMT revenue history (through July 2022) and simple ARIMA forecast",
+             subtitle="Data source is DTF monthly data with adjustments") |> 
+  fmt_number(columns=value,
+             decimals = 1, 
+             scale=1e-3)
+  
+
+```
+
+## Comparison of forecast and history
+
+```{r}
+p <- df2 |> 
+  arrange(date) |> 
+  mutate(date=as.Date(date), 
+         hfc=factor(hfc, levels=c("history", "forecast")),
+         pch= value / lag(value, 12) - 1) |> 
+  filter(year(date)>=2019, date<="2023-12-01") |> 
+  ggplot(aes(date, pch, colour=hfc)) +
+  geom_line(size=1) +
+  geom_point(size=1) +
+  geom_hline(yintercept = 0) +
+  scale_colour_manual(values=c("blue", "red")) +
+  ggtitle("Total Payroll Mobility Tax (wages + self-employment)",
+          subtitle="History plus simple ARIMA forecast through 2023, monthly") +
+  scale_x_date(name=NULL, breaks=bvec, date_labels = "%Y-%b", expand=expansion(mult = c(0.01, .005))) +
+  scale_y_continuous(name="% change vs. year ago",
+                     breaks=seq(-1, 1, .05),
+                     labels=percent_format(accuracy=1)) +
+  theme_bw(base_size = 14) +
+  theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0.5)) +
+  theme(legend.position="bottom",
+        legend.title=element_blank())
+p
+
+
+```
+
+## Seasonality
+
+```{r}
+p <- df2 |> 
+  arrange(date) |> 
+  mutate(date=as.Date(date), 
+         hfc=factor(hfc, levels=c("history", "forecast")),
+         year=year(date) |> as.factor(),
+         month=month(date),
+         month=factor(month, levels=1:12, labels=month.abb),
+         date = update(date, year = 1)) |>  # trick ggplot
+  filter(year %in% 2019:2022) |> 
+  ggplot(aes(date, value, colour=year)) +
+  geom_point(size=2) +
+  geom_line(size=1.5) +
+  ggtitle("Total Payroll Mobility Tax (wages + self-employment)",
+          subtitle="History plus simple ARIMA forecast for remainder of 2022, monthly") +
+  scale_x_date(name=NULL, 
+               breaks="1 month",
+               date_labels = "%b",
+               expand=expansion(mult = c(0.01, .005))) +
+  scale_y_continuous(name="$ millions",
+                     breaks=seq(0, 10e6, 10e3), 
+                     labels=number_format(accuracy=1, scale=1e-3)) +
+  theme_bw(base_size = 14) +
+  theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0.5)) +
+  theme(legend.position="right",
+        legend.title=element_blank())
+p
+
+
+```
+
+## FYTD vs. rest of year
+
+```{r}
+
+```
+
+## Implications

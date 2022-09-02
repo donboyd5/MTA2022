@@ -1,10 +1,30 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
+<!-- --- -->
+
+<!-- output: html_document -->
+
+<!-- editor_options:  -->
+
+<!--   chunk_output_type: console -->
+
+<!-- --- -->
 
 # Impact of 2011 Payroll Mobility Tax Legislation
+
+## Legislative history
+
+-   Chapter 25 of the Laws of 2009 added Article 23 to the Tax Law which establishes the metropolitan commuter transportation mobility tax (MCTMT). [@MCTMTMetropolitanCommuter2009]
+
+-   2011 [@LegislativeAmendmentsMetropolitan2012]
+
+    -   "Section 801(a) of the Tax Law that imposes the MCTMT on self-employed individuals has been amended. For tax years beginning on or after January 1, 2012, an individual will be subject to the MCTMT only if his or her net earnings from self-employment attributable to the MCTD exceed \$50,000 for the tax year. Prior to the amendment, an individual was subject to the MCTMT only if his or her net earnings from self-employment attributable to the MCTD exceeded \$10,000 for the tax year. The rate of the MCTMT for self-employed individuals (.34%) has not changed."
+
+    -   "Definitions -- Section 800(b) of the Tax Law that defines employer for purposes of the MCTMT has been amended. Effective for the calendar quarter beginning on April 1, 2012, the quarterly payroll expense threshold that an employer must exceed to make the employer liable for the MCTMT increased from \$2,500 in any calendar quarter to \$312,500 in any calendar quarter. In addition, employers that meet the definition of eligible educational institutions are no longer subject to the MCTMT."
+
+    -   "An eligible educational institution means any public school district; a board of cooperative educational services; a public elementary or secondary school; a school approved pursuant to Article 85 or 89 of the Education Law to serve students with disabilities of school age; or a nonpublic elementary or secondary school that provides instruction in grade one or above."
+
+    -   "Rate of tax -- Effective for the calendar quarter beginning on April 1, 2012, section 801(a) of the Tax Law has been amended to add two new lower MCTMT rates for employers. The new rates will apply based on the amount of an employer's payroll expense in a calendar quarter. Previously, the MCTMT was imposed at a single rate (.34%) for all employers."
+
+![](images/paste-BF00B71E.png)
 
 ## The 2011 legislation
 
@@ -119,7 +139,6 @@ p1
 
 I have not finished an analysis of the 2011 tax reduction based on economic data. However, I reprise below the prior table showing the crosswalk from a simple construction of the tax base based on BEA data, to one that removes several effects we have discussed.
 
-
 ```{r}
 
 tab <- readRDS(here::here("sites", "baseline", "pmtbase", "pmt_revloss_tab.rds"))
@@ -128,7 +147,6 @@ tab
 #   #| output: true
 
 ```
-
 
 We can take this a bit further, simply (until I have time for a better calculation), as follows:
 
@@ -146,11 +164,8 @@ We can take this a bit further, simply (until I have time for a better calculati
 
 -   That glosses over a lot of details but I think it's in the right ballpartk.
 
-
 ## Considering the two approaches together
 
-Considering both approaches to the issue, my rough guess is that the reduction was on the order of 10-15% of the prior base, although it's possible to get a more-serious estimate. 
+Considering both approaches to the issue, my rough guess is that the reduction was on the order of 10-15% of the prior base, although it's possible to get a more-serious estimate.
 
-If the current tax is $1,700 million, and the tax cut was 15%, the pre-cut base would be $2,000 million (1,700 / .85), and the cut would be $300 million. This exceeds the current offset of $244 million, of course.
-
-
+If the current tax is \$1,700 million, and the tax cut was 15%, the pre-cut base would be \$2,000 million (1,700 / .85), and the cut would be \$300 million. This exceeds the current offset of \$244 million, of course.

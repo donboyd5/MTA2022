@@ -1,19 +1,23 @@
 # Agendas
 
-## Proposed agenda items for September 9, 2022
+## September 9, 2022
+
+-   County allocation of baseline tax revenue
+
+-   The law on PMT tax changes
 
 -   Constitutional ways to credit PMT against income tax. Also, MTA passes that employers can give out to employees?
 
 -   Getting a share of the pass-through entity tax - how does it work?
 
--   State-imposted property tax surcharge in the region
+-   State-imposed property tax surcharge in the region
 
 -   Reconciling PMT data
 
 -   Options, options, options
 
 
-## Proposed agenda items for August 26, 2022
+## August 26, 2022
 
 -   [Impact of 2011 payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
 
@@ -27,7 +31,7 @@
 
 -   Next steps
 
-## Proposed agenda items for August 19, 2022
+## August 19, 2022
 
 -   Review revenue included in baseline analysis (see [this](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=888771929))
 
@@ -42,3 +46,16 @@
 -   Next steps
 
 -   Contract and billing
+
+## August 12, 2022
+
+-   Review goals
+
+-   Review revenue included in analysis
+
+## July 29, 2022 (phone call)
+
+-   Review goals
+
+-   Review timetable
+
