@@ -12,49 +12,48 @@
 
 ## Legislative history
 
--   Chapter 25 of the Laws of 2009 added Article 23 to the Tax Law which establishes the metropolitan commuter transportation mobility tax (MCTMT). [@MCTMTMetropolitanCommuter2009]
+-   Note: You can obtain text of chapter laws at a website of the Legislative Bill Drafting Commission [@legislativebilldraftingcommissionNewYorkLegislative].
+-   Chapter 25 of the Laws of 2009 added Article 23 to the Tax Law which establishes the metropolitan commuter transportation mobility tax (MCTMT). Here are key provisions from the act[@Chapter25Laws2009], in new sections 800-803 of the Tax Law (I have not copied below some of the administrative provisions). You can find a good summary in the Tax Department's Technical Services Bulletin Memorandum [@MCTMTMetropolitanCommuter2009]. Note that (1) there was a de minimis employer threshold for taxation (\$2,500 in a quarter), (2) federal, interstate, and similar employers were exempt, but there was no exemption for school districts (however, see next bullet), (3) the tax rate was a flat 0.034% for all, and (4) self-employed individuals with net self-employment earnings below \$10,000 are excluded from paying tax.
 
--   2011 [@LegislativeAmendmentsMetropolitan2012]
+![](images/paste-F1961D09.png)
 
-    -   "Section 801(a) of the Tax Law that imposes the MCTMT on self-employed individuals has been amended. For tax years beginning on or after January 1, 2012, an individual will be subject to the MCTMT only if his or her net earnings from self-employment attributable to the MCTD exceed \$50,000 for the tax year. Prior to the amendment, an individual was subject to the MCTMT only if his or her net earnings from self-employment attributable to the MCTD exceeded \$10,000 for the tax year. The rate of the MCTMT for self-employed individuals (.34%) has not changed."
+![](images/paste-A4F9508E.png)
 
-    -   "Definitions -- Section 800(b) of the Tax Law that defines employer for purposes of the MCTMT has been amended. Effective for the calendar quarter beginning on April 1, 2012, the quarterly payroll expense threshold that an employer must exceed to make the employer liable for the MCTMT increased from \$2,500 in any calendar quarter to \$312,500 in any calendar quarter. In addition, employers that meet the definition of eligible educational institutions are no longer subject to the MCTMT."
+-   Chapter 25 of the Laws of 2009 also added a provision to the Education Law in Part D stating that public school districts would be reimbursed for payment of the tax via payments from the state (to the extent appropriated).
 
-    -   "An eligible educational institution means any public school district; a board of cooperative educational services; a public elementary or secondary school; a school approved pursuant to Article 85 or 89 of the Education Law to serve students with disabilities of school age; or a nonpublic elementary or secondary school that provides instruction in grade one or above."
+![](images/paste-57E1983E.png)
 
-    -   "Rate of tax -- Effective for the calendar quarter beginning on April 1, 2012, section 801(a) of the Tax Law has been amended to add two new lower MCTMT rates for employers. The new rates will apply based on the amount of an employer's payroll expense in a calendar quarter. Previously, the MCTMT was imposed at a single rate (.34%) for all employers."
+-   Chapter 56 of the Laws of 2011 [@Chapter56Laws2011] made significant changes. Here are the strikeouts and additions of the substantive provisions of the tax, from the chapter law. There also were changes to employer filing requirements elsewhere in the chapter law that appear inconsequential from a revenue perspective and I don't include them below. A good summary of the 2011 changes, including the filing-requirement changes, is the Tax Department's Technical Services Bulletin Memorandum [@LegislativeAmendmentsMetropolitan2012].
 
-![](images/paste-BF00B71E.png)
+![](images/paste-ED72C33A.png)
 
-## The 2011 legislation
+-   Education Law section 3609-g does not appear to have been repealed by Chapter 56 of the Laws of 2011, or by subsequent laws. (The Senate website of current laws shows it [still in effect](https://www.nysenate.gov/legislation/laws/EDN/3609-G).) However, it would not be necessary to repeal it: keeping it in effect would allow the state to make any lingering refund payments outstanding after the tax on school districts was repealed, and if there are any taxpayers who still must pay the tax up front but then apply for refunds, the mechanism would still work. (I have not examined the law carefully to see if there are any such situations.)
+-   I summarize the changes, other than the filing-requirement changes, in the table below:
 
-Most of this section is based on [@metropolitantransportationauthority2022CombinedContinuing2022, pp.27+].
+| Item                                    | Before 2011 changes                                                                     | After 2011 changes                                                                                                          |
+|-----------------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Employer payroll threshold for taxation | \$2,500 in a quarter                                                                    | \$312,500 in a quarter                                                                                                      |
+| Excluded employers                      | US, UN, interstate, or US-Canada related employer                                       | Same as before, plus public school districts and certain other educational institutions                                     |
+| Tax rate on payroll                     | 0.34% for all covered employer payroll                                                  | Added lower rates for taxable employers with quarterly payroll below \$437,500 and                                          |
+| Excluded self-employed individuals      | Must have \$10,000 of annual net self-employment earnings to be taxable                 | Threshold for being a taxpayer raised to \$50,000 annual                                                                    |
+| Tax rate on net self-employment income  | 0.34% on all net self-employment earnings of individuals who meet the taxable threshold | same as before - once taxable, all net earnings are taxed at 0.34%                                                          |
+| PMT revenue offset                      | No provision                                                                            | Reductions in transit aid attributable to the MCTMT changes will be offset through alternative sources in the state budget. |
 
-In December 2011, Governor Cuomo signed legislation that made significant changes to the PMT, effective April 1, 2012.
+: **Key provisions of the payroll mobility tax before and after 2011 legislative changes**
 
--   It newly excluded the following from the tax:
-
-    -   Employers with **payroll expense less than or equal to \$312,500 in any calendar quarter** (i.e., about \$1.2 million annually);
-
-    -   Any **public school district**, a board of cooperative educational services, a public elementary or secondary school, a school serving students with disabilities of school age and any nonpublic elementary or secondary school that provides instruction in grade one or above;
-
-    -   **Federal**, international, and interstate agencies;
-
-    -   Individuals with **net earnings from self-employment attributable to the MTA Commuter Transportation District that do not exceed \$50,000 for the tax year**
-
--   It reduced the rate from 0.34% for certain taxpayers to 0.23% or 0.11%, based on quarterly payroll expense, as follows:
+-   The following table, from [@metropolitantransportationauthority2022CombinedContinuing2022, pp.27+], presents the current rates:
 
 ![](images/paste-A8A8B028.png)
 
--   (The 2015-16 state budget eliminated the PMT for all public library systems as well as public and free association libraries for taxable periods beginning on or after January 1, 2016. The impact of this likely was very small and I do not examine it below.)
+## The PMT revenue offset
 
--   The 2011 legislation provided that any reductions in aid to MTA attributable to its reductions in the PMT "shall be offset through alternative sources that will be included in the state budget", subject to state appropriation.
-
--   In most years before 2017, the annual PMT Revenue Offset was approximately \$309 million. The 2017-18 state budget lowered the appropriation to \$244.3 million for MTA's 2017 fiscal year and later. Here's the history and 2022 projection (p.28); 2020 and 2021 average to \$244 million, which suggests that the strange year to year changes were related to NYS or MTA cash flow objectives:
+-   This information is from [@metropolitantransportationauthority2022CombinedContinuing2022, pp.27+]. In most years before 2017, the annual PMT Revenue Offset was approximately \$309 million. The 2017-18 state budget lowered the appropriation to \$244.3 million for MTA's 2017 fiscal year and later. Here's the history and 2022 projection (p.28); 2020 and 2021 average to \$244 million, which suggests that the strange year to year changes were related to NYS or MTA cash flow objectives:
 
 ![](images/paste-625B53A9.png)
 
 ## What happened to PMT revenue after the 2011 legislation went into effect?
+
+NOTE: The discussion below treats the federal exemption as being added in 2011, but in fact it existed prior.
 
 ```{r}
 #| label: source_files
@@ -136,6 +135,8 @@ p1
 ```
 
 ## What economic data suggest about the size of the 2011 tax reduction
+
+*Note: The discussion below treats the federal employers exclusion as part of the 2011 legislation. However, the review of legislation above shows that the federal employers exclusion was in effect before 2011. Thus, the estimates below slightly overstate the 2011 impact, all else equal. I'll update the numbers when time permits.*
 
 I have not finished an analysis of the 2011 tax reduction based on economic data. However, I reprise below the prior table showing the crosswalk from a simple construction of the tax base based on BEA data, to one that removes several effects we have discussed.
 

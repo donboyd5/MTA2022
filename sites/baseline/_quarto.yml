@@ -36,6 +36,8 @@ book:
       - taxes/petroleum_business_tax.qmd
       - taxes/mortgage_recording_tax.qmd
       - taxes/miscellaneous_revenue.qmd
+    - part: "County allocation"
+      - countyalloc/county_alocation.qmd
     - part: "Revenue options"
       chapters: 
       - options/progressivity.qmd
