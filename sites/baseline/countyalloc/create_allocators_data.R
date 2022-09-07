@@ -48,8 +48,19 @@ sut1 <- readRDS(here::here("data", "dtf", "sut.rds"))
 
 mtamrt1 <- readRDS(here::here("data", "mta", "mtamrt_monthly.rds"))
 
+censuspop1 <- readRDS(here::here("data", "census", "censuspop.rds"))
+
 
 # prep files for the allocators data frame --------------------------------
+
+## censuspop ----
+censuspop <- censuspop1 |> 
+  left_join(xwalkny |> select(unifips, uniname, censusname), by="censusname") |> 
+  mutate(src="census", yeartype="cy") |> 
+  select(unifips, uniname, year, src, yeartype, name, value)
+glimpse(censuspop)
+summary(censuspop)
+count(censuspop, unifips, uniname, censusname)
 
 ## pmt ----
 glimpse(pmt1) 
@@ -207,7 +218,7 @@ names(mtamrt)
 
 keepvars <- c("unifips", "uniname", "name", "year", "yeartype", "src", "value")
 
-stack <- bind_rows(pmt, mft, mrt, rett, sut, mtamrt) |> 
+stack <- bind_rows(censuspop, pmt, mft, mrt, rett, sut, mtamrt) |> 
   select(all_of(keepvars)) |> 
   filter(year %in% 2015:2021)
 
