@@ -37,7 +37,8 @@ book:
       - taxes/mortgage_recording_tax.qmd
       - taxes/miscellaneous_revenue.qmd
     - part: "County allocation"
-      - countyalloc/county_alocation.qmd
+      chapters:
+      - countyalloc/county_allocation.qmd
     - part: "Revenue options"
       chapters: 
       - options/progressivity.qmd

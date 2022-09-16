@@ -1,21 +1,42 @@
 # Agendas
 
+## September 16, 2022
+
+-   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
+
+-   Internet marketplace - can we measure the true amount? how does it compare? what about the growth rate?
+
+-   Contract status
+
 ## September 9, 2022
 
--   County allocation of baseline tax revenue
+-   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
 
--   The law on PMT tax changes
+-   [The law on PMT tax changes](pmtbase/pmt_legislation.qmd)
 
--   Constitutional ways to credit PMT against income tax. Also, MTA passes that employers can give out to employees?
+-   [Reconciling PMT data](pmtbase/pmt_reconcile_data.qmd)
 
--   Getting a share of the pass-through entity tax - how does it work?
+-   [Implications of reconciliation for revenue](pmtbase/pmt_forecast.qmd)
 
--   State-imposed property tax surcharge in the region
+-   Deferred to a subsequent meeting:
 
--   Reconciling PMT data
+    -   Constitutional ways to credit PMT against income tax. Also, MTA passes that employers can give out to employees?
 
--   Options, options, options
+    -   Getting a share of the pass-through entity tax - how does it work?
 
+    -   State-imposed property tax surcharge in the region
+
+    -   Options, options, options
+
+-   Other near-term priorities?
+
+-   Contract status
+
+-   Reminder that I will be away:
+
+    -   Sept 21-23
+
+    -   Sept 28-Oct 14
 
 ## August 26, 2022
 
@@ -58,4 +79,3 @@
 -   Review goals
 
 -   Review timetable
-

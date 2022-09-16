@@ -12,7 +12,7 @@
 # src -- data source
 # year integer -- may be cy, sfy, sales year, or something else close to MTA fyear
 # yeartype character - the kind of year
-# name -- variable name
+# allocator -- variable name
 # value numeric
 # units ???
 
@@ -60,7 +60,7 @@ censuspop <- censuspop1 |>
   select(unifips, uniname, year, src, yeartype, name, value)
 glimpse(censuspop)
 summary(censuspop)
-count(censuspop, unifips, uniname, censusname)
+count(censuspop, unifips, uniname)
 
 ## pmt ----
 glimpse(pmt1) 
@@ -220,13 +220,25 @@ keepvars <- c("unifips", "uniname", "name", "year", "yeartype", "src", "value")
 
 stack <- bind_rows(censuspop, pmt, mft, mrt, rett, sut, mtamrt) |> 
   select(all_of(keepvars)) |> 
-  filter(year %in% 2015:2021)
+  filter(year %in% 2015:2021) |> 
+  rename(allocator=name)
 
 count(stack, unifips, uniname)
-count(stack, name)
+count(stack, allocator)
 count(stack, year)
 count(stack, yeartype)
 count(stack, src)
 
 saveRDS(stack, here::here("data", "allocators.rds"))
+
+df <- readRDS(here::here("data", "allocators.rds"))
+df |> 
+  filter(allocator=="pop", year==2016)
+
+
+# tmp <- Sys.getenv()
+# names(tmp)
+# str_subset(names(tmp), "KEY")
+# str_subset(names(tmp), "API")
+
 

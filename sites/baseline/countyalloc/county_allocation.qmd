@@ -1,2 +1,175 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
 # County allocation
 
+## Status
+
+-   Have reviewed past reports on allocation, including MTA 2019 internal analysis [@metropolitantransportationauthorityMTACountyPayment2019], CBC NYC-vs-elsewhere analysis [@citizensbudgetcommissionHowMuchCity2020], Rockefeller Institute allocation of NYS revenue and spending[@robertwardGivingGettingRegional2011].
+
+-   Taxes to allocate -- should have values for 2015-2022?
+
+    -   Preliminary values for taxes to allocate, most items 2015-2021.
+
+    -   **It is REALLY important that MTA review this to be sure it reflects the taxes we should include, and help fill any holes.**
+
+    -   If time permits I will upload the relevant spreadsheet to Google sheets before the meeting. If not, I'll email an Excel file or upload it to Google sheets at meeting time. Either way, we'll want to look at it in the meeting and develop a plan to help complete it over the next few days. I don't believe it will be a big job.
+
+-   Have constructed an allocators database that includes, for most of 2015-2021, for most MCTD counties (including NYC counties) and for NYC.
+
+    -   Database includes the following variables:
+
+        -   Census population
+
+        -   BEA earnings, nonwage data
+
+        -   QCEW wages and employment by industry
+
+        -   My estimates of PMT base, which incorporate BEA and QCEW data
+
+        -   certain tax information that can be used to directly allocate taxes, particularly mortgage, real estate transfer, and sales tax
+
+        -   taxable sales data from DTF
+
+    -   Still to do for this database
+
+        -   fill a few holes in data (e.g., population for 2020 and 2021)
+
+        -   get gasoline sales data from NYSERDA
+
+        -   registrations data
+
+        -   possibly get some of the unusual data items MTA used that may not be essential for early analysis of revenue (e.g., enplanements and electricity consumption)
+
+        -   additional QC
+
+-   Soon (by next week, preliminarily) this will allow us to:
+
+    -   We can have "good enough" estimates quite quickly and make minor improvements as time permits and needs dictate
+
+    -   Allocate taxes to counties under a preferred method, for (almost) any of 2015-2021; possibly add estimates for 2022
+
+    -   Examine how county tax shares or taxes per capita (relative) have changed over time
+
+    -   Examine implications of different allocation methods (e.g., method used by MTA in 2019 vs. method now)
+
+## Questions for MTA
+
+-   Do you care about intra-NYC distribution of taxes (e.g., Staten Island vs. Bronx)?
+
+-   Reminder that it would be good to have any spreadsheets you can provide that underlie the MTA 2019 analysis [@metropolitantransportationauthorityMTACountyPayment2019]
+
+<!-- ## Sum of taxes -->
+
+<!-- ## Payroll mobility tax -->
+
+```{r}
+#| label: getdata
+#| eval: false
+#| echo: false
+
+allocdir <- here::here("sites", "baseline", "countyalloc")
+
+
+alloc1 <- readRDS(here::here("data", "allocators.rds"))
+alloc2 <- alloc1 |> 
+  filter(unifips %in% c(constants$mtafips, constants$totnycfips),
+         year %in% 2015:2020,
+         allocator !="density")
+count(alloc2, allocator)
+count(alloc2, year)
+count(alloc2, uniname, unifips)
+
+alloc2 |> 
+  filter(unifips=="36005") |> 
+  select(allocator, year, value) |> 
+  pivot_wider(names_from = year)
+
+# TEMPORARY: extend pop to 2020
+alloc3 <- alloc2 |> 
+  bind_rows(alloc2 |> 
+              filter(year==2019, allocator=="pop") |> 
+              mutate(year=2020))
+alloc3 |> 
+  filter(unifips=="36005") |> 
+  select(allocator, year, value) |> 
+  pivot_wider(names_from = year)
+
+# are there any allocators that are available for a regular county but not a NYC county??
+alloc3  |> 
+  filter(unifips %in% c("36027", "36005")) |> 
+  select(allocator, unifips, uniname, year, value) |> 
+  arrange(allocator, uniname) |> 
+  pivot_wider(names_from = year)
+# yes some of the tax-based allocators are not -- mft
+
+pop <- alloc3 |> 
+  filter(allocator=="pop") |> 
+  group_by(unifips) |> 
+  mutate(pop2019=value[year==2019]) |> 
+  ungroup()
+pop |> filter(year==2019)
+
+cntyshares <- alloc3 |> 
+  group_by(allocator, year) |> 
+  mutate(share=value / sum(value)) |> 
+  ungroup()
+
+cntyshares |> filter(year==2015) |> 
+  arrange(allocator, unifips, uniname) |> 
+  select(allocator, unifips, uniname, value, share)
+summary(cntyshares)
+
+cntyshares |> 
+  filter(year==2020, !str_detect(allocator, "mrt"), allocator!="mft") |> 
+  select(unifips, uniname, allocator, year, share) |> 
+  pivot_wider(names_from = allocator, values_from = share)
+
+
+fn <- "county_allocation.xlsx"
+rev1 <- read_excel(path(allocdir, fn), sheet="master", range="c7:l30")
+summary(rev1)
+rev2 <- rev1 |> 
+  filter(include=="yes", !is.na(vname)) |> 
+  select(-included2019, -include, -revsource) |> 
+  pivot_longer(-vname, names_to = "year") |> 
+  mutate(year=as.integer(year))
+rev2
+count(rev2, vname)
+
+rev2 |> 
+  pivot_wider(names_from = year)
+
+recipes <- read_csv(
+"run, vname, allocator
+pop1, pmt, pop
+earnings, pmt, earnings_bea
+pmtbase, pmt, taxbase_pmt
+")
+
+# only pop has nyc -- drop nyc for now
+allocbase <- recipes |> 
+  left_join(cntyshares |> 
+              filter(unifips != constants$totnycfips) |> 
+              select(unifips, uniname, allocator, year, share), 
+            by=c("allocator"))
+
+allocbase |> 
+  filter(unifips %in% c("36081", constants$totnycfips))
+
+allocbase |> 
+  pivot_wider()
+
+
+shares |> 
+  filter(year==2019)
+
+count(shares, unifips, uniname)
+shares |> filter(unifips==constants$totnycfips)
+
+
+
+```

@@ -23,6 +23,7 @@ constants$qdir <- r"(E:\data\BLSData\qcew\annual_area\)"
 constants$mtacos <- c("New York", "Bronx", "Kings", "Queens", "Richmond", "Rockland", 
             "Nassau", "Suffolk", "Orange", "Putnam", "Dutchess", "Westchester")
 constants$mtafips <- c(36005, 36027, 36047, 36059, 36061, 36071, 36079, 36081, 36085, 36087, 36103, 36119) |> as.character()
+constants$totnycfips <- "3651000"
 
 constants$nycfips <- c(36005, 36047, 36061, 36081, 36085) |> as.character()
 constants$nyccos <- c("New York", "Bronx", "Kings", "Queens", "Richmond")
