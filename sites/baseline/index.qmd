@@ -1,5 +1,11 @@
 # Agendas
 
+## September 20, 2022
+
+-   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
+
+*Go to section on Preliminary allocation results*
+
 ## September 16, 2022
 
 -   County allocation of baseline tax revenue - status and next steps(countyalloc/county_allocation.qmd)

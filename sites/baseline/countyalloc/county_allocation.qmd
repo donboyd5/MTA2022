@@ -173,3 +173,246 @@ shares |> filter(unifips==constants$totnycfips)
 
 
 ```
+
+## Preliminary allocation results
+
+```{r}
+#| include: false
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+res <- readRDS(here::here("results", "allocation_results.rds"))
+```
+
+### 2021 \$ millions
+
+```{r}
+#| include: false
+tabdata <- res |> 
+  filter(rectype!="nyc") |> 
+  filter(year==2021, measure=="accrual") |> 
+  select(year, vname, unifips, uniname, allocated) |> 
+  pivot_wider(names_from = vname, values_from = allocated) |> 
+  mutate(mrt=mrt1 + mrt2) |> 
+  mutate(order=case_when(uniname=="MCTD" ~ 100,
+                       uniname=="New York City" ~ 99,
+                       uniname=="Suburban" ~ 98,
+                       TRUE ~ 1)) |> 
+  arrange(order, uniname) |> 
+  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
+         contains("mmtoa"), contains("mtaaid"), sutinternet) |> 
+  mutate(sum = rowSums(across(-c(unifips, uniname, year))))
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = "Preliminary allocation to counties",
+    subtitle = "Amounts in $ millions"
+  ) |> 
+  cols_label(
+    pmt = "Payroll mobility tax",
+    pbt = "Petroleum business tax",
+    mrt = "Mortgage recording tax",
+    urban = "Urban tax"
+  ) |> 
+  # tab_spanner(
+  #   label = "Nonwage items",
+  #   columns = c(supp_pct, propinc_pct)
+  #   ) |> 
+  # tab_spanner(
+  #   label = "Wage items",
+  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
+  #   ) |> 
+  # fmt_percent(
+  #   columns=contains("pct"),
+  #   decimals=1
+  # ) |>
+    fmt_number(
+    columns=-c(unifips, uniname, year),
+    scale=1e-6,
+    decimals=1
+  )
+
+```
+
+```{r}
+#| include: true
+tab
+```
+
+
+
+### 2021 \$ per capita
+
+```{r}
+#| include: false
+tabdata <- res |> 
+  filter(rectype!="nyc") |> 
+  filter(year==2021, measure=="accrual") |> 
+  select(year, vname, unifips, uniname, allocpc) |> 
+  pivot_wider(names_from = vname, values_from = allocpc) |> 
+  mutate(mrt=mrt1 + mrt2) |> 
+  mutate(order=case_when(uniname=="MCTD" ~ 100,
+                         uniname=="New York City" ~ 99,
+                         uniname=="Suburban" ~ 98,
+                         TRUE ~ 1)) |> 
+  arrange(order, uniname) |> 
+  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
+         contains("mmtoa"), contains("mtaaid"), sutinternet)
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = "Preliminary allocation to counties",
+    subtitle = "Per capita amounts"
+  ) |> 
+  cols_label(
+    pmt = "Payroll mobility tax",
+    pbt = "Petroleum business tax",
+    mrt = "Mortgage recording tax",
+    urban = "Urban tax"
+  ) |> 
+  # tab_spanner(
+  #   label = "Nonwage items",
+  #   columns = c(supp_pct, propinc_pct)
+  #   ) |> 
+  # tab_spanner(
+  #   label = "Wage items",
+  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
+  #   ) |> 
+  # fmt_percent(
+  #   columns=contains("pct"),
+  #   decimals=1
+  # ) |>
+    fmt_number(
+    columns=-c(unifips, uniname, year),
+    scale=1,
+    decimals=1
+  )
+
+```
+
+
+```{r}
+#| include: true
+tab
+```
+
+
+### 2021 per capita indexed to overall MTA per-capita amount
+
+
+```{r}
+#| include: false
+tabdata <- res |> 
+  filter(rectype!="nyc") |> 
+  filter(year==2021, measure=="accrual") |> 
+  select(year, vname, unifips, uniname, ipcmta) |> 
+  pivot_wider(names_from = vname, values_from = ipcmta) |> 
+  mutate(mrt=mrt1 + mrt2) |> 
+  mutate(order=case_when(uniname=="MCTD" ~ 100,
+                         uniname=="New York City" ~ 99,
+                         uniname=="Suburban" ~ 98,
+                         TRUE ~ 1)) |> 
+  arrange(order, uniname) |> 
+  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
+         contains("mmtoa"), contains("mtaaid"), sutinternet)
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = "Preliminary allocation to counties",
+    subtitle = "Indexed per capita amounts"
+  ) |> 
+  cols_label(
+    pmt = "Payroll mobility tax",
+    pbt = "Petroleum business tax",
+    mrt = "Mortgage recording tax",
+    urban = "Urban tax"
+  ) |> 
+  # tab_spanner(
+  #   label = "Nonwage items",
+  #   columns = c(supp_pct, propinc_pct)
+  #   ) |> 
+  # tab_spanner(
+  #   label = "Wage items",
+  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
+  #   ) |> 
+  # fmt_percent(
+  #   columns=contains("pct"),
+  #   decimals=1
+  # ) |>
+    fmt_number(
+    columns=-c(unifips, uniname, year),
+    scale=1,
+    decimals=3
+  )
+
+```
+
+
+```{r}
+#| include: true
+tab
+```
+
+
+
+### 2021 amounts as % of MTA total
+
+```{r}
+#| include: false
+tabdata <- res |> 
+  filter(rectype!="nyc") |> 
+  filter(year==2021, measure=="accrual") |> 
+  select(year, vname, unifips, uniname, allocated) |> 
+  pivot_wider(names_from = vname, values_from = allocated) |> 
+  mutate(mrt=mrt1 + mrt2) |> 
+  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
+         contains("mmtoa"), contains("mtaaid"), sutinternet) |> 
+  mutate(order=case_when(uniname=="MCTD" ~ 100,
+                         uniname=="New York City" ~ 99,
+                         uniname=="Suburban" ~ 98,
+                         TRUE ~ 1)) |> 
+  arrange(order, uniname) |> 
+  mutate(sum = rowSums(across(-c(unifips, uniname, year))),
+         across(-c(unifips, uniname, year), ~ .x / .x[uniname=="MCTD"])) |> 
+  select(-order)
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = "Preliminary allocation to counties",
+    subtitle = "Amounts in $ millions"
+  ) |> 
+  cols_label(
+    pmt = "Payroll mobility tax",
+    pbt = "Petroleum business tax",
+    mrt = "Mortgage recording tax",
+    urban = "Urban tax"
+  ) |> 
+  # tab_spanner(
+  #   label = "Nonwage items",
+  #   columns = c(supp_pct, propinc_pct)
+  #   ) |> 
+  # tab_spanner(
+  #   label = "Wage items",
+  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
+  #   ) |> 
+  # fmt_percent(
+  #   columns=contains("pct"),
+  #   decimals=1
+  # ) |>
+    fmt_percent(
+    columns=-c(unifips, uniname, year),
+    decimals=1
+  )
+
+```
+
+```{r}
+#| include: true
+tab
+```
+

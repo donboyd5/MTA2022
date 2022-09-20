@@ -45,6 +45,7 @@ mft1 <- readRDS(here::here("data", "dtf", "mft.rds"))
 mrt1 <- readRDS(here::here("data", "dtf", "mrt.rds"))
 rett1 <- readRDS(here::here("data", "dtf", "rett.rds"))
 sut1 <- readRDS(here::here("data", "dtf", "sut.rds"))
+tsp1 <- readRDS(here::here("data", "dtf", "salesyear", "tsp_alloc.rds"))
 
 # mtamrt1 <- readRDS(here::here("data", "mta", "mtamrt_monthly.rds"))
 
@@ -167,6 +168,12 @@ summary(sut2)
 sut <- sut2
 
 
+## dtf taxable sales and purchases ------------------------------------------
+
+tsp <- tsp1 |> 
+  mutate(src="dtf_txblsales",
+         yeartype="sfy")
+
 ## mta mrt ----
 # # mtamrt1
 # count(mtamrt1, test)
@@ -217,19 +224,32 @@ sut <- sut2
 # mtamrt <- mtamrt5
 
 
+## qcew allocation info ----------------------------------------------------
+
+qcew1 <- readRDS(here::here("data", "qcew", "qcew_alloc.rds"))
+
+qcew <- qcew1 |> 
+  select(unifips, uniname, year, name, value=wtdqcew) |> 
+  mutate(name=paste0("qcew_", name),
+         src="qcew",
+         yeartype="cy")
+
+
 # stack and save the allocators files and drop file-specific area names ----
 names(mta)
 names(pmt)
 names(mft)
 names(mrt)
+names(qcew)
 names(rett)
 names(sut)
+names(tsp)
 # names(mtamrt)
 
 keepvars <- c("unifips", "uniname", "name", "year", "yeartype", "src", "value")
 
 # don't bother with mrt because we'll use values from mta
-stack <- bind_rows(censuspop, pmt, mft, rett, sut, mta) |> 
+stack <- bind_rows(censuspop, mft, mta, pmt, qcew, rett, sut, tsp) |> 
   select(all_of(keepvars)) |> 
   filter(year %in% 2015:2021) |> 
   rename(allocator=name)
@@ -341,6 +361,62 @@ alloc5 |> filter(is.na(allocshare))
 
 
 saveRDS(alloc5, here::here("data", "allocation", "allocators_mta.rds"))
+
+
+# hokey surcharge allocation, used up above ----
+## get tax weightings to apply to employment or something ----
+alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
+
+scweights <- read_excel(here::here("data", "mta", alloctotals_fn),
+                        sheet = "surcharge",
+                        range="A25:E42") |> 
+  filter(!is.na(year)) |> 
+  select(-wsum)
+scweights
+
+qdata1 <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
+count(qdata1, own, ownf)
+
+qdata2 <- qdata1 |> 
+  filter(own==5)
+
+# we want 384 observations
+totpriv <- qdata2 |> 
+  filter(agglev==71, ind=="10") |> 
+  mutate(igroup="private")
+
+tpu <- qdata2 |> 
+  filter(agglev==73, ind=="1021") |> 
+  mutate(igroup="tpu")
+
+insure <- qdata2 |> 
+  filter(agglev==75, ind=="524") |> 
+  mutate(igroup="insure")
+
+qcew_alloc1 <- bind_rows(totpriv, tpu, insure) |> 
+  rename(unifips=fips) |> 
+  left_join(xwalkny |> select(unifips, uniname), by = "unifips") |> 
+  select(unifips, uniname, year, igroup, emp, wages) |> 
+  pivot_longer(cols=c(emp, wages)) |> 
+  pivot_wider(names_from = igroup) |> 
+  mutate(privxtpu=private - tpu,
+         sumvals=tpu + privxtpu + insure)
+
+qcew_alloc2 <- qcew_alloc1 |> 
+  right_join(scweights, by = "year") |> 
+  mutate(wtdqcew=tpu * wtpu + privxtpu * wprivxtpu + insure * winsure)
+
+saveRDS(qcew_alloc2, here::here("data", "qcew", "qcew_alloc.rds"))
+  
+
+count(qcew_alloc1, unifips, uniname)
+
+count(qdata2, agglev, agglevf)
+# we need total private; tpu; insurance
+
+tmp <- qdata2 |> 
+  filter(agglev==75) |> 
+  count(ind, indf)
 
 
 # tmp <- Sys.getenv()

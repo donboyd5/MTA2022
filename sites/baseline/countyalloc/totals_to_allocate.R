@@ -92,6 +92,7 @@ saveRDS(splits3, here::here("data", "allocation", "taxsplits.rds"))
 
 
 ## split the allocation totals for mmtoa and mtaaid into individual taxes -----------------------
+# we will use the same split shares for both cash and accrual
 base_totals <- readRDS(here::here("data", "allocation", "base_totals.rds"))
 taxsplits <- readRDS(here::here("data", "allocation", "taxsplits.rds"))  
 
@@ -115,6 +116,7 @@ split_totals1 |>
   summarise(totvalue=first(totvalue), sumvalue=sum(value)) |> 
   mutate(diff=sumvalue - totvalue) |> 
   filter(diff != 0)
+# now we have estimated totals for each tax in mmtoa and in mtaaid, on a cash and accrual basis
 
 ## save the split totals for later use ----
 saveRDS(split_totals1, here::here("data", "mta", "split_totals.rds"))
@@ -128,7 +130,7 @@ saveRDS(alloc_detail, here::here("data", "mta", "alloc_detail.rds"))
 
 # save value-based allocators (mrt1, mrt2, urban, ...) to a file, with unicodes -------------------------------
 ## mrt1, mrt2, urban  ----
-alloc_raw <- readRDS(here::here("data", "allocation", "alloc_raw.rds"))    
+alloc_raw <- readRDS(here::here("data", "allocation", "alloc_raw.rds")) # go back to original data
 xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
 
 values_mrturban1 <- alloc_raw |> 
@@ -156,23 +158,24 @@ values_mrturban2 <- values_mrturban1 |>
 ## now taxicab_value autorental_value, which are nyc only ----
 values_splits1 <- readRDS(here::here("data", "mta", "split_totals.rds"))
 
+# for the mtaaid data, we don't want different allocators for cash and accrual because we
+# only have one set of splits from the AIS
+
 # we want unifips, uniname, year, src, yeartype, name, value
 count(values_splits1, vname)
 values_splits2 <- values_splits1 |> 
   filter(str_detect_any(vname, c("autorental", "taxicab"))) |> 
   mutate(unifips="3651000",
          uniname="New York City",
-         src="mta_ais_sharing",
-         yeartype="cy",
-         name=vname) |>
+         src="mta_ais",
+         name=paste0(vname, "_", measure),# cash or accrual
+         yeartype="cy") |>
   select(unifips, uniname, year, src, yeartype, name, value)
 
 ## rationalize, combine, and save the two sets of value-based data ----
 mta_alloc <- bind_rows(values_mrturban2, values_splits2)
 saveRDS(mta_alloc, here::here("data", "mta", "mta_alloc.rds"))    
   
-
-
-
+count(mta_alloc, name)
 
 

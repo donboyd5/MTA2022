@@ -26,10 +26,11 @@ recipes <-  recipes1 |>
   filter(!is.na(allocator))
 recipes
 
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
 toallocate <- readRDS(here::here("data", "allocation", "alloc_detail.rds"))  
-
 mtashares <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
 
+# toallocate |> filter(vname=="autorental_mtaaid")
 
 # allocation --------------------------------------------------------------
 recipes
@@ -38,7 +39,7 @@ glimpse(toallocate)
 count(toallocate, vname)
 recipes |> filter(vname=="autorental_mtaaid")
 toallocate |> filter(vname=="autorental_mtaaid")
-mtashares |> filter(allocator=="autorental_mtaaid")
+mtashares |> filter(allocator=="autorental_mtaaid_accrual")
 
 # check availabilities
 setdiff(recipes$vname, unique(toallocate$vname)) # good - all vnames with recipes are in the data
@@ -56,6 +57,10 @@ result1 <- recipes |>
   mutate(allocated=totvalue * allocshare)
 summary(result1)
 
+tmp <- mtashares |> select(unifips, uniname, year, allocator, allocshare, pop)
+tmp |> filter(allocator=="autorental_mtaaid", unifips=="3651000")
+result1 |> filter(vname=="autorental_mtaaid", unifips=="3651000")
+
 # add summary records
 mctd_sums <- result1 |> 
   group_by(vname, allocator, measure, year) |> 
@@ -63,7 +68,7 @@ mctd_sums <- result1 |>
             allocated=sum(allocated, na.rm=TRUE),
             pop=sum(pop),
             .groups="drop") |> 
-  mutate(uniname="MTA total")
+  mutate(unifips="36xx1", uniname="MCTD")
 
 suburb_sums <- result1 |> 
   filter(!str_detect(uniname, "New York City")) |> 
@@ -72,19 +77,20 @@ suburb_sums <- result1 |>
             allocated=sum(allocated, na.rm=TRUE),
             pop=sum(pop),
             .groups="drop") |> 
-  mutate(uniname="Suburban")
+  mutate(unifips="36xx3", uniname="Suburban")
 
 result2 <- bind_rows(result1 |> mutate(rectype="detail"),
                      mctd_sums |> mutate(rectype="mta"),
-                     suburb_sums |> mutate(rectype="suburbs"),
+                     suburb_sums |> mutate(rectype="suburban"),
                      result1 |> 
                        filter(str_detect(uniname, "New York City")) |> 
                        mutate(rectype="nyc")) |> 
   mutate(allocpc=allocated / pop) |> 
   group_by(vname, measure, year) |> 
   mutate(ipcmta=allocpc / allocpc[rectype=="mta"],
-         ipcsuburbs=allocpc / allocpc[rectype=="suburbs"]) |> 
-  ungroup()
+         ipcsuburbs=allocpc / allocpc[rectype=="suburban"]) |> 
+  ungroup() |> 
+  arrange(measure, vname, year, unifips)
 
 result2
 
@@ -93,7 +99,7 @@ summary(result2)
 count(result2, rectype)
 count(result2, unifips, uniname)
 count(result2, measure)
-count(result2, year) # 2022 is different
+count(result2, year)
 
 ## totals ----
 tots <- result2 |> 
@@ -121,15 +127,24 @@ tax <- "urban"
 tax <- "mrt1"
 tax <- "mrt2"
 tax <- "urban"
+tax <- "autorental_mtaaid"
 result2 |> 
   # filter(rectype=="detail") |> 
   filter(rectype!="nyc") |> 
   filter(year==2021, measure=="accrual", vname==tax) |> 
   arrange(desc(allocpc))
+count(result2, unifips, uniname)
+
+saveRDS(result2, here::here("results", "allocation_results.rds"))
+
+
+
 
 
 
 # get the 2019 study for comparison ----
+alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
+mtashares <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
 
 study1 <- read_excel(here::here("data", "mta", alloctotals_fn),
                        sheet="Big Summary",
@@ -140,7 +155,7 @@ study1 <- read_excel(here::here("data", "mta", alloctotals_fn),
 study2 <- study1 |> 
   filter(row_number() %in% c(17, 18, 21, 22, 23, 24, 25, 26)) |> 
   pivot_longer(-1) |> 
-  setNames(c("studyname", "studyarea", "value")) |> 
+  setNames(c("studyname", "studyarea", "allocated")) |> 
   mutate(year=2016,
          vname=case_when(str_detect(studyname, "MRT") ~ "mrt1and2",
                          str_detect(studyname, "Urban") ~ "urban",
@@ -163,13 +178,102 @@ cbind(snames, uninames, unifips)
 study3 <- study2 |> 
   mutate(uniname=factor(studyarea, levels=snames, labels=uninames),
          unifips=factor(uniname, levels=uninames, labels=unifips),
-         value=as.numeric(value),
-         year=as.integer(2016))
-study3
-count(study3, studyarea, uniname, unifips)
-count(study3, studyname, vname)
+         allocated=as.numeric(allocated) * 1e6,
+         year=as.integer(2016)) |> 
+  group_by(vname) |> 
+  mutate(totvalue=sum(allocated[uniname != "MCTD"])) |> 
+  ungroup()
+
+#  prepare population 
+mtapop <- mtashares |> 
+  filter(allocator=="pop", year==2016) |> 
+  select(unifips, pop) |> 
+  janitor::adorn_totals("row", name="36xx1") |> 
+  as_tibble()
+mtapop
+
+study4 <- study3 |> 
+  left_join(mtapop, by = "unifips") |> 
+  group_by(vname) |> 
+  mutate(allocpc=allocated / pop,
+         ipcmta=allocpc / allocpc[uniname=="MCTD"]) |> 
+  ungroup()
+
+study4
+count(study4, studyarea, uniname, unifips)
+count(study4, studyname, vname)
+saveRDS(study4, here::here("data", "mta", "study2016data.rds"))
 
 
+# compare current results to mta study ------------------------------------
+study <- readRDS(here::here("data", "mta", "study2016data.rds"))
+result2
 
+prepres <- result2 |> 
+  filter(year==2016, measure=="accrual", rectype %in% c("detail", "mta"), !is.na(totvalue)) |> 
+  mutate(src="analysis") |> 
+  # collapse to the categories in the old study
+  mutate(vname=case_when(str_detect(vname, "mrt") ~ "mrt1and2",
+                         str_detect(vname, "mtaaid") ~ "mtaaid",
+                         str_detect(vname, "pbt") ~ "pbt",
+                         TRUE ~ vname)) |> 
+  group_by(year, unifips, uniname, pop, measure, src, rectype, vname) |> 
+  summarise(totvalue=sum(totvalue),
+            allocated=sum(allocated), .groups="drop") |> 
+  group_by(year, measure, src, vname) |> 
+  mutate(allocpc=allocated / pop,
+         ipcmta=allocpc / allocpc[uniname=="MCTD"]) |> 
+  ungroup()
+prepres
+
+
+comp1 <- bind_rows(study |> 
+                     mutate(src="study"),
+                  prepres) |> 
+  select(src, vname, unifips, uniname, pop, totvalue, allocated, allocpc, ipcmta)
+comp1
+
+tmp <- comp1 |> filter(vname=="autorental_mtaaid")
+
+comp1 |> 
+  filter(uniname=="MCTD") |> 
+  select(src, vname, comp=totvalue) |> 
+  pivot_wider(names_from = src, values_from = comp) |> 
+  mutate(diff=analysis - study,
+         pdiff=diff / study)
+
+# totals: 
+# mrt1and2 good
+# mtaaid good
+# urban is not in the study??
+# sut_mmtoa is close enough -- I'm $6m greater, 0.9%
+# franchise I am $11m lower, 25%
+# surcharge I am $12m higher, 1.5%
+# pbt I am 0.8% higher (assuming mmtoa is combined)
+# pmt I am $321m lower, or 19%, think MTA includes pmt offset
+
+count(comp1, vname)
+# allocpc, ipcmta
+comp1 |> 
+  filter(vname=="fransurcharge_mmtoa") |> 
+  select(vname, src, uniname, unifips, comp=ipcmta) |> 
+  pivot_wider(names_from = src, values_from = comp) |> 
+  mutate(diff=analysis - study,
+         pdiff=diff / study)
+
+# per capita
+# mrt1and2 identical
+# franchise_mmtoa indexed - my nyc much higher, counties lower -- allocation
+# fransurcharge_mmtoa indexed - my nyc much higher, counties lower -- allocation
+# mtaaid - my NYC 27% higher, counties much lower
+# pbt - my nyc 7% lower, most counties higher, Rockland much lower
+# pmt indexed my nyc higher, counties lower
+# sut my nyc 5% higher, Westchester, Putname, Orange, Dutches, considerably lower
+
+# priorities for allocation
+#   pbt BIG
+#   sut BIG
+#   fransurcharge_mmtoa BIG
+#   mtaaid
 
 
