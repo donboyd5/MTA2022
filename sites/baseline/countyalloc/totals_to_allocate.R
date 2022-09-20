@@ -1,4 +1,6 @@
 
+# run this code BEFORE creating allocators -- 
+
 
 # libraries and constants -------------------------------------------------
 
@@ -8,210 +10,169 @@ source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
 
-# get totals --------------------------------------------------------------
+# constants ---------------------------------------------------------------
 
 # fn <- "090922 Subsidies for DB.xlsx"
-fn <- "090922 Subsidies for DB_djb.xlsx"
+alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
 
-df1 <- read_excel(here::here("data", "mta", fn),
+
+# get raw allocation data; will use for (1) value-based allocators, (2) alloc totals for details, and (3) for splits --------
+
+alloc_raw1 <- read_excel(here::here("data", "mta", alloctotals_fn),
                   sheet="subsidies_djb",
-                  range="A9:u116")
-glimpse(df1)
-df1
-  	  
-idvars <- c("rownum", "rowtype", "revgroup", "revitem", "location", "columnid")
-df2 <- df1 |> 
-  select(-`...14`) |> 
-  pivot_longer(-all_of(idvars)) |> 
-  separate(name, into=c("measure", "year")) |> 
+                  range="A9:V116")
+
+alloc_raw2 <- alloc_raw1 |> 
+  pivot_longer(cols=c(starts_with("accrual"), starts_with("cash")),
+               names_to = "measyear") |> 
+  separate(measyear, into=c("measure", "year")) |> 
   mutate(year=as.integer(year),
-         value=as.numeric(value))
-df2  
+         value=as.numeric(value)) |> 
+  filter(!is.na(year)) |> 
+  select(rownum, rowtype, revgroup, revitem, location, vname, columnid, measure, year, value)
+glimpse(alloc_raw2)
+count(alloc_raw2, rownum) |> ht()
+count(alloc_raw2, measure)
+count(alloc_raw2, year)
+count(alloc_raw2, location)
+count(alloc_raw2, vname)
 
-df2 |> 
-  filter(year==2016, measure=="accrual") |> 
-  group_by(revgroup, rowtype) |> 
-  summarise(n=n(), value=sum(value, na.rm = TRUE))
-
-saveRDS(df2, here::here("data", "toallocate_raw.rds"))  
-
-# create collapsed NYC records
-toallocate_raw <- readRDS(here::here("data", "toallocate_raw.rds"))
-nyc <- toallocate_raw |> 
-  filter(revitem %in% c("nycxrichmond", "Richmond")) |> 
-  arrange(measure, year, revgroup, revitem) |> 
-  group_by(measure, year, revgroup, location) |> 
-  summarise(value=sum(value), rownum=mean(rownum), .groups="drop") |> 
-  mutate(revitem="NYC", rowtype="detail")
-
-toallocate <- toallocate_raw |>
-  bind_rows(nyc) |>
-  # put group totals on each record
-  group_by(measure, year, revgroup, rowtype) |> 
-  mutate(groupsum=sum(value, na.rm=TRUE),
-         groupsum=ifelse(groupsum==0, NA_real_, groupsum),
-         valshare=ifelse(revgroup %in% c("mrt1", "mrt2") &
-                           rowtype=="detail",
-                         value / groupsum,
-                         NA_real_)) |> 
-  ungroup() |> 
-  arrange(measure, year, revgroup, rowtype, rownum)
-saveRDS(toallocate, here::here("data", "toallocate.rds"))  
-
-# toallocate |> filter(measure=="accrual", year==2019, revgroup=="mrt1", rowtype=="detail")
+saveRDS(alloc_raw2, here::here("data", "allocation", "alloc_raw.rds"))
 
 
-# get recipes -------------------------------------------------------------
-fn <- "090922 Subsidies for DB_djb.xlsx"
+# get and save base totals and split values to allocate --------------------------------------------------------------
+## get base total subsidies data from mta (before splitting mmtoa and mtaaid) ----
+alloc_raw <- readRDS(here::here("data", "allocation", "alloc_raw.rds"))  
+glimpse(alloc_raw)
 
-recipes1 <- read_excel(here::here("data", "mta", fn),
-                  sheet="recipes",
-                  range="A2:F109")
+# base totals do not have mmtoa and mtaaid split into details
+base_totals <- alloc_raw |> 
+  filter(!is.na(vname)) |> 
+  select(vname, columnid, measure, year, value) |> 
+  filter(year %in% 2016:2022)
+base_totals  
 
-saveRDS(recipes1, here::here("data", "recipes.rds"))
+base_totals |> 
+  filter(year==2021, measure=="accrual")
 
-
-
-# set up allocation -------------------------------------------------------
-toallocate <- readRDS(here::here("data", "toallocate.rds"))
-recipes <- readRDS(here::here("data", "recipes.rds"))
-allocators <- readRDS(here::here("data", "allocators.rds"))
-
-
-
-# prepare allocators ------------------------------------------------------
-glimpse(allocators)
-count(allocators, unifips, uniname)
-alloc1 <- allocators |> 
-  filter(unifips %in% c(constants$mtafips, constants$totnycfips),
-         year %in% 2016:2022,
-         allocator != "density")
-count(alloc1, unifips, uniname)
-
-allocnyc <- alloc1 |> 
-  filter(unifips %in% c(constants$nycfips, constants$totnycfips)) |> # get the NYC totals as well as boros
-  # drop details if we have the nyc total
-  group_by(allocator, year, yeartype, src) |> 
-  filter(!constants$totnycfips %in% unifips) |> 
-  summarise(n=n(), value=sum(value), .groups="drop") |> 
-  mutate(unifips="3651000", uniname="New York City") |> 
-  select(-n) # drop n after inspecting it
-
-alloc2 <- alloc1 |> 
-  filter(!unifips %in% constants$nycfips) |> 
-  bind_rows(allocnyc)
-count(alloc2, unifips, uniname)
-
-count(alloc2, year)
-
-# fill in missing values by carrying forward
-stubs <- alloc2 |> 
-  select(uniname, unifips, allocator, src, yeartype) |> 
-  distinct() |> 
-  expand_grid(year=2016:2022)
-
-alloc3 <- stubs |> 
-  left_join(alloc2, by = c("uniname", "unifips", "allocator", "src", "yeartype", "year")) |> 
-  mutate(missval=ifelse(is.na(value), TRUE, FALSE))
-summary(alloc3)
-
-alloc4 <- alloc3 |> 
-  group_by(uniname, unifips, allocator) |> 
-  arrange(year) |> 
-  fill(value, .direction="down") |> 
-  ungroup() |> 
-  arrange(uniname, unifips, allocator, year)
-
-alloc5 <- alloc4 |> 
-  rename(allocval=value) |> 
-  group_by(allocator, year) |> 
-  mutate(allocshare=allocval / sum(allocval))
-summary(alloc5)  
+base_totals |> select(vname) |> distinct()
+saveRDS(base_totals, here::here("data", "allocation", "base_totals.rds"))  
 
 
-# prepare final allocation data ----------------------------------------------------------
-count(alloc4, uniname, unifips, allocator) |> filter(n!=7)
-count(alloc4, allocator)
+## get mmtoa and mtaaid splits from my sheet in same file --------------------------
 
-# prepare allocation ------------------------------------------------------
-prep1 <- recipes |> 
-  filter(!is.na(recipe1)) |> 
-  select(rownum, allocator=recipe1) |> 
-  left_join(toallocate, by="rownum") |> 
-  unite(rev, revgroup, revitem, remove=FALSE)
-count(prep1, allocator)
+splits1 <- read_excel(here::here("data", "mta", alloctotals_fn),
+                  sheet="MMTOA_MTAAid",
+                  range="B7:M17")
 
+# calculate the shares
+splits2 <- splits1 |> 
+  select(-c(suthh_mmtoa, suttot_mmtoa)) |>  # we do NOT want to allocate these
+  mutate(yearend=as.integer(yearend),
+         across(contains("_mmtoa") & !contains("total"),
+                ~ .x / total_mmtoa),
+         across(contains("_mtaaid") & !contains("total"),
+                ~ .x / total_mtaaid))
+splits2
 
-allocation1 <- prep1 |> 
-  mutate(allocator=ifelse(allocator=="gas", "pop", allocator)) |> 
-  left_join(alloc5, by = c("allocator", "year")) |> 
-  mutate(allocshare=ifelse(!is.na(valshare), valshare, allocshare))
-glimpse(allocation1)
+splits3 <- splits2 |> 
+  rename(year=yearend) |> 
+  select(!contains("total")) |> 
+  pivot_longer(-year, names_to = "vname", values_to = "fundshare") |> 
+  mutate(revgroup=case_when(str_detect(vname, "mmtoa") ~ "mmtoa",
+                            str_detect(vname, "mtaaid") ~ "mtaaid",
+                            TRUE ~ "ERROR"))
 
-allocation2 <- allocation1 |> 
-  mutate(allocated=value * allocshare)
+# check
+splits3 |> 
+  group_by(year, revgroup) |> 
+  summarise(sum=sum(fundshare))
 
-allocation2 |> 
-  filter(measure=="accrual", year==2016, revitem=="mmtoa") |> 
-  select(rownum, unifips, uniname, allocator, value, allocshare, allocated)
-
-
-
-
-
-# OLD BELOW HERE ----------
-# locations <- c("NYC-LIRR", "NYC-M/N", "NASSAU", "SUFFOLK", "WESTCHESTER", "PUTNAM", "DUTCHESS", "ORANGE", "ROCKLAND")
-df2 <- df1 |> 
-  setNames(c("idcolumn", paste0("accrual_", 2016:2022), "junk", paste0("cash_", 2016:2022))) |> 
-  select(-junk) |>
-  filter(!is.na(idcolumn)) |> 
-  mutate(rn=row_number(),
-         revcode=as.numeric(str_sub(idcolumn, 1, 6)),
-         revname=str_remove(idcolumn, paste0(revcode, " - ")),
-         item=case_when(str_detect(revname, "NYC-LIRR") ~ "NYC-LIRR",
-                            str_detect(revname, "NYC-M/N") ~ "NYC-M/N",
-                            str_detect(revname, "RICHMOND") ~ "Richmond",
-                            str_detect(revname, "NASSAU") ~ "Nassau",
-                            str_detect(revname, "SUFFOLK") ~ "Suffolk",
-                            str_detect(revname, "WESTCHESTER") ~ "Westchester",
-                            str_detect(revname, "PUTNAM") ~ "Putnam",
-                            str_detect(revname, "DUTCHESS") ~ "Dutchess",
-                            str_detect(revname, "ORANGE") ~ "Orange",
-                            str_detect(revname, "ROCKLAND") ~ "Rockland",
-                            TRUE ~ NA_character_),
-         revname=str_remove(revname, paste0(" - ", str_to_upper(item))),
-         revgroup=case_when(str_detect(idcolumn, "MMTOA") ~ "mmtoa",
-                            str_detect(idcolumn, "PBT") ~ "pbt",
-                            str_detect(idcolumn, "MRT 1") | str_detect(idcolumn, "MRT-1") ~ "mrt1",
-                            str_detect(idcolumn, "MRT 2") | str_detect(idcolumn, "MRT-2") ~ "mrt2",
-                            str_detect(idcolumn, "PBT") ~ "PBT",
-                            TRUE ~ NA_character_))
-
-df2 |> select(rn, idcolumn, revcode, revname, item)
+saveRDS(splits3, here::here("data", "allocation", "taxsplits.rds"))  
 
 
-# 440001 - STATION MAINT - NYC-LIRR
-# 440002 - STATION MAINT - NYC-M/N
-# 440003 - STATION MAINT - NASSAU
-# 440004 - STATION MAINT - SUFFOLK
-# 440005 - STATION MAINT - WESTCHESTER
-# 440006 - STATION MAINT - PUTNAM
-# 440007 - STATION MAINT - DUTCHESS
-# 440008 - STATION MAINT - ORANGE
-# 440009 - STATION MAINT - ROCKLAND
+## split the allocation totals for mmtoa and mtaaid into individual taxes -----------------------
+base_totals <- readRDS(here::here("data", "allocation", "base_totals.rds"))
+taxsplits <- readRDS(here::here("data", "allocation", "taxsplits.rds"))  
 
 
-df3 <- df2 |> 
-  mutate(location=case_when(str_detect_any(revname, locations) ~ "xxx",
-                            TRUE ~ NA_character_))
+# define the totals we want to split into individual taxes
+splitvars <- c("mmtoa", "mtaaid")
 
-df3 <- df2 |> 
-  pivot_longer(-revcode) |> 
-  separate(name, into=c("measure", "year")) |> 
-  mutate(year=as.integer(year)) |> 
-  filter(value != "YearTotal") |> 
-  mutate(value=as.numeric(value))
-glimpse(df2)
-tmp <- count(df2, revcode)
+split_totals1 <- base_totals |>
+  # get the totals, all years, and create allocated totals
+  filter(vname %in% splitvars) |> 
+  rename(revgroup=vname, totvalue=value) |> 
+  # inner join to get the splits for each total
+  inner_join(taxsplits, by = c("revgroup", "year")) |> 
+  mutate(value=totvalue * fundshare)
+# do some checks
+split_totals1
+count(split_totals1, revgroup, vname)
+count(split_totals1, revgroup, columnid)
+split_totals1 |> 
+  group_by(revgroup, year, measure) |> 
+  summarise(totvalue=first(totvalue), sumvalue=sum(value)) |> 
+  mutate(diff=sumvalue - totvalue) |> 
+  filter(diff != 0)
 
-df3 <- 
+## save the split totals for later use ----
+saveRDS(split_totals1, here::here("data", "mta", "split_totals.rds"))
+
+## combine split totals with base totals values ----
+alloc_detail <- bind_rows(base_totals,
+                          split_totals1 |> select(vname, columnid, measure, year, value))
+
+saveRDS(alloc_detail, here::here("data", "mta", "alloc_detail.rds"))
+
+
+# save value-based allocators (mrt1, mrt2, urban, ...) to a file, with unicodes -------------------------------
+## mrt1, mrt2, urban  ----
+alloc_raw <- readRDS(here::here("data", "allocation", "alloc_raw.rds"))    
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+
+values_mrturban1 <- alloc_raw |> 
+  select(-vname) |> 
+  filter(rowtype %in% c("detail", "subdetail"),
+         revgroup %in% c("mrt1", "mrt2", "urban")) |>
+  mutate(location=case_when(location=="NYC" ~"New York City",
+                            location=="Richmond" ~ "Staten Island",
+                            TRUE ~ location)) |> 
+  rename(uniname=location) |> 
+  left_join(xwalkny |> select(unifips, uniname), by = "uniname")
+glimpse(values_mrturban1)
+count(values_mrturban1, rownum)
+count(values_mrturban1, unifips, uniname)
+count(values_mrturban1, rowtype, revgroup)
+
+# we want unifips, uniname, year, src, yeartype, name, value
+values_mrturban2 <- values_mrturban1 |> 
+  mutate(src=paste0("mta_", measure),
+         yeartype="cy",
+         name=paste0(revgroup, "_value_", measure)) |> 
+  select(unifips, uniname, year, src, yeartype, name, value)
+
+
+## now taxicab_value autorental_value, which are nyc only ----
+values_splits1 <- readRDS(here::here("data", "mta", "split_totals.rds"))
+
+# we want unifips, uniname, year, src, yeartype, name, value
+count(values_splits1, vname)
+values_splits2 <- values_splits1 |> 
+  filter(str_detect_any(vname, c("autorental", "taxicab"))) |> 
+  mutate(unifips="3651000",
+         uniname="New York City",
+         src="mta_ais_sharing",
+         yeartype="cy",
+         name=vname) |>
+  select(unifips, uniname, year, src, yeartype, name, value)
+
+## rationalize, combine, and save the two sets of value-based data ----
+mta_alloc <- bind_rows(values_mrturban2, values_splits2)
+saveRDS(mta_alloc, here::here("data", "mta", "mta_alloc.rds"))    
+  
+
+
+
+
+

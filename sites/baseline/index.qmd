@@ -2,9 +2,11 @@
 
 ## September 16, 2022
 
--   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
+-   County allocation of baseline tax revenue - status and next steps(countyalloc/county_allocation.qmd)
 
--   Internet marketplace - can we measure the true amount? how does it compare? what about the growth rate?
+-   To Come: Internet marketplace - can we measure the true amount? how does it compare? what about the growth rate?
+
+-   Next call
 
 -   Contract status
 
