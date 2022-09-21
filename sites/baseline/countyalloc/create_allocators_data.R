@@ -43,6 +43,7 @@ pmt1 <- readRDS(here::here("data", "pmtbase.rds"))
 
 mft1 <- readRDS(here::here("data", "dtf", "mft.rds"))
 mrt1 <- readRDS(here::here("data", "dtf", "mrt.rds"))
+qcew1 <- readRDS(here::here("data", "qcew", "qcew_alloc.rds"))
 rett1 <- readRDS(here::here("data", "dtf", "rett.rds"))
 sut1 <- readRDS(here::here("data", "dtf", "sut.rds"))
 tsp1 <- readRDS(here::here("data", "dtf", "salesyear", "tsp_alloc.rds"))
@@ -66,6 +67,8 @@ glimpse(censuspop)
 summary(censuspop)
 count(censuspop, unifips, uniname)
 count(censuspop, name)
+
+
 
 ## mta values ----
 mta <- mta1
@@ -224,15 +227,79 @@ tsp <- tsp1 |>
 # mtamrt <- mtamrt5
 
 
+## nyc-only allocation dummy -----------------------------------------------
+# this dummy allows us to take a tax and allocte it entirely to nyc
+nyc <- tibble(year=2016:2022,
+               unifips="3651000",
+               uniname="New York City",
+               src="constructed",
+               yeartype="any",
+               name="nyconly",
+               value=100)
+nyc
+
+
 ## qcew allocation info ----------------------------------------------------
+# get wtd wages for surcharge, and tpu wages for utility franchise tax
+qcew1
 
-qcew1 <- readRDS(here::here("data", "qcew", "qcew_alloc.rds"))
-
-qcew <- qcew1 |> 
-  select(unifips, uniname, year, name, value=wtdqcew) |> 
-  mutate(name=paste0("qcew_", name),
+qcew <- qcew1 |>
+  select(unifips, uniname, year, type=name, private, tpu, insure, privxtpu, surchwtd=wtdqcew) |> 
+  pivot_longer(cols=c(private, tpu, insure, privxtpu, surchwtd)) |> 
+  mutate(prefix="qcew",
          src="qcew",
-         yeartype="cy")
+         yeartype="cy") |> 
+  unite(name, prefix, name, type)
+qcew
+
+## vehicle license and registration values ----
+# here are percentage shares taken from the 2019 MTA study of the 2016 tax year
+# from the file called "Ratio Calculations.xlsx", tab called "MTA Aid"
+
+vl <- read_csv(
+  "area, vlicenses_2011, vlicenses_2016
+nyc,	49.41,	50.79
+nas,	14.48,	14.08
+suf,	15.89,	15.43
+west,	9.36,	9.17
+put,	1.12,	1.10
+dut,	3.08,	2.96
+rock,	3.01,	2.93
+org,	3.65, 3.54")
+
+vr <- read_csv(
+  "area, vregistrations_2011, vregistrations_2016
+nyc,	34.90,	36.12
+nas,	17.31,	17.00
+suf,	21.59,	21.33
+west,	11.56,	11.31
+put,	1.60,	1.54
+dut,	4.26,	4.10
+rock,	3.76,	3.69
+org,	5.03,	4.92
+")
+
+anames <- c("nyc", "nas", "suf", "west", "put", "dut", "rock", "org")
+unames <- c("New York City", "Nassau", "Suffolk", "Westchester", "Putnam",
+            "Dutchess", "Rockland", "Orange")
+cbind(anames, unames)
+
+vlicregs1 <- left_join(vl, vr, by="area") |> 
+  mutate(uniname=factor(area, levels=anames, labels=unames)) |> 
+  left_join(xwalkny |> select(unifips, uniname), by="uniname")
+vlicregs1
+
+vlicregs2 <- vlicregs1 |> 
+  select(-area) |> 
+  mutate(src="mtastudy", yeartype="cy") |> 
+  pivot_longer(cols=starts_with("v"), names_to = "vname") |> 
+  separate(vname, c("name", "year")) |> 
+  mutate(year=as.integer(year))
+
+vlicregs <- vlicregs2 |> 
+  pivot_wider() |> 
+  mutate(vlicregs=vlicenses + vregistrations) |> 
+  pivot_longer(cols=starts_with("v"))
 
 
 # stack and save the allocators files and drop file-specific area names ----
@@ -244,12 +311,13 @@ names(qcew)
 names(rett)
 names(sut)
 names(tsp)
+names(vlicregs)
 # names(mtamrt)
 
 keepvars <- c("unifips", "uniname", "name", "year", "yeartype", "src", "value")
 
 # don't bother with mrt because we'll use values from mta
-stack <- bind_rows(censuspop, mft, mta, pmt, qcew, rett, sut, tsp) |> 
+stack <- bind_rows(censuspop, mft, mta, nyc, pmt, qcew, rett, sut, tsp, vlicregs) |> 
   select(all_of(keepvars)) |> 
   filter(year %in% 2015:2021) |> 
   rename(allocator=name)
@@ -270,6 +338,8 @@ glimpse(allocators)
 count(allocators, unifips, uniname)
 count(allocators, allocator)
 
+## collapse nyc counties into an nyc record ----
+## get the info needed for collapsing
 alloc1 <- allocators |> 
   left_join(xwalkny |> select(unifips, mta, nyc, nyccollapse), by = "unifips") |> 
   filter(mta | nyc | nyccollapse, # unifips %in% c(constants$mtafips, constants$totnycfips, "36xx2"),
@@ -277,7 +347,7 @@ alloc1 <- allocators |>
          allocator != "density")
 count(alloc1, unifips, uniname)
 
-# collapse nyc
+# create the collapsed nyc record
 allocnyc <- alloc1 |> 
   filter(nyc | nyccollapse) |> # get the NYC totals as well as boros
   # drop details if we have the nyc total
@@ -286,9 +356,9 @@ allocnyc <- alloc1 |>
   summarise(n=n(), value=sum(value), .groups="drop") |> 
   mutate(unifips="3651000", uniname="New York City") |> 
   select(-n) # drop n after inspecting it
-
 # allocnyc |> select(unifips, uniname) |> distinct()
 
+# add the collapsed nyc record to the main data and remove nyc county records
 alloc2 <- alloc1 |> 
   filter(!unifips %in% constants$nycfips, uniname!="nycxrichmond") |> 
   bind_rows(allocnyc) |> 
@@ -299,13 +369,15 @@ count(alloc2, unifips, uniname)
 count(alloc2, year)
 count(alloc2, allocator)
 
-# fill in missing values by carrying forward and also carrying backward (rett, sut to 2016)
+## fill in missing values ----
+# by carrying forward and also carrying backward (rett, sut to 2016)
 # , allocator, src, yeartype
 stubs <- alloc2 |> 
   select(uniname, unifips) |> 
   distinct() |> 
   expand_grid(year=2016:2022, alloc2 |> select(allocator, src, yeartype) |> distinct())
 stubs |> filter(str_detect(allocator, "urban"))
+stubs |> filter(str_detect(allocator, "nyconly"))
 summary(stubs)
 
 alloc3 <- stubs |> 
@@ -316,7 +388,7 @@ summary(alloc3)
 
 
 # nyconly <- c("urban_value")
-nyconly <- c("urban_value", "autorental_mtaaid", "taxicab_mtaaid")
+nyconly <- c("urban_value", "autorental_mtaaid", "taxicab_mtaaid", "nyconly")
 alloc4 <- alloc3 |> 
   # set counties to zero if they cannot have a value
   mutate(value=ifelse(str_detect_any(allocator, nyconly) &
@@ -362,61 +434,6 @@ alloc5 |> filter(is.na(allocshare))
 
 saveRDS(alloc5, here::here("data", "allocation", "allocators_mta.rds"))
 
-
-# hokey surcharge allocation, used up above ----
-## get tax weightings to apply to employment or something ----
-alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
-
-scweights <- read_excel(here::here("data", "mta", alloctotals_fn),
-                        sheet = "surcharge",
-                        range="A25:E42") |> 
-  filter(!is.na(year)) |> 
-  select(-wsum)
-scweights
-
-qdata1 <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
-count(qdata1, own, ownf)
-
-qdata2 <- qdata1 |> 
-  filter(own==5)
-
-# we want 384 observations
-totpriv <- qdata2 |> 
-  filter(agglev==71, ind=="10") |> 
-  mutate(igroup="private")
-
-tpu <- qdata2 |> 
-  filter(agglev==73, ind=="1021") |> 
-  mutate(igroup="tpu")
-
-insure <- qdata2 |> 
-  filter(agglev==75, ind=="524") |> 
-  mutate(igroup="insure")
-
-qcew_alloc1 <- bind_rows(totpriv, tpu, insure) |> 
-  rename(unifips=fips) |> 
-  left_join(xwalkny |> select(unifips, uniname), by = "unifips") |> 
-  select(unifips, uniname, year, igroup, emp, wages) |> 
-  pivot_longer(cols=c(emp, wages)) |> 
-  pivot_wider(names_from = igroup) |> 
-  mutate(privxtpu=private - tpu,
-         sumvals=tpu + privxtpu + insure)
-
-qcew_alloc2 <- qcew_alloc1 |> 
-  right_join(scweights, by = "year") |> 
-  mutate(wtdqcew=tpu * wtpu + privxtpu * wprivxtpu + insure * winsure)
-
-saveRDS(qcew_alloc2, here::here("data", "qcew", "qcew_alloc.rds"))
-  
-
-count(qcew_alloc1, unifips, uniname)
-
-count(qdata2, agglev, agglevf)
-# we need total private; tpu; insurance
-
-tmp <- qdata2 |> 
-  filter(agglev==75) |> 
-  count(ind, indf)
 
 
 # tmp <- Sys.getenv()
