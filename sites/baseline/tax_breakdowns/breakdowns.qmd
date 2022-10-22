@@ -1,0 +1,198 @@
+# Tax breakdowns
+
+## Goals
+
+For selected possible tax increases develop breakdowns that would be helpful for (1) discussion with elected officials and (2) DOB's review.
+
+Focus at the moment on PMT and sales tax.
+
+## Principles of a good tax *system*
+
+What should policymakers and DOB care about? First, they should care about traditional principles of good tax policy. (Examples: [1](https://taxfoundation.org/principles/), [2](https://www.ncsl.org/research/fiscal-policy/principles-of-a-high-quality-state-revenue-system.aspx), [3](https://itep.org/tax-principles-building-block-of-a-sound-tax-system/), [4](https://www.journalofaccountancy.com/issues/2002/feb/guidingprinciplesofgoodtaxpolicy.html).) Important commonly accepted principles:
+
+-   **Adequacy:** stability, predictability, and sufficiency
+
+-   **Neutrality:** neither encourage nor discourage personal or business decisions; not favor or punish specific industries, activities, and products (there can be reasons for special treatment - e.g., cigarette taxes)
+
+-   **Equity:**
+
+    -   *Horizontal equity:* similarly situated taxpayers should be taxed similarly -- e.g., similar incomes taxed similarly under an income tax, similar goods under a sales tax
+
+    -   *Vertical equity:* degree of progressivity or regressivity. "Right" amount of progressivity is in the eye of the beholder. Hard to measure: *conceptual* issues (e.g., shifting; current income vs. lifetime income), *data* issues. Important to consider combined impact of multiple taxes.
+
+-   **Simplicity:** easy to understand and comply with, easy to administer
+
+-   **Balance:** no tax satisfies all principles; important to consider tax system as a whole.
+
+Taxes with broad bases and low rates satisfy many of these principles.
+
+Most tax systems violate some of these principles.
+
+-   There are tradeoffs across principles. For example, highly progressive taxes (vertical equity) may also be highly volatile (adequacy).
+
+-   Often, elected officials *want* to violate some principles - encourage certain kinds of activity, favor some kinds of taxpayers.
+
+[Table](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=1253614746).
+
+![](images/paste-AB9EFA02.png)
+
+Policymakers particularly interested in data on neutrality and equity:
+
+-   Geographic impacts - are some areas hit harder than others? (e.g., per-capita, or relative to income)
+
+-   Businesses
+
+    -   Are some industries hit harder than others?
+
+    -   Small businesses vs. larger businesses?
+
+-   Households
+
+    -   Are lower-income households affected differently than upper-income?
+
+    -   Married vs. other family structures?
+
+    -   old vs. young
+
+    -   race and ethnicity
+
+Sometimes we can know where to put our effort based on the structure of the tax in question.
+
+## Payroll mobility tax increase
+
+Most likely of interest (in addition to geography):
+
+-   Size of employer
+
+-   Industry of employer
+
+Structure: small business exclusion; tax rate varies by employer size for the smallest non-excluded employers.
+
+```{r}
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+
+```
+
+### Size of employer
+
+[Statistics of U.S. Businesses (SUSB)](https://www.census.gov/programs-surveys/susb/about.html) data on:
+
+-   \# firms, establishments, employment, and payroll by major industry by county,
+
+-   by size of firm
+
+    -   \<20 employees (probably mostly excluded from tax
+
+    -   20-99 employees
+
+    -   100-499 employees
+
+    -   500+ employees
+
+The following table gives some insight into possible impacts by employer size. Next step would be to allocate the tax by employer size, taking into consideration small-employer exclusion and lower rate.
+
+```{r}
+#| include: true
+susb <- readRDS(here::here("data", "susb", "wagesize.rds"))
+
+susb |> 
+  select(-pctelt20, -fips, -stname) |> 
+  mutate(across(starts_with("e"), ~ .x / total)) |> 
+  arrange(desc(e500p)) |> 
+  gt() |> 
+  tab_header(
+      title = "Wages by employer enterprise size as % of total",
+      subtitle = "Source: Statistics of U.S. Businesses (SUSB), 2019"
+  ) |> 
+  tab_spanner(columns = starts_with("e"),
+                    label="% share of total wages") |> 
+  cols_label(
+    county="County",
+    total="Total wages ($ billions)",
+    elt20="< 20",
+    e2099="20-99",
+    e100499="100 - <500",
+    e500p="500+"
+  ) |> 
+  fmt_percent(columns=starts_with("e"), decimals=1) |> 
+  fmt_number(columns=total, decimals=1, scale=1e-6)
+  
+
+
+```
+
+```{r}
+#| include: false
+susb <- readRDS(here::here("data", "susb", "wagesize.rds"))
+pmt1 <- readRDS(here::here("data", "pmtbase.rds"))
+pmt1 |> filter(year==2020) |> pull(area)
+ns(pmt1)
+
+pmt2 <- pmt1 |>
+  rename(unifips=fips) |> 
+  left_join(xwalkny |> select(unifips, uniname), by="unifips") |> 
+  # get only the vars we are 100% sure we might ever use for allocation
+  select(unifips, uniname, year, 
+         earnings_bea, wages_bea, 
+         wages_pmt, nonwage_pmt, taxbase_pmt) |> 
+  mutate(src="pmtbase",
+         yeartype="cy") |>
+  pivot_longer(cols=-c(unifips, uniname, year, yeartype, src))
+
+```
+
+```{r}
+#| include: false
+alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
+
+
+res <- readRDS(here::here("results", "allocation_results.rds"))
+
+recipes <- read_excel(here::here("data", "mta", alloctotals_fn),
+                      sheet="recipes",
+                      range="A4:D23") |> 
+  filter(!is.na(vname))
+
+mtashares <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
+
+# create a separate tibble of populations to make it easy for mta
+pop <- res |> 
+  select(geo_order, unifips, uniname, year, pop) |> 
+  distinct() |> 
+  arrange(geo_order, uniname, year) |> 
+  select(-geo_order)
+count(pop, unifips, uniname)
+
+base_tabdata <- res |> 
+  filter(!is.na(ftottax_summary)) |> 
+  select(recipe, measure, year, geo_order, ftottax_summary, unifips, uniname,
+         allocated, allocpc, ipcmta, pctofmta) |> 
+  pivot_longer(c(allocated, allocpc, ipcmta, pctofmta)) |> 
+  arrange(geo_order, uniname, ftottax_summary) |> 
+  pivot_wider(names_from = ftottax_summary)
+
+```
+
+### Industry of employer
+
+BLS [Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/) is main data source. Fairly straightforward, should have ready by beginning of week.
+
+## Sales tax increase
+
+Most likely of interest (in addition to geography):
+
+-   Impacts by income range
+
+Primary data source will be [Consumer Expenditure Survey](https://www.bls.gov/cex/) - regional.
+
+-   It includes much consumption that is not subject to sales tax.
+
+-   Need to crosswalk consumption categories to sales taxability.
+
+-   Looking for past studies of sales tax in NYC.

@@ -6,55 +6,6 @@ editor_options:
 
 # County allocation
 
-## Status
-
--   Have reviewed past reports on allocation, including MTA 2019 internal analysis [@metropolitantransportationauthorityMTACountyPayment2019], CBC NYC-vs-elsewhere analysis [@citizensbudgetcommissionHowMuchCity2020], Rockefeller Institute allocation of NYS revenue and spending[@robertwardGivingGettingRegional2011].
-
--   Taxes to allocate -- should have values for 2015-2022?
-
-    -   Preliminary values for taxes to allocate, most items 2015-2021.
-
-    -   **It is REALLY important that MTA review this to be sure it reflects the taxes we should include, and help fill any holes.**
-
-    -   If time permits I will upload the relevant spreadsheet to Google sheets before the meeting. If not, I'll email an Excel file or upload it to Google sheets at meeting time. Either way, we'll want to look at it in the meeting and develop a plan to help complete it over the next few days. I don't believe it will be a big job.
-
--   Have constructed an allocators database that includes, for most of 2015-2021, for most MCTD counties (including NYC counties) and for NYC.
-
-    -   Database includes the following variables:
-
-        -   Census population
-
-        -   BEA earnings, nonwage data
-
-        -   QCEW wages and employment by industry
-
-        -   My estimates of PMT base, which incorporate BEA and QCEW data
-
-        -   certain tax information that can be used to directly allocate taxes, particularly mortgage, real estate transfer, and sales tax
-
-        -   taxable sales data from DTF
-
-    -   Still to do for this database
-
-        -   fill a few holes in data (e.g., population for 2020 and 2021)
-
-        -   get gasoline sales data from NYSERDA
-
-        -   registrations data
-
-        -   possibly get some of the unusual data items MTA used that may not be essential for early analysis of revenue (e.g., enplanements and electricity consumption)
-
-        -   additional QC
-
--   Soon (by next week, preliminarily) this will allow us to:
-
-    -   We can have "good enough" estimates quite quickly and make minor improvements as time permits and needs dictate
-
-    -   Allocate taxes to counties under a preferred method, for (almost) any of 2015-2021; possibly add estimates for 2022
-
-    -   Examine how county tax shares or taxes per capita (relative) have changed over time
-
-    -   Examine implications of different allocation methods (e.g., method used by MTA in 2019 vs. method now)
 
 ## Questions for MTA
 
@@ -62,159 +13,68 @@ editor_options:
 
 -   Reminder that it would be good to have any spreadsheets you can provide that underlie the MTA 2019 analysis [@metropolitantransportationauthorityMTACountyPayment2019]
 
-<!-- ## Sum of taxes -->
-
-<!-- ## Payroll mobility tax -->
-
-```{r}
-#| label: getdata
-#| eval: false
-#| echo: false
-
-allocdir <- here::here("sites", "baseline", "countyalloc")
-
-
-alloc1 <- readRDS(here::here("data", "allocators.rds"))
-alloc2 <- alloc1 |> 
-  filter(unifips %in% c(constants$mtafips, constants$totnycfips),
-         year %in% 2015:2020,
-         allocator !="density")
-count(alloc2, allocator)
-count(alloc2, year)
-count(alloc2, uniname, unifips)
-
-alloc2 |> 
-  filter(unifips=="36005") |> 
-  select(allocator, year, value) |> 
-  pivot_wider(names_from = year)
-
-# TEMPORARY: extend pop to 2020
-alloc3 <- alloc2 |> 
-  bind_rows(alloc2 |> 
-              filter(year==2019, allocator=="pop") |> 
-              mutate(year=2020))
-alloc3 |> 
-  filter(unifips=="36005") |> 
-  select(allocator, year, value) |> 
-  pivot_wider(names_from = year)
-
-# are there any allocators that are available for a regular county but not a NYC county??
-alloc3  |> 
-  filter(unifips %in% c("36027", "36005")) |> 
-  select(allocator, unifips, uniname, year, value) |> 
-  arrange(allocator, uniname) |> 
-  pivot_wider(names_from = year)
-# yes some of the tax-based allocators are not -- mft
-
-pop <- alloc3 |> 
-  filter(allocator=="pop") |> 
-  group_by(unifips) |> 
-  mutate(pop2019=value[year==2019]) |> 
-  ungroup()
-pop |> filter(year==2019)
-
-cntyshares <- alloc3 |> 
-  group_by(allocator, year) |> 
-  mutate(share=value / sum(value)) |> 
-  ungroup()
-
-cntyshares |> filter(year==2015) |> 
-  arrange(allocator, unifips, uniname) |> 
-  select(allocator, unifips, uniname, value, share)
-summary(cntyshares)
-
-cntyshares |> 
-  filter(year==2020, !str_detect(allocator, "mrt"), allocator!="mft") |> 
-  select(unifips, uniname, allocator, year, share) |> 
-  pivot_wider(names_from = allocator, values_from = share)
-
-
-fn <- "county_allocation.xlsx"
-rev1 <- read_excel(path(allocdir, fn), sheet="master", range="c7:l30")
-summary(rev1)
-rev2 <- rev1 |> 
-  filter(include=="yes", !is.na(vname)) |> 
-  select(-included2019, -include, -revsource) |> 
-  pivot_longer(-vname, names_to = "year") |> 
-  mutate(year=as.integer(year))
-rev2
-count(rev2, vname)
-
-rev2 |> 
-  pivot_wider(names_from = year)
-
-recipes <- read_csv(
-"run, vname, allocator
-pop1, pmt, pop
-earnings, pmt, earnings_bea
-pmtbase, pmt, taxbase_pmt
-")
-
-# only pop has nyc -- drop nyc for now
-allocbase <- recipes |> 
-  left_join(cntyshares |> 
-              filter(unifips != constants$totnycfips) |> 
-              select(unifips, uniname, allocator, year, share), 
-            by=c("allocator"))
-
-allocbase |> 
-  filter(unifips %in% c("36081", constants$totnycfips))
-
-allocbase |> 
-  pivot_wider()
-
-
-shares |> 
-  filter(year==2019)
-
-count(shares, unifips, uniname)
-shares |> filter(unifips==constants$totnycfips)
-
-
-
-```
-
 ## Preliminary allocation results
 
 ```{r}
 #| include: false
+
 source(here::here("r", "libraries.r"))
 source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
+alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
+
 res <- readRDS(here::here("results", "allocation_results.rds"))
+
+recipes <- read_excel(here::here("data", "mta", alloctotals_fn),
+                      sheet="recipes",
+                      range="A4:D23") |> 
+  filter(!is.na(vname))
+
+mtashares <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
+
+# create a separate tibble of populations to make it easy for mta
+pop <- res |> 
+  select(geo_order, unifips, uniname, year, pop) |> 
+  distinct() |> 
+  arrange(geo_order, uniname, year) |> 
+  select(-geo_order)
+count(pop, unifips, uniname)
+
+base_tabdata <- res |> 
+  filter(!is.na(ftottax_summary)) |> 
+  select(recipe, measure, year, geo_order, ftottax_summary, unifips, uniname,
+         allocated, allocpc, ipcmta, pctofmta) |> 
+  pivot_longer(c(allocated, allocpc, ipcmta, pctofmta)) |> 
+  arrange(geo_order, uniname, ftottax_summary) |> 
+  pivot_wider(names_from = ftottax_summary)
+
+
 ```
 
-### 2021 \$ millions
+### 2021 accrual, recipe1,  \$ millions
+
 
 ```{r}
 #| include: false
-tabdata <- res |> 
-  filter(rectype!="nyc") |> 
-  filter(year==2021, measure=="accrual") |> 
-  select(year, vname, unifips, uniname, allocated) |> 
-  pivot_wider(names_from = vname, values_from = allocated) |> 
-  mutate(mrt=mrt1 + mrt2) |> 
-  mutate(order=case_when(uniname=="MCTD" ~ 100,
-                       uniname=="New York City" ~ 99,
-                       uniname=="Suburban" ~ 98,
-                       TRUE ~ 1)) |> 
-  arrange(order, uniname) |> 
-  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
-         contains("mmtoa"), contains("mtaaid"), sutinternet) |> 
-  mutate(sum = rowSums(across(-c(unifips, uniname, year))))
 
-tab <- tabdata |> 
+totals2021rec1 <- base_tabdata |> 
+  filter(recipe=="recipe1", measure=="accrual", name=="allocated", year==2021) |> 
+  arrange(geo_order, uniname)
+  
+tab <- totals2021rec1 |>   
   gt() |> 
+  cols_hide(c(recipe, measure, year, geo_order, name)) |> 
   tab_header(
-    title = "Preliminary allocation to counties",
-    subtitle = "Amounts in $ millions"
+    title = "Preliminary allocation to counties, accruals, 2021",
+    subtitle = "Amounts in $ millions, recipe1 (Surcharge: wages, not employment, by industry)"
   ) |> 
   cols_label(
     pmt = "Payroll mobility tax",
-    pbt = "Petroleum business tax",
-    mrt = "Mortgage recording tax",
-    urban = "Urban tax"
+    mrt = "Mortgage recording tax (1&2)",
+    urban="Urban tax",
+    pbtall = "Petroleum business tax (incl.MMTOA)",
+    optaxsum="Sum of operating taxes to left"
   ) |> 
   # tab_spanner(
   #   label = "Nonwage items",
@@ -229,7 +89,7 @@ tab <- tabdata |>
   #   decimals=1
   # ) |>
     fmt_number(
-    columns=-c(unifips, uniname, year),
+    columns=-c(unifips, uniname, year, recipe, measure, year, geo_order, name),
     scale=1e-6,
     decimals=1
   )
@@ -243,176 +103,324 @@ tab
 
 
 
-### 2021 \$ per capita
+<!-- ### 2021 \$ per capita -->
+
+<!-- ```{r} -->
+<!-- #| include: false -->
+<!-- tabdata <- res |>  -->
+<!--   filter(rectype!="nyc") |>  -->
+<!--   filter(year==2021, measure=="accrual") |>  -->
+<!--   select(year, vname, unifips, uniname, allocpc) |>  -->
+<!--   pivot_wider(names_from = vname, values_from = allocpc) |>  -->
+<!--   mutate(mrt=mrt1 + mrt2) |>  -->
+<!--   mutate(order=case_when(uniname=="MCTD" ~ 100, -->
+<!--                          uniname=="New York City" ~ 99, -->
+<!--                          uniname=="Suburban" ~ 98, -->
+<!--                          TRUE ~ 1)) |>  -->
+<!--   arrange(order, uniname) |>  -->
+<!--   select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion, -->
+<!--          contains("mmtoa"), contains("mtaaid"), sutinternet) -->
+
+<!-- tab <- tabdata |>  -->
+<!--   gt() |>  -->
+<!--   tab_header( -->
+<!--     title = "Preliminary allocation to counties", -->
+<!--     subtitle = "Per capita amounts" -->
+<!--   ) |>  -->
+<!--   cols_label( -->
+<!--     pmt = "Payroll mobility tax", -->
+<!--     pbt = "Petroleum business tax", -->
+<!--     mrt = "Mortgage recording tax", -->
+<!--     urban = "Urban tax" -->
+<!--   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Nonwage items", -->
+<!--   #   columns = c(supp_pct, propinc_pct) -->
+<!--   #   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Wage items", -->
+<!--   #   columns = c(wk12_pct, wfed_pct, wsmall_pct) -->
+<!--   #   ) |>  -->
+<!--   # fmt_percent( -->
+<!--   #   columns=contains("pct"), -->
+<!--   #   decimals=1 -->
+<!--   # ) |> -->
+<!--     fmt_number( -->
+<!--     columns=-c(unifips, uniname, year), -->
+<!--     scale=1, -->
+<!--     decimals=1 -->
+<!--   ) -->
+
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- #| include: true -->
+<!-- tab -->
+<!-- ``` -->
+
+
+<!-- ### 2021 per capita indexed to overall MTA per-capita amount -->
+
+
+<!-- ```{r} -->
+<!-- #| include: false -->
+<!-- tabdata <- res |>  -->
+<!--   filter(rectype!="nyc") |>  -->
+<!--   filter(year==2021, measure=="accrual") |>  -->
+<!--   select(year, vname, unifips, uniname, ipcmta) |>  -->
+<!--   pivot_wider(names_from = vname, values_from = ipcmta) |>  -->
+<!--   mutate(mrt=mrt1 + mrt2) |>  -->
+<!--   mutate(order=case_when(uniname=="MCTD" ~ 100, -->
+<!--                          uniname=="New York City" ~ 99, -->
+<!--                          uniname=="Suburban" ~ 98, -->
+<!--                          TRUE ~ 1)) |>  -->
+<!--   arrange(order, uniname) |>  -->
+<!--   select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion, -->
+<!--          contains("mmtoa"), contains("mtaaid"), sutinternet) -->
+
+<!-- tab <- tabdata |>  -->
+<!--   gt() |>  -->
+<!--   tab_header( -->
+<!--     title = "Preliminary allocation to counties", -->
+<!--     subtitle = "Indexed per capita amounts" -->
+<!--   ) |>  -->
+<!--   cols_label( -->
+<!--     pmt = "Payroll mobility tax", -->
+<!--     pbt = "Petroleum business tax", -->
+<!--     mrt = "Mortgage recording tax", -->
+<!--     urban = "Urban tax" -->
+<!--   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Nonwage items", -->
+<!--   #   columns = c(supp_pct, propinc_pct) -->
+<!--   #   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Wage items", -->
+<!--   #   columns = c(wk12_pct, wfed_pct, wsmall_pct) -->
+<!--   #   ) |>  -->
+<!--   # fmt_percent( -->
+<!--   #   columns=contains("pct"), -->
+<!--   #   decimals=1 -->
+<!--   # ) |> -->
+<!--     fmt_number( -->
+<!--     columns=-c(unifips, uniname, year), -->
+<!--     scale=1, -->
+<!--     decimals=3 -->
+<!--   ) -->
+
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- #| include: true -->
+<!-- tab -->
+<!-- ``` -->
+
+
+
+<!-- ### 2021 amounts as % of MTA total -->
+
+<!-- ```{r} -->
+<!-- #| include: false -->
+<!-- tabdata <- res |>  -->
+<!--   filter(rectype!="nyc") |>  -->
+<!--   filter(year==2021, measure=="accrual") |>  -->
+<!--   select(year, vname, unifips, uniname, allocated) |>  -->
+<!--   pivot_wider(names_from = vname, values_from = allocated) |>  -->
+<!--   mutate(mrt=mrt1 + mrt2) |>  -->
+<!--   select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion, -->
+<!--          contains("mmtoa"), contains("mtaaid"), sutinternet) |>  -->
+<!--   mutate(order=case_when(uniname=="MCTD" ~ 100, -->
+<!--                          uniname=="New York City" ~ 99, -->
+<!--                          uniname=="Suburban" ~ 98, -->
+<!--                          TRUE ~ 1)) |>  -->
+<!--   arrange(order, uniname) |>  -->
+<!--   mutate(sum = rowSums(across(-c(unifips, uniname, year))), -->
+<!--          across(-c(unifips, uniname, year), ~ .x / .x[uniname=="MCTD"])) |>  -->
+<!--   select(-order) -->
+
+<!-- tab <- tabdata |>  -->
+<!--   gt() |>  -->
+<!--   tab_header( -->
+<!--     title = "Preliminary allocation to counties", -->
+<!--     subtitle = "Amounts in $ millions" -->
+<!--   ) |>  -->
+<!--   cols_label( -->
+<!--     pmt = "Payroll mobility tax", -->
+<!--     pbt = "Petroleum business tax", -->
+<!--     mrt = "Mortgage recording tax", -->
+<!--     urban = "Urban tax" -->
+<!--   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Nonwage items", -->
+<!--   #   columns = c(supp_pct, propinc_pct) -->
+<!--   #   ) |>  -->
+<!--   # tab_spanner( -->
+<!--   #   label = "Wage items", -->
+<!--   #   columns = c(wk12_pct, wfed_pct, wsmall_pct) -->
+<!--   #   ) |>  -->
+<!--   # fmt_percent( -->
+<!--   #   columns=contains("pct"), -->
+<!--   #   decimals=1 -->
+<!--   # ) |> -->
+<!--     fmt_percent( -->
+<!--     columns=-c(unifips, uniname, year), -->
+<!--     decimals=1 -->
+<!--   ) -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- #| include: true -->
+<!-- tab -->
+<!-- ``` -->
+
+
+## Save results to excel
+
+You won't see anything below. There is some hidden code that writes key information to an Excel file.
+Given the time crunch I haven't bothered to format anything in the workbook
 
 ```{r}
-#| include: false
-tabdata <- res |> 
-  filter(rectype!="nyc") |> 
-  filter(year==2021, measure=="accrual") |> 
-  select(year, vname, unifips, uniname, allocpc) |> 
-  pivot_wider(names_from = vname, values_from = allocpc) |> 
-  mutate(mrt=mrt1 + mrt2) |> 
-  mutate(order=case_when(uniname=="MCTD" ~ 100,
-                         uniname=="New York City" ~ 99,
-                         uniname=="Suburban" ~ 98,
-                         TRUE ~ 1)) |> 
-  arrange(order, uniname) |> 
-  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
-         contains("mmtoa"), contains("mtaaid"), sutinternet)
 
-tab <- tabdata |> 
-  gt() |> 
-  tab_header(
-    title = "Preliminary allocation to counties",
-    subtitle = "Per capita amounts"
-  ) |> 
-  cols_label(
-    pmt = "Payroll mobility tax",
-    pbt = "Petroleum business tax",
-    mrt = "Mortgage recording tax",
-    urban = "Urban tax"
-  ) |> 
-  # tab_spanner(
-  #   label = "Nonwage items",
-  #   columns = c(supp_pct, propinc_pct)
-  #   ) |> 
-  # tab_spanner(
-  #   label = "Wage items",
-  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
-  #   ) |> 
-  # fmt_percent(
-  #   columns=contains("pct"),
-  #   decimals=1
-  # ) |>
-    fmt_number(
-    columns=-c(unifips, uniname, year),
-    scale=1,
-    decimals=1
+outpath <- here::here("results", "county_allocation.xlsx")
+
+f <- function(sheetname){
+  setColWidths(wb,
+               sheet=sheetname,
+               cols=1:50,
+               widths = 15, # 8.43,
+               hidden = rep(FALSE, length(cols)),
+               ignoreMergedCells = FALSE
   )
+}
+
+sheetlist <- list(recipes = recipes, population=pop, allocators=mtashares, 
+                  totals2021rec1=totals2021rec1,
+                  base_tabledata=base_tabdata,
+                  allresults=res)
+
+wb <- buildWorkbook(sheetlist, asTable = TRUE)
+
+purrr::walk(names(sheetlist), f)
+
+freezePane(wb, sheet="recipes", firstActiveRow = 2, firstActiveCol = 2)
+freezePane(wb, sheet="population", firstActiveRow = 2, firstActiveCol = 4)
+freezePane(wb, sheet="allocators", firstActiveRow = 2, firstActiveCol = 7)
+freezePane(wb, sheet="totals2021rec1", firstActiveRow = 2, firstActiveCol = 8)
+freezePane(wb, sheet="base_tabledata", firstActiveRow = 2, firstActiveCol = 8)
+freezePane(wb, sheet="allresults", firstActiveRow = 2, firstActiveCol = 9)
+
+saveWorkbook(wb, file = outpath, overwrite = TRUE)
+
+# view workbook -----------------------------------------------------------
+
+# openXL(wb)  ## opens a temp version
+
+
+# 
+# # define styles -----------------------------------------------------------
+# num0 <- createStyle(numFmt = "#,##0")
+# num1 <- createStyle(numFmt = "#,##0.0")
+# num2 <- createStyle(numFmt = "#,##0.00")
+# num3 <- createStyle(numFmt = "#,##0.000")
+# 
+# curr0 <- createStyle(numFmt = "$#,##0")
+# curr2 <- createStyle(numFmt = "$#,##0.00")
+# curr3 <- createStyle(numFmt = "$#,##0.000")
+# 
+# pct1 <- createStyle(numFmt = "0.0%")
+# pct2 <- createStyle(numFmt = "0.00%")
+# 
+# # for totals rows
+# totstyle <- createStyle(fontSize = 12, fgFill = "#f0f0f0", border = "TopBottom", borderColour = "#f0f0f0")
+# headerstyle <- createStyle(fontSize = 12, fgFill = "#f0f0f0", 
+#                            border = "TopBottom", borderColour = "#f0f0f0", 
+#                            wrapText = TRUE, textDecoration = "bold")
+# bold_style <- createStyle(fontSize = 12, textDecoration = "bold")
+# wrap_style <- createStyle(wrapText = TRUE, halign = "left", valign = "center")
+# vcenter_style <- createStyle(valign = "center")
+# 
+# 
+# # get empty workbook shell ------------------------------------------------------
+# shellfile <- "nonprofits_shell.xlsx"
+# snames <- getSheetNames(here::here("report", "inputs", shellfile))
+# 
+# wb <- loadWorkbook(file = here::here("report", "inputs", shellfile))
+# 
+# # global workbook settings
+# modifyBaseFont(wb, fontSize = 12, fontColour = "black", fontName = "Calibri")
+# 
+# 
+# # functions ---------------------------------------------------------------
+# 
+# top_sheet <- function(wb, data, sname, first_data_row,
+#                       comma_cols, dollar_cols, pct_cols,
+#                       total_format=TRUE){
+#   last_data_row <- nrow(data) + first_data_row - 1
+#   totalrow <- last_data_row
+#   last_col <- ncol(data)
+#   
+#   writeData(wb, sheet = sname, x=data,
+#             startCol=1, startRow=first_data_row, rowNames = FALSE, colNames = FALSE)
+#   
+#   # apply styles
+#   addStyle(wb, sheet = sname, style = num0, rows=first_data_row:last_data_row, cols = comma_cols, gridExpand = TRUE)
+#   addStyle(wb, sheet = sname, style = pct1, rows=first_data_row:last_data_row, cols = pct_cols, gridExpand = TRUE)
+#   addStyle(wb, sheet = sname, style = curr0, rows=first_data_row, cols = dollar_cols)
+#   
+#   if(total_format){
+#     # addStyle(wb, sheet = sname, style = curr0, rows=last_data_row, cols = dollar_cols)
+#     addStyle(wb, sheet = sname, style = curr0, rows=totalrow, cols = dollar_cols, stack=TRUE)
+#     addStyle(wb, sheet = sname, style = totstyle, rows = totalrow, cols = 1:last_col, stack=TRUE)
+#   }
+#   
+#   wb
+# }
+# 
+# 
+# npes_by_depts <- function(wb, data, sname, header_row){
+#   
+#   cnames <- c("Rank", "Nonprofit Organization", names(data)[-c(1:2)])
+#   # create an empty data frame with these names
+#   cnamesdf <- as_tibble(matrix(nrow=0, ncol=length(cnames), dimnames=list(NULL, cnames)))
+#   
+#   first_data_row <- header_row + 2
+#   last_data_row <- nrow(data) + first_data_row - 1
+#   totalrow <- last_data_row
+#   
+#   last_col <- ncol(data)
+#   comma_cols <- 3:last_col
+#   dollar_cols <- comma_cols
+#   
+#   # clear all data
+#   # deleteData(wb, sheet = sname, rows = header_row:totalrow, cols = 1:last_col, gridExpand = TRUE)
+#   # removeCellMerge(wb, sheet = sname, rows = 1:totalrow, cols = 1:last_col)
+#   
+#   # insert column names
+#   writeData(wb, sheet = sname, x=cnamesdf,
+#             startCol=1, startRow=header_row, rowNames = FALSE, colNames = TRUE)
+#   # data
+#   writeData(wb, sheet = sname, x=data,
+#             startCol=1, startRow=first_data_row, rowNames = FALSE, colNames = FALSE)
+#   
+#   # apply styles
+#   setColWidths(wb, sheet=sname, cols = comma_cols, widths = rep(15, length(comma_cols)))
+#   mergeCells(wb, sheet = sname, rows = 3, cols = 1:last_col)
+#   mergeCells(wb, sheet = sname, rows = 4, cols = 1:last_col)
+#   
+#   addStyle(wb, sheet = sname, style = headerstyle, rows = header_row, cols = 1:last_col, stack=TRUE)
+#   
+#   addStyle(wb, sheet = sname, style = num0, rows=first_data_row:last_data_row, cols = comma_cols, gridExpand = TRUE)
+#   addStyle(wb, sheet = sname, style = curr0, rows=c(first_data_row, last_data_row), cols = dollar_cols, gridExpand = TRUE)
+#   
+#   addStyle(wb, sheet = sname, style = curr0, rows=totalrow, cols = dollar_cols, stack=TRUE)
+#   addStyle(wb, sheet = sname, style = totstyle, rows = totalrow, cols = 1:last_col, stack=TRUE)
+#   wb
+# }
 
 ```
 
 
-```{r}
-#| include: true
-tab
-```
-
-
-### 2021 per capita indexed to overall MTA per-capita amount
-
-
-```{r}
-#| include: false
-tabdata <- res |> 
-  filter(rectype!="nyc") |> 
-  filter(year==2021, measure=="accrual") |> 
-  select(year, vname, unifips, uniname, ipcmta) |> 
-  pivot_wider(names_from = vname, values_from = ipcmta) |> 
-  mutate(mrt=mrt1 + mrt2) |> 
-  mutate(order=case_when(uniname=="MCTD" ~ 100,
-                         uniname=="New York City" ~ 99,
-                         uniname=="Suburban" ~ 98,
-                         TRUE ~ 1)) |> 
-  arrange(order, uniname) |> 
-  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
-         contains("mmtoa"), contains("mtaaid"), sutinternet)
-
-tab <- tabdata |> 
-  gt() |> 
-  tab_header(
-    title = "Preliminary allocation to counties",
-    subtitle = "Indexed per capita amounts"
-  ) |> 
-  cols_label(
-    pmt = "Payroll mobility tax",
-    pbt = "Petroleum business tax",
-    mrt = "Mortgage recording tax",
-    urban = "Urban tax"
-  ) |> 
-  # tab_spanner(
-  #   label = "Nonwage items",
-  #   columns = c(supp_pct, propinc_pct)
-  #   ) |> 
-  # tab_spanner(
-  #   label = "Wage items",
-  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
-  #   ) |> 
-  # fmt_percent(
-  #   columns=contains("pct"),
-  #   decimals=1
-  # ) |>
-    fmt_number(
-    columns=-c(unifips, uniname, year),
-    scale=1,
-    decimals=3
-  )
-
-```
-
-
-```{r}
-#| include: true
-tab
-```
-
-
-
-### 2021 amounts as % of MTA total
-
-```{r}
-#| include: false
-tabdata <- res |> 
-  filter(rectype!="nyc") |> 
-  filter(year==2021, measure=="accrual") |> 
-  select(year, vname, unifips, uniname, allocated) |> 
-  pivot_wider(names_from = vname, values_from = allocated) |> 
-  mutate(mrt=mrt1 + mrt2) |> 
-  select(unifips, uniname, year, pmt, pbt, mrt, urban, mansion,
-         contains("mmtoa"), contains("mtaaid"), sutinternet) |> 
-  mutate(order=case_when(uniname=="MCTD" ~ 100,
-                         uniname=="New York City" ~ 99,
-                         uniname=="Suburban" ~ 98,
-                         TRUE ~ 1)) |> 
-  arrange(order, uniname) |> 
-  mutate(sum = rowSums(across(-c(unifips, uniname, year))),
-         across(-c(unifips, uniname, year), ~ .x / .x[uniname=="MCTD"])) |> 
-  select(-order)
-
-tab <- tabdata |> 
-  gt() |> 
-  tab_header(
-    title = "Preliminary allocation to counties",
-    subtitle = "Amounts in $ millions"
-  ) |> 
-  cols_label(
-    pmt = "Payroll mobility tax",
-    pbt = "Petroleum business tax",
-    mrt = "Mortgage recording tax",
-    urban = "Urban tax"
-  ) |> 
-  # tab_spanner(
-  #   label = "Nonwage items",
-  #   columns = c(supp_pct, propinc_pct)
-  #   ) |> 
-  # tab_spanner(
-  #   label = "Wage items",
-  #   columns = c(wk12_pct, wfed_pct, wsmall_pct)
-  #   ) |> 
-  # fmt_percent(
-  #   columns=contains("pct"),
-  #   decimals=1
-  # ) |>
-    fmt_percent(
-    columns=-c(unifips, uniname, year),
-    decimals=1
-  )
-
-```
-
-```{r}
-#| include: true
-tab
-```
 

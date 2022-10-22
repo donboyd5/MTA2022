@@ -1,5 +1,35 @@
 # Agendas
 
+## October 25, 2022
+
+As much of following as practical, in priority order:
+
+-   For hypothetical PMT increase from 0.34% to 0.50%, MCTD-wide impact and by city/suburbs, by size of employer:
+    -   Crossed with work-from-home and non-work-from-home industries, and, separately,
+
+    -   Crossed with average pay by industry
+-   Ways to analyze impact of PMT on the economy
+    -   Pre- and post- employment in MTA and other regions
+
+    -   Size of PMT vs other taxes
+
+        -   For a few representative or hypothetical firms, or for
+
+        -   MTA region as a whole
+-   For PMT increase, how would state reimbursement change? (Also, other state reimbursement issues we discussed - e.g., growth at inflation rate.)
+-   Responsiveness of employment and wages, and PMT revenue, to PMT rate increase
+-   Has PMT base changed much post-COVID?
+-   Sales tax increase
+    -   Table of current sales tax treatment - rows are NYC and MTA counties, columns are selected items (food, clothing, utilities, other), cells are treatment by state, local, and MTA sales taxes
+
+    -   Spending by consumers in MTA region by income range on these goods and services
+
+## October 21, 2022
+
+-   Catch up generally, latest priorities and schedule
+
+-   [Breakdowns of taxes](tax_breakdowns/breakdowns.qmd) status and next steps
+
 ## September 20, 2022
 
 -   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)

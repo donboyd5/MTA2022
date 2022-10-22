@@ -24,6 +24,8 @@ constants$mtacos <- c("New York", "Bronx", "Kings", "Queens", "Richmond", "Rockl
             "Nassau", "Suffolk", "Orange", "Putnam", "Dutchess", "Westchester")
 constants$mtafips <- c(36005, 36027, 36047, 36059, 36061, 36071, 36079, 36081, 36085, 36087, 36103, 36119) |> as.character()
 constants$totnycfips <- "3651000"
+constants$mtafips_to_county <- function(fips) constants$mtacos[match(fips, constants$mtafips)]
+constants$mtacos_to_fips <- function(county) constants$mtafips[match(county, constants$mtacos)]
 
 constants$nycfips <- c(36005, 36047, 36061, 36081, 36085) |> as.character()
 constants$nyccos <- c("New York", "Bronx", "Kings", "Queens", "Richmond")

@@ -8,6 +8,8 @@ project:
 #   cd C:\Users\donbo\quarto\quarto-cli
 #   .\configure.cmd
 
+# quarto publish netlify --no-render
+
 # https://quarto.org/docs/computations/execution-options.html    
 # for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
 execute:
@@ -42,7 +44,10 @@ book:
     - part: "Revenue options"
       chapters: 
       - options/progressivity.qmd
-      - options/revenue_options.qmd      
+      - options/revenue_options.qmd    
+    - part: "Breakdowns"
+      chapters:
+      - tax_breakdowns/breakdowns.qmd
     - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa.qmd

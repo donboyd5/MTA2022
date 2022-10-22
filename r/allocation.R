@@ -17,12 +17,15 @@ alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
 
 recipes1 <- read_excel(here::here("data", "mta", alloctotals_fn),
                       sheet="recipes",
-                      range="A4:C23") |> 
+                      range="A4:D23") |> 
   filter(!is.na(vname))
 recipes1
+recipes1 |> filter(recipe1 != recipe2)
 
 recipes <-  recipes1 |> 
-  rename(allocator=allocator1) |> 
+  pivot_longer(cols=starts_with("recipe"),
+               names_to = "recipe",
+               values_to = "allocator") |> 
   filter(!is.na(allocator))
 recipes
 
@@ -37,62 +40,221 @@ recipes
 
 glimpse(toallocate)
 count(toallocate, vname)
-recipes |> filter(vname=="autorental_mtaaid")
-toallocate |> filter(vname=="autorental_mtaaid")
-mtashares |> filter(allocator=="autorental_mtaaid_accrual")
 
 # check availabilities
-setdiff(recipes$vname, unique(toallocate$vname)) # good - all vnames with recipes are in the data
+setdiff(unique(recipes$vname), unique(toallocate$vname)) # good - all vnames with recipes are in the data
 setdiff(unique(recipes$allocator), unique(mtashares$allocator))
 # we need "taxicab_value"    "autorental_value" -- they go to NYC
 
 
 result1 <- recipes |> 
-  # filter(vname=="autorental_mtaaid") |> 
   filter(allocator != "split") |> 
   select(-src) |> 
   left_join(toallocate |> select(-columnid) |> rename(totvalue=value), by="vname") |> 
   left_join(mtashares |> select(unifips, uniname, year, allocator, allocshare, pop),
             by=c("allocator", "year")) |> 
-  mutate(allocated=totvalue * allocshare)
+  mutate(allocated=totvalue * allocshare,
+         rectype="detail")
 summary(result1)
 
-tmp <- mtashares |> select(unifips, uniname, year, allocator, allocshare, pop)
-tmp |> filter(allocator=="autorental_mtaaid", unifips=="3651000")
-result1 |> filter(vname=="autorental_mtaaid", unifips=="3651000")
 
-# add summary records
+# create summary records ----
+
 mctd_sums <- result1 |> 
-  group_by(vname, allocator, measure, year) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
   summarise(totvalue=first(totvalue),
             allocated=sum(allocated, na.rm=TRUE),
             pop=sum(pop),
             .groups="drop") |> 
-  mutate(unifips="36xx1", uniname="MCTD")
+  mutate(unifips="36xx1",
+         uniname="MCTD",
+         rectype="mta")
 
 suburb_sums <- result1 |> 
   filter(!str_detect(uniname, "New York City")) |> 
-  group_by(vname, allocator, measure, year) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
   summarise(totvalue=first(totvalue),
             allocated=sum(allocated, na.rm=TRUE),
             pop=sum(pop),
             .groups="drop") |> 
-  mutate(unifips="36xx3", uniname="Suburban")
+  mutate(unifips=NA_character_, uniname="Suburban", rectype="suburban")
 
-result2 <- bind_rows(result1 |> mutate(rectype="detail"),
-                     mctd_sums |> mutate(rectype="mta"),
-                     suburb_sums |> mutate(rectype="suburban"),
-                     result1 |> 
-                       filter(str_detect(uniname, "New York City")) |> 
-                       mutate(rectype="nyc")) |> 
-  mutate(allocpc=allocated / pop) |> 
-  group_by(vname, measure, year) |> 
-  mutate(ipcmta=allocpc / allocpc[rectype=="mta"],
-         ipcsuburbs=allocpc / allocpc[rectype=="suburban"]) |> 
-  ungroup() |> 
-  arrange(measure, vname, year, unifips)
+li_sums <- result1 |> 
+  filter(uniname %in% c("Nassau", "Suffolk")) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
+  summarise(totvalue=first(totvalue),
+            allocated=sum(allocated, na.rm=TRUE),
+            pop=sum(pop),
+            .groups="drop") |> 
+  mutate(unifips=NA_character_, uniname="Long Island", rectype="li")
 
-result2
+westhud_sums <- result1 |> 
+  filter(uniname %in% c("Orange", "Rockland")) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
+  summarise(totvalue=first(totvalue),
+            allocated=sum(allocated, na.rm=TRUE),
+            pop=sum(pop),
+            .groups="drop") |> 
+  mutate(unifips=NA_character_, uniname="West of Hudson", rectype="wh")
+
+easthud_sums <- result1 |> 
+  filter(uniname %in% c("Dutchess", "Putnam", "Westchester")) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
+  summarise(totvalue=first(totvalue),
+            allocated=sum(allocated, na.rm=TRUE),
+            pop=sum(pop),
+            .groups="drop") |> 
+  mutate(unifips=NA_character_, uniname="East of Hudson", rectype="eh")
+
+metronorth_sums <- result1 |> 
+  filter(uniname %in% c("Orange", "Rockland", "Dutchess", "Putnam", "Westchester")) |> 
+  group_by(recipe, vname, allocator, measure, year) |> 
+  summarise(totvalue=first(totvalue),
+            allocated=sum(allocated, na.rm=TRUE),
+            pop=sum(pop),
+            .groups="drop") |> 
+  mutate(unifips=NA_character_, uniname="Metro North", rectype="mn")
+
+
+# create the combined geography file ----
+combo1 <- bind_rows(result1,
+                    mctd_sums,
+                    suburb_sums,
+                    li_sums,
+                    westhud_sums,
+                    easthud_sums,
+                    metronorth_sums)
+count(combo1, rectype, unifips, uniname)
+
+# contstruct aggregated variables ----
+combo1
+
+agg_f <- function(aggname, vnames){
+  agg <- combo1 |> 
+    filter(vname %in% vnames) |> 
+    group_by(recipe, rectype, measure, year, unifips, uniname, pop) |> 
+    summarise(totvalue=sum(totvalue, na.rm=TRUE), allocated=sum(allocated, na.rm=TRUE), .groups="drop") |> 
+    mutate(vname=aggname, allocator="combined", allocshare=allocated / totvalue)
+  agg
+}
+
+count(combo1, vname)
+
+mrt_agg <- agg_f("mrt", c("mrt1", "mrt2"))
+pbt_agg <- agg_f("pbtall", c("pbt", "pbt_mmtoa"))
+mmtoa_agg <- agg_f("mmtoa", c("franchise_mmtoa", "fransurcharge_mmtoa", "pbt_mmtoa", "sut_mmtoa"))
+mtaaid_agg <- agg_f("mtaaid", c("autorental_mtaaid", "licensereg_mtaaid", "taxicab_mtaaid"))
+
+optaxes <- c("pmt", 
+             "mrt1", "mrt2",
+             "pbt",
+             "franchise_mmtoa", "fransurcharge_mmtoa", "pbt_mmtoa", "sut_mmtoa",
+             "autorental_mtaaid", "licensereg_mtaaid", "taxicab_mtaaid",
+             "urban") # don't include mansion or sutinternet
+optax_agg <- agg_f("optaxsum", optaxes)
+
+comboagg1 <- bind_rows(combo1, mrt_agg, pbt_agg, mmtoa_agg, mtaaid_agg, optax_agg)
+
+# check whether the optaxagg is correct
+check <- comboagg1 |> 
+  filter(vname %in% c(optaxes, "optaxsum"),
+         measure=="accrual",
+         rectype=="detail",
+         year==2017, 
+         recipe=="recipe1") |> 
+  select(vname, unifips, uniname, allocated) |> 
+  mutate(allocated=allocated / 1e6) |> 
+  pivot_wider(names_from = vname, values_from = allocated) |> 
+  mutate(check= rowSums(across(-c(unifips, uniname, optaxsum))))
+
+# calculate variables ----
+
+comboagg2 <- comboagg1 |>
+  group_by(recipe, measure, vname, year) |>
+  mutate(allocpc=allocated / pop,
+         ipcmta=allocpc / allocpc[rectype=="mta"],
+         pctofmta=allocated / allocated[rectype=="mta"]) |>
+  ungroup() |>
+  # place vars in order of most to least aggregated
+  select(recipe, measure, rectype, unifips, uniname,
+         vname, allocator, year, pop, totvalue, allocshare, allocated, allocpc, ipcmta, pctofmta) |> 
+  arrange(recipe, measure, rectype, unifips, uniname, vname, allocator, year)
+
+# quick check
+comboagg2 |> 
+  filter(recipe=="recipe1", measure=="accrual", vname=="mrt", year==2021) |> 
+  select(unifips, uniname, allocated, allocpc, ipcmta, pctofmta)
+
+# put potential sort orders on the file ----
+glimpse(comboagg2)
+count(comboagg, rectype, unifips, uniname)
+
+## geoorder ----
+comboagg3 <- comboagg2 |> 
+  filter(rectype!="nyc") |> 
+  mutate(rectype_order=case_when(rectype=="detail" ~ 1,
+                                 rectype=="mta" ~ 2,
+                                 rectype=="suburban" ~ 3,
+                                 rectype=="li" ~ 4,
+                                 rectype=="mn" ~ 5,
+                                 rectype=="eh" ~ 6,
+                                 rectype=="wh" ~ 7,
+                                 TRUE ~ -99),
+         detail_order=case_when(rectype=="detail" &
+                                  uniname=="New York City" ~ 9,
+                                rectype=="detail" &
+                                  uniname!="New York City" ~ 1,
+                                TRUE ~ 1),
+         geo_order=10 * rectype_order + detail_order)
+
+count(comboagg3, rectype_order, detail_order, uniname)
+count(comboagg3, geo_order, uniname)
+
+## varsort orders ----
+count(comboagg3, vname)
+
+# put each vector in the order desired for printing
+optax_detail <- c("pmt", 
+             "mrt1", "mrt2",
+             "urban",
+             "pbt",
+             "franchise_mmtoa", "fransurcharge_mmtoa", "pbt_mmtoa", "sut_mmtoa",
+             "autorental_mtaaid", "licensereg_mtaaid", "taxicab_mtaaid",
+             "optaxsum") # don't include mansion or sutinternet
+
+optax_summary <- c("pmt", 
+                  "mrt",
+                  "urban",
+                  "pbtall",
+                  "franchise_mmtoa", "fransurcharge_mmtoa", "sut_mmtoa",
+                  "autorental_mtaaid", "licensereg_mtaaid", "taxicab_mtaaid",
+                  "optaxsum") # don't include mansion or sutinternet
+
+tottax_detail <- c(optax_detail, "mansion", "sutinternet")
+tottax_summary <- c(optax_summary, "mansion", "sutinternet")
+
+comboaggvar1 <- comboagg3 |> 
+  mutate(foptax_detail=factor(vname, levels=optax_detail),
+         foptax_summary=factor(vname, levels=optax_summary),
+         ftottax_detail=factor(vname, levels=tottax_detail),
+         ftottax_summary=factor(vname, levels=tottax_summary))
+
+count(comboaggvar1, foptax_detail)
+count(comboaggvar1, foptax_summary)
+count(comboaggvar1, ftottax_detail)
+count(comboaggvar1, ftottax_summary)
+
+saveRDS(comboaggvar1, here::here("results", "allocation_results.rds"))
+
+
+# combo1 |> 
+#   filter(recipe=="recipe1", rectype=="detail", measure=="accrual", year==2017,
+#          unifips=="36059", str_detect(vname, "mrt"))
+# 
+# mrt_agg |> 
+#   filter(recipe=="recipe1", rectype=="detail", measure=="accrual", year==2017,
+#          unifips=="36059", str_detect(vname, "mrt"))
+
 
 # checks ----
 summary(result2)
@@ -102,8 +264,11 @@ count(result2, measure)
 count(result2, year)
 
 ## totals ----
-tots <- result2 |> 
-  filter(rectype=="detail") |> 
+res <- readRDS(here::here("results", "allocation_results.rds"))
+
+
+tots <- res |> 
+  filter(recipe=="recipe1", rectype=="detail") |> 
   group_by(vname, measure, year) |> 
   summarise(totvalue=first(totvalue), sumvalues=sum(allocated, na.rm=TRUE),
             .groups="drop") |> 
@@ -134,75 +299,6 @@ result2 |>
   filter(year==2021, measure=="accrual", vname==tax) |> 
   arrange(desc(allocpc))
 count(result2, unifips, uniname)
-
-saveRDS(result2, here::here("results", "allocation_results.rds"))
-
-
-
-
-
-
-# get the 2019 study for comparison ----
-alloctotals_fn <- "090922 Subsidies for DB_djb.xlsx"
-mtashares <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
-
-study1 <- read_excel(here::here("data", "mta", alloctotals_fn),
-                       sheet="Big Summary",
-                       range="A95:J121",
-                     col_types = "text")
-
-
-study2 <- study1 |> 
-  filter(row_number() %in% c(17, 18, 21, 22, 23, 24, 25, 26)) |> 
-  pivot_longer(-1) |> 
-  setNames(c("studyname", "studyarea", "allocated")) |> 
-  mutate(year=2016,
-         vname=case_when(str_detect(studyname, "MRT") ~ "mrt1and2",
-                         str_detect(studyname, "Urban") ~ "urban",
-                         str_detect(studyname, "Sales and Use") ~ "sut_mmtoa",
-                         str_detect(studyname, "Franchise") ~ "franchise_mmtoa",
-                         str_detect(studyname, "Business Surcharge") ~ "fransurcharge_mmtoa",
-                         str_detect(studyname, "PBT") ~ "pbt",
-                         str_detect(studyname, "PMT") ~ "pmt",
-                         str_detect(studyname, "MTA Aid") ~ "mtaaid",
-                         TRUE ~ "other"))
-count(study2, studyname, vname)
-count(study2, studyarea)
-
-
-snames <- c("Dutch.", "Orange", "Rock.", "Putnam", "Westch.", "Nassau", "Suffolk", "NYC", "Total")
-uninames <- c("Dutchess", "Orange", "Rockland", "Putnam", "Westchester", "Nassau", "Suffolk", "New York City", "MCTD")
-unifips <- xwalkny$unifips[match(uninames, xwalkny$uniname)]
-cbind(snames, uninames, unifips)
-
-study3 <- study2 |> 
-  mutate(uniname=factor(studyarea, levels=snames, labels=uninames),
-         unifips=factor(uniname, levels=uninames, labels=unifips),
-         allocated=as.numeric(allocated) * 1e6,
-         year=as.integer(2016)) |> 
-  group_by(vname) |> 
-  mutate(totvalue=sum(allocated[uniname != "MCTD"])) |> 
-  ungroup()
-
-#  prepare population 
-mtapop <- mtashares |> 
-  filter(allocator=="pop", year==2016) |> 
-  select(unifips, pop) |> 
-  janitor::adorn_totals("row", name="36xx1") |> 
-  as_tibble()
-mtapop
-
-study4 <- study3 |> 
-  left_join(mtapop, by = "unifips") |> 
-  group_by(vname) |> 
-  mutate(allocpc=allocated / pop,
-         ipcmta=allocpc / allocpc[uniname=="MCTD"]) |> 
-  ungroup()
-
-study4
-count(study4, studyarea, uniname, unifips)
-count(study4, studyname, vname)
-saveRDS(study4, here::here("data", "mta", "study2016data.rds"))
 
 
 # compare current results to mta study ------------------------------------
