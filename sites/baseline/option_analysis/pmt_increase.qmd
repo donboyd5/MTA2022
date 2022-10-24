@@ -1,0 +1,431 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## Hypothetical increase in PMT from 0.34% to 0.50%
+
+Prep data
+
+```{r}
+#| label: loads
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+```
+
+
+```{r}
+#| label: constants
+  
+# BEA proprietors' income is much larger than IRS self-employment income
+# in the BEA documentation for non-farm proprietors' income,
+# https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf
+# Table 11.3—Relation of Nonfarm Proprietors’ Income in the National Income and Product
+# Accounts to Corresponding Measures as Published by the Internal Revenue Service
+# has estimates for 2015 of a relevant IRS concept ($831.7b) and NFPI ($1,130.8b)
+# I use that ratio to adjust propinc
+propinc_taxable_ratio <- 831.7 / 1130.8
+
+```
+
+
+
+```{r}
+#| label: ONETIME_firmsize
+#| eval: false
+
+# get wage share by firm size by county by 2-digit naics
+fn <- "county_3digitnaics_2019.xlsx"
+df1 <- read_excel(here::here("data", "susb", fn), skip=2, n_max=Inf)
+glimpse(df1)
+
+df2 <- df1 |> 
+  setNames(c("stfips", "stname",  "cntyfips", "county", "naics", "naicsdesc",
+             "entsize", "nfirms", "nestabs", "emp", "empnoise", "wages", "wagenoise")) |> 
+  mutate(fips=paste0(stfips, cntyfips)) |> 
+  filter(fips %in% constants$mtafips)
+glimpse(df2)
+summary(df2)
+
+# Noise Flag	Description
+# G	Low noise applied to cell value (less than 2%).
+# H	Medium noise applied to cell value (2% or more but less than 5%).
+# J	High noise applied to cell value (5% or more).
+count(df2, empnoise) |> mutate(pct=n / sum(n))
+count(df2, wagenoise) |> mutate(pct=n / sum(n))
+count(df2, naics, naicsdesc)
+
+firmsize <- df2 |> 
+  filter(fips %in% constants$mtafips, nchar(naics)==2 | str_detect(naics, "-")) |>
+  mutate(naics=ifelse(naics=="--", "10", naics),
+         sizef=case_when(str_sub(entsize, 1, 2)=="1:" ~ "total",
+                         str_sub(entsize, 1, 2)=="2:" ~ "elt20",
+                         str_sub(entsize, 1, 2)=="3:" ~ "e2099",
+                         str_sub(entsize, 1, 2)=="4:" ~ "e100499",
+                         str_sub(entsize, 1, 2)=="5:" ~ "e500p",
+                         TRUE ~ "ERROR"
+                         ),
+         sizef=factor(sizef, levels=c("total", "elt20", "e2099", "e100499", "e500p"))) |> 
+  select(fips, stname, county, naics, naicsdesc, entsize, sizef, nfirms, nestabs, emp, wages) |> 
+  pivot_longer(cols=c(nfirms, nestabs, emp, wages), names_to = "variable") |>
+  group_by(fips, stname, county, naics, naicsdesc, variable) |>
+  mutate(pct=value / value[sizef=="total"]) |> 
+  ungroup()
+# ,  pct2=value / sum(value[sizef!="total"])
+# ,  pct2=ifelse(sizef=="total", NA_real_, pct2)
+firmsize
+
+firmsize |> filter(fips=="36027", naics=="22")
+
+
+firmsize_wide <- firmsize |> 
+  select(-entsize) |> 
+  pivot_longer(cols=c(value, pct), names_to = "measure") |> 
+  pivot_wider(names_from = sizef)
+glimpse(firmsize_wide)
+
+firmsize_wide |> 
+  filter(county=="Bronx", naics=="23", measure=="pct")
+
+saveRDS(firmsize_wide, here::here("data", "susb", "firmsize_wide.rds"))
+
+
+```
+
+
+
+```{r}
+#| label: ONETIME wfh
+#| eval: false
+# wfh ability
+wfh1 <- read_delim("
+naics; industry; wfh_ability
+71; Arts, Entertainment, & Recreation; 29.0%
+42; Wholesale Trade; 46.0%
+51; Information; 47.0%
+54; Professional, Scientific, & Technical Services; 76.0%
+62; Health Care & Social Assistance; 22.0%
+81; Other Services (exc. Public Admin); 24.0%
+52; Finance & Insurance; 82.0%
+44-45; Retail Trade; 15.0%
+53; Real Estate & Rental and Leasing; 30.0%
+55; Management of Companies & Enterprises; 62.0%
+56; Administrative, Support, Waste Mgmt & Remediation Serv.; 23.0%
+92; Public Administration; 34.0%
+22; Utilities; 31.0%
+23; Construction; 16.0%
+31-33; Manufacturing; 34.0%
+48-49; Transportation & Warehousing; 11.0%
+61; Educational Services; 72.0%
+72; Accommodation & Food Services; 5.0%
+10; Total; 35.0%",
+delim=";", trim_ws = TRUE)
+
+wfh <- wfh1 |> 
+  mutate(wfh_ability=str_remove(wfh_ability, "\\%") |> as.numeric(),
+         wfh_ability=wfh_ability / 100.)
+  
+
+# make a long file if needed
+# wfhlong <- wfh |>
+#   separate(naics, into = c("low", "high"), remove=FALSE) |> 
+#   mutate(high=ifelse(is.na(high), low, high)) |> 
+#   rowwise() |> 
+#   mutate(range=list(as.integer(low):as.integer(high))) |> 
+#   ungroup() |> 
+#   select(-low, -high) |>
+#   unnest(range) |>
+#   rename(inaics2=range) |>
+#   mutate(naics2=str_pad(inaics2, width = 2, side = "left", pad="0"))
+# wfhlong
+saveRDS(wfh, here::here("data", "mta", "wfh.rds"))
+
+```
+
+```{r}
+#| label: ONETIME - get qcew for mta counties, all years 2016-2021, industries, wages and avg pay
+#| eval: false
+
+qdir <- constants$qdir
+nyraw <- readRDS(path(qdir, "nyraw.rds")) # qcew data
+glimpse(nyraw)
+
+ny2 <- nyraw |> 
+  filter(year %in% 2016:2021,
+         # own_code=="1",
+         area_fips %in% constants$mtafips,
+         nchar(industry_code)==2 | str_detect(industry_code, "-")) |> 
+  select(year, fips=area_fips, area=area_title, own=own_code, ownf=own_title,
+         agglev=agglvl_code, agglevf=agglvl_title,
+         ind=industry_code, indf=industry_title,
+         emp=annual_avg_emplvl, wages=total_annual_wages, 
+         contrib=annual_contributions,
+         avgweeklywage=annual_avg_wkly_wage, avgpay=avg_annual_pay) |> 
+  mutate(across(emp:avgpay, ~ as.numeric(.x)))
+
+glimpse(ny2)
+count(ny2, ind, indf, agglev, agglevf)
+count(ny2, own, ownf, agglev, agglevf) # own=0 ONLY exists for agglev==70
+count(ny2 |> filter(own!="0"), ind, indf)
+
+ny2 |> filter(ind=="22")
+count(ny2, own, ownf)
+count(ny2, ind, indf)
+
+# check sums
+ny2 |> 
+  filter(ind=="10") |> 
+  group_by(year, fips, area, agglev, agglevf) |> 
+  summarise(emp=sum(emp), .groups="drop") |> 
+  select(-agglevf) |> 
+  mutate(agglev=ifelse(agglev=="70", "total", "detail")) |>
+  pivot_wider(names_from = agglev, values_from = emp) |> 
+  mutate(pct=detail / total) |> 
+  arrange(pct) # all good, we don't need ind 10 agglev 70
+
+tmp <- ny2 |> 
+  filter(agglev!="70", own!="0") |> 
+  group_by(year, fips, area, agglev, own, ownf) |> 
+  summarise(emp=sum(emp), .groups="drop") |>
+  mutate(agglev=ifelse(agglev=="71", "total", "detail")) |>
+  pivot_wider(names_from = agglev, values_from = emp) |> 
+  mutate(pct=detail / total) |> 
+  arrange(pct) # we DO need agglev 71, as the sum of agglev74 falls too short
+tmp |> filter(own=="5") # private sector almost always is good, state local not really
+
+# get the "other industries" amount for each county, year, ownership class
+other <- ny2 |> 
+    filter(agglev!="70", own!="0") |> 
+  group_by(year, fips, area, agglev, own, ownf) |> 
+  summarise(emp=sum(emp), 
+            wages=sum(wages),
+            contrib=sum(contrib),
+            .groups="drop") |>
+  mutate(agglev=ifelse(agglev=="71", "total", "detail")) |>
+  pivot_longer(c(emp, wages, contrib), names_to = "variable") |> 
+  pivot_wider(names_from = agglev) |>
+  mutate(other=total - detail) |> 
+  select(-c(total, detail)) |> 
+  pivot_wider(names_from = variable, values_from = other) |> 
+  mutate(agglev="74", agglevf="County, NAICS Sector -- by ownership sector",
+         ind="9x", indf="unknown",
+         emp=ifelse(emp <= 1, 0, emp),
+         avgpay=wages / emp,
+         avgweeklywage=avgpay / 52) |> 
+  arrange(year, fips, area, own, ownf) |> 
+  relocate(emp, wages, contrib, avgweeklywage, avgpay, .after=indf)
+
+ny3 <- bind_rows(ny2|> 
+                   filter(agglev!="70", own!="0"),
+                 other)
+
+glimpse(ny3)
+count(ny3, own, ownf, agglev, agglevf)
+count(ny3, own, ownf, ind, indf)
+
+saveRDS(ny3, here::here("data", "qcew", "qcew_ind.rds"))
+
+
+```
+
+
+
+```{r}
+#| label: getdata
+#| include: false
+
+# eval but do not include
+
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+wfh <- readRDS(here::here("data", "mta", "wfh.rds"))
+firmsize_wide <- readRDS(here::here("data", "susb", "firmsize_wide.rds"))
+qcew_ind <- readRDS(here::here("data", "qcew", "qcew_ind.rds")) # year, area, own, 
+pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
+
+
+# build the pmt base
+wagesize1 <- firmsize_wide |> 
+  filter(variable=="wages", measure=="pct") |> 
+  select(fips, county, ind=naics, naicsdesc, starts_with("e"))
+
+# naively (dumbly) fill in missing values
+count_na <- function(x) sum(is.na(x)) 
+wagesize2 <- wagesize1 |> 
+  mutate(gap=1 - rowSums(across(starts_with("e")), na.rm=TRUE),  # missing % values
+         nmiss=rowSums(is.na(across(starts_with("e")))),
+         across(starts_with("e"), ~ ifelse(is.na(.x), gap / nmiss, .x)),
+         check=rowSums(across(starts_with("e"))))
+
+wagesize3 <- wagesize2 |> 
+  select(fips, ind, starts_with("e"))
+
+
+pmt <- qcew_ind |> 
+  filter(wages>0) |> 
+  select(year, fips, area, own, ownf, agglev, agglevf, ind, indf, emp, totwages=wages, avgpay) |> 
+  left_join(wagesize3, by = c("fips", "ind")) |> 
+  # wagesize does not include govt -- assume all Pub Admin is big
+  mutate(year=as.integer(year),
+         e500p=ifelse(ind=="92", 1.0, e500p),
+         across(c(elt20, e2099, e100499), ~ ifelse(ind=="92", 0.0, .x))) |> 
+  pivot_longer(cols=c(elt20, e2099, e100499, e500p),
+               names_to = "firmsize", values_to = "wageshare") |> 
+  mutate(area=str_remove(area, ", New York"),
+         atype=ifelse(fips %in% constants$nycfips, "nyc", "suburban"), 
+         firmsize=factor(firmsize, levels=c("elt20", "e2099", "e100499", "e500p")),
+         sizef=factor(firmsize, levels=c("elt20", "e2099", "e100499", "e500p"),
+                      labels=c("< 20 employees", 
+                               "20-99 employees",
+                               "100-499 employees",
+                               "500+ employees")),
+         wageshare=ifelse(is.na(wageshare), 0, wageshare), # mining and similar industries
+         wages=totwages * wageshare,
+         fedwages=ifelse(own=="1", wages, 0),
+         schoolwages=ifelse(own=="3" & ind=="61", wages, 0),
+         smallwages=(fedwages==0)*(schoolwages==0)*(firmsize=="elt20")*wages, # all low wages
+         taxwages=wages - fedwages - schoolwages - smallwages,
+         taxwages_lowrate=(fedwages==0)*(schoolwages==0)*(firmsize=="e2099")*0.5*wages,
+         taxwages_fullrate=taxwages - taxwages_lowrate) |> 
+  arrange(year, fips, own, ownf, ind, indf, firmsize) |> 
+  left_join(wfh |> select(ind=naics, industry, wfh_ability), by = "ind")
+summary(pmt)  
+count(pmt, year, area)
+count(pmt, own, ownf) # fslg
+count(pmt, agglev, agglevf)
+count(pmt, ind, indf)
+count(pmt, firmsize, sizef)
+
+tax <- pmt |> 
+  filter(agglev=="74", ind!="10") |> 
+  mutate(taxlow=taxwages_lowrate * 0.0017, # a hybrid rate
+         taxfull=taxwages_fullrate * 0.0034,
+         taxlow_new=taxwages_lowrate * 0.0017,
+         taxfull_new=taxwages_fullrate * 0.0050,
+         taxold=taxlow + taxfull,
+         taxnew=taxlow_new + taxfull_new,
+         change=taxnew - taxold)
+summary(tax)
+
+tax |> 
+  group_by(year) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  mutate(pch=change / taxold)
+
+```
+
+
+
+## MCTD-wide impact and by city/suburbs, by size of employer
+
+
+### MCTD-wide
+
+```{r}
+#| include: true
+
+tabdata <- tax |> 
+  filter(year==2021) |> 
+  group_by(sizef) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(pch=change / taxold)
+
+tab <- tabdata |>
+  gt() |> 
+  tab_header(
+    title = "Current and potential payroll mobility tax (wages only) by employer size, $ millions",
+    subtitle = "Increase 0.34% rate to 0.50%. Assumes no behavioral response"
+  ) |> 
+  cols_label(sizef="Enterprise size",
+             taxold="Current tax",
+             taxnew="Tax at new rates",
+             change="Change in tax",
+             pch="% change") |> 
+  fmt_number(columns=c(taxold, taxnew, change),
+             scale=1e-6,
+             decimals=1) |> 
+  fmt_percent(columns=pch, decimals=1)
+tab
+
+```
+
+
+### City and suburbs breakdown
+
+```{r}
+#| include: true
+
+tabnyc <- tax |> 
+  filter(year==2021, atype=="nyc") |> 
+  group_by(sizef) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(atype="nyc")
+
+tabsub <- tax |> 
+  filter(year==2021, atype=="suburban") |> 
+  group_by(sizef) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(atype="suburban")
+
+tabtot <- tax |> 
+  filter(year==2021) |> 
+  group_by(sizef) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(atype="total")
+
+tabdata <- bind_rows(tabnyc, tabsub, tabtot) |> 
+  relocate(atype, .before = sizef) |> 
+  mutate(pch=change / taxold)
+
+tab <- tabdata |>
+  gt() |> 
+  tab_header(
+    title = "Current and potential payroll mobility tax (wages only) by employer size, $ millions",
+    subtitle = "Increase 0.34% rate to 0.50%. Assumes no behavioral response"
+  ) |> 
+  cols_label(sizef="Enterprise size",
+             taxold="Current tax",
+             taxnew="Tax at new rates",
+             change="Change in tax",
+             pch="% change") |> 
+  fmt_number(columns=c(taxold, taxnew, change),
+             scale=1e-6,
+             decimals=1) |> 
+  fmt_percent(columns=pch, decimals=1)
+tab
+
+
+```
+
+
+
+## By employer size, crossed with work-from-home and non-work-from-home industries
+
+
+
+## By employer size, crossed with average pay by industry
+
+

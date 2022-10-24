@@ -19,6 +19,9 @@ execute:
   warning: false
   message: false  # not sure if allowed
   note: false  # not sure if allowed
+  
+editor_options: 
+  chunk_output_type: console
 
 book:
   title: "MTA baseline"
@@ -45,9 +48,11 @@ book:
       chapters: 
       - options/progressivity.qmd
       - options/revenue_options.qmd    
-    - part: "Breakdowns"
+    - part: "Analysis of options"
       chapters:
-      - tax_breakdowns/breakdowns.qmd
+      - option_analysis/breakdowns.qmd
+      - option_analysis/pmt_increase.qmd
+      - option_analysis/pmt_behavioral_response.qmd
     - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa.qmd

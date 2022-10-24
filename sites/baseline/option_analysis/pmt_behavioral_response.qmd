@@ -1,0 +1,34 @@
+## What impact does the PMT have on the economy?
+
+### Impact on employment
+
+A tax on wages creates an incentive to employ less labor or employ it outside the taxing jurisdiction, all else equal. Thus, it makes sense to examine employment in the MTA region and outside the MTA region, before and after adoption of the PMT. (The PMT was first effective in March 2009.)
+
+#### Using employment data
+
+The best available data on employment in MTA counties and non-MTA counties is the [BLS Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/). The data are released quarterly, with an approximately 6-month lag. Each quarter's data includes employment for each month in the quarter. The data are not seasonally adjusted and so are quite bouncy.
+
+In this analysis I average the 3 months of each quarter and then calculate the underlying trend in quarterly employment. (I use a method known as loess regression that removes seasonal variation and also removes outliers.) The figure below illustrates this for private sector employment in Westchester county, showing the actual data for each quarter and the trend that I calculate. The trend calculated by the software is very similar to one we might calculate if drawing by hand.
+
+![Raw employment data and underlying trend](images/example_trend.png)
+
+#### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
+
+<!-- #### MTA region and nearby neighbors -->
+
+![MTA region and nearby neighbors](images/paste-0D60C16D.png)
+
+
+::: {.fullwidth}
+![Trend private-sector employment pre- and post-PMT, selected MTA and non-MTA counties](../results/pmt_impacts_facets.png)
+
+<!-- images/pmt_impacts_facets.png -->
+:::
+
+
+## Behavioral response to increase from 0.34% to 0.50%
+
+Responsiveness of employment and wages, and PMT revenue, to PMT rate increase
+
+
+
