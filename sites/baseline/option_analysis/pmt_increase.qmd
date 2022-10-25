@@ -264,6 +264,22 @@ wagesize2 <- wagesize1 |>
 wagesize3 <- wagesize2 |> 
   select(fips, ind, starts_with("e"))
 
+# now employment
+empsize1 <- firmsize_wide |> 
+  filter(variable=="emp", measure=="pct") |> 
+  select(fips, county, ind=naics, naicsdesc, starts_with("e"))
+
+# naively (dumbly) fill in missing values
+count_na <- function(x) sum(is.na(x)) 
+empsize2 <- empsize1 |> 
+  mutate(gap=1 - rowSums(across(starts_with("e")), na.rm=TRUE),  # missing % values
+         nmiss=rowSums(is.na(across(starts_with("e")))),
+         across(starts_with("e"), ~ ifelse(is.na(.x), gap / nmiss, .x)),
+         check=rowSums(across(starts_with("e"))))
+
+empsize3 <- empsize2 |> 
+  select(fips, ind, starts_with("e"))
+
 
 pmt <- qcew_ind |> 
   filter(wages>0) |> 
@@ -406,7 +422,8 @@ tab <- tabdata |>
     title = "Current and potential payroll mobility tax (wages only) by employer size, $ millions",
     subtitle = "Increase 0.34% rate to 0.50%. Assumes no behavioral response"
   ) |> 
-  cols_label(sizef="Enterprise size",
+  cols_label(atype="Area type",
+             sizef="Enterprise size",
              taxold="Current tax",
              taxnew="Tax at new rates",
              change="Change in tax",
@@ -424,8 +441,153 @@ tab
 
 ## By employer size, crossed with work-from-home and non-work-from-home industries
 
+```{r}
+#| include: true
+
+# wfh |> arrange(desc(wfh_ability))
+
+tax1 <- tax |> 
+  filter(year==2021) |> 
+  mutate(wfh=ifelse(wfh_ability >= .45, "high", "low"))
+
+tablow <- tax1 |> 
+  filter(year==2021, wfh=="low") |> 
+  group_by(sizef, wfh) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals()
+
+tabhigh <- tax1 |> 
+  filter(year==2021, wfh=="high") |> 
+  group_by(sizef, wfh) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals()
+
+tabtot <- tax1 |> 
+  filter(year==2021) |> 
+  group_by(sizef) |> 
+  summarise(taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(wfh="total")
+
+tabdata <- bind_rows(tablow, tabhigh, tabtot) |> 
+  relocate(wfh, .before = sizef) |> 
+  mutate(pch=change / taxold)
+
+tab <- tabdata |>
+  gt() |> 
+  tab_header(
+    title = "Current and potential payroll mobility tax (wages only) by employer size and industry work-from-home likelihood, $ millions",
+    subtitle = "Increase 0.34% rate to 0.50%. Assumes no behavioral response"
+  ) |> 
+  cols_label(wfh="Work-from-home likelihood",
+             sizef="Enterprise size",
+             taxold="Current tax",
+             taxnew="Tax at new rates",
+             change="Change in tax",
+             pch="% change") |> 
+  fmt_number(columns=c(taxold, taxnew, change),
+             scale=1e-6,
+             decimals=1) |> 
+  fmt_percent(columns=pch, decimals=1)
+tab
 
 
-## By employer size, crossed with average pay by industry
+```
+
+
+### Work-from-home likelihood
+
+```{r}
+#| include: true
+
+wfh |> 
+  arrange(desc(wfh_ability)) |> 
+  gt() |> 
+  tab_header(
+    title = "Work-from-home ability",
+    subtitle = "Source: Provided by MTA"
+  ) |> 
+  cols_label(naics="North American Industry Classification System code (NAICS)",
+             industry="Industry",
+             wfh_ability="Ability to work from home, 2019 (% of respondents)") |> 
+  fmt_percent(columns=wfh_ability, decimals=1)
+
+
+```
+
+
+
+## By average industry pay
+
+```{r}
+#| include: false
+
+# wtd.quantile(x, weights=NULL, probs=c(0, .25, .5, .75, 1), 
+#              type=c('quantile','(i-1)/(n-1)','i/(n+1)','i/n'), 
+#              normwt=FALSE, na.rm=TRUE)
+# Hmisc::wtd.quantile(tmp$avgpay, weights = tmp$emp)
+
+
+tax1 <- tax |> 
+  filter(year==2021) |> 
+  mutate(grp=cut(avgpay, 
+                 breaks=c(0, 50e3, 75e3, 100e3, Inf)),
+         grpf=cut(avgpay, 
+                 breaks=c(0, 50e3, 75e3, 100e3, Inf),
+                 labels=c("<= $50k",
+                          ">$50k - <= $75k",
+                          ">$75k - <= $100k",
+                          ">$100k")))
+count(tax1, grp, grpf)
+
+tabdata <- tax1 |> 
+  group_by(grpf) |> 
+  summarise(taxwages=sum(taxwages), 
+            taxold=sum(taxold),
+            taxnew=sum(taxnew),
+            change=sum(change),
+            .groups="drop") |> 
+  adorn_totals() |> 
+  mutate(pch=change / taxold)
+tabdata
+
+
+```
+
+
+```{r}
+#| include: true
+
+tab <- tabdata |>
+  gt() |> 
+  tab_header(
+    title = "Current and potential payroll mobility tax (wages only) in $ millions, by industry average pay",
+    subtitle = "Increase 0.34% rate to 0.50%. Assumes no behavioral response"
+  ) |> 
+  cols_label(grpf="Industry average pay",
+             taxwages="Taxable wages",
+             taxold="Current tax",
+             taxnew="Tax at new rates",
+             change="Change in tax",
+             pch="% change") |> 
+  fmt_number(columns=c(taxwages, taxold, taxnew, change),
+             scale=1e-6,
+             decimals=1) |> 
+  fmt_percent(columns=pch, decimals=1)
+tab
+
+
+```
+
+
 
 

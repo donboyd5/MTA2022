@@ -2,33 +2,52 @@
 
 ### Impact on employment
 
-A tax on wages creates an incentive to employ less labor or employ it outside the taxing jurisdiction, all else equal. Thus, it makes sense to examine employment in the MTA region and outside the MTA region, before and after adoption of the PMT. (The PMT was first effective in March 2009.)
+A tax on wages creates an incentive to employ less labor or employ it outside the taxing jurisdiction, all else equal. Thus, it makes sense to examine employment in the MTA region and outside the MTA region, before and after adoption of the payroll mobility tax. (The PMT was first effective in March 2009.)
 
 #### Using employment data
 
-The best available data on employment in MTA counties and non-MTA counties is the [BLS Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/). The data are released quarterly, with an approximately 6-month lag. Each quarter's data includes employment for each month in the quarter. The data are not seasonally adjusted and so are quite bouncy.
+The best available data on employment in MTA counties and non-MTA counties is the [BLS Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/). The data are released quarterly, with an approximately 6-month lag. Each data release includes employment for each month in the quarter. The data are not seasonally adjusted and so have substantial intra-year ups and downs, some of which are quite regular (such as an October-December holiday season boost and a dropoff in the January-March quarter).
 
-In this analysis I average the 3 months of each quarter and then calculate the underlying trend in quarterly employment. (I use a method known as loess regression that removes seasonal variation and also removes outliers.) The figure below illustrates this for private sector employment in Westchester county, showing the actual data for each quarter and the trend that I calculate. The trend calculated by the software is very similar to one we might calculate if drawing by hand.
+So that we can focus on longer term trends, in this analysis I average the 3 months of each quarter and then calculate the underlying trend in quarterly employment. (I use a method known as loess regression that removes seasonal variation and also removes outliers.) The figure below illustrates this for private sector employment in Westchester county, showing the actual data for each quarter and the trend that I calculate. The trend calculated by the software is very similar to one we might draw by hand.
 
 ![Raw employment data and underlying trend](images/example_trend.png)
 
-#### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
+#### MTA and non-MTA counties
 
 <!-- #### MTA region and nearby neighbors -->
 
+It's useful to compare what happened right before and after PMT adoption in March 2009 in MTA counties (which were newly subject to the PMT) with non-MTA counties (not subject to the PMT). We look at neighboring counties because their economies and underlying trends may be more similar than if we look at MTA and non-MTA counties that are far apart.
+
+The map below, which I lifted from Google images, shows counties in the tri-state MTA region. Its purpose is simply to make it easy to see which pairs of MTA and non-MTA counties are neighbors and which are not.
+
 ![MTA region and nearby neighbors](images/paste-0D60C16D.png)
 
+#### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
 
-::: {.fullwidth}
+We look at the 3 years before and the 3 years after adoption of the PMT so that we can see what employment trends were immediately before and immediately after the PMT was put in place.
+
+The figure below shows what happened in selected pairs of MTA and non-MTA counties. (You may have to make it bigger on the screen to see clearly.)
+
+Each panel works the same way, so let's look at the first, in the upper-left corner, to understand it. The blue line shows trend private-sector employment in Dutchess County from early 2006 (3 years before the PMT) through early 2012 (3 years after the PMT). There is a vertical line at the April-June 2009 quarter as that is the first full quarter of the new tax. Each county's employment is indexed so that the line is 100 in the April-June quarter. The blue line was about 104 at the end of 2007 (the start of the Great Recession) meaning Dutchess County private-sector employment was about 4 percent higher in late 2007 than in April-June 2009. It fell to about 99 (an additional 1 percent) by the end of the Great Recession. There's a horizontal line at 100 so that we can see how employment in any quarter compared to the April-June quarter. For example, it shows that Dutchess employment did not recover to its April-June 2009 level until about halfway through 2010.
+
+::: fullwidth
 ![Trend private-sector employment pre- and post-PMT, selected MTA and non-MTA counties](../results/pmt_impacts_facets.png)
 
 <!-- images/pmt_impacts_facets.png -->
 :::
 
+Dutchess employment was declining sharply before the tax went into effect, and continued to decline for about a year after the tax was adopted. If we only looked at a table of numbers that showed Dutchess employment in the quarter before the PMT and the quarter after, we'd see employment declining sharply right after the PMT went into effect and might conclude, erroneously, that the PMT caused it. But by looking at a longer trend we can see that employment had already been declining. We know why, of course: The Great Recession, which started in December 2007. So almost any county we look at - even non-MTA counties - will show lower employment right after the PMT than before, because the recession was causing it.
+
+Thus, we need to look at multiple counties to make sense of this - counties subject to the PMT and counties not - to see whether declines in the PMT were worse than declines in the MTA counties. There are statistical methods designed to get at this formally and to control for important differences in economies across counties but we don't have time or resources for that. Instead, we use graphical methods.
+
+The green line shows trend private-sector employment in non-MTA Litchfield County, CT, which neighbors Dutchess (per the map above) and was not subject to the PMT. It, too, was suffering substantial declines in employment before the PMT and those declines continued afterward. Litchfield's pre-PMT decline was worse than Dutchess's pre-PMT decline, and its post-PMT decline was also worse.[^pmt_behavioral_response-1] While this is hardly definitive, nothing in the graph suggests that Dutchess suddenly took a turn for the worse after the PMT went into effect, relative to neighboring Litchfield.
+
+[^pmt_behavioral_response-1]: In a perfect analysis, we'd like to compare counties that had similar pre-PMT trends and see whether the post-PMT trend was significantly worse in the MTA county than the non-MTA county. And we'd like to control, statistically, for other differences in the two counties.
+
+The remaining 8 panels compare other pairs of MTA and non-MTA counties. In most cases, the non-MTA was faring worse prior to the PMT and continued to fare worse after the PMT - no panel suggests a worsening of the MTA trend after the PMT went into effect, relative to its non-MTA neighbor.
+
+*This suggests that the PMT had little to no effect on employment relative to neighboring non-MTA counties, although admittedly it is hardly proof. But clearly other economic forces, far more important than the PMT, are affecting employment trends.*
 
 ## Behavioral response to increase from 0.34% to 0.50%
 
-Responsiveness of employment and wages, and PMT revenue, to PMT rate increase
-
-
-
+The question here is, how might employment and wages, and PMT revenue, respond to a PMT rate increase? The analysis above suggests that the existing tax had little impact on employment and wages and that a future, smaller, increase might also have little impact. I plan to review some of the research on payroll taxes to understand the potential range of impacts.
