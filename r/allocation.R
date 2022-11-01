@@ -255,13 +255,15 @@ saveRDS(comboaggvar1, here::here("results", "allocation_results.rds"))
 #   filter(recipe=="recipe1", rectype=="detail", measure=="accrual", year==2017,
 #          unifips=="36059", str_detect(vname, "mrt"))
 
+# tmp <- readRDS(here::here("results", "allocation_results.rds"))
+# saveRDS(tmp, here::here("results", "allocation_results_2022-09-21.rds"))
 
 # checks ----
-summary(result2)
-count(result2, rectype)
-count(result2, unifips, uniname)
-count(result2, measure)
-count(result2, year)
+# summary(result2)
+# count(result2, rectype)
+# count(result2, unifips, uniname)
+# count(result2, measure)
+# count(result2, year)
 
 ## totals ----
 res <- readRDS(here::here("results", "allocation_results.rds"))
@@ -276,6 +278,7 @@ tots <- res |>
 tots |> filter(diff != 0)  # good, differences are miniscule
 
 ## laugh test, specific taxes ----
+result2 <- comboaggvar1
 glimpse(result2)
 count(result2, vname)
 result2 |> 

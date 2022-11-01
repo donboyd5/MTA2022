@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Payroll Mobility Tax Base: Economic Data and Actual Revenue
 
 ## Question
@@ -145,7 +150,8 @@ tab_mtatotal <- pmtbase |>
   group_by(year) |> 
   summarise(across(c(earnings_bea, wages_bea, nonwage_bea, supplements_bea,
                      taxbase_pmt, wages_pmt, nonwage_pmt,
-                     wage_tot, wage_fed, wage_k12, propinc_bea, smallwages), sum), .groups="drop") |> 
+                     wage_tot, wage_fed, wage_k12, propinc_bea, smallwages), sum),
+            .groups="drop") |> 
   basecalc()
 
 tab <- tab_mtatotal |> 
@@ -205,15 +211,20 @@ The following table shows BEA earnings, the estimated PMT tax base after the adj
 #| output: true
 #| echo: false
 
+# count(pmtbase, fips, area) # only mta counties
+
 tab_mtacounty <- pmtbase |> 
   filter(year==2020) |> 
   mutate(area=str_remove(area, ", New York")) |> 
-  group_by(mtasub, fips, area) |> 
+  group_by(mtasuburb_county, fips, area) |> 
   summarise(across(c(earnings_bea, taxbase_pmt), sum), .groups="drop") |> 
   adorn_totals() |> 
-  mutate(tax_earnings=.0034 * earnings_bea,
+  mutate(group=ifelse(mtasuburb_county, "suburb", "nyc"),
+         tax_earnings=.0034 * earnings_bea,
          tax_pmtbase=.0034 * taxbase_pmt,
-         pch=tax_pmtbase / tax_earnings - 1.)
+         pch=tax_pmtbase / tax_earnings - 1.) |> 
+  relocate(group) |> 
+  select(-mtasuburb_county)
   
 
 tab_mtacounty |> 

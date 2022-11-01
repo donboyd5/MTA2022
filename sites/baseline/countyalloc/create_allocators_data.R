@@ -40,19 +40,33 @@ propinc_taxable_ratio <- 831.7 / 1130.8
 xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
 
 pmt1 <- readRDS(here::here("data", "pmtbase.rds"))
+# count(pmt1, fips, area) # bronx ok
 
 mft1 <- readRDS(here::here("data", "dtf", "mft.rds"))
-mrt1 <- readRDS(here::here("data", "dtf", "mrt.rds"))
+# count(mft1, county) # no fips
+
+# mrt1 <- readRDS(here::here("data", "dtf", "mrt.rds"))
+# count(pmt1, fips, area) # 
+
 qcew1 <- readRDS(here::here("data", "qcew", "qcew_alloc.rds"))
-rett1 <- readRDS(here::here("data", "dtf", "rett.rds"))
+# count(qcew1, unifips, uniname) # bronx ok
+
+# rett1 <- readRDS(here::here("data", "dtf", "rett.rds"))
+# count(pmt1, fips, area) # 
+
 sut1 <- readRDS(here::here("data", "dtf", "sut.rds"))
+# count(sut1, county) # no fips
+
 tsp1 <- readRDS(here::here("data", "dtf", "salesyear", "tsp_alloc.rds"))
+# count(tsp1, unifips, uniname) # has NYC as a whole
 
 # mtamrt1 <- readRDS(here::here("data", "mta", "mtamrt_monthly.rds"))
 
-mta1 <- readRDS(here::here("data", "mta", "mta_alloc.rds"))    
+mta1 <- readRDS(here::here("data", "mta", "mta_alloc.rds"))  
+# count(mta1, unifips, uniname) # NYC as a whole, nycxrichmond, Staten Island
 
 censuspop1 <- readRDS(here::here("data", "census", "censuspop.rds"))
+# count(censuspop1, censusfips, censusname) # bronx ok
 
 
 # prep files for the allocators data frame --------------------------------
@@ -69,22 +83,22 @@ count(censuspop, unifips, uniname)
 count(censuspop, name)
 
 
-
 ## mta values ----
 mta <- mta1
 mta
 count(mta, name)
+count(mta, unifips, uniname)
 
 ## pmt ----
 glimpse(pmt1) 
 count(pmt1, year) # 2015-2020
-count(pmt1, area) # just the mta counties
+count(pmt1, fips, area) # just the mta counties; bronx ok
 
 # quick check on values
-# pmtbase |> 
-#   select(year, area, wages_pmt, nonwage_pmt, taxbase_pmt) |> 
+# pmt1 |>
+#   select(year, area, wages_pmt, nonwage_pmt, taxbase_pmt) |>
 #   mutate(calc=wages_pmt + nonwage_pmt,
-#          diff=calc - taxbase_pmt) |> 
+#          diff=calc - taxbase_pmt) |>
 #   filter(diff!=0)
 
 pmt2 <- pmt1 |>
@@ -96,7 +110,7 @@ pmt2 <- pmt1 |>
          yeartype="cy") |>
   pivot_longer(cols=-c(unifips, uniname, year, yeartype, src))
 ht(pmt2)
-count(pmt2, unifips, uniname)
+count(pmt2, unifips, uniname) # bronx ok
 glimpse(pmt2)
 
 pmt <- pmt2
@@ -110,14 +124,14 @@ mft2 <- mft1 |>
   mutate(src="dtf_mft",
          yeartype="sfy")
 
-count(mft2, unifips, uniname, county)
+count(mft2, unifips, uniname, county) # nyc as a whole
 ht(mft2)
 
 mft <- mft2
 
 ## dtf mrt sfy Table 23 ----
-count(mrt1, county)
-count(mrt1, name)
+# count(mrt1, county)
+# count(mrt1, name)
 
 # name             n
 # <chr>        <int>
@@ -129,33 +143,33 @@ count(mrt1, name)
 # 6 mrt_specfund   320  tax for MTA and for Erie County?
 # 7 mrt_tot        320  total collected (includes local)
 
-mrt2 <- mrt1 |> 
-  filter(name != "mrt_number") |> 
-  rename(year=fyear) |> 
-  inner_join(xwalkny |> select(unifips, uniname, county=dtf_mrt), by="county") |> 
-  mutate(src="dtf_mrt",
-         yeartype="sfy")
-
-count(mrt2, unifips, uniname, county)
-ht(mrt2)
-summary(mrt2) # there are nas because some counties don't have some pieces of these taxes
-
-mrt <- mrt2
+# mrt2 <- mrt1 |> 
+#   filter(name != "mrt_number") |> 
+#   rename(year=fyear) |> 
+#   inner_join(xwalkny |> select(unifips, uniname, county=dtf_mrt), by="county") |> 
+#   mutate(src="dtf_mrt",
+#          yeartype="sfy")
+# 
+# count(mrt2, unifips, uniname, county)
+# ht(mrt2)
+# summary(mrt2) # there are nas because some counties don't have some pieces of these taxes
+# 
+# mrt <- mrt2
 
 
 ## dtf rett ----
 # rett
-rett2 <- rett1 |> 
-  rename(year=fyear) |> 
-  inner_join(xwalkny |> select(unifips, uniname, county=dtf_rett), by="county") |> 
-  mutate(src="dtf_rett",
-         yeartype="sfy")
+# rett2 <- rett1 |> 
+#   rename(year=fyear) |> 
+#   inner_join(xwalkny |> select(unifips, uniname, county=dtf_rett), by="county") |> 
+#   mutate(src="dtf_rett",
+#          yeartype="sfy")
 
-count(rett2, unifips, uniname, county)
-ht(rett2)
-summary(rett2)
-
-rett <- rett2
+# count(rett2, unifips, uniname, county)
+# ht(rett2)
+# summary(rett2)
+# 
+# rett <- rett2
 
 ## dtf sut ----
 sut2 <- sut1 |> 
@@ -165,7 +179,7 @@ sut2 <- sut1 |>
          name="sutrev",
          yeartype="sfy")
 
-count(sut2, unifips, uniname, county)
+count(sut2, unifips, uniname, county) # NYC as a whole
 ht(sut2)
 summary(sut2)
 sut <- sut2
@@ -176,6 +190,7 @@ sut <- sut2
 tsp <- tsp1 |> 
   mutate(src="dtf_txblsales",
          yeartype="sfy")
+count(tsp, unifips, uniname)
 
 ## mta mrt ----
 # # mtamrt1
@@ -244,13 +259,15 @@ nyc
 qcew1
 
 qcew <- qcew1 |>
-  select(unifips, uniname, year, type=name, private, tpu, insure, privxtpu, surchwtd=wtdqcew) |> 
+  select(unifips, uniname, year, type=name, 
+         private, tpu, insure, privxtpu, surchwtd=wtdqcew) |> 
   pivot_longer(cols=c(private, tpu, insure, privxtpu, surchwtd)) |> 
   mutate(prefix="qcew",
          src="qcew",
          yeartype="cy") |> 
   unite(name, prefix, name, type)
 qcew
+count(qcew, unifips, uniname)
 
 ## vehicle license and registration values ----
 # here are percentage shares taken from the 2019 MTA study of the 2016 tax year
@@ -279,9 +296,10 @@ rock,	3.76,	3.69
 org,	5.03,	4.92
 ")
 
-anames <- c("nyc", "nas", "suf", "west", "put", "dut", "rock", "org")
-unames <- c("New York City", "Nassau", "Suffolk", "Westchester", "Putnam",
-            "Dutchess", "Rockland", "Orange")
+anames <- c("nyc", "nas", "suf", "west", 
+            "put", "dut", "rock", "org")
+unames <- c("New York City", "Nassau", "Suffolk", "Westchester",
+            "Putnam", "Dutchess", "Rockland", "Orange")
 cbind(anames, unames)
 
 vlicregs1 <- left_join(vl, vr, by="area") |> 
@@ -306,9 +324,9 @@ vlicregs <- vlicregs2 |>
 names(mta)
 names(pmt)
 names(mft)
-names(mrt)
+# names(mrt)
 names(qcew)
-names(rett)
+# names(rett)
 names(sut)
 names(tsp)
 names(vlicregs)
@@ -316,13 +334,13 @@ names(vlicregs)
 
 keepvars <- c("unifips", "uniname", "name", "year", "yeartype", "src", "value")
 
-# don't bother with mrt because we'll use values from mta
-stack <- bind_rows(censuspop, mft, mta, nyc, pmt, qcew, rett, sut, tsp, vlicregs) |> 
+# don't bother with mrt because we'll use values from mta, don't use rett either
+stack <- bind_rows(censuspop, mft, mta, nyc, pmt, qcew, sut, tsp, vlicregs) |> 
   select(all_of(keepvars)) |> 
   filter(year %in% 2015:2021) |> 
   rename(allocator=name)
 
-count(stack, unifips, uniname)
+count(stack, unifips, uniname) # bronx ok
 count(stack, allocator)
 count(stack, year)
 count(stack, yeartype)
@@ -331,65 +349,103 @@ count(stack, src)
 saveRDS(stack, here::here("data", "allocation", "allocators.rds"))
 
 
+# tmp <- readRDS(here::here("data", "allocation", "allocators.rds"))
+# saveRDS(tmp, here::here("data", "allocation", "allocators_OLD.rds"))
+# good <- count(stack, unifips, uniname)
+# old <- count(tmp, unifips, uniname) |> rename(unameold=uniname, nold=n)
+# df <- left_join(good, old, by = "unifips")
+# df |> filter(uniname != unameold)
+# unifips uniname       n unameold   nold
+# <chr>   <chr>     <int> <chr>     <int>
+#   1 36005   Bronx        35 Manhattan   110
+# 2 36047   Brooklyn     35 Bronx       110
+# 3 36061   Manhattan    35 Brooklyn    110
+
+
 # create MTA allocation data with collapsed NYC ---------------------------
 allocators <- readRDS(here::here("data", "allocation", "allocators.rds"))
 
 glimpse(allocators)
-count(allocators, unifips, uniname)
+count(allocators, unifips, uniname) # bronx ok; all counties in the state
 count(allocators, allocator)
+
+## get MTA geographies and do some cleaning ----
+alloc1 <- allocators |> 
+  left_join(xwalkny |> 
+              select(unifips, mta_all, nyc_all, nyc_collapse), 
+            by = "unifips") |> 
+  filter(year %in% 2016:2022,
+         allocator != "density")
+
+alloc1 |> 
+  filter(mta_all | unifips=="36xx2") |> 
+  select(unifips, uniname, nyc_all, nyc_collapse) |> 
+  distinct() # the 12 counties, plus NYC as a whole, plus nycxrichmond
+
+alloc1_mta <- alloc1 |> 
+  # pick geographies
+  filter(mta_all | unifips=="36xx2")
+  # filter(nyc_collapse, # unifips %in% c(constants$mtafips, constants$totnycfips, "36xx2"))
+
 
 ## collapse nyc counties into an nyc record ----
 ## get the info needed for collapsing
-alloc1 <- allocators |> 
-  left_join(xwalkny |> select(unifips, mta, nyc, nyccollapse), by = "unifips") |> 
-  filter(mta | nyc | nyccollapse, # unifips %in% c(constants$mtafips, constants$totnycfips, "36xx2"),
-         year %in% 2016:2022,
-         allocator != "density")
-count(alloc1, unifips, uniname)
+
+count(alloc1_mta, unifips, uniname, nyc_collapse)
 
 # create the collapsed nyc record
-allocnyc <- alloc1 |> 
-  filter(nyc | nyccollapse) |> # get the NYC totals as well as boros
-  # drop details if we have the nyc total
+allocnyc <- alloc1_mta |> 
+  filter(nyc_collapse) |> # get the NYC totals as well as boros
+  arrange(allocator, year, yeartype, src) |> 
+  # drop details, within a group, if the nyc total is in the group
   group_by(allocator, year, yeartype, src) |> 
-  filter(!constants$totnycfips %in% unifips) |> 
-  summarise(n=n(), value=sum(value), .groups="drop") |> 
-  mutate(unifips="3651000", uniname="New York City") |> 
+  mutate(drop=("3651000" %in% unifips) & unifips!="3651000") |> 
+  filter(!drop) |> 
+  summarise(n=n(), value=sum(value), .groups="drop") |>
+  mutate(unifips="3651000", uniname="New York City") |>
   select(-n) # drop n after inspecting it
-# allocnyc |> select(unifips, uniname) |> distinct()
+# # allocnyc |> select(unifips, uniname) |> distinct()
+# allocnyc |> filter(year==2018, src=="census", allocator=="pop")
 
-# add the collapsed nyc record to the main data and remove nyc county records
-alloc2 <- alloc1 |> 
-  filter(!unifips %in% constants$nycfips, uniname!="nycxrichmond") |> 
+## add collapsed nyc record to the main data and remove nyc county records ----
+alloc2_mta <- alloc1_mta |> 
+  # filter(!unifips %in% constants$nycfips, uniname!="nycxrichmond") |>
+  filter(!nyc_all, uniname!="nycxrichmond") |> 
   bind_rows(allocnyc) |> 
-  select(-c(mta, nyc, nyccollapse))
+  select(-c(mta_all, nyc_all, nyc_collapse))
+# check1 <- alloc1 |> select(allocator, year, yeartype, src) |> distinct()
+# check2 <- alloc1 |> select(allocator, year, yeartype, src) |> distinct()
 
-alloc2
-count(alloc2, unifips, uniname)
-count(alloc2, year)
-count(alloc2, allocator)
+alloc2_mta
+count(alloc2_mta, unifips, uniname)
+count(alloc2_mta, year)
+count(alloc2_mta, allocator)
 
 ## fill in missing values ----
 # by carrying forward and also carrying backward (rett, sut to 2016)
 # , allocator, src, yeartype
-stubs <- alloc2 |> 
+stubs <- alloc2_mta |> 
   select(uniname, unifips) |> 
   distinct() |> 
-  expand_grid(year=2016:2022, alloc2 |> select(allocator, src, yeartype) |> distinct())
+  expand_grid(year=2016:2022, 
+              alloc2_mta |> 
+                select(allocator, src, yeartype) |> 
+                distinct())
 stubs |> filter(str_detect(allocator, "urban"))
 stubs |> filter(str_detect(allocator, "nyconly"))
 summary(stubs)
 
-alloc3 <- stubs |> 
-  left_join(alloc2 |> select(unifips, uniname, allocator, src, yeartype, year, value), 
+alloc3_mta <- stubs |> 
+  left_join(alloc2_mta |> 
+              select(unifips, uniname, allocator, src, yeartype, year, value), 
             by = c("uniname", "unifips", "allocator", "src", "yeartype", "year")) |> 
   mutate(missval=ifelse(is.na(value), TRUE, FALSE)) # flag, so we know what we fill in
-summary(alloc3)
+summary(alloc3_mta)
 
 
 # nyconly <- c("urban_value")
 nyconly <- c("urban_value", "autorental_mtaaid", "taxicab_mtaaid", "nyconly")
-alloc4 <- alloc3 |> 
+alloc4_mta <- alloc3_mta |> 
   # set counties to zero if they cannot have a value
   mutate(value=ifelse(str_detect_any(allocator, nyconly) &
                         !uniname=="New York City",
@@ -404,11 +460,11 @@ alloc4 <- alloc3 |>
   fill(value, .direction="down") |> 
   ungroup() |> 
   arrange(uniname, unifips, allocator, year)
-summary(alloc4)
-alloc4 |> filter(is.na(value))
-alloc4 |> filter(value==0)
+summary(alloc4_mta)
+alloc4_mta |> filter(is.na(value))
+alloc4_mta |> filter(value==0)
 
-alloc5 <- alloc4 |> 
+alloc5_mta <- alloc4_mta |> 
   rename(allocval=value) |> 
   group_by(allocator, year) |> 
   mutate(allocshare=allocval / sum(allocval),
@@ -416,24 +472,32 @@ alloc5 <- alloc4 |>
   # we will have na shares where sum of mrt revenue value was zero -- all of 2016
   ungroup() |> 
   # put population on the file
-  left_join(alloc4 |> 
+  left_join(alloc4_mta |> 
               filter(allocator=="pop") |> 
               mutate(pop=value) |> 
               select(unifips, uniname, year, pop), 
             by = c("uniname", "unifips", "year"))
 
-summary(alloc5)
-count(alloc5, unifips, uniname)
-count(alloc5, allocator)
-count(alloc5, src)
-count(alloc5, allocator, src)
-count(alloc5, year)
-alloc5 |> filter(is.na(allocval))
-alloc5 |> filter(is.na(allocshare))
+summary(alloc5_mta)
+count(alloc5_mta, unifips, uniname)
+count(alloc5_mta, allocator)
+count(alloc5_mta, src)
+count(alloc5_mta, allocator, src)
+count(alloc5_mta, year)
+alloc5_mta |> filter(is.na(allocval))
+alloc5_mta |> filter(is.na(allocshare))
 
+saveRDS(alloc5_mta, here::here("data", "allocation", "allocators_mta.rds"))
 
-saveRDS(alloc5, here::here("data", "allocation", "allocators_mta.rds"))
+# tmp <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
+## saveRDS(tmp, here::here("data", "allocation", "allocators_mta_OLD.rds"))
 
+check1 <- readRDS(here::here("data", "allocation", "allocators_mta.rds"))
+check2 <- readRDS(here::here("data", "allocation", "allocators_mta_OLD.rds"))
+
+t1 <- count(check1, allocator)
+t2 <- count(check2, allocator)
+setdiff(t2$allocator, t1$allocator) # rett is no longer in the data
 
 
 # tmp <- Sys.getenv()

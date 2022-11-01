@@ -32,7 +32,7 @@
 -   I summarize the changes, other than the filing-requirement changes, in the table below:
 
 | Item                                    | Before 2011 changes                                                                     | After 2011 changes                                                                                                          |
-|----------------|-----------------------|---------------------------------|
+|-----------------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
 | Employer payroll threshold for taxation | \$2,500 in a quarter                                                                    | \$312,500 in a quarter                                                                                                      |
 | Excluded employers                      | US, UN, interstate, or US-Canada related employer                                       | Same as before, plus public school districts and certain other educational institutions                                     |
 | Tax rate on payroll                     | 0.34% for all covered employer payroll                                                  | Added lower rates for taxable employers with quarterly payroll below \$437,500 and                                          |

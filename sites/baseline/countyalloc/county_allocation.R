@@ -20,8 +20,6 @@ source(here::here("r", "functions.r"))
 propinc_taxable_ratio <- 831.7 / 1130.8
 
 
-
-
 # get previously prepared allocators data ---------------------------------
 
 

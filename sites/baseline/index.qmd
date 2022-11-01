@@ -2,6 +2,50 @@
 
 <!-- (taxes/payroll_mobility_tax.qmd#incidence) -->
 
+## November 2, 2022, 3 pm
+
+Near-term priorities ordered from highest to lowest. For any items that result in tables or graphs, provide links to a spreadsheet with data needed to produce MTA-prepared versions of same. Prepare as much of the following by Monday Oct 31:
+
+-   PMT \~ 2 or so pages addressing impact of PMT, starting with simplest approach
+
+    -   How large is the PMT relative to selected other taxes?
+
+        -   as share of the economy (MTA corporate surcharge, NYS and NYC corporate taxes)
+
+        -   rates relative to other payroll taxes (table comparing rates of payroll taxes (FICA, FUTA, unemployment, PMT; make note of caps on payroll, and any substantial credits against tax; give links to sources)
+
+    -   What happened to employment in MTA region after imposition of PMT?
+
+        -   compared to NYS, and compared to a of MTA-neighboring counties combined (NY, NJ, CT) -- new, simple table or graph
+
+        -   the same pre-post comparison of MTA counties and non-MTA neighbors as before, but add links to data for the graphs
+
+    -   How much does the PMT worsen NY's tax ranking - what would happen to NY's ranking (state and local taxes relative to the economy) if the PMT did not exist?
+
+-   TCJA and MTA taxes
+
+    -   How much did NY-ers save federally as a result of the pass-through entity tax? How does that compare to the size of a hypothetical PMT increase?
+
+    -   Possibly later (not near term priority): How much did NY-ers save federally from the TCJA
+
+-   Policy-oriented primers on selected other taxes -- base, rate, history, interaction with other taxes, other relevant issues
+
+    -   Noncorporate entities (partnerships, LLCs, trusts, etc.)
+
+        -   Tax treatment generally
+
+        -   Pass-through entity tax
+
+    -   MTA corporate surcharge
+
+    -   MTA sales tax
+
+-   Above info will make it easy to check a couple of the slides we looked at on Oct 28; highlight anything that needs to change.
+
+## October 28, 2022
+
+Review priorities for next items (see Nov 2 agenda above).
+
 ## October 25, 2022
 
 As much of following as practical, in priority order. I have gotten as far as the horizontal rule below. click on the links below:
@@ -16,7 +60,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
     -   By average industry pay
 
--   Ways to analyze [impact of PMT on the economy](option_analysis/pmt_behavioral_response.qmd)
+-   Ways to analyze [impact of PMT on the economy](option_analysis/pmt_impact_employment.qmd)
 
     -   Pre- and post- employment in MTA and other regions
 

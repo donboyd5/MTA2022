@@ -1,0 +1,327 @@
+## What impact does the PMT have on the economy?
+
+```{r}
+#| label: libs_data
+#| include: false
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+
+```
+
+```{r}
+#| label: private_employment
+#| include: false
+
+# run pmt_impact_employment.r to create needed data
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+mtacos <- xwalkny |> 
+  filter(mta_county) |> 
+  select(unifips, uniname, boroname) |> 
+  mutate(mta=ifelse(is.na(boroname), uniname, boroname))
+
+empbase <- readRDS(here::here("data", "qcew", "empbase.rds"))
+adjacent <- readRDS(here::here("data", "qcew", "adjacent.rds"))
+
+```
+
+### Employment in the MTA, New York State, and MTA-neighboring counties
+
+```{r}
+#| label: tab-aggregate-prep
+#| include: false
+
+# Table: NYS, MTA, MTA-adjacent employment pre-post pmt adoption 
+
+emp1 <- empbase |> 
+  filter((stabbr=="NY" & atype=="state") |
+           afips %in% mtacos$unifips |
+           afips %in% adjacent$nonmtafips)
+count(emp1, afips, area)
+
+emp2 <- emp1 |> 
+  mutate(group=case_when(stabbr=="NY" & atype=="state" ~ "nys",
+                         afips %in% mtacos$unifips ~ "mta",
+                         afips %in% adjacent$nonmtafips ~ "adjacent",
+                         TRUE ~ "ERROR")) |> 
+  group_by(group, date) |> 
+  summarise(n=n(), emp=sum(emp), .groups="drop")
+
+# emp2 |> 
+#   ggplot(aes(date, emp, colour=group)) +
+#   geom_line() +
+#   geom_point()
+  
+tabdata <- emp2 |> 
+  filter(year(date)>=2009, quarter(date)==1) |> 
+  select(-n) |> 
+  group_by(group) |> 
+  mutate(pdiff=emp / emp[date=="2009-01-01"] - 1) |> 
+  pivot_wider(names_from = group,
+              values_from = c(emp, pdiff))
+
+footnote1 <- paste0(adjacent$nonmta, " (", adjacent$nonmtast, ")")
+footnote1
+footnote2 <- paste0(footnote1, collapse=", ")
+footnote2
+footnote <- paste0("Neighboring counties: ", footnote2)
+footnote
+
+```
+
+```{r}
+#| label: tab-aggregate
+#| include: true
+
+tab <- tabdata |>
+  select(date, 
+         emp_nys, emp_adjacent, emp_mta,
+         pdiff_nys, pdiff_adjacent, pdiff_mta) |> 
+  gt() |> 
+  tab_header(
+    title = "Private sector employment in New York State, counties neighboring the MTA region, and the MTA region",
+    subtitle = "First quarter of each year compared with first quarter 2009 (when payroll mobility tax was first imposed)"
+  ) |> 
+  cols_label(date="Year-quarter",
+             emp_nys="New York State",
+             emp_adjacent="MTA neighbors",
+             emp_mta="MTA region",
+             pdiff_nys="New York State",
+             pdiff_adjacent="MTA neighbors",
+             pdiff_mta="MTA region") |> 
+  tab_spanner(columns = contains("emp"),
+              label="Employment (thousands)") |> 
+  tab_spanner(columns = contains("pdiff"),
+              label="% change since 2009-Q1") |> 
+  fmt_date(
+    columns = date,
+    date_style = "year_quarter"
+  ) |> 
+  fmt_number(columns=contains("emp"),
+             scale=1e-3,
+             decimals=1) |> 
+  fmt_percent(columns=contains("pdiff"), decimals=1) |> 
+  tab_source_note(footnote) |> 
+  tab_source_note(source_note = "U.S. Bureau of Labor Statistics, Quarterly Census of Employment and Wages")
+tab
+
+fnbase <- "pmt_employment_changes"
+gtsave(tab, paste0(constants$mtaout, fnbase, ".html"))
+write_csv(tabdata, paste0(constants$mtaout, fnbase, ".csv"))  
+
+```
+
+The above table and its data can be found at this [link](%7B%7B%3C%20var%20mtaout%20%3E%7D%7D), in files with the prefix *"`r fnbase`"*.
+
+### Impact on employment - MTA and non-MTA counties
+
+A tax on wages creates an incentive to employ less labor or employ it outside the taxing jurisdiction, all else equal. Thus, it makes sense to examine employment in the MTA region and outside the MTA region, before and after adoption of the payroll mobility tax. (The PMT was first effective in March 2009.)
+
+#### Using employment data
+
+The best available data on employment in MTA counties and non-MTA counties is the [BLS Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/). The data are released quarterly, with an approximately 6-month lag. Each data release includes employment for each month in the quarter. The data are not seasonally adjusted and so have substantial intra-year ups and downs, some of which are quite regular (such as an October-December holiday season boost and a dropoff in the January-March quarter).
+
+So that we can focus on longer term trends, in this analysis I average the 3 months of each quarter and then calculate the underlying trend in quarterly employment. (I use a method known as loess regression that removes seasonal variation and also removes outliers.) The figure below illustrates this for private sector employment in Dutchess county, showing the actual data for each quarter and the trend that I calculate. The trend calculated by the software is very similar to one we might draw by hand.
+
+```{r}
+#| label: pairs_data
+#| include: false
+
+epairs1 <- read_csv("
+mta, nonmta, nonmtast, nonmtafips
+Dutchess, Litchfield, CT, 09005
+Orange,	Passaic, NJ, 34031
+Orange,	Pike, PA, 42103
+Orange,	Sussex, NJ, 34037
+Orange,	Ulster, NY, 36111
+Putnam, Fairfield, CT, 09001
+Staten Island, Middlesex, NJ, 34023
+Rockland,	Bergen, NJ, 34003
+Rockland,	Passaic, NJ, 34031
+Westchester, Fairfield, CT, 09001")
+
+epairs <- epairs1 |> 
+  left_join(mtacos |> select(mtafips=unifips, mta=uniname),
+            by="mta") |> 
+  mutate(pairnum=row_number()) |> 
+  relocate(pairnum, .before = mta)
+epairs
+
+keepcos <- c(epairs$mtafips, epairs$nonmtafips) |> unique() |> sort()
+keepcos
+# count(empbase |> filter(afips %in% keepcos), afips, area)
+
+cotrend <- empbase |> 
+  filter(afips %in% keepcos) |> 
+  group_by(area) |> 
+  # get trend, SORT by date within group first!
+  dplyr::arrange(date) %>%
+  do(cbind(., stldf(.$emp, 4))) |> 
+  mutate(iemp=emp / emp[date=="2009-04-01"],
+         ietrend=trend / trend[date=="2009-04-01"]) |> 
+  ungroup()
+
+```
+
+```{r}
+#| label: example_trend
+#| include: true
+
+# Dutchess trend and actual data
+# areas |> filter(area_fips=="36027")
+
+pdata <- cotrend |> 
+  filter(afips=="36027") |> 
+  select(date, afips, area, actual=emp, trend)
+
+px <- pdata  |> 
+  pivot_longer(cols=c(actual, trend)) |> 
+  mutate(namef=factor(name, 
+                      levels=c("actual", "trend"))) |> 
+  ggplot(aes(date, value, colour=namef, size=namef)) +
+  geom_line() +
+  geom_vline(xintercept = as.Date("2009-04-01"), linetype="dashed") +
+  scale_size_manual(values=c(0.5, 1.5)) +
+  geom_point(size=0.5) +
+  scale_x_date(name=NULL, 
+               date_breaks = "5 years",
+               date_labels = "%Y") +
+  scale_y_continuous(name="# employed (thousands)",
+                     breaks=seq(0, 1e6, 10e3),
+                     labels = label_number(scale = 1e-3)) +
+  scale_colour_manual(values=c("grey30", "blue")) +
+  ggtitle("Example: Actual and trend private-sector employment, Dutchess County",
+          subtitle = "Vertical dashed line indicates first full quarter of Payroll Mobility Tax") +
+  theme_bw() +
+  theme(legend.title=element_blank())
+px
+
+
+fnbase <- "pmt_trend_example"
+ggsave(paste0(constants$mtaout, fnbase, ".png"),
+       px,
+       width=10, height=8,
+       scale=1)
+write_csv(pdata, paste0(constants$mtaout, fnbase, ".csv"))  
+
+```
+
+The above figure and its data can be found at this [link](%7B%7B%3C%20var%20mtaout%20%3E%7D%7D), in files with the prefix *"`r fnbase`"*.
+
+<!-- ![Raw employment data and underlying trend](images/example_trend.png) -->
+
+#### MTA and non-MTA counties
+
+<!-- #### MTA region and nearby neighbors -->
+
+It's useful to compare what happened right before and after PMT adoption in March 2009 in MTA counties (which were newly subject to the PMT) with non-MTA counties (not subject to the PMT). We look at neighboring counties because their economies and underlying trends may be more similar than if we look at MTA and non-MTA counties that are far apart.
+
+The map below, which I lifted from Google images, shows counties in the tri-state MTA region. Its purpose is simply to make it easy to see which pairs of MTA and non-MTA counties are neighbors and which are not.
+
+![MTA region and nearby neighbors](images/paste-0D60C16D.png)
+
+#### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
+
+We look at the 3 years before and the 3 years after adoption of the PMT so that we can see what employment trends were immediately before and immediately after the PMT was put in place.
+
+The figure below shows what happened in selected pairs of MTA and non-MTA counties. (You may have to make it bigger on the screen to see clearly.)
+
+Each panel works the same way, so let's look at the first, in the upper-left corner, to understand it. The blue line shows trend private-sector employment in Dutchess County from early 2006 (3 years before the PMT) through early 2012 (3 years after the PMT). There is a vertical line at the April-June 2009 quarter as that is the first full quarter of the new tax. Each county's employment is indexed so that the line is 100 in the April-June quarter. The blue line was about 106 at the end of 2007 (the start of the Great Recession) meaning Dutchess County private-sector employment was about 6 percent higher in late 2007 than in April-June 2009. It fell to about 98 (an additional 2 percent) by the end of the Great Recession. There's a horizontal line at 100 so that we can see how employment in any quarter compared to the April-June quarter. For example, it shows that Dutchess employment did not recover to its April-June 2009 level by the end of the period shown.
+
+```{r}
+#| label: panels
+#| include: false
+
+
+plong <- epairs |> 
+  pivot_longer(contains("fips"), names_to="rectype", values_to = "fips") |> 
+  mutate(rectype=str_remove(rectype, "fips"),
+         nonmta=ifelse(nonmtast != "NY", paste0(nonmta, ", ", nonmtast), nonmta),
+         name=ifelse(rectype=="mta", 
+                     paste0(mta, " (MTA)"),
+                     paste0(nonmta, " (non-MTA)"))) |> 
+  select(pairnum, rectype, fips, name)
+plong # this is just a stub
+
+int <- lubridate::interval(ymd("2006-04-01"), ymd("2012-04-01"))
+
+pdata <- plong |> 
+  left_join(cotrend |> 
+              select(stabbr, date, fips=afips, emp, trend, iemp, ietrend),
+            by="fips") |> 
+    filter(date %within% int)
+
+pf <- function(pairnum){
+  pdata |>
+    filter(pairnum==!!pairnum) |> 
+    # group_by(name) |> 
+    # mutate(itrend=trend / trend[date == "2009-04-01"] * 100) |> 
+    # ungroup() |> 
+    arrange(rectype, name) |> 
+    mutate(name=fct_reorder(name, rectype, .fun = first)) |> 
+    ggplot(aes(date, ietrend, colour=name, size=name)) +
+    geom_line() +
+    geom_point(size=0.5) +
+    scale_colour_manual(values=c("blue", "darkgreen")) +
+    scale_size_manual(values=c(1.25, .75)) +
+    geom_vline(xintercept = as.Date("2009-04-01")) +
+    geom_hline(yintercept = 1) +
+    # ggtitle(title=NULL,
+    #         subtitle=NULL) +
+    scale_x_date(name=NULL, 
+                 date_breaks = "1 year",
+                 date_labels = "%Y") +
+    scale_y_continuous((name="April-June 2009=100"),
+                       breaks=seq(.5, 2.0, .01),
+                       labels=number_format(scale=100, accuracy=1)) +
+    theme_bw() +
+    theme(legend.title=element_blank())
+}
+
+p1 <- 
+  (pf(1) + pf(2) + pf(3)) /
+  (pf(4) + pf(5) + pf(6)) /
+  (pf(7) + pf(8) + pf(9))
+
+p <- p1  + 
+  plot_annotation(title ="Private sector employment in an MTA county and a neighboring non-MTA county",
+                  subtitle="Trend values: 3 years before and after payroll mobility tax, indexed to start of PMT",
+                  caption="U.S. Bureau of Labor Statistics, Quarterly Census of Employment and Wages")
+# p
+
+fnbase <- "pmt_impacts_facets"
+ggsave(paste0(constants$mtaout, fnbase, ".png"),
+       p,
+       width=16, height=8,
+       scale=1)
+write_csv(pdata, paste0(constants$mtaout, fnbase, ".csv"))  
+
+ggsave(here::here("sites", "baseline", "results", paste0(fnbase, ".png")),
+       p,
+       width=16, height=8,
+       scale=1.0)
+
+```
+
+::: fullwidth
+![Trend private-sector employment pre- and post-PMT, selected MTA and non-MTA counties](../results/pmt_impacts_facets.png)
+:::
+
+The above figure and its data can be found at this [link](%7B%7B%3C%20var%20mtaout%20%3E%7D%7D), in files with the prefix *"`r fnbase`"*.
+
+Dutchess employment was declining sharply before the tax went into effect, and continued to decline for about two year after the tax was adopted. If we only looked at a table of numbers that showed Dutchess employment in the quarter before the PMT and the quarter after, we'd see employment declining sharply right after the PMT went into effect and might conclude, erroneously, that the PMT caused it. But by looking at a longer trend we can see that employment had already been declining. We know why, of course: The Great Recession, which started in December 2007. So almost any county we look at - even non-MTA counties - will show lower employment right after the PMT than before, because the recession was causing it.
+
+Thus, we need to look at multiple counties to make sense of this - counties subject to the PMT and counties not - to see whether declines in the PMT were worse than declines in the MTA counties. There are statistical methods designed to get at this formally and to control for important differences in economies across counties but we don't have time or resources for that. Instead, we use graphical methods.
+
+The green line shows trend private-sector employment in non-MTA Litchfield County, CT, which neighbors Dutchess (per the map above) and was not subject to the PMT. It, too, was suffering substantial declines in employment before the PMT and those declines continued afterward. Litchfield's pre-PMT decline started later than Dutchess's pre-PMT decline and was sharper, its post-PMT decline was similar, and its recovery was faster.[^pmt_impact_employment-1]
+
+[^pmt_impact_employment-1]: In a perfect analysis, we'd like to compare counties that had similar pre-PMT trends and see whether the post-PMT trend was significantly worse in the MTA county than the non-MTA county. And we'd like to control, statistically, for other differences in the two counties.
+
+If these were the only MTA/non-MTA county pair we looked at, we might think that the faster recovery in Litchfield could be related to the PMT, although we know other factors must be at work given the sharp recession shortly before the PMT went into effect. But when we look at the other county pairs, we see that in 7 of the 9 pairs, the MTA county appears to have performed better than its non-MTA neighbor in the post-PMT period. Nothing in the 9-panel graph suggests that MTA counties suddenly took a turn for the worse after the PMT went into effect, relative to their neighboring non-MTA counties.
+
+*This suggests that the PMT had little to no effect on employment relative to neighboring non-MTA counties, although admittedly it is hardly proof. But clearly other economic forces, far more important than the PMT, are affecting employment trends.*
+
+## Behavioral response to increase from 0.34% to 0.50%
+
+The question here is, how might employment and wages, and PMT revenue, respond to a PMT rate increase? The analysis above suggests that the existing tax had little impact on employment and wages and that a future, smaller, increase might also have little impact. I plan to review some of the research on payroll taxes to understand the potential range of impacts.

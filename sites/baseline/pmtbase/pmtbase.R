@@ -25,6 +25,10 @@ qdf <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
 beadf <- readRDS(here::here("data", "bea", "bea_mta.rds"))
 pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
 wagesize <- readRDS(here::here("data", "susb", "wagesize.rds"))
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+
+# checks
+count(qdf, fips, area, mtasuburb_county)
 
 # use QCEW wages to calculate the pmt wage base as percent of total wages ----
 
@@ -39,7 +43,7 @@ keep <- expression(eval(total) | eval(fslp) | eval(localk12))
 pmt_qcewbase1 <- qdf |> 
   filter(eval(keep)) |> 
   filter(year>=2015) |> 
-  select(year, mtasub, fips, area, own, ownf, agglev, agglevf, ind, indf, wages)
+  select(year, mtasuburb_county, fips, area, own, ownf, agglev, agglevf, ind, indf, wages)
 pmt_qcewbase1
 
 # flip wages and compute base
@@ -51,7 +55,7 @@ pmt_qcewbase2 <- pmt_qcewbase1 |>
                          own==5 ~ "wage_private",
                          own==3 & agglev==76 & ind=="6111" ~ "wage_k12",
                          TRUE ~ "ERROR")) |> 
-  select(year, mtasub, fips, area, vname, wages) |>
+  select(year, mtasuburb_county, fips, area, vname, wages) |>
   pivot_wider(names_from = vname, values_from = wages) |> 
   mutate(pmt_gross_qcewbase=wage_private + wage_state + wage_local - wage_k12)
 
@@ -89,17 +93,17 @@ pmt_base1 <- pmt_earnbase |>
 glimpse(pmt_base1)
 
 pmt_base2 <- pmt_base1 |> 
-  mutate(mtasub=get_mtasub(fips),
-         nonwage_bea=earnings_bea - wages_bea,
+  mutate(nonwage_bea=earnings_bea - wages_bea,
          wages_pmt=wages_bea * pmt_qcewbase / wage_tot,
          nonwage_pmt=propinc_bea * propinc_taxable_ratio,
          taxbase_pmt=wages_pmt + nonwage_pmt) |> 
-  select(fips, year, mtasub, area, 
+  select(fips, year, mtasuburb_county, area, 
          ends_with("_bea"),
          starts_with("wage_"), # qcew
          pmt_gross_qcewbase, smallwages, pmt_qcewbase,
          ends_with("_pmt"))
 glimpse(pmt_base2)
+count(pmt_base2, fips, area, mtasuburb_county)
 
 saveRDS(pmt_base2, here::here("data", "pmtbase.rds"))
 
