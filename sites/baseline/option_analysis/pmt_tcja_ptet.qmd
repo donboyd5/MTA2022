@@ -1,0 +1,25 @@
+## The TCJA and MTA taxes
+
+## How much will New Yorkers save federally as a result of the pass-through entity tax?
+
+After extensive looking I have found NO published estimates of the federal tax savings that New Yorkers will get from the optional pass-through entity tax (PTET).
+
+However, here are pointers to a ballpark estimate:
+
+-   DOB expects the state PTET to be about \$15 billion in SFY 2022-23 (2021-22 was artificially boosted by certain timing-related issues). [@governorkathyhochulNewYorkState2022]
+
+-   As far as I can tell all or nearly all of that should be deductible federally by personal income taxpayers.
+
+-   Most beneficiaries of the PTET will be relatively high-income taxpayers. Top federal marginal income tax rates for higher income taxpayers begin at 24% for married taxpayers with taxable income of \$178k and range up to 37% for taxpayers with taxable income of \$648k or more. [@ericayork2022TaxBrackets2021]
+
+-   That would put the potential federal revenue loss and potential savings for New York taxpayers in the range of about \$3.6 billion to \$5.6 billion (\$15 billion x 24% or 37%).
+
+-   Some of these savings would accrue to taxpayers outside the MTA region. I don't have an estimate for this. The option should be attractive to many firms outside the region, although I would expect the vast majority of the benefit to accrue within the region. I'd pencil in 75% for now and I can dig for data on this if it becomes important. That would put the federal deduction for MTA-region taxpayers at about \$11 billion, and the annual savings in the \$2.6 billion to \$4 billion range.
+
+-   New York City has a new optional PTET that takes effect in 2023 that the City estimates will raise about \$1.5 billion annually. [@officeofthenewyorkcitycomptrollerbradlanderCommentsNewYork2022]
+
+-   This would add about 13% or so to the federal savings for MTA-region taxpayers (1.5 as % of 11). This would put the total PTET savings for MTA-region taxpayers in the \$2.9 billion to \$4.5 billion range.
+
+-   This is clearly substantially greater than the current MTA Payroll Mobility Tax of \$1.7 billion.
+
+This is only a rough estimate but should get the ballpark right. I had an email conversation with Jared Walczak, Vice President of State Projects at the Tax Foundation, to see if he is aware of any estimates that DOB, the NYS Tax Department, or others may have done of potential savings from the PTET. He confirmed my conclusion that the state has not published estimates. His back-of-the-envelope guess of a relevant federal marginal tax rate for PTET income - to which we should not hold him - is 35.2%. Using the other assumptions above, that would put the federal income tax savings of the NYS and NYC PTET options, in the MTA region, at about $4.4 billion annually.

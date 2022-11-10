@@ -1,0 +1,56 @@
+## Limits and possibilities for internet-related taxation
+
+## The Internet Tax Freedom Act 
+
+Much of the following is excerpted directly from:
+
+| Ball, Milan N. \"The Internet Tax Freedom Act and Federal Preemption.\" Congressional Research Service, October 18, 2021. <https://crsreports.congress.gov/product/pdf/IF/IF11947>.
+
+As first enacted on October 21, **1998**, the ITFA imposed a three-year moratorium on the ability of state and local governments to impose taxes on internet access and certain internet transactions to the extent permitted by the Constitution and any other federal law in effect on that date....
+
+The Internet Tax Freedom Act (ITFA), 47 U.S.C. §151 note, preempts state and local governments from levying (1) taxes on internet **access** and (2) **multiple** and **discriminatory** taxes on electronic commerce. State court lawsuits challenging state and local taxes under the ITFA indicate that courts have narrowly interpreted the ITFA\'s preemption provisions.
+
+### Internet access
+
+The ITFA defines the term \"internet access\" as a \"service that **enables users to connect to the \[i\]nternet to access content, information, or other services** offered over the \[i\]nternet.\" The term excludes \"voice, audio or video programming, or other products and services . . . that utilize \[i\]nternet protocol or any successor protocol and for which there is a charge.\"
+
+Can we tax the company gross receipts, instead of user?
+
+### Multiple and discriminatory taxes
+
+The ITFA also prohibits multiple and discriminatory taxes on electronic commerce. The term electronic commerce is broader than internet access. It embraces \"any transaction conducted over the \[i\]nternet or through \[i\]nternet access.\"
+
+A **multiple** tax exists when one state, or a political subdivision thereof, imposes a tax \"on the same or essentially the same\" electronic commerce as another state, or political subdivision thereof, without a credit for the tax paid in the other jurisdiction. A multiple tax is present even where the state or political subdivision\'s tax uses a different tax rate or basis than the other state or political subdivision\'s tax. A state\'s sales and use tax on electronic commerce is not a multiple tax when a political subdivision within that state also imposes a sales and use tax on the same electronic commerce. Additionally, a tax imposed on persons engaged in electronic commerce that is also subject to a sales or use tax is not a multiple tax.
+
+In general, the ban on **discriminatory** taxes means that the same tax obligations and tax rates must apply to electronic commerce transactions and nonelectronic commerce transactions (e.g., mail-order and brick-and-mortar store sales) involving the same, or similar, property, goods, services, or information. Under the ITFA, a tax discriminates against electronic commerce when (1) there is no analogous tax levied on nonelectronic commerce transactions involving similar property, goods, services, or information; (2) an analogous tax levied on nonelectronic commerce transactions involving similar property, goods, services, or information is imposed at a different rate (subject to a limited exception for phaseouts); (3) an analogous tax levied on nonelectronic commerce transactions involving similar property, goods, services, or information imposes a tax collection or payment obligation on a different person or entity; and (4) the tax establishes a classification of internet or online service providers to subject them to a higher tax rate than the rate that generally applies to \"providers offering similar information services delivered through other means.\"
+
+### Implications of the \"Multiple and Discriminatory\" Rule for Taxes on Digital Goods and Services
+
+As more state and local governments pass laws to tax digital goods and services, courts have had to address novel issues concerning ITFA preemption. Often, these cases turn on whether an analogous tax involving a comparable nondigital good or service exists, and if so, whether the good or service is taxed in the same manner. If a court finds an analogous tax exists, then it typically holds that the ITFA does not preempt the state or local government\'s tax on electronic commerce.
+
+## New York taxes and the internet
+
+### State taxation of digital goods and services
+
+See (among other things):
+
+| Kranz, Steve, Douglas Lindholm, and Nancy Prosser. \"Taxing Digital Goods and Services: Where Are We Going?\" Presented at the SEATA 2022, July 12, 2022. <https://www.mtc.gov/MTC/media/Digital-Products/130_Kranz-Lindholm-Prosser_Taxing-Digital-Goods-and-Services_1.pdf>.
+
+NY taxes most things that other states taxes. Apparently custom software, digital information services, and possibly data processing services are exceptions. These are often business inputs, of course.\
+
+|                                                  | **NY**          | **Others**                 |
+|--------------------------------------------------|-----------------|----------------------------|
+| Pre-written software                             | yes             | many do                    |
+| Custom software                                  | **no**          | several southern states do |
+| Digital Software Accessed Remotely (SaaS)        | yes             | about 20 do                |
+| Digital Information Services                     | yes             | about 18 do                |
+| Data Processing Services                         | **no**          | about 8 do                 |
+| Specified Digital Products (audio, video, books) | **no(?)VERIFY** | many do                    |
+
+Tax proposals that have been offered up:
+
+-   Digital advertising services - incl NY
+
+-   Social media advertising
+
+-   \"Data mining\" services - incl NY

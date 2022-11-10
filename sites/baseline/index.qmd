@@ -1,32 +1,76 @@
-# Agendas
+# Priorities and Agendas
+
+## Current High Priorities:
+
+-   Policy-oriented primers on selected taxes -- base, rate, history, interaction with other taxes, other relevant issues
+
+    -   Petroleum business tax
+
+    -   Noncorporate entities (partnerships, LLCs, trusts, etc.)
+
+        -   Tax treatment generally
+
+        -   Pass-through entity tax
+
+    -   MTA corporate surcharge
+
+    -   MTA sales tax
+
+-   MMTOA tracking collections, receipts, appropriations
+
+-   18b diversion 1996+
+
+-   Internet marketplace amount -- can we track/calculate it, how much is it, change over time, how it compares to what state actually gives
+
+## Agendas
 
 <!-- (taxes/payroll_mobility_tax.qmd#incidence) -->
+<!-- quarto publish netlify --no-browser --no-prompt -->
+<!-- quarto publish netlify --no-render --no-browser --no-prompt -->
 
-## November 2, 2022, 3 pm
+### November 9, 2022, Wednesday
+
+-   Comments on the preliminary options list from Kevin -- originally provided in a Google doc:
+
+    -   [Key points](options/comments_2022_11_09.qmd)
+
+    -   Annotated [spreadsheet](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=1406156042)
+
+-   Taxation related to [internet access (prelim)](options/taxing_internet_access.qmd)
+
+-   Sales tax on [aviation fuel - New Jersey](options/sales_tax_aviation_fuel.qmd)
+
+-   Sales tax on [capital improvement installation services](options/sales_tax_capital_improvements.qmd)
+
+### November 3, 2022, Thursday
+
+-   Add columns to table on employment growth after PMT was adopted for suburban counties
+
+### November 2, 2022, Wednesday, 3 pm
 
 Near-term priorities ordered from highest to lowest. For any items that result in tables or graphs, provide links to a spreadsheet with data needed to produce MTA-prepared versions of same. Prepare as much of the following by Monday Oct 31:
 
--   PMT \~ 2 or so pages addressing impact of PMT, starting with simplest approach
+-   Examine impact of PMT, starting with simplest approach (see [this](option_analysis/pmt_howlarge.qmd), [this](option_analysis/pmt_impact_employment.qmd), and [this](option_analysis/pmt_payroll_tax_rates.qmd))
 
     -   How large is the PMT relative to selected other taxes?
 
-        -   as share of the economy (MTA corporate surcharge, NYS and NYC corporate taxes)
+        -   as share of the economy (MTA corporate surcharge, NYS and NYC corporate taxes); **DONE**
 
-        -   rates relative to other payroll taxes (table comparing rates of payroll taxes (FICA, FUTA, unemployment, PMT; make note of caps on payroll, and any substantial credits against tax; give links to sources)
+        -   rates relative to other payroll taxes (table comparing rates of payroll taxes (FICA, FUTA, unemployment, PMT; make note of caps on payroll, and any substantial credits against tax; give links to sources)**IN PROGRESS**
 
-    -   What happened to employment in MTA region after imposition of PMT?
+    -   What happened to employment in MTA region *after* imposition of PMT (not *before and after*, as in the pre-post comparison discussed next)?
 
-        -   compared to NYS, and compared to a of MTA-neighboring counties combined (NY, NJ, CT) -- new, simple table or graph
+        -   compared to NYS, and compared to a of MTA-neighboring counties combined (NY, NJ, CT); **DONE**
 
-        -   the same pre-post comparison of MTA counties and non-MTA neighbors as before, but add links to data for the graphs
+    -   Same pre-post comparison of MTA counties and non-MTA neighbors as in the October 25 analysis, but add links to data for the graphs, **DONE**
 
-    -   How much does the PMT worsen NY's tax ranking - what would happen to NY's ranking (state and local taxes relative to the economy) if the PMT did not exist?
+    -   How much does the PMT worsen NY's tax ranking - what would happen to NY's ranking (state and local taxes relative to the economy) if the PMT did not exist? **DONE**
 
--   TCJA and MTA taxes
+-   TCJA and MTA taxes see [this](option_analysis/pmt_tcja_ptet.qmd)
 
-    -   How much did NY-ers save federally as a result of the pass-through entity tax? How does that compare to the size of a hypothetical PMT increase?
+    -   How much did NY-ers save federally as a result of the pass-through entity tax? How does that compare to the size of a hypothetical PMT increase? **DONE**
 
-    -   Possibly later (not near term priority): How much did NY-ers save federally from the TCJA
+    -   Possibly later (not near term priority): How much did NY-ers save federally from the TCJA?
 
 -   Policy-oriented primers on selected other taxes -- base, rate, history, interaction with other taxes, other relevant issues
 
@@ -42,11 +86,11 @@ Near-term priorities ordered from highest to lowest. For any items that result i
 
 -   Above info will make it easy to check a couple of the slides we looked at on Oct 28; highlight anything that needs to change.
 
-## October 28, 2022
+### October 28, 2022
 
 Review priorities for next items (see Nov 2 agenda above).
 
-## October 25, 2022
+### October 25, 2022
 
 As much of following as practical, in priority order. I have gotten as far as the horizontal rule below. click on the links below:
 
@@ -86,19 +130,19 @@ As much of following as practical, in priority order. I have gotten as far as th
 
 -   NYC financial plan much worse than state. State fiscal cliff with expiring millionaire's tax (surcharge). Corporate tax increase phaseout. Opportunity for MTA?
 
-## October 21, 2022
+### October 21, 2022
 
 -   Catch up generally, latest priorities and schedule
 
 -   [Breakdowns of taxes](option_analysis/breakdowns.qmd) status and next steps
 
-## September 20, 2022
+### September 20, 2022
 
 -   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
 
 *Go to section on Preliminary allocation results*
 
-## September 16, 2022
+### September 16, 2022
 
 -   County allocation of baseline tax revenue - status and next steps(countyalloc/county_allocation.qmd)
 
@@ -108,7 +152,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
 -   Contract status
 
-## September 9, 2022
+### September 9, 2022
 
 -   [County allocation of baseline tax revenue - status and next steps](countyalloc/county_allocation.qmd)
 
@@ -138,7 +182,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
     -   Sept 28-Oct 14
 
-## August 26, 2022
+### August 26, 2022
 
 -   [Impact of 2011 payroll mobility tax changes](pmtbase/pmt_legislation.qmd)
 
@@ -152,7 +196,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
 -   Next steps
 
-## August 19, 2022
+### August 19, 2022
 
 -   Review revenue included in baseline analysis (see [this](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=888771929))
 
@@ -168,13 +212,13 @@ As much of following as practical, in priority order. I have gotten as far as th
 
 -   Contract and billing
 
-## August 12, 2022
+### August 12, 2022
 
 -   Review goals
 
 -   Review revenue included in analysis
 
-## July 29, 2022 (phone call)
+### July 29, 2022 (phone call)
 
 -   Review goals
 

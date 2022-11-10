@@ -1,0 +1,37 @@
+## Sales tax on aviation fuel
+
+For rates, see [this](https://www.eia.gov/petroleum/marketing/monthly/xls/aviationtaxes.xlsx).
+
+## New Jersey
+
+This is all from secondary sources so I have not confirmed beyond a shadow of a doubt:
+
+-   (As of Dec 2018): Under current law, airlines do not pay a fuel tax on interstate and foreign flights, aside from the amount of **fuel used in \"burnout,\" which occurs during taxiing and takeoff**. The new legislation would require airlines to pay \$0.04 per gallon on fuel purchased in New Jersey, unless the airlines are operating at an airport in the state which sees less than 20,000 commercial flights a year (that\'s every airport except Newark). [nj.com](https://www.nj.com/news/2018/12/nj-dems-want-to-raise-tax-on-jet-fuel-to-fund-path-but-airlines-hope-the-idea-crashes-and-burns.html){style="font-size: 13pt;"}
+
+-   Prior to approx late 2018, NJ sales and excise taxes on airline fuel were based on "burnoff" \-- fuel used in taxing and takeoff (and possibly also to landing, and flight in airspace, according to one article), rather than all fuel purchased in NJ
+
+-   Late 2018 several legislators proposed [extending the taxes to all purchases in NJ](https://skift.com/2018/09/25/new-jersey-lawmakers-threaten-united-with-new-fuel-tax-at-newark-airport/) and using for a PATH project - probably because [FAA rules now require airline fees to be used for related projects](https://www.pewtrusts.org/en/research-and-analysis/blogs/stateline/2015/2/21/faa-limits-use-of-states-aviation-fuel-taxes). As originally drafted, the bill only applied to United.
+
+-   As far as I can tell, in early 2019 it was [passed](https://njbiz.com/nj-assembly-approves-united-airlines-jet-fuel-tax-hike/) and presumably enacted, but applied to [all airlines](https://liveandletsfly.com/new-jersey-airport-fuel-tax/) it appears.
+
+-   I looked for, and believe, it has not been repealed. But haven't fully investigated. So I think the current treatment is all aviation fuel w/b taxed.
+
+-   Obviously the Port Authority would have a dog in this fight, and you'd probably have to give the revenue to them, and get something else in return.
+
+Some reading material below.
+
+\"2021 1 Motor Fuel Tax Information by State Book 2.Pdf.\" Accessed November 9, 2022. <https://www.taxadmin.org/assets/docs/MotorFuel/2021%201%20Motor%20Fuel%20Tax%20Information%20by%20State%20Book%202.pdf>.
+
+Creedy, Kathryn B. \"NJ Senate Leader Proposes to Divert Aviation Fuel Tax for Off-Airport Development.\" *Metropolitan Airport News* (blog), August 14, 2018. <https://metroairportnews.com/nj-senate-leader-proposes-to-divert-aviation-fuel-tax-for-off-airport-development/>.
+
+Klint, Matthew. \"New Jersey Compromise: All Airlines Will Be Taxed.\" Live and Let\'s Fly, September 26, 2018. <https://liveandletsfly.com/new-jersey-airport-fuel-tax/>.
+
+Leff, Gary. \"United Threatens to Leave Newark Over Fuel Taxes.\" View from the Wing, September 15, 2018. <https://viewfromthewing.com/united-threatens-to-leave-newark-over-fuel-taxes/>.
+
+\"New Jersey Moves Ahead with Extra Fuel Tax on United - Ch-Aviation.\" Accessed November 9, 2022. <https://www.ch-aviation.com/portal/news/70873-new-jersey-moves-ahead-with-extra-fuel-tax-on-united>.
+
+\"NJ Assembly Approves United Airlines Jet Fuel Tax Hike. - Free Online Library,\" February 2019. <https://www.thefreelibrary.com/NJ+Assembly+approves+United+Airlines+jet+fuel+tax+hike.-a0572839357>.
+
+NJ.com, Amanda Hoover \| NJ Advance Media For. \"N.J. Dems Want to Raise Tax on Jet Fuel to Fund PATH, but Airlines Hope the Idea Crashes and Burns.\" nj, December 17, 2018. <https://www.nj.com/news/2018/12/nj-dems-want-to-raise-tax-on-jet-fuel-to-fund-path-but-airlines-hope-the-idea-crashes-and-burns.html>.
+
+Sumers, Brian. \"New Jersey Lawmakers Threaten United With New Fuel Tax at Newark Airport.\" Skift, September 25, 2018. <https://www.bloomberg.com/news/articles/2018-09-24/n-j-lawmakers-back-jet-fuel-tax-hike-to-pay-for-train-service>.

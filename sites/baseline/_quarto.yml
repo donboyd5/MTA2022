@@ -9,6 +9,7 @@ project:
 #   .\configure.cmd
 
 # quarto publish netlify --no-render
+# quarto publish netlify --no-render --no-browser --no-prompt
 
 # https://quarto.org/docs/computations/execution-options.html    
 # for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
@@ -34,7 +35,7 @@ book:
       chapters:
       - intro/goals.qmd
       - intro/boyd_questions.qmd
-    - part: "Taxes"
+    - part: "Taxes and tax issues"
       chapters: 
       - taxes/current_taxes.qmd
       - taxes/payroll_mobility_tax.qmd
@@ -47,12 +48,19 @@ book:
     - part: "Revenue options"
       chapters: 
       - options/progressivity.qmd
-      - options/revenue_options.qmd    
+      - options/revenue_options.qmd
+      - options/comments_2022_11_09.qmd
+      - options/taxing_internet_access.qmd
+      - options/sales_tax_aviation_fuel.qmd
+      - options/sales_tax_capital_improvements.qmd
     - part: "Analysis of options"
       chapters:
       - option_analysis/breakdowns.qmd
       - option_analysis/pmt_increase.qmd
+      - option_analysis/pmt_howlarge.qmd
       - option_analysis/pmt_impact_employment.qmd
+      - option_analysis/pmt_payroll_tax_rates.qmd
+      - option_analysis/pmt_tcja_ptet.qmd
     - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa.qmd

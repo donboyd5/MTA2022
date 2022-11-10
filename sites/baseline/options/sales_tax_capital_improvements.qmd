@@ -1,0 +1,19 @@
+## Sales tax on capital improvement installation services
+
+See [this](https://www.wolterskluwer.com/en/expert-insights/understanding-sales-tax-rules-for-the-construction-industry).
+
+-   In the majority of states (NY is one of these):
+
+    -   Supplies and materials purchased by contractors are taxable. Some exceptions depending on type of contract and type of customer.
+
+    -   Their related services of installation and construction are exempt. 
+
+-   About 14 states treat construction contractors like resellers: their purchases are exempt, but gross sales to the customer (including materials as well as service) are taxable. More often done for itemized contracts than lump sum.
+
+[NYS](https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/capital_improvements.htm):
+
+-   Capital improvement services are exempt; repair and maintenance services are taxable. (CI: adds value, affixed, permanent; RM: intended to keep property in good working order)
+
+-   Materials etc. purchased for capital improvements are taxable regardless of who purchases
+
+-   Contractor should get exemption certificate from customer and not collect sales tax for the project (since taxes already paid on materials, and services are exempt)

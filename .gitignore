@@ -7,13 +7,15 @@ data/
 sites/baseline/_book/
 sites/baseline/images/
 sites/baseline/.quarto/
-*css
+*.css
+*.csv
 *.docx
-*js
+*.html
+*.js
 *.pdf
 *.png
 *.rds
-*woff
+*.woff
 *.xl*
 
 .Rdata

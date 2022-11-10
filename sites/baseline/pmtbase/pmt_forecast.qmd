@@ -29,7 +29,7 @@ df <- pmtdf |>
 p <- df |> 
   filter(year(date)>=2015) |> 
   ggplot(aes(date, cumsum)) +
-  geom_line(color="blue", size=1) +
+  geom_line(color="blue", linewidth=1) +
   geom_point(color="blue", size=0.5) +
   geom_hline(yintercept = 1.7e6) +
   scale_y_continuous(name="$ millions", breaks=seq(0, 2e6, 50e3), labels=number_format(accuracy=1, scale=1e-3)) +
@@ -83,7 +83,7 @@ p <- df2 |>
   mutate(date=as.Date(date), hfc=factor(hfc, levels=c("history", "forecast"))) |> 
   filter(year(date)>=2015, date<="2023-12-01") |> 
   ggplot(aes(date, value, colour=hfc)) +
-  geom_line(size=1) +
+  geom_line(linewidth=1) +
   geom_point(size=1) +
   scale_colour_manual(values=c("blue", "red")) +
   ggtitle("Total Payroll Mobility Tax (wages + self-employment)",
@@ -95,7 +95,6 @@ p <- df2 |>
   theme(legend.position="bottom",
         legend.title=element_blank())
 p
-
 
 
 # sz <- 1
@@ -157,7 +156,7 @@ p <- df2 |>
          pch= value / lag(value, 12) - 1) |> 
   filter(year(date)>=2019, date<="2023-12-01") |> 
   ggplot(aes(date, pch, colour=hfc)) +
-  geom_line(size=1) +
+  geom_line(linewidth=1) +
   geom_point(size=1) +
   geom_hline(yintercept = 0) +
   scale_colour_manual(values=c("blue", "red")) +
@@ -190,7 +189,7 @@ p <- df2 |>
   filter(year %in% 2019:2022) |> 
   ggplot(aes(date, value, colour=year)) +
   geom_point(size=2) +
-  geom_line(size=1.5) +
+  geom_line(linewidth=1.5) +
   ggtitle("Total Payroll Mobility Tax (wages + self-employment)",
           subtitle="History plus simple ARIMA forecast for remainder of 2022, monthly") +
   scale_x_date(name=NULL, 
@@ -208,11 +207,3 @@ p
 
 
 ```
-
-## FYTD vs. rest of year
-
-```{r}
-
-```
-
-## Implications

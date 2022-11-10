@@ -7,8 +7,8 @@ source(here::here("r", "libraries.r"))
 source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
-
 ```
+
 
 ```{r}
 #| label: private_employment
@@ -16,17 +16,17 @@ source(here::here("r", "functions.r"))
 
 # run pmt_impact_employment.r to create needed data
 xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+
 mtacos <- xwalkny |> 
   filter(mta_county) |> 
-  select(unifips, uniname, boroname) |> 
-  mutate(mta=ifelse(is.na(boroname), uniname, boroname))
+  select(unifips, uniname, nyc_county, mtasuburb_county)
 
 empbase <- readRDS(here::here("data", "qcew", "empbase.rds"))
 adjacent <- readRDS(here::here("data", "qcew", "adjacent.rds"))
 
 ```
 
-### Employment in the MTA, New York State, and MTA-neighboring counties
+## Employment in the MTA, MTA-suburban, New York State, and MTA-neighboring counties
 
 ```{r}
 #| label: tab-aggregate-prep
@@ -40,7 +40,9 @@ emp1 <- empbase |>
            afips %in% adjacent$nonmtafips)
 count(emp1, afips, area)
 
-emp2 <- emp1 |> 
+## collapse to get desired groups ----
+# emp2a: nys, mta, adjacent
+emp2a <- emp1 |> 
   mutate(group=case_when(stabbr=="NY" & atype=="state" ~ "nys",
                          afips %in% mtacos$unifips ~ "mta",
                          afips %in% adjacent$nonmtafips ~ "adjacent",
@@ -48,7 +50,19 @@ emp2 <- emp1 |>
   group_by(group, date) |> 
   summarise(n=n(), emp=sum(emp), .groups="drop")
 
-# emp2 |> 
+# emp2b: nyc, mtasuburbs
+emp2b <- emp1 |> 
+  filter(afips %in% mtacos$unifips) |> 
+  mutate(group=case_when(afips %in% mtacos$unifips[mtacos$mtasuburb_county] ~ "mta_suburban",
+                         afips %in% mtacos$unifips[mtacos$nyc_county] ~ "nyc",
+                         TRUE ~ "ERROR")) |> 
+  group_by(group, date) |> 
+  summarise(n=n(), emp=sum(emp), .groups="drop")
+
+emp2 <- bind_rows(emp2a, emp2b)
+
+
+# emp2 |>
 #   ggplot(aes(date, emp, colour=group)) +
 #   geom_line() +
 #   geom_point()
@@ -76,8 +90,8 @@ footnote
 
 tab <- tabdata |>
   select(date, 
-         emp_nys, emp_adjacent, emp_mta,
-         pdiff_nys, pdiff_adjacent, pdiff_mta) |> 
+         emp_nys, emp_adjacent, emp_mta, emp_mta_suburban, emp_nyc,
+         pdiff_nys, pdiff_adjacent, pdiff_mta, pdiff_mta_suburban, pdiff_nyc) |> 
   gt() |> 
   tab_header(
     title = "Private sector employment in New York State, counties neighboring the MTA region, and the MTA region",
@@ -87,9 +101,13 @@ tab <- tabdata |>
              emp_nys="New York State",
              emp_adjacent="MTA neighbors",
              emp_mta="MTA region",
+             emp_mta_suburban="MTA suburban counties",
+             emp_nyc="New York City",
              pdiff_nys="New York State",
              pdiff_adjacent="MTA neighbors",
-             pdiff_mta="MTA region") |> 
+             pdiff_mta="MTA region",
+             pdiff_mta_suburban="MTA suburban counties",
+             pdiff_nyc="New York City",) |> 
   tab_spanner(columns = contains("emp"),
               label="Employment (thousands)") |> 
   tab_spanner(columns = contains("pdiff"),
@@ -114,11 +132,11 @@ write_csv(tabdata, paste0(constants$mtaout, fnbase, ".csv"))
 
 The above table and its data can be found at this [link](%7B%7B%3C%20var%20mtaout%20%3E%7D%7D), in files with the prefix *"`r fnbase`"*.
 
-### Impact on employment - MTA and non-MTA counties
+## Impact on employment - MTA and non-MTA counties
 
 A tax on wages creates an incentive to employ less labor or employ it outside the taxing jurisdiction, all else equal. Thus, it makes sense to examine employment in the MTA region and outside the MTA region, before and after adoption of the payroll mobility tax. (The PMT was first effective in March 2009.)
 
-#### Using employment data
+### Using employment data
 
 The best available data on employment in MTA counties and non-MTA counties is the [BLS Quarterly Census of Employment and Wages (QCEW)](https://www.bls.gov/cew/). The data are released quarterly, with an approximately 6-month lag. Each data release includes employment for each month in the quarter. The data are not seasonally adjusted and so have substantial intra-year ups and downs, some of which are quite regular (such as an October-December holiday season boost and a dropoff in the January-March quarter).
 
@@ -211,7 +229,7 @@ The above figure and its data can be found at this [link](%7B%7B%3C%20var%20mtao
 
 <!-- ![Raw employment data and underlying trend](images/example_trend.png) -->
 
-#### MTA and non-MTA counties
+### MTA and non-MTA counties
 
 <!-- #### MTA region and nearby neighbors -->
 
@@ -221,7 +239,7 @@ The map below, which I lifted from Google images, shows counties in the tri-stat
 
 ![MTA region and nearby neighbors](images/paste-0D60C16D.png)
 
-#### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
+### Comparing pre-PMT and post-PMT trend employment in selected pairs of MTA and non-MTA counties
 
 We look at the 3 years before and the 3 years after adoption of the PMT so that we can see what employment trends were immediately before and immediately after the PMT was put in place.
 

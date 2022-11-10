@@ -1,0 +1,43 @@
+## Comments on the November 8, 2022 preliminary options list
+
+## Key points
+
+-   This is a slightly edited version of my notes of November 9, 2022
+
+-   Your spreadsheet with my comments is [here](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=1406156042).
+
+-   Virtually all items require **state action**, as you no-doubt know. That will be true of almost anything you pick. The only meaningful exception seems to be development fees, which might be structured to require City-only action. I added a column for this info.
+
+-   The way the numbers are presented may be confusing because they are not MTA revenue - they are a mix of City revenue, State revenue statewide (not just in the MTA region), and MTA revenue. I\'d suggest adding very clear introduction or headers so your document does not take on an inappropriate life of its own after it leaves your hands.
+
+-   The sales tax items generally can have direct positive impacts on the MTA, in addition to the fact that they raise revenue for the State, City, and non-MTA counties, even though you don\'t have numbers for all these things. I added a \"Taxes affected\" column to indicate this. I put conservative MTA estimates into this column for several items
+
+-   I think you should **delete** the following items (in addition to the carbon tax):
+
+    -   Eliminate NYS Exemptions for Insurance Companies. It appears to be eliminating exemptions for the following, thereby bringing them into the 7.5% income tax:
+
+        -   Charitable, religious, missionary, educational, and philanthropic non-stock corporations
+
+        -   Retirement systems or pension funds engaged solely in an annuity business
+
+        -   Nonprofit medical expense indemnity or hospital service corporations
+
+        -   Incorporated or unincorporated fraternal benefit societies
+
+        -   Corporations for the insurance of domestic animals on a cooperative plan
+
+        -   Certain town or county cooperative insurance corporations
+
+        -   Certain not-for-profit voluntary employees\' beneficiary associations 
+
+I have no idea what some of these entities are, or why they are exempt in the first place, or which of them generate the big money in the estimate. I would not be comfortable, if I were in your shoes, proposing this without understanding more. I think it\'s fine to say (1) there might be insurance tax options worth pursuing, and you\'ll investigate them, particularly (2) the NYC insurance company exemption from the GCT (your other option, which I do not suggest you drop). However, I\'d be careful because insurance company taxation is complicated by the different federal regulatory environment and an odd practice known as retaliatory taxation.
+
+-   Prepare to take a beating for:
+
+    -   **Capital improvement services** item - no state does this that I can tell
+
+    -   Eliminate charitable organizations -- see [this](https://www.probonopartner.org/wp-content/uploads/2016/01/Sales-Tax-Exemption-Guide_2021-edits.pdf); also, New York Const Art. XVI, Sec.1 exempts from taxation real or personal property used exclusively for religious, educational or charitable purposes. Churches not automatically exempt, must apply; but needs investigation as to whether permissible
+
+-   The NYS and NYC tax expenditure reports differ from the IBO budget options report in that they in no way suggest that eliminating a tax expenditure item is legally permissible. This, I think, is why they list internet access as a tax expenditure. It is one, but it\'s one they can\'t change because the federal Internet Tax Freedom Act prohibits it. More below.
+
+-   If you want to go after the internet you can\'t go after access, but you could go after selected digital goods and services. However, (1) NY is a leader in this area and there does not appear to be much permissible that they do not go after, (2) however there may be some options, and (3) it is a complex area that people sometimes get wrong and it will require some investigation and (ideally) working with the NYS Tax Department. See the relevant section of this doc.

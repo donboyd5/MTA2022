@@ -2,15 +2,75 @@
 
 ## Overview
 
+[Tax Department](https://www.tax.ny.gov/bus/petrol/ptidx.htm)
+
+The petroleum business tax (PBT) is a privilege tax imposed on petroleum businesses operating in New York State. The PBT is imposed at a cents-per-gallon rate on petroleum products sold or used in the state. The tax imposition occurs at different points in the distribution chain depending on the type of petroleum product:
+
+-   For motor fuel, the PBT is imposed upon importation into the state.
+
+-   For highway diesel motor fuel, the PBT is imposed on the first sale or use in the state.
+
+-   For non-highway diesel motor fuel and residual oil, the PBT is imposed on final sale or use.
+
+-   For kero-jet fuel, the PBT is imposed on fuel consumed on take-off from points in the state.
+
+The tax is jointly administered and collected with the state's [motor fuel excise tax](https://www.tax.ny.gov/bus/gas/gasidx.htm).  
+
 ## Tax structure
 
 ### Taxable event
 
 ### Taxpayers
 
+The tax is paid by registered distributors.
+
 ### Tax base
 
+#### Definitions
+
+*Motor fuel* is gasoline, benzol, reformulated blend stock for oxygenate blending, conventional blend stock for oxygenate blending, E85, fuel grade ethanol that meets the ASTM International active standards specification D4806 or D4814, or other product which is suitable for use in the operation of a motor vehicle engine.
+
+*Diesel motor fuel* is No. 1 diesel fuel, No. 2 diesel fuel, biodiesel, kerosene, fuel oil, or other middle distillate, and also motor fuel suitable for operating a diesel engine. Diesel motor fuel does not include any product specifically designated "No. 4 diesel fuel" and not suitable for operating a motor vehicle engine. 
+
+*Highway diesel motor fuel* is any diesel motor fuel that is not non-highway diesel motor fuel.
+
+*Non-highway diesel motor fuel* is any diesel motor fuel that is designated for use other than on a public highway (except for the use of the public highway by farmers to reach adjacent farmlands), and that is *dyed diesel motor fuel*.
+
+*Dyed diesel motor fuel* is diesel motor fuel dyed in accordance with and for the purpose of complying with the provisions of 26 USC 4082(a) and its regulations, as may be amended in the future.
+
+#### Exemptions and refunds
+
+Exemptions:
+
+-   sales to governments (federal, state and local);
+
+-   kerosene, bunker fuel, liquefied petroleum gas (LPG), compressed natural gas (CNG) and E-85 products;
+
+-   sales of non-highway diesel motor fuel and residual petroleum product for residential heating use, farming, manufacturing, and mining purposes; 
+
+-   sales of B20 and sales of non-highway diesel motor fuel for nonresidential heating (partial exemption only);
+
+-   the use of motor fuel, diesel motor fuel, and residual petroleum product by tugboats and towboats.
+
+**Full refunds of PBT are available for motor fuel and diesel motor fuel used in:**
+
+-   buses providing local transit service or school transportation;
+
+-   commercial fishing vessels; 
+
+-   passenger commuter ferries; and 
+
+-   tugboats and towboats.
+
 ### Tax rates
+
+![](images/image-2072026175.png)
+
+![](images/image-1272962169.png)
+
+![](images/image-1492217808.png)
+
+![](images/image-64774433.png) ![](images/image-1327872551.png)
 
 ### Filing
 
