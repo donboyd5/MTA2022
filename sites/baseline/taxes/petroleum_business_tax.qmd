@@ -4,29 +4,54 @@
 
 [Tax Department](https://www.tax.ny.gov/bus/petrol/ptidx.htm)
 
-The petroleum business tax (PBT) is a privilege tax imposed on petroleum businesses operating in New York State. The PBT is imposed at a cents-per-gallon rate on petroleum products sold or used in the state. The tax imposition occurs at different points in the distribution chain depending on the type of petroleum product:
+The petroleum business tax (PBT) is a privilege tax imposed on petroleum businesses operating in New York State. The PBT is imposed at a cents-per-gallon rate on petroleum products sold or used in the state. (Currently 17.3 cents for motor fuel.)
 
--   For motor fuel, the PBT is imposed upon importation into the state.
+The tax imposition occurs at different points in the distribution chain depending on the type of petroleum product (these choices are intended to improve enforcement and reduce evasion):
 
--   For highway diesel motor fuel, the PBT is imposed on the first sale or use in the state.
+-   For motor fuel, the PBT is imposed upon **importation** into the state.
 
--   For non-highway diesel motor fuel and residual oil, the PBT is imposed on final sale or use.
+-   For highway diesel motor fuel, the PBT is imposed on the **first sale or use** in the state.
 
--   For kero-jet fuel, the PBT is imposed on fuel consumed on take-off from points in the state.
+-   For non-highway diesel motor fuel and residual oil, the PBT is imposed on **final sale** or use.
+
+-   For kero-jet fuel, the PBT is imposed on **fuel consumed on take-off from points in the state**.
 
 The tax is jointly administered and collected with the state's [motor fuel excise tax](https://www.tax.ny.gov/bus/gas/gasidx.htm).  
 
-## Tax structure
+## Tax Revenue
 
-### Taxable event
+### NYS Revenue
+
+State fiscal year, based on 2023 executive budget [@governorkathyhochulNewYorkState2022]:
+
+![](images/image-170959045.png)
+
+### Rough estimate of revenue by fuel type
+
+Using gallonage estimates from Table 9 of the [NYS Tax Department's FY 2021 collections report](https://www.tax.ny.gov/pdf/2020-2021%20collections/FY20_21%20Tables.xls), and June 2022 tax rates, it looks like motor fuel plus highway diesel fuel account for about 98% of the tax revenue. This seems consistent with what the Division of Budget says: "In terms of the share of PBT base and supplemental receipts in FY 2021, gasoline and diesel receipts based on reported gallonage constituted 84 and 15 percent of the total, respectively." [@governorkathyhochulNewYorkState2022]
+
+![](images/image-2104840675.png)
+
+## Tax expenditures and revenue options
+
+There are three large tax expenditures identified by the state tax department [@newyorkstatedepartmentoftaxationandfinanceFY2023Annual], shown in the table below:
+
+-   Exemptions for liquid petroleum gas (LPG - e.g., propane)
+
+-   Exemption for residential heating fuel - this is a political choice that runs through the sales tax as well, and would be difficult to undo
+
+-   Exemption for sales to federal, state, and local governments - under the principle of
+    federal sovereignty and the supremacy clause of the U.S. Constitution states cannot generally tax sales to the federal government; NY could choose to tax sales to the state and its local governments
+
+![](images/image-1921662740.png)
+
+## Tax structure
 
 ### Taxpayers
 
 The tax is paid by registered distributors.
 
 ### Tax base
-
-#### Definitions
 
 *Motor fuel* is gasoline, benzol, reformulated blend stock for oxygenate blending, conventional blend stock for oxygenate blending, E85, fuel grade ethanol that meets the ASTM International active standards specification D4806 or D4814, or other product which is suitable for use in the operation of a motor vehicle engine.
 
@@ -38,7 +63,7 @@ The tax is paid by registered distributors.
 
 *Dyed diesel motor fuel* is diesel motor fuel dyed in accordance with and for the purpose of complying with the provisions of 26 USC 4082(a) and its regulations, as may be amended in the future.
 
-#### Exemptions and refunds
+### Exemptions and refunds
 
 Exemptions:
 
@@ -71,9 +96,3 @@ Exemptions:
 ![](images/image-1492217808.png)
 
 ![](images/image-64774433.png) ![](images/image-1327872551.png)
-
-### Filing
-
-### Payment
-
-## Geographic allocation

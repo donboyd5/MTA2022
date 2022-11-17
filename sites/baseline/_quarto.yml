@@ -9,6 +9,7 @@ project:
 #   .\configure.cmd
 
 # quarto publish netlify --no-render
+# quarto publish netlify --no-browser --no-prompt
 # quarto publish netlify --no-render --no-browser --no-prompt
 
 # https://quarto.org/docs/computations/execution-options.html    
@@ -35,13 +36,16 @@ book:
       chapters:
       - intro/goals.qmd
       - intro/boyd_questions.qmd
-    - part: "Taxes and tax issues"
+    - part: "Taxes"
       chapters: 
       - taxes/current_taxes.qmd
       - taxes/payroll_mobility_tax.qmd
       - taxes/petroleum_business_tax.qmd
       - taxes/mortgage_recording_tax.qmd
       - taxes/miscellaneous_revenue.qmd
+    # - part: "Primers"
+    #  chapters: 
+    #   - primers/primer_petroleum_business_tax.qmd
     - part: "County allocation"
       chapters:
       - countyalloc/county_allocation.qmd
@@ -53,6 +57,7 @@ book:
       - options/taxing_internet_access.qmd
       - options/sales_tax_aviation_fuel.qmd
       - options/sales_tax_capital_improvements.qmd
+      - options/sales_tax_video_streaming.qmd
     - part: "Analysis of options"
       chapters:
       - option_analysis/breakdowns.qmd

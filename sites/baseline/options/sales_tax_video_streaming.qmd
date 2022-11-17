@@ -1,0 +1,99 @@
+# Sales tax on video streaming services
+
+> Can you check for me whether NYS imposes a sales tax on streaming subscriptions like Netflix and Hulu?...we would need a rough estimate as to potential value
+
+## Summary
+
+-   New York does not currently tax video streaming services (or other streaming services) under its sales tax.
+
+-   A sales tax on streaming video services, narrowly defined as our email conversation suggests, might raise \~\$65+ million annually for NYS and \$4-5 million for the MTA, at 2021 levels. It would raise additional revenue for NYC and for counties. The revenue estimate is uncertain and some industry data suggests tax revenue could be as much as 50% greater, but that is an upper bound and likely an overestimate.
+
+-   The lower estimate is based on estimates developed by the New York City Independent Budget Office for 2014 using data from the U.S. Bureau of Labor Statistics from the Consumer Expenditure Survey, the best available data with breakdowns of consumer spending. I extrapolated estimates to 2020 and 2021 using industry data on growth of streaming services. The upper-bound estimate is based strictly on industry revenue data and is certainly too high because it does not take into account exempt purchasers or possible tax avoidance and evasion. In the interest of time I do not provide details here of what I did, although you can see them [here](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=1928392817) and I can write them up if you want.
+
+-   Other conceptually similar digital products that currently are exempt from New York sales taxes include e-books and digital music subscriptions and downloads. They are ***not*** included in the estimate above. Extending the tax to e-books and digital music would slightly-more-than-double the estimated revenue.
+
+-   Sales tax revenue on video streaming services would grow more rapidly than the economy due to rapid growth of video streaming.
+
+-   Streaming-service providers could avoid the tax (legally) by switching more of their services to an advertising model (give the service away and earn money via annoying commercials). Tax-motivated switching to an advertising model, at low tax rates, seems unlikely to me, although the higher the rate the more likely it is. I did not reduce the revenue estimate with assumptions of switching.
+
+-   Taxing video streaming would improve the sales tax's "horizontal equity" because the closest physical analogues, rentals of physical movies (DVDs, etc.), are subject to the sales tax.
+
+-   On the other hand, cable TV services, also quite similar, would remain exempt from the sales tax; cable TV services are subject to municipal cable franchise fees in New York of up to 5% (an FCC cap). (Some jurisdictions in other states impose both the sales tax and franchise fees on cable TV services.) These franchise fees are eroding as wirecutting becomes more attractive to consumers.
+
+-   Taxing video streaming is likely to make the sales tax slightly less regressive, because purchasers of online services tend to have higher incomes people who do not purchase online services, such as those who only rent physical movies.
+
+-   At least 33 of the 45 states with sales tax include digital products such as video, music, and books. This is an active area of legislation, and several states have joined this group in recent years. Connecticut is one example.
+
+-   Governor Cuomo's New York State Tax Reform and Fairness Commission proposed extending the sales tax to digital products (e-books, music subscriptions, and streaming video) in its November 2013 report. (This was not proposed by the governor and never became law.)
+
+-   State Senator Kevin Parker, D-NYC is sponsoring S.9254 to establish a tax on direct broadcast satellite and video streaming services, similar to the up-to-5% cable franchise fee. (However, the state does not provide a franchise to internet companies as it does to cable companies, so the analogy is stretched.) I am unaware of any analysis of the bill or any substantial support.
+
+I have not detailed all that I learned but can write more if you want. You'll find a reading list below.
+
+## Taxation of Streaming Services by the States
+
+States increasingly have been subjecting streaming services to the sales tax.
+
+The figure below from a report by the Urban-Brookings Tax Policy Center shows state taxation of streaming services as of early 2019. Even then 33 of 45 states with sales taxes taxed streaming services. Since then, several more states have begun taxing them.
+
+![](images/image-1074962615.png)
+
+## Additional information
+
+Here is a table of growth in OTT industry revenue, an industry term for Over-The-Top services, meaning those that do not go through a set-top box such as a cable or satellite box, and instead come in via the internet. (A good source of industry terms is [Amazon](https://advertising.amazon.com/library/guides/what-is-ott).) The firm that prepared this table, Statista, does not disclose its data sources unless you pay them (I did not), but their data likely come from one of the main industry data trackers,
+
+## ![](images/image-1825545906.png)
+
+Plausible tax revenue calculation - IBO extrapolated
+
+The table below extrapolates the IBO CES-based estimates. Details in the [spreadsheet](https://docs.google.com/spreadsheets/d/1lzmDe7Zj1fQ4jDk9och5FPGFEMEYKkk2Og_UKkH0soY/edit#gid=1928392817).
+
+![](images/image-1093445091.png)
+
+## Upper-bound tax revenue calculation
+
+The table below shows a quick calculation suggesting that a sales tax on streaming video service could raise on the order of \$100 million for NYS and something less than \$10 million for the the MTA. It would raise revenue for NYC and for counties as well.
+
+Please put a wide range around this as it doesn't take a lot of issues into account. For example, the simple % of GDP assumption might be too high; exempt organizations, avoidance, and evasion would bring the revenue down; SVOD revenue almost certainly will grow more rapidly than GDP in coming years, raising revenue in future years; there might be ways in which it would be broadened in implementation; and many more issues not accounted for.
+
+![](images/image-1895239189.png)
+
+## Reading list
+
+Deloitte Insights. "2022 Digital Media Trends, 16th Edition: Toward the Metaverse." Accessed November 12, 2022. <https://www2.deloitte.com/us/en/insights/industry/technology/digital-media-trends-consumption-habits-survey/summary.html>.
+
+Balakirsky, Talia. "Should Streaming Services Pay Taxes? Cities and States Say Yes, but Courts Are Split." Brooklyn Sports & Entertainment Law Blog, November 2, 2021. <https://sports-entertainment.brooklaw.edu/should-streaming-services-pay-taxes-cities-and-states-say-yes-but-courts-are-split/>.
+
+Cocchiaro, Salvatore. "Saved by Labell: Local Taxation of Video Streaming Services." *Fordham Law Review* 87 (February 2019): 38. <http://fordhamlawreview.org/wp-content/uploads/2019/02/06_Cocchiaro-1613-1650.pdf>.
+
+Cole, Gail, and direnpramodacumar. "West Virginia Imposes Sales Tax on Streaming Services." CPA Practice Advisor, September 23, 2021. <https://www.cpapracticeadvisor.com/2021/09/23/west-virginia-imposes-sales-tax-on-streaming-services/45569/>.
+
+Garrett, Natalia, and Grant Nülle. "Digital Goods and Services: How States Define, Tax, and Exempt These Items," 2020, 38.
+
+Iacurci, Greg. "The Netflix and Spotify Tax: States Are Making Streaming Services More Expensive." CNBC. Accessed November 12, 2022. <https://www.cnbc.com/2020/02/24/states-are-imposing-a-netflix-and-spotify-tax-to-raise-money.html>.
+
+Jones, Paige. "Live-Stream Products Taxable When Bundled With Optional Cloud Services, New York Says," n.d., 2.
+
+Karlin, Rick. "Why Are Netflix Bills Going up in New York?" Times Union, December 7, 2021. <https://www.timesunion.com/news/article/Why-are-Netflix-bills-are-going-up-in-New-York-16679952.php>.
+
+Kranz, Steve, Douglas Lindholm, and Nancy Prosser. "Taxing Digital Goods and Services: Where Are We Going?" Presented at the SEATA 2022, July 12, 2022. <https://www.mtc.gov/MTC/media/Digital-Products/130_Kranz-Lindholm-Prosser_Taxing-Digital-Goods-and-Services_1.pdf>.
+
+"Louisiana-Research-Digital-Products-State-Chart-Breakdown.Pdf." Accessed November 12, 2022. <https://www.mtc.gov/MTC/media/Standing-Subcommittee/Louisiana-Research-Digital-Products-State-Chart-Breakdown.pdf>.
+
+Lousiana Revenue Department Research Office. "Louisiana Research Digital Products - State Chart." Multistate Tax Commission, 2021. <https://www.mtc.gov/MTC/media/Standing-Subcommittee/Louisiana-Research-Digital-Products-State-Chart-2021.pdf>.
+
+---------. "Louisiana Research Digital Products - State Laws." Multistate Tax Commission, 2021. <https://www.mtc.gov/MTC/media/Standing-Subcommittee/Louisiana-Research-Digital-Products-State-Chart-2021.pdf>.
+
+Manshel, Andrew. "The Rise and Fall of the Cable Empire." *The Place Master* (blog), August 9, 2022. <https://www.theplacemaster.com/2022/08/09/the-rise-and-fall-of-the-cable-empire/>.
+
+Noonan, Timothy P. "Sales Tax on Software, Digital Products and Information Services," n.d., 56.
+
+NY State Senate. "NY State Senate Bill S9254," May 12, 2022. <https://www.nysenate.gov/legislation/bills/2021/s9254>.
+
+Deloitte Insights. "Streaming Services+tax: Rules Shift Rapidly across the United States." Accessed November 11, 2022. <https://www2.deloitte.com/us/en/insights/industry/technology/tax-on-streaming-services.html>.
+
+"To Tax or Not to Tax the New Economy: Digital Goods and Sales Taxes in New York." Fiscal Brief. New York City Independent Budget Office, September 2015. <https://ibo.nyc.ny.us/iboreports/to-tax-or-not-to-tax-digital-goods-and-sales-taxes-in-new-york.pdf>.
+
+Amazon Ads. "What Is OTT (over-the-Top)? A Complete Guide." Accessed November 12, 2022. <https://advertising.amazon.com/library/guides/what-is-ott>.
+
+Whittaker, John. "State Looks To Tax Streaming Services." *The Post Journal* (blog), May 28, 2022. <https://www.post-journal.com/news/page-one/2022/05/state-looks-to-tax-streaming-services/>.

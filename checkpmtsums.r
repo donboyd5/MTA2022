@@ -87,7 +87,7 @@ p <- df2 |>
   mutate(date=as.Date(date), hfc=factor(hfc, levels=c("history", "forecast"))) |> 
   filter(year(date)>=2015, date<="2023-12-01") |> 
   ggplot(aes(date, value, colour=hfc)) +
-  geom_line(size=1) +
+  geom_line(linewidth=1) +
   geom_point(size=0.5) +
   scale_colour_manual(values=c("blue", "red")) +
   ggtitle("Total Payroll Mobility Tax (wages + self-employment), monthly data",

@@ -197,10 +197,10 @@ px <- pdata  |>
   pivot_longer(cols=c(actual, trend)) |> 
   mutate(namef=factor(name, 
                       levels=c("actual", "trend"))) |> 
-  ggplot(aes(date, value, colour=namef, size=namef)) +
-  geom_line() +
-  geom_vline(xintercept = as.Date("2009-04-01"), linetype="dashed") +
+  ggplot(aes(date, value, colour=namef)) +
+  geom_line(aes(size=namef)) +
   scale_size_manual(values=c(0.5, 1.5)) +
+  geom_vline(xintercept = as.Date("2009-04-01"), linetype="dashed") +
   geom_point(size=0.5) +
   scale_x_date(name=NULL, 
                date_breaks = "5 years",
