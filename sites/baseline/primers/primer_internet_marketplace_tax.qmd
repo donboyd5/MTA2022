@@ -1,0 +1,146 @@
+# Internet marketplace tax
+
+New York's sales tax revenue has benefited from two significant changes related to the internet that were implemented in 2019: (1) The state's response to the June 2018 *Wayfair* decision, and (2) the Internet Marketplace Act adopted with the state 2019-2020 budget. The latter is our primary interest, but to understand that we also need to understand *Wayfair*.
+
+## Wayfair
+
+Prior to the June 2018 U.S. Supreme Court decision in *South Dakota v. Wayfair*, states generally were not allowed to require vendors to collect sales tax owed on transactions unless the vendor had a physical presence in the state.
+
+This situation is common with internet transactions and before that, with catalog sales. For example, if a New York consumer bought a jacket from Lands' End and -- positing that Lands' End does not have a physical presence in New York -- the state could not require Lands End to collect the sales tax. (Tax would be owed by the consumer, but it is not generally practical to force the consumer to pay tax in such a case.)
+
+*Wayfair* changed this, allowing NY and other states to require the out-of-state vendor to collect tax when the economic connection to the state is sufficiently strong, based, for example, on the quantity or frequency of sales in a state. In other words, if the vendor has sufficient "economic nexus" with the state it can be required to collect sales tax owed. This does not establish new taxes, but rather just affects collection requirements.
+(The Supreme Court allowed South Dakota's law, which established economic nexus and collection requirements for retailers with \$100,000 or more of sales or 200 or more transactions in the state.)
+
+New York already had dormant statutory language enacted in 1989 that defined a vendor as "A person who regularly or systematically solicits business in this state by the distribution, without regard to the location from which such distribution originated... to persons in this state and by reason thereof makes sales to persons within the state of tangible personal property, the use of which is taxed by this article, *if such solicitation satisfies the nexus requirement of the United States constitution*". (NYS Tax Law section 1101(b)(8)(E)))
+
+Thus, *Wayfair* did not necessarily require a legislative response, but as a practical matter it required at least an administrative response to announce economic nexus rules. New York was slow to respond. (See for example, [this](https://www.thetaxadviser.com/issues/2019/jun/new-york-response-wayfair.html), and [this](https://www.hodgsonruss.com/media/publication/2573_2019stn6-5%20Feb.pdf).) On January 15, 2019 the State Tax Department issued *Important Notice N-19-1: Notice Regarding Sales Tax Registration Requirement for Businesses with No Physical Presence in New York State*, which informed vendors with no physical presence that they must register to collect sales tax if they meet New York's thresholds. The notice created some confusion among practitioners but appears to be retroactive, perhaps to June 2018.
+
+This raises the question of when vendors would be registered and when revenue would appear in sales tax collections. Arguably, a small amount of revenue might be reported for the December-February 2019 sales tax quarter, more for the March-May 2019 sales tax quarter, and more still for the June-August 2019 quarter. It is something to be on the lookout for, because the last of these periods overlaps with the Internet Marketplace Act.
+
+## Internet Marketplace Act
+
+With adoption of the 2019-2020 budget, New York's tax law was "amended to require marketplace providers to collect sales tax on taxable sales of tangible personal property that they *facilitate* for marketplace sellers. These amendments apply to sales made on or after June 1, 2019." (See this.) This change did not expand the sales tax, but rather created another mechanism for collection of existing liabilities.
+
+[@governorkathyhochulNewYorkState2022]
+
+In addition, the State will now require internet marketplace providers to collect sales taxes from third-party sellers that use their platforms. To help the MTA fund its 2020-2024 and successor capital programs, the Enacted Budget requires the City to direct a portion of its sales tax collections to the MTA (\$127.5 million in SFY 2019-20 reflecting the portion of the year in which it is effective, \$170 million in SFY 2020-21, and increasing by one percent per year thereafter). The City estimates that it will receive \$170 million annually from the additional internet sales tax but this will be offset by the City's required sales tax payment to the MTA. ([OSC](https://www.osc.state.ny.us/files/reports/budget/pdf/budget-enacted-2019-20.pdf); S.1509-C / A.2009-C, Chapter 59 of the Laws of 2019); also see [NYC IBO](https://ibo.nyc.ny.us/iboreports/recession-ahead-while-concerns-mount-projections-show-moderate-growth-in-nyc-tax-revenue-for-the-upcoming-years-may-2019.pdf).
+
+### Potential revenue impact
+
+2017 North American Industry Classification System (NAICS)
+
+NAICS 4541 This industry comprises establishments primarily engaged in retailing all types of merchandise using nonstore means, such as catalogs, toll free telephone numbers, or electronic media, such as interactive television or the Internet. Included in this industry are establishments primarily engaged in retailing from catalog showrooms of
+mail-order houses. (See [this](https://www.census.gov/naics/reference_files_tools/2017_NAICS_Manual.pdf).)
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+dsalesyear <- here::here("data", "dtf", "salesyear")
+
+```
+
+```{r}
+#| label: prep
+#| include: false
+
+df1 <- readRDS(path(dsalesyear, "tsp_detail.rds"))
+glimpse(df1)
+
+src1 <- "Source: New York State Department of Taxation and Finance"
+src2 <- "Taxable Sales And Purchases Quarterly Data: Beginning Sales Tax Year 2013-2014"
+src_note <- paste0(src1, ", ", src2)
+
+subt1 <- "NAICS 4541 Electronic Shopping and Mail-Order Houses"
+subt2 <- "\nEach point is first month of a sales tax quarter. Quarters start in March, June, September, & December"
+subt <- paste0(subt1, ".  ", subt2)
+
+format_dates <- function(x) {
+  months <- strftime(x, format = "%b")              # Abbreviated name of the month.
+  years <- lubridate::year(x)  # Year as a 4-digit number.
+  case_when(month(x)==1 ~ paste(years, months, sep = "-"),
+            month(x) %in% c(3, 6, 9) ~ months,
+            TRUE ~ "")
+}
+
+format_dates <- function(x) {
+  # months <- strftime(x, format = "%b")              # Abbreviated name of the month.
+  # years <- lubridate::year(x)  # Year as a 4-digit number.
+  case_when(month(x)==0 ~ paste(lubridate::year(x), 
+                                strftime(x, format = "%b"), 
+                                sep = "-"),
+            month(x)==1 ~ lubridate::year(x) |> as.character(),
+            month(x) %in% c(3, 6, 9, 12) ~ strftime(x, format = "%b"),
+            TRUE ~ "")
+}
+
+dates1 <- seq(as.Date("2010-01-01"), as.Date("2030-01-01"), by="years")
+dates2 <- seq(as.Date("2013-03-01"), as.Date("2030-03-01"), by="3 months")
+dates <- c(dates1, dates2) |> sort()
+dates
+# format_dates(dates)
+
+pinternet <- df1 |>
+  filter(naics==4541, uniname=="New York City") |> # 4541
+  select(stdate, txblsales) |>
+  ggplot(aes(stdate, txblsales)) +
+  # lines to replace the grid
+  geom_vline(xintercept=dates1, colour="grey90") +
+  geom_vline(xintercept=dates2, colour="grey98") +
+  geom_line(colour="blue") +
+  geom_point(colour="blue") +
+  geom_vline(xintercept=as.Date("2019-06-01"), linetype="dashed") +
+  # scale_x_date(name=NULL, date_breaks = "years", date_labels = "%Y") +
+  # scale_x_date(name=NULL, date_breaks = "3 months", labels = format_dates) +
+  scale_x_date(name=NULL, breaks = dates, labels = format_dates) +
+  scale_y_continuous(name="Taxable sales in the quarter ($ millions)",
+                     breaks=seq(0, 4e9, 250e6),
+                     labels = scales::comma_format(scale=1e-6)) +
+  ggtitle("New York City Internet-Related Taxable Sales Before and After Internet Marketplace Act (June 1, 2019)",
+          subtitle = subt) +
+  labs(caption = src_note) +
+  theme_bw() +
+  caption_left + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0, hjust=0)) +
+  # remove vertical grid because we replaced it above
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+pall <- df1 |>
+  filter(uniname=="New York City") |>
+  group_by(date) |> 
+  summarise(txblsales=sum(txblsales, na.rm=TRUE), .groups="drop") |> 
+  ggplot(aes(date, txblsales)) +
+  geom_line(colour="blue") +
+  geom_point(colour="blue") +
+  geom_vline(xintercept=as.Date("2019-06-01"), linetype="dashed") +
+  scale_x_date(name=NULL, date_breaks = "years", date_labels = "%Y") +
+  scale_y_continuous(name="Taxable sales in the quarter ($ billions)",
+                     breaks=seq(0, 60e9, 2.5e9),
+                     labels = scales::comma_format(scale=1e-9)) +
+  ggtitle("New York City Total Taxable Sales Before and After Changes in Internet Laws (June 1, 2019)") +
+  labs(caption = src_note) +
+  theme_bw() +
+  caption_left
+pall
+
+```
+
+```{r}
+#| label: internet
+#| include: true
+
+pinternet
+```
+
+```{r}
+#| label: all
+#| include: true
+
+pall
+```

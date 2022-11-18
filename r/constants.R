@@ -5,6 +5,10 @@ constants <- list()
 constants$qdir <- r"(E:\data\BLSData\qcew\annual_area\)"
 constants$mtaout <- r"(G:\My Drive\Consulting\MTA revenue\DataForMTA\)"
 
+# plot items ---------------------------------------------------------------
+legend_none <- theme(legend.position = "None")
+legend_notitle <- theme(legend.title = element_blank())
+caption_left <- theme(plot.caption = element_text(hjust = 0))
 
 # constants ---------------------------------------------------------------
 

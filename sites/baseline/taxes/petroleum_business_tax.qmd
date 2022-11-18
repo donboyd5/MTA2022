@@ -4,7 +4,17 @@
 
 [Tax Department](https://www.tax.ny.gov/bus/petrol/ptidx.htm)
 
-The petroleum business tax (PBT) is a privilege tax imposed on petroleum businesses operating in New York State. The PBT is imposed at a cents-per-gallon rate on petroleum products sold or used in the state. (Currently 17.3 cents for motor fuel.)
+The petroleum business tax (PBT) is a privilege tax imposed on petroleum businesses operating in New York State.
+
+The PBT is imposed at cents-per-gallon rates on petroleum products sold or used in the state. The rates are linked to the 12-month average producer price index for refined petroleum products, and annual increases or decreases in tax rates are limited by law to 5 percent.
+
+There is a base tax and a supplemental tax. The base tax rates vary by product type; the supplemental tax, in general, is imposed at a uniform rate.
+
+The base tax rates and supplemental tax rates are adjusted separately. Currently the combined tax rate for motor fuel is 17.3 cents per gallon. Full rate tables by product are further below.
+
+Effective in 2016, all revenues collected from the PBT on aviation fuel are set aside for airport use in accordance with Federal regulations.
+
+## Collection
 
 The tax imposition occurs at different points in the distribution chain depending on the type of petroleum product (these choices are intended to improve enforcement and reduce evasion):
 
@@ -26,6 +36,10 @@ State fiscal year, based on 2023 executive budget [@governorkathyhochulNewYorkSt
 
 ![](images/image-170959045.png)
 
+The pie chart below shows the sources and uses of the tax in state FY 2021:
+
+![](images/image-2086161413.png)
+
 ### Rough estimate of revenue by fuel type
 
 Using gallonage estimates from Table 9 of the [NYS Tax Department's FY 2021 collections report](https://www.tax.ny.gov/pdf/2020-2021%20collections/FY20_21%20Tables.xls), and June 2022 tax rates, it looks like motor fuel plus highway diesel fuel account for about 98% of the tax revenue. This seems consistent with what the Division of Budget says: "In terms of the share of PBT base and supplemental receipts in FY 2021, gasoline and diesel receipts based on reported gallonage constituted 84 and 15 percent of the total, respectively." [@governorkathyhochulNewYorkState2022]
@@ -40,8 +54,7 @@ There are three large tax expenditures identified by the state tax department [@
 
 -   Exemption for residential heating fuel - this is a political choice that runs through the sales tax as well, and would be difficult to undo
 
--   Exemption for sales to federal, state, and local governments - under the principle of
-    federal sovereignty and the supremacy clause of the U.S. Constitution states cannot generally tax sales to the federal government; NY could choose to tax sales to the state and its local governments
+-   Exemption for sales to federal, state, and local governments - under the principle of federal sovereignty and the supremacy clause of the U.S. Constitution states cannot generally tax sales to the federal government; NY could choose to tax sales to the state and its local governments.
 
 ![](images/image-1921662740.png)
 
@@ -87,7 +100,17 @@ Exemptions:
 
 -   tugboats and towboats.
 
-### Tax rates
+## Tax rates
+
+### Comparison to other states
+
+Note: excise tax rates for states, from the Energy Information Adminstration, can be found [here](https://www.eia.gov/petroleum/marketing/monthly/xls/fueltaxes.xls); this is not complete in that it does not consider sales taxes. The American Petroleum Institute does include sales taxes in [its comparisons](https://www.api.org/-/media/Files/Statistics/State-Motor-Fuel-Taxes-Charts-january-2022.pdf), and measured this way NY ranks 9th highest in the nation.
+
+The API estimates that the combined effect of state and local taxes in early 2022 was an effective rate of 48.2 cents per gallon on gasoline, and 47 cents on diesel fuel
+
+![](images/image-231755268.png)
+
+### Tax rates by product
 
 ![](images/image-2072026175.png)
 

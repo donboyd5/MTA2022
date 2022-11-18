@@ -2,6 +2,10 @@
 
 ## Current High Priorities:
 
+-   MMTOA tracking collections, receipts, appropriations
+
+-   18b diversion 1996-plus; growth with inflation
+
 -   Policy-oriented primers on selected taxes -- base, rate, history, interaction with other taxes, other relevant issues
 
     -   Noncorporate entities (partnerships, LLCs, trusts, etc.)
@@ -14,11 +18,8 @@
 
     -   MTA sales tax
 
--   MMTOA tracking collections, receipts, appropriations
 
--   18b diversion 1996+
 
--   Internet marketplace amount -- can we track/calculate it, how much is it, change over time, how it compares to what state actually gives
 
 ## Agendas
 
@@ -32,6 +33,8 @@
 -   [Sales tax on video streaming services](options/sales_tax_video_streaming.qmd)
 
 -   [Petroleum business tax](taxes/petroleum_business_tax.qmd)
+
+-   [Internet marketplace tax - in progress](primers/primer_internet_marketplace_tax.qmd) -- can we track/calculate it, how much is it, change over time, how it compares to what state actually gives
 
 
 ### November 9, 2022, Wednesday

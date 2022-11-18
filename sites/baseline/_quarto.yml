@@ -41,11 +41,11 @@ book:
       - taxes/current_taxes.qmd
       - taxes/payroll_mobility_tax.qmd
       - taxes/petroleum_business_tax.qmd
-      - taxes/mortgage_recording_tax.qmd
+      # - taxes/mortgage_recording_tax.qmd
       - taxes/miscellaneous_revenue.qmd
-    # - part: "Primers"
-    #  chapters: 
-    #   - primers/primer_petroleum_business_tax.qmd
+    - part: "Primers"
+      chapters:
+      - primers/primer_internet_marketplace_tax.qmd
     - part: "County allocation"
       chapters:
       - countyalloc/county_allocation.qmd

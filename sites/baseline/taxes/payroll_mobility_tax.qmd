@@ -78,4 +78,4 @@ In a regional setting where a tax is imposed on one region but not another, both
 
 In summary, empirical tests of the incidence of payroll taxes suggest that the vast majority of such a tax is borne by employees, but that in some cases employers may bear a substantial share.
 
-## Geographic allocation
+
