@@ -8,8 +8,7 @@ Prior to the June 2018 U.S. Supreme Court decision in *South Dakota v. Wayfair*,
 
 This situation is common with internet transactions and before that, with catalog sales. For example, if a New York consumer bought a jacket from Lands' End and -- positing that Lands' End does not have a physical presence in New York -- the state could not require Lands End to collect the sales tax. (Tax would be owed by the consumer, but it is not generally practical to force the consumer to pay tax in such a case.)
 
-*Wayfair* changed this, allowing NY and other states to require the out-of-state vendor to collect tax when the economic connection to the state is sufficiently strong, based, for example, on the quantity or frequency of sales in a state. In other words, if the vendor has sufficient "economic nexus" with the state it can be required to collect sales tax owed. This does not establish new taxes, but rather just affects collection requirements.
-(The Supreme Court allowed South Dakota's law, which established economic nexus and collection requirements for retailers with \$100,000 or more of sales or 200 or more transactions in the state.)
+*Wayfair* changed this, allowing NY and other states to require the out-of-state vendor to collect tax when the economic connection to the state is sufficiently strong, based, for example, on the quantity or frequency of sales in a state. In other words, if the vendor has sufficient "economic nexus" with the state it can be required to collect sales tax owed. This does not establish new taxes, but rather just affects collection requirements. (The Supreme Court allowed South Dakota's law, which established economic nexus and collection requirements for retailers with \$100,000 or more of sales or 200 or more transactions in the state.)
 
 New York already had dormant statutory language enacted in 1989 that defined a vendor as "A person who regularly or systematically solicits business in this state by the distribution, without regard to the location from which such distribution originated... to persons in this state and by reason thereof makes sales to persons within the state of tangible personal property, the use of which is taxed by this article, *if such solicitation satisfies the nexus requirement of the United States constitution*". (NYS Tax Law section 1101(b)(8)(E)))
 
@@ -29,8 +28,7 @@ In addition, the State will now require internet marketplace providers to collec
 
 2017 North American Industry Classification System (NAICS)
 
-NAICS 4541 This industry comprises establishments primarily engaged in retailing all types of merchandise using nonstore means, such as catalogs, toll free telephone numbers, or electronic media, such as interactive television or the Internet. Included in this industry are establishments primarily engaged in retailing from catalog showrooms of
-mail-order houses. (See [this](https://www.census.gov/naics/reference_files_tools/2017_NAICS_Manual.pdf).)
+NAICS 4541 This industry comprises establishments primarily engaged in retailing all types of merchandise using nonstore means, such as catalogs, toll free telephone numbers, or electronic media, such as interactive television or the Internet. Included in this industry are establishments primarily engaged in retailing from catalog showrooms of mail-order houses. (See [this](https://www.census.gov/naics/reference_files_tools/2017_NAICS_Manual.pdf).)
 
 ```{r}
 #| label: setup

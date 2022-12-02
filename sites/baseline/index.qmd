@@ -2,6 +2,10 @@
 
 ## Current High Priorities:
 
+-   Tax package related to digital economy and WFH
+
+-   Extend estimates of marketplace tax
+
 -   MMTOA tracking collections, receipts, appropriations
 
 -   18b diversion 1996-plus; growth with inflation
@@ -20,12 +24,15 @@
 
 
 
-
 ## Agendas
 
 <!-- (taxes/payroll_mobility_tax.qmd#incidence) -->
 <!-- quarto publish netlify --no-browser --no-prompt -->
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
+
+
+### December 2, 2022, Friday
+
 
 
 ### November 18, 2022, Friday

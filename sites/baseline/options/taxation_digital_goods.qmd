@@ -1,0 +1,117 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Digital
+
+## Notes
+
+Digital Products - taxed
+
+Canned Software (physical form) - taxed
+
+Canned Software electronically or load and leave - taxed
+
+Custom Software - not
+
+Digital subscription Services
+
+Data Services
+
+Cloud Computing
+
+Other
+
+-   Digital ads
+
+-   Digital codes
+
+-   Zoom and similar fees
+
+-   Online classes
+
+-   Peer-to-peer car sharing
+
+-   EV fees
+
+#### General
+
+Fox Agrawal
+
+![](images/image-1058144081.png)
+
+![](images/image-1440068213.png)
+
+![](images/image-1947185724.png)
+
+![](images/image-662254604.png)
+
+![](images/image-1416197133.png)
+
+![](images/image-1951893325.png)
+
+![](images/image-347019624.png)
+
+#### Digital platform issue and the advertising vs. fees model
+
+Suppose we extend the sales tax to digital downloads and streaming services. Netflix becomes taxed because it sells its service, but people can watch videos on YouTube, TikTok, or Facebook without paying tax because those sites are advertising supported rather than fee supported.
+
+One solution is to impose a tax on digital advertising. But the MD tax (vetoed by Larry Hogan and then overridden) was struck down in state court because it violated ITFA (at least) in that it was discriminatory - non-digital advertising was not taxed. (Also violated Commerce Clause and First Amendment.)
+
+Solutions could include:
+
+-   Tax non-digital advertising, too.
+
+-   Tax the non-transactional value of the video/etc. service - for example based on YouTube's costs, etc. This is hard, too.
+
+Suppose further that we
+
+#### Digital products
+
+As of 2009 (DTF)
+
+![](images/image-183486250.png)
+
+#### Digital ads
+
+Can digital ads be taxed? One of the most controversial taxes to emerge recently is the tax on digital advertisements adopted by Maryland in early 2021. States being the copycats they are, similar taxes were subsequently introduced in several states, including Connecticut, Indiana, Montana, New York, Texas, Washington, Washington, D.C., and West Virginia.
+
+A tax targeting digital advertising services could perhaps violate the [Internet Tax Freedom Act](https://www.avalara.com/us/en/blog/2020/06/controversial-internet-tax-freedom-act-becomes-permanent-july-1.html) (ITFA), which prohibits state and local governments from taxing internet access or imposing "[discriminatory taxes on electronic commerce](https://fas.org/sgp/crs/misc/R43772.pdf)." ITFA became permanent on July 1, 2020. Additionally, a digital advertising services tax could violate the [Dormant Commerce Clause of the United States Constitution](https://www.law.cornell.edu/wex/commerce_clause), which implicitly prohibits states from passing legislation that discriminates against or excessively burdens interstate commerce. ([Cole](https://www.avalara.com/blog/en/north-america/2021/01/new-york-reintroduces-digital-advertising-services-tax.html))
+
+\[invalidated\] (Oct 20, 2022) A Maryland state court invalidated the state's first-in-the-nation tax on digital advertising (Maryland Digital Advertising Tax) earlier this week.^[1](https://www.skadden.com/insights/publications/2022/10/invalidation-of-the-maryland-digital-advertising-tax-highlights#ftn1)^ Enacted in February 2021, the Maryland Digital Advertising Tax was controversial even before it became law. The legislation authorizing the tax was vetoed by Maryland Gov. Larry Hogan in 2020 and was enacted only after the Maryland House of Delegates and the Maryland Senate voted to override the veto in early 2021.
+
+On Oct. 17, 2021, ruling from the bench, the judge held that the law violates the federal Internet Tax Freedom Act (ITFA), the Commerce Clause of the U.S. Constitution, and the First Amendment.
+
+The ITFA specifically defines what constitutes a \"discriminatory tax.\" \"Discriminatory tax\" is defined to include \"any tax imposed by a State . . . on electronic commerce that . . . is not generally imposed and legally collectible by such State . . . on transactions involving similar property, goods, services, or information accomplished through other means. . . .\" https://www.gtlaw.com/en/insights/2022/10/marylands-digital-advertising-tax-defeated
+
+#### Misc
+
+Entertainment services via computer or telephone
+
+Appear to be exempt under 186-e but taxable under sales tax.
+
+#### Equipment purchases by telecommunications providers
+
+As of 2009 DTF
+
+![](images/image-1207600893.png)
+
+#### Sales tax telecomm-related exemptions
+
+DTF 2009
+
+![](images/image-1346006073.png)
+
+Wireless
+
+https://taxfoundation.org/wireless-taxes-cell-phone-tax-rates-by-state-2020/
+
+#### Custom software
+
+Not taxed in NY, taxed in
+
+### Remote sellers
+
+![](images/image-841640239.png)
