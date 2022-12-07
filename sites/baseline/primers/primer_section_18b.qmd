@@ -1,0 +1,653 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Section 18-b
+
+```{r}
+#| label: libs_data
+#| include: false
+source(here::here("r", "libraries.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+```
+
+### Goals
+
+-   How does Section 18-b work? What are the mechanics of the annual appropriation?
+
+-   What's it's history - when and how did the state start paying MTA with MTA's own money (funding its share of 18-b from taxes that previously had been dedicated to MTA). (KW thinks the diversion may have started around 1996 but it looks from the below.)
+
+### Capsule summary
+
+The summary immediately below (1) gives the history of 18-b and the diversion, and (2) relatively old NYC Comptroller and NYC IBO estimates of various approaches to recouping or reinstating the lost 18-b money. We could update some of these estimates without too much difficulty; I have not done so yet. Further below you'll find some not-well-organized useful items - statutory language of 18-b; appropriation bills for the state money; and more.
+
+Key sources: (DOT; NYC Comptroller -- [NYCC](https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf), [NYCIBO1](https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf) and [NYCIBO2](https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf))
+
+\"A Review of the Metropolitan Transportation Authority\'s Financial Outlook and Options for Closing the Gaps.\" New York City Independent Budget Office, June 1, 2007. <https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf>. (NYCIBO1)
+
+\"For MTA, Tax & Fee Revenues Not Always on Track.\" New York City Independent Budget Office, August 2011. <https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf>. (NYCIBO2)
+
+Thompson, William C. \"Options for Eliminating Fare Increases in 2008 and 2009,\" 2007. <https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf>. (NYCC)
+
+-   1975-76: State established its first statewide transit operating assistance program
+
+    -   Statewide Mass Transportation Operating Assistance (STOA) program (Transportation Law Section 18-b) (NYSDOT)
+
+    -   General fund appropriations administered by NYS DOT; capped by formula formula that involves the number of riders carried and the number of vehicle miles operated (NYSDOT, and NYCIBO1).
+
+    -   (For the current formula, see Section 18-b(3) below - MTA could calculate this, or perhaps I could, under two approaches: (1) formula as written, and (2) formula with inflationary adjustment since the last time it was modified; I need to figure out when that was)
+
+    -   Requires a 100 percent local match from cities or counties (NYCC)
+
+    -   Supports both upstate and downstate transit providers (NYCC)
+
+-   1981-82 in anticipation of deficits, state:
+
+    -   Created Mass Transportation Operating Assistance Fund (MMTOA) program for downstate transit providers (State Finance Law Section 88-a)
+
+    -   Enacted dedicated taxes (sales tax 0.375%; "long lines" corporate franchise tax on certain transportation and transmission companies; a portion of State petroleum business tax; and surcharge on the corporate franchise tax)
+
+    -   Deposited into upstate and downstate accounts of MTOA (NYSDOT; NYCC)
+
+-   Through SFY 2001: State appropriated its share of 18-b aid from its General Fund in addition to dedicated MMTOA funds (NYCC)
+
+-   SFY 2001-02: the State transferred \$161 million from the MMTOA fund to the 18-b program in lieu of General Fund dollars, reducing the amount of MMTOA funds otherwise available for transit. The \$161 million represented 77.5 percent of the State share of the downstate 18-b aid in SFY 2002.
+
+-   In succeeding years, the State has continued to transfer revenue out of the MMTOA fund to pay for an increasing share of its 18-b aid while localities continue to fund their share from their operating budgets. (NYCC)
+
+-   In 2007, NYCIBO estimated:
+
+    -   "IBO estimates that under the established formula, the maximum permitted state subsidy would have been \$444 million in 2006, \$256 million above the actual level. The extra state aid would require an additional \$256 million in local government assistance." (NYCIBO1)
+
+    -   "If the 18-b operating subsidy had increased at the same rate as the MTA's operating expenditures (excluding debt service) since 2003, local government payments in 2008 would stand at about \$262 million, and the state's at \$258 million---together, \$142 million above their current budgeted levels. Increasing the local and state payments at the same rate as expenditures would yield an additional \$20 million annually." (NYCIBO1)
+
+-   In 2008, NYC Comptroller ...
+
+![](images/image-1600150146.png)
+
+-   If the 18-b allocation formula used in recent years to distribute program dollars to downstate operators were used to allocate the additional MMTOA funds, the distribution would be as shown in Table 3. (\$178m would be for MTA - items with \*) (NYCC)
+
+![](images/image-195526490.png)
+
+-   Table 2 reflects that since SFY 2002, there has been no increase in 18-b funding to downstate transit providers. While Section 18-b of the State Transportation law provides for a funding formula based on ridership and vehicles miles operated by the transit systems, the State's appropriations have not increased since 2002. The City's Independent Budget Office has estimated that fully funding the 18-b subsidy based on the statutory formula would provide the MTA with an additional \$256 million in State aid and a corresponding \$256 million in City assistance annually. NYCT's share of that combined increase would be in the range of \$390.7 million. The City would pay for half of this increase and the State would fund the remainder. Lifting the cap on the 18-b operating assistance program requires action by the New York State Legislature. Unless the current law is modified, additional payments by the City along with higher payments by the suburban counties in the MTA region for the commuter railroads and their suburban bus systems would also be required. (NYCC)
+
+-   
+
+### Background
+
+#### Flow of funds
+
+-   Payments to MTA administered by state DOT:
+
+    -   State payments for Transit and CR, quarterly, based on state appropriations, rather than formula in statute for other transport systems. (Formula appears to have been established in 1980.)
+
+    -   City and counties make matching payments for Transit and CR respectively
+
+    -   Total 18-b payments historically have been \$375.8m annually but depend on appropriations
+
+    -   Substantially all are paid from Transportation District Account in MTOAF; remainder from State general fund
+
+    -   Source of revenue for the payments from MTOAF-TDA is special operating taxes (sales tax, franchise tax surcharge, transport and transmission taxes, a portion of PBT, and Urban Taxes (MRT)). So any 18-b payments from this account reduce amounts that could otherwise be paid from MTOAF-TDA for Transit/CR.
+
+    -   Per Disclosure p.132: "State law gives State officials the authority to disburse funds to MTA from the MMTOA Account to the extent such officials determine that the funds are necessary to finance operations of the Transit System and MTA Staten Island Railway and the Commuter System. Fluctuations in the economic and demographic conditions of the MTA Commuter Transportation District are directly related to the growth of economically sensitive taxes, including the District Sales Tax and the Franchise Surcharge. Therefore, there can be no assurance that such taxes will generate tax receipts at current levels. If shortfalls are experienced in the collection of MMTOA Taxes, the Commissioner of Transportation is authorized to reduce each recipient's payment from the MTOA Fund proportionately. MTA has historically received approximately 86% of such amounts deposited in the MMTOA Account."
+
+This table from Disclosure p.123 shows flow of funds: taxes into the state's MMTOA account (on the right), in part paid subject to appropriation into the MTA's DTF as MMTOA receipts. The 85.3% is simply a calculate of the share paid; the actual amount is based on appropriation.
+
+![](images/image-1049349305.png)
+
+#### Disclosure notes
+
+Most of the following comes from @metropolitantransportationauthority2022CombinedContinuing2022 pp. 23, 24, 118
+
+![](images/image-578545114.png)
+
+![![](images/image-618188535.png)](images/image-2059111800.png)
+
+#### Revenues of the Transportation District Account in MTOAF
+
+These revenues are the source of the state's non-General Fund part of its 18-b payments.
+
+![](images/image-1232129837.png)
+
+![](images/image-1143989074.png)
+
+#### History
+
+![](images/image-232019418.png)
+
+[IBO 2011 report](https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf):
+
+![](images/image-1730673048.png)
+
+### Payments detail
+
+The following are Steve Wislo's 9/9/2002 subsidies amounts. The sum of state + local accrual = \$375.8m annually.
+
+#### State
+
+\$187.9 million cash (blue) annually, except 2020 and 2021 had a cash flow slide; accrual (green) is \$187.9m in each of 2016-2022.
+
+![](images/image-1163440527.png)
+
+![](images/image-320554999.png)
+
+#### Local
+
+In addition, local cash (blue) is approximately \$187.9m annually. Accrual (green) shown below.
+
+![](images/image-453718324.png)
+
+![](images/image-1944941402.png)
+
+### Some details
+
+According to [NYS DOT](https://www.dot.ny.gov/divisions/policy-and-strategy/public-transportation/funding-sources/STOA):
+
+In State Fiscal Year (SFY) 1975-76, the NYS Legislature enacted a permanent, ongoing STOA \[\] Program with appropriations from the State's General Fund and administered by the state Commissioner of Transportation (this is the Section 18-b Program). In SFY 1981-82, in response to anticipated continuing operating deficits of state mass transportation systems, the Legislature enacted a series of taxes; portions of these proceeds are deposited within the Mass Transit Operating Assistance (MTOA) fund. This fund is subdivided into upstate and downstate dedicated tax fund accounts. The Mass Transit Operating Assistance fund was created by Section 88-a of State Finance Law. The downstate account provides funding to transit systems in the 12-county New York metropolitan transportation commuter district and consists of revenues from the following sources: a portion of the Petroleum Business Tax (PBT); the MTA Corporate Tax Surcharge; a 1/4 Percent Sales Tax in the MTA region; and the Long Lines Tax. The upstate account provides funding to all transit systems outside the 12-county metropolitan transportation commuter district. A portion of the PBT is the sole dedicated revenue source for the upstate account.
+
+### Appropriations
+
+The FY 2023 executive budget (proposed) contains the following relevant items in the [aid to localities bill](https://www.budget.ny.gov/pubs/archive/fy23/ex/approps/local.pdf). (Note that in the interest of speed this is the proposed bill, not the enacted bill. Given the stability of 18-b payments, that should be ok.)
+
+#### Item 1: Payments from the state's general fund totaling \$98.2m pp.855-857
+
+Appears to include \$12.4m of 18-b payments to non-MTA transportation authorities and \$317k for other transport authorities in the MTA district. Note budget director's extraordinary authority.
+
+ADDITIONAL MASS TRANSPORTATION ASSISTANCE PROGRAM........ 98,212,000
+
+Notwithstanding any inconsistent provision of law, the following appropriations are for the payment of mass transportation operating assistance provided that payments from this appropriation shall be made **pursuant to a financial plan approved by the director of the budget**.
+
+...To all other public transportation systems serving primarily outside of the metropolitan commuter transportation district eligible to receive operating assistance under the provisions of section 18-b of the transportation law for the operating expenses thereof in accordance with a service and usage **formula to be established by the commissioner of transportation with the approval of the director of the budget** (53210) ....................... 12,400,200
+
+...To all other public transportation systems serving primarily within the metropoltan commuter transportation district eligible to receive operating assistance under the provisions of section 18-b of the transportation law for the operating expenses thereof in accordance with a service and usage **formula to be established by the commissioner of transportation with the approval of the director of the budget** (53217) .................................. 317,000
+
+#### Item 2: Payments from the state's Dedicated Mass Transportation Trust Fund (a state special revenue fund) totaling \$710.6m -- starting p.857
+
+DEDICATED MASS TRANSPORTATION TRUST FUND PROGRAM ......... 710,608,000
+
+##### Subitem: 18-b payments to non-MTA authorities totaling 56,800,00
+
+Special Revenue Funds - Other Dedicated Mass Transportation Trust Fund Non-MTA Capital Account - 20853
+
+Notwithstanding any inconsistent provision of law, the following appropriations are for payment of mass transportation operating assistance for public transportation systems eligible to receive operating assistance under the provisions of section 18-b of the transportation law, provided that payments from this appropriation shall be made pursuant to a financial plan approved by the director of the budget.
+
+...followed by a list of payments
+
+##### Subitem
+
+![](images/image-125115351.png)
+
+### Financial plan context
+
+Table below from disclosure p.120 shows MTA Dedicated Tax Fund.
+
+![](images/image-1380855006.png)
+
+### MMTOA timing
+
+From 2011 IBO report
+
+The timing of the state's deposits in MMTOA explains why the account appears to have a surplus of cash. Each year MMTOA receives deposits of dedicated tax and fee receipts from the state in the second, third, and fourth quarters as well as a full advance of tax and fee receipts from the first quarter of the following year in the fourth quarter of the current year. For this reason MMTOA's balance is positive at year-end even after the MTA completes its budgeted allocations. The MTA receives little or no deposits into MMTOA for the first quarter of each year.
+
+## Transportation Law Section 18-b Current Text
+
+[link](https://www.nysenate.gov/legislation/laws/TRA/18-B)
+
+Notes:
+
+Subdivision 3: the formula
+
+Sudivision 4: application for payment
+
+Subdivision 5: county/municipal payments to transportation authorities
+
+§ 18-b. Statewide mass transportation operating assistance program. 1.\
+**Within the amounts made available therefor by appropriation**, a statewide\
+mass transportation operating assistance program is hereby established\
+for the purpose of making payments toward the operating expenses of\
+public transportation systems. For the purposes of this section, the\
+term public transportation system shall mean any public benefit\
+corpor*a*tion constituting a transportation authority which provides or\
+contracts for the provision of (under joint support arrangements) mass\
+transportation services, or a subsidiary thereof, or any Indian tribe\
+which provides or any county or city which provides or contracts for the\
+provision of (pursuant to section one hundred nineteen-r of the general\
+municipal law) mass transportation services or any person, firm or\
+corporation performing intercity bus passenger service as defined in\
+subdivision three of section fourteen-g of this article serving two or\
+more counties within the state which is under contract with the\
+commissioner pursuant to such section fourteen-g to provide mass\
+transportation services.\
+\
+2. a. The commissioner shall pay to each public transportation system\
+that makes an application therefor, **in quarterly installments**, a mass\
+transportation operating assistance service payment. For the purposes of\
+this section, the quarters shall be April through June, July through\
+September, October through December and January through March.\
+\
+b. For the quarter commencing April first, nineteen hundred\
+seventy-five the quarterly service payment shall be the amount computed\
+by the formula set forth in subsection three of this section.\
+\
+3. The quarterly service payment made to any public transportation\
+system shall not be greater than a sum computed in one of the following\
+manners:\
+\
+(i) In the case of commuter rail, by adding the certified number of\
+commuter rail passengers multiplied by two cents per passenger and the\
+certified number of commuter rail vehicle or car miles multiplied by\
+twenty-five cents per vehicle or car mile.\
+\
+(ii) In the case of subway or rapid transit, by adding the certified\
+number of subway or rapid transit passengers multiplied by two cents per\
+passenger and the certified numbers of subway or rapid transit vehicle\
+or car miles multiplied by eight cents per vehicle or car mile.\
+\
+(iii) In the case of bus lines, by adding the certified number of bus\
+passengers multiplied by two cents per passenger and the certified\
+number of bus miles multiplied by seven cents per bus mile. For the\
+purposes of computing quarterly service payments only mileage\
+accumulated in revenue service shall be used.\
+\
+**Whenever it is determined by the commissioner that the amount of money\
+appropriated for service payments is less than the total amount of money\
+for which all public transportation systems are eligible, the\
+commissioner may establish on a quarterly or annual basis, a maximum\
+service payment limit which is lower than that provided for in this\
+section.**\
+\
+(iv) In the case of commuter ferry lines with the authorization for\
+payment thereof for the fiscal year nineteen hundred\
+seventy-five\--nineteen hundred seventy-six to be in the discretion of\
+the commissioner, by adding the certified number of annual ferry\
+passengers multiplied by two cents per passenger, times the certified\
+number of annual nautical ferry miles, times two-one hundred\
+thousandths. For the purposes of computing quarterly service payments\
+only mileage accumulated in revenue service shall be used.\
+\
+4. a. All service payments shall be made upon an application of the\
+public transportation system. Such application shall be filed between\
+the second and the seventeenth day of the first month of each quarter.\
+Upon application, the chief executive officer of each public\
+transportation system shall certify to the commissioner, the total\
+number of passengers such system estimates that it will carry and the\
+total number of vehicle or car miles such system estimates that its\
+equipment will travel in revenue service during the quarter for which\
+such installment is to be paid.\
+\
+Upon receipt and approval of such application and certifications the\
+commissioner shall, by the tenth day of the next succeeding month, pay\
+to the public transportation operator, the quarterly service payment.\
+\
+b. The chief executive officer of each public transportation system\
+receiving a quarterly service payment pursuant to this section shall\
+certify to the commissioner, within fifteen days after the end of the\
+quarter for which a service payment was received, the actual total\
+number of passengers carried by the system during such quarter and the\
+actual total vehicle or car miles the system's equipment traveled in\
+revenue service during such quarter, and based upon such actual totals,\
+the commissioner shall make such adjustments as may be appropriate in\
+the amount of the service payment for such system for the succeeding\
+quarter.\
+\
+5. a. For each quarter, each county, municipality or Indian tribe\
+served by a public transportation system which receives a service\
+payment pursuant to subsection two of this section shall, not later than\
+the twenty-fifth day of the second month of each quarter for which\
+payment is made, pay to the public transportation system a sum equal to\
+such service payment or its share of such service payment, except that\
+in the case of a service payment made to a public transportation system\
+on account of mass transportation services provided to more than one\
+county (considering the city of New York to be one county), each county\
+receiving such services from such system shall pay to the system a sum\
+equal to its share of the service payment, which sum shall be determined\
+in accordance with the percentage or dollar amounts established for such\
+county by the legislature.\
+\
+Where such county, municipality or Indian tribe is the public\
+transportation system, sums equal to such service payment shall be\
+committed to the use of the public transportation system, not later than\
+the twenty-fifty day of the second month of each quarter. Such sums so\
+committed shall not be used for other than the purposes of operating the\
+public transportation system.\
+\
+b. The payment or commitment of such sums by the counties,\
+municipalities or Indian tribes provided for in paragraph a of this\
+subdivision shall not be made from sums received in payment of fares by\
+the passengers of such public transportation system or from any other\
+revenues of such system.\
+\
+c. In the event that a county or municipality shall fail to make to a\
+public transportation system any of the payments required to be made by\
+it under this section, the chief executive officer of the public\
+transportation system or such other person as the commissioner shall\
+designate shall certify to the state comptroller such amount due and\
+owing such public transportation system and the state comptroller shall\
+withhold an equivalent amount from state aid allocated to such county or\
+municipality from highway aid, the motor fuel tax and the motor vehicle\
+registration fee distributed pursuant to section one hundred twelve of\
+the highway law, or per capita local assistance pursuant to section\
+fifty-four of the state finance law subject to the following\
+limitations: prior to withholding amounts allocated to carry such county\
+or municipality, the comptroller shall pay in full any amount due the\
+state of New York municipal bond bank agency, on account of any such\
+county or municipality's obligation to such agency; the city university\
+construction fund, pursuant to the provisions of the city university\
+construction fund act; the New York city housing development\
+corporation, pursuant to the provisions of the New York city housing\
+development corporation act (article twelve of the private housing\
+finance law); and the transit construction fund, pursuant to the\
+provisions of article five, title nine-a of the public authorities law.\
+The comptroller shall give the director of the budget notification of\
+any such payment. Such amount or amounts so withheld by the state\
+comptroller shall be paid to such public transportation system, which\
+system shall use such amount or amounts for the payment of the county or\
+municipality share of its operating expenses. When such amount or\
+amounts are received by such public transportation system, it shall\
+credit such amounts against any amounts due and owing such system by the\
+county or municipality on whose account such amount was withheld and\
+paid.\
+\
+d. The commissioner may impose a penalty in an amount not exceeding\
+twenty per centum of any overpayment to a public transportation system\
+whenever such overpayment results from willful failure to comply with\
+the requirements of this section, or the rules and regulations\
+authorized by this section, or whenever a public transportation system,\
+or an individual operator that is a part of such system, knowingly files\
+an incomplete, incorrect or misstated report. A public transportation\
+system or individual operator may request and the commissioner shall\
+provide an opportunity to be heard prior to the imposition of any\
+penalty as provided for in this section.\
+\
+6. Any federal financial assistance granted for the specific purpose\
+of paying the operating expenses of any county, municipality, public\
+benefit corporation or Indian tribe, eligible to receive service\
+payments as a public transportation system pursuant to this section,\
+received by the state or any municipality or Indian tribe after the\
+effective date of this section, and made available to any such county,\
+municipality, public benefit corporation or Indian tribe for application\
+in accordance with the terms of the grant, shall be combined with any\
+similar federal grant made directly to the county, municipality, public\
+benefit corporation or Indian tribe to help meet the operating expenses\
+of any mass transportation services provided for by any such county,\
+municipality, public benefit corporation or Indian tribe whether\
+directly or by contract. In the event that the total revenues of any\
+public transportation system, including subsidies from federal, state or\
+local governments, and where applicable, including funds required to be\
+committed by the county, municipality or Indian tribe, exceed the total\
+operating expenses for any such system, excluding depreciation, such\
+excess shall be utilized by the system to reduce fares or to extend or\
+increase mass transportation services. A plan to effectuate any such\
+fare reduction or extension or increase in services shall be submitted\
+to the commissioner by a public transportation system within thirty days\
+of receiving notice from the commissioner to prepare and submit such a\
+plan. Upon approval by the commissioner, such plan with any\
+modifications made by the commissioner shall be implemented as soon as\
+practical. Upon the failure of a public transportation system to submit\
+a plan in the manner provided by this section, the surplus shall be\
+utilized by such system to reduce the proportionate shares of the state\
+and the county, municipality or Indian tribe required to make matching\
+payments to the system, or in the event that no future payments are to\
+be made to such public transportation system, the system shall\
+proportionately refund such surplus to the state and the county,\
+municipality or Indian tribe involved.\
+\
+7. The commissioner may prescribe such regulations as he may deem\
+appropriate to effectuate the purposes of this section, including but\
+not limited to, a uniform system of reporting pursuant to the provisions\
+of this section. The commissioner shall also define by rules and\
+regulations, the terms "passenger", "vehicle or car mile", "urbanized\
+area", "chief executive officer", "mass transportation services",\
+"service payment", "commuter rail system", "subway system", "rapid\
+transit system", "bus system", "peak hours", "elderly", "handicapped",\
+and such other terms as he deems necessary for the purposes of this\
+section.\
+\
+The commissioner, in conformance with the auditing procedures of the\
+state comptroller, shall have the power to audit and examine the\
+accounts, books, contracts, records, documents and papers of any\
+participating public transportation system in order to effectuate the\
+purposes and intent of this section. Where a county, counties,\
+municipality, municipalities, Indian tribe or Indian tribes contract for\
+the provision of public transportation services with a private operator,\
+the books and records of such private operator shall also be subject to\
+audit and examination by the commissioner.\
+\
+8. The commissioner is hereby authorized to enter into contracts or\
+otherwise cooperate with the federal government or any agency or\
+instrumentality thereof for the purposes set forth in this section. Such\
+authorization shall include the power to apply for, receive, distribute\
+or, following appropriation authorization by the legislature, expend\
+federal money available or which may hereafter become available for such\
+purposes. The distribution of federal monies shall be in accordance with\
+the requirements of the federal grant, except that in the absence of any\
+required distribution the commissioner shall distribute such federal\
+monies in a manner which gives due consideration to the relative needs\
+of public transportation system operators throughout the state.\
+\
+9. The commissioner shall prepare and submit to the governor and the\
+legislature on or before November fifteenth of each year, a report,\
+which may include, but not be limited to, findings and recommendations\
+on the following: (a) the impact and effectiveness of the statewide\
+operating assistance program; (b) the current and projected operating\
+costs, revenues and subsidies of major transit systems or groups of\
+systems; (c) the efficiency, effectiveness, quality and the availability\
+of transit service; (d) the status of transit system long-range planning\
+and development and use of service and performance guidelines to\
+evaluate the efficiency, effectiveness and quality of service; and (e)\
+issues related to and/or affecting the administration of the statewide\
+operating assistance program.\
+\
+\* 10. Any street surface railroad in a city having a population of one\
+million or more commencing operation after July first, nineteen hundred\
+ninety-three shall not be eligible to receive statewide mass\
+transportation operating assistance.\
+\
+\* NB There are 2 sb 10's\
+\
+\* 10. Any commuter ferry line commencing operation after July first,\
+nineteen hundred ninety-three shall not be eligible to receive statewide\
+mass transportation operating assistance.\
+\
+\* NB There are 2 sb 10's\
+\
+11. To ensure that major private bus operations, as defined by the\
+commissioner, do not make excess profits, the commissioner shall limit\
+operating assistance provided pursuant to this section to an amount\
+which will not provide more than a reasonable return based on equity or\
+operating revenue and expenses as defined by program rules and\
+regulations. Further, the commissioner may exempt the following from the\
+provisions of this subdivision:\
+\
+a. operations of private carriers that are conducted pursuant to\
+contracts with New York state;\
+\
+b. operations of private carriers that are conducted pursuant to\
+competitively procured contracts awarded by municipalities; and\
+\
+c. complementary para-transit operations that are provided as mandated\
+by the federal Americans with Disabilities Act.\
+\
+12. To ensure that mass transportation operating assistance is not\
+used to support duplicative and redundant service, the commissioner may\
+limit or withhold statewide mass transportation operating assistance\
+from any public transportation system for such services the commissioner\
+determines to be duplicative or redundant. Prior to determining that a\
+service is or would be duplicative or redundant, the commissioner shall\
+consult with the provider of such service or the applicant proposing to\
+provide such service and with any authority, Indian tribe, county or\
+city which is contracting for such service or proposing to contract for\
+such service.
+
+## State Finance Law Section 88-a current text
+
+[link](https://www.nysenate.gov/legislation/laws/STF/88-A)
+
+Mass transportation operating assistance fund
+
+State Finance (STF) CHAPTER 56, ARTICLE 6
+
+§ 88-a. Mass transportation operating assistance fund. 1. There is\
+hereby established in the **joint custody of the commissioner of taxation\
+and finance and the state comptroller** a special fund to be known as the\
+"mass transportation operating assistance fund".\
+\
+2. Moneys in the mass transportation operating assistance fund shall\
+be kept separately from and shall not be commingled with any other\
+moneys in the joint or sole custody of the state comptroller or the\
+commissioner of taxation and finance.\
+\
+3. Except for moneys in the account established by subdivision six of\
+this section, moneys of the fund, following appropriation by the\
+legislature, shall be allocated upon a certificate of approval of\
+availability by the director of the budget solely for the transportation\
+assistance purposes set forth within the specific accounts contained\
+within the fund established by this section.\
+\
+4. The mass transportation operating assistance fund shall consist of\
+**three separate and distinct accounts**: (a) the "public transportation\
+systems operating assistance account", (b) the "urban mass transit\
+operating assistance account", and (c) the "**metropolitan mass\
+transportation operating assistance account**". Moneys in each of the\
+accounts shall be kept separately from and not commingled with any other\
+moneys in the mass transportation operating assistance fund.\
+\
+5. (a) The "public transportation systems operating assistance\
+account" shall consist of revenues required to be deposited therein\
+pursuant to the provisions of section one hundred eighty-two-a of the\
+tax law and all other moneys credited or transferred thereto from any\
+other fund or source pursuant to law.\
+\
+(b) **Moneys in the public transportation systems operating assistance\
+account shall be paid on a quarterly basis beginning October first,\
+nineteen hundred eighty-one.** However, if there is a demonstrated cash\
+shortfall in any eligible system, payments to such system may be\
+accelerated. Such payments shall be made in accordance with a schedule\
+as specified by appropriation for the payment of operating costs of\
+public mass transportation systems outside the metropolitan commuter\
+transportation district as defined by section twelve hundred sixty-two\
+of the public authorities law, eligible to receive operating assistance\
+pursuant to section eighteen-b of the transportation law.\
+\
+(c) Notwithstanding any law to the contrary, the comptroller is hereby\
+authorized and directed to transfer from the general fund for deposit\
+into the public transportation system operating assistance account, upon\
+request of the director of the budget, on or before March 31 of each\
+year, an amount equal to the following:\
+\
+(i) For the state fiscal year ending March 31, 2015, two million eight\
+hundred eight thousand ninety-six dollars;\
+\
+(ii) In each succeeding state fiscal year, the transfer shall equal\
+the product of the dollar amount in (i) and one plus the sales tax\
+growth factor. For the purposes of this subparagraph, the sales tax\
+growth factor is the percentage, if any, by which the aggregate amount\
+of sales and compensating use taxes imposed pursuant to the authority of\
+subpart B of part I of article twenty-nine of the tax law, excluding\
+such sales and compensating use taxes collected in the twelve counties\
+that comprise the metropolitan transportation commuter district created\
+and established pursuant to section twelve hundred sixty-two of the\
+public authorities law, for the twelve month period ending on December\
+thirty-first of the immediately preceding calendar year exceeds the\
+aggregate amount of such sales and compensating use taxes for the twelve\
+month period ending on December thirty-first, two thousand thirteen. In\
+no year will the amount of the deposit authorized under this section be\
+less than the amount made in the prior year.\
+\
+6. (a) The "urban mass transit operating assistance account" shall\
+consist of the revenues required to be deposited therein pursuant to the\
+provisions of article thirty-one-a of the tax law, and all other moneys\
+credited or transferred thereto from any other fund or source pursuant\
+to law.\
+\
+(b) Moneys in the urban mass transit operating assistance account\
+shall be available only for payment by the comptroller of refunds of,\
+and of judgments awarded for claims for refund of, taxes paid on or\
+after October first, nineten hundred eighty-one but before April\
+thirteenth, nineteen hundred eighty-two pursuant to the provisions of\
+article thirty-one-A of the tax law, provided that, in the case of a\
+refund, application for such refund has been made to the comptroller\
+prior to April first, nineteen hundred eighty-six. Interest at the rate\
+authorized by section sixteen of the state finance law shall be payable\
+with such refunds and shall be computed from February first, nineteen\
+hundred eighty-two or the date on which the tax was paid, whichever is\
+later.\
+\
+(c) When the comptroller determines that moneys of the account are\
+insufficient for the payment of any such refunds or judgments, he shall\
+certify to the commissioner of finance of the city of New York the\
+amount of such insufficiency and, from moneys in the special account or\
+accounts established by and pursuant to sections W46-2.0 and II46-4.0 of\
+the administrative code of the city of New York, such commissioner of\
+finance shall, within twelve days of such certification, pay over such\
+amount to the comptroller for deposit in the urban mass transit\
+operating assistance account of the mass transportation operating\
+assistance fund to meet such insufficiency.\
+\
+7. (a) The "metropolitan mass transportation operating assistance\
+account" shall consist of the revenues derived from the taxes for the\
+metropolitan transportation district imposed by section eleven hundred\
+nine of the tax law and that proportion of the receipts received\
+pursuant to the tax imposed by article nine-a of such law as specified\
+in section one hundred seventy-one-a of such law, and that proportion of\
+the receipts received pursuant to the tax imposed by article nine of\
+such law as specified in section two hundred five of such law, and the\
+receipts required to be deposited pursuant to the provisions of section\
+one hundred eighty-two-a, and all other moneys credited or transferred\
+thereto from any other fund or source pursuant to law.\
+\
+(b) Moneys in the metropolitan mass transportation operating\
+assistance account shall be paid on a quarterly basis beginning October\
+first, nineteen hundred eight-one. However, if there is a demonstrated\
+cash shortfall in any eligible system, payments to such system may be\
+accelerated. Such moneys shall be paid in accordance with schedules as\
+specified by appropriations for payment of operating costs of public\
+transportation systems in the metropolitan transportation commuter\
+district in order to meet the operating expenses of such systems,\
+provided, however, with respect to the metropolitan transportation\
+authority, its affiliates and subsidiaries, and notwithstanding any\
+general or special law to the contrary, other than such a law which\
+makes specific reference to this section, and subject to the provisions\
+of section twelve hundred seventy-c of the public authorities law, so\
+long as the metropolitan transportation authority dedicated tax fund\
+established by section twelve hundred seventy-c of the public\
+authorities law shall exist, any such appropriation to the metropolitan\
+transportation authority, its affiliates or its subsidiaries shall be\
+deemed to be an appropriation to the metropolitan transportation\
+authority and the total amount paid pursuant to such appropriation or\
+appropriations shall be deposited to such metropolitan transportation\
+authority dedicated tax fund and distributed in accordance with the\
+provisions of section twelve hundred seventy-c of the public authorities\
+law. Nothing contained in this subdivision shall be deemed to restrict\
+the right of the state to amend, repeal, modify or otherwise alter\
+statutes imposing or relating to the taxes producing revenues for\
+deposit in the metropolitan mass transportation operating assistance\
+account or the appropriations relating thereto. The metropolitan\
+transportation authority shall not include within any resolution,\
+contract or agreement with holders of the bonds or notes issued under\
+section twelve hundred sixty-nine of the public authorities law any\
+provision which provides that a default occurs as a result of the state\
+exercising its right to amend, repeal, modify or otherwise alter such\
+taxes or appropriations.\
+\
+9. Any moneys in the mass transportation operating assistance fund and\
+in any of the accounts in such fund may, at the discretion of the state\
+comptroller, be invested in securities and obligations as defined by\
+section ninety-eight-a of this chapter. Any income earned by the\
+investment of moneys in any of the accounts in such fund shall be added\
+to and become a part of, and shall be used for the purposes of such\
+account.
+
+## Misc
+
+MTA financial plan
+
+![](images/image-75437217.png)
+
+Another IBO item from 1999 gives numbers 1992-1998
+
+![](images/image-1977769715.png)

@@ -46,6 +46,7 @@ book:
     - part: "Primers"
       chapters:
       - primers/primer_internet_marketplace_tax.qmd
+      - primers/primer_section_18b.qmd
     - part: "County allocation"
       chapters:
       - countyalloc/county_allocation.qmd

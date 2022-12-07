@@ -84,7 +84,7 @@ A tax targeting digital advertising services could perhaps violate the [Internet
 
 On Oct. 17, 2021, ruling from the bench, the judge held that the law violates the federal Internet Tax Freedom Act (ITFA), the Commerce Clause of the U.S. Constitution, and the First Amendment.
 
-The ITFA specifically defines what constitutes a \"discriminatory tax.\" \"Discriminatory tax\" is defined to include \"any tax imposed by a State . . . on electronic commerce that . . . is not generally imposed and legally collectible by such State . . . on transactions involving similar property, goods, services, or information accomplished through other means. . . .\" https://www.gtlaw.com/en/insights/2022/10/marylands-digital-advertising-tax-defeated
+The ITFA specifically defines what constitutes a "discriminatory tax." "Discriminatory tax" is defined to include "any tax imposed by a State . . . on electronic commerce that . . . is not generally imposed and legally collectible by such State . . . on transactions involving similar property, goods, services, or information accomplished through other means. . . ." https://www.gtlaw.com/en/insights/2022/10/marylands-digital-advertising-tax-defeated
 
 #### Misc
 
