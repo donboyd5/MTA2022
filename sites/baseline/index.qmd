@@ -6,9 +6,9 @@
 
 -   Extend estimates of marketplace tax
 
--   MMTOA tracking collections, receipts, appropriations
-
 -   18b diversion 1996-plus; growth with inflation
+
+-   MMTOA tracking collections, receipts, appropriations
 
 -   Policy-oriented primers on selected taxes -- base, rate, history, interaction with other taxes, other relevant issues
 
@@ -22,18 +22,15 @@
 
     -   MTA sales tax
 
-
-
 ## Agendas
 
 <!-- (taxes/payroll_mobility_tax.qmd#incidence) -->
+
 <!-- quarto publish netlify --no-browser --no-prompt -->
+
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
 
-
 ### December 2, 2022, Friday
-
-
 
 ### November 18, 2022, Friday
 
@@ -42,7 +39,6 @@
 -   [Petroleum business tax](taxes/petroleum_business_tax.qmd)
 
 -   [Internet marketplace tax - in progress](primers/primer_internet_marketplace_tax.qmd) -- can we track/calculate it, how much is it, change over time, how it compares to what state actually gives
-
 
 ### November 9, 2022, Wednesday
 
