@@ -25,7 +25,7 @@ source(here::here("r", "functions.r"))
 
 The summary immediately below (1) gives the history of 18-b and the diversion, and (2) relatively old NYC Comptroller and NYC IBO estimates of various approaches to recouping or reinstating the lost 18-b money. We could update some of these estimates without too much difficulty; I have not done so yet. Further below you'll find some not-well-organized useful items - statutory language of 18-b; appropriation bills for the state money; and more.
 
-Key sources: (DOT; NYC Comptroller -- [NYCC](https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf), [NYCIBO1](https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf) and [NYCIBO2](https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf))
+Key sources: ([NYSDOT](https://www.dot.ny.gov/divisions/policy-and-strategy/public-transportation/funding-sources/STOA); NYC Comptroller -- [NYCC](https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf), [NYCIBO1](https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf) and [NYCIBO2](https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf))
 
 \"A Review of the Metropolitan Transportation Authority\'s Financial Outlook and Options for Closing the Gaps.\" New York City Independent Budget Office, June 1, 2007. <https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf>. (NYCIBO1)
 
@@ -651,3 +651,35 @@ MTA financial plan
 Another IBO item from 1999 gives numbers 1992-1998
 
 ![](images/image-1977769715.png)
+
+## NYS Assembly report shows drop in GF share of 18-b in 1995-96
+
+https://nyassembly.gov/Reports/Local/1997/t.htm
+
+CATALOG OF
+
+STATE AND FEDERAL PROGRAMS
+
+AIDING NEW YORK'S
+
+LOCAL GOVERNMENTS
+
+June, 1997
+
+State of New York
+
+LEGISLATIVE COMMISSION
+
+ON STATE-LOCAL RELATIONS
+
+https://nyassembly.gov/Reports/Local/1997/
+
+![](images/image-1982108745.png)
+
+## MTA July 2022 financial plan
+
+![](images/image-2027106577.png)
+
+![](images/image-440862254.png)
+
+![](images/image-1227961942.png)

@@ -11,6 +11,7 @@ sites/baseline/.quarto/
 *.csv
 *.docx
 *.html
+*.json
 *.js
 *.pdf
 *.png

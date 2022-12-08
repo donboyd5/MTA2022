@@ -1,0 +1,45 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Revenue Package: Taxing Digital Goods and Services, and Related Products
+
+## Digital Goods That Compete Directly With Taxed Physical Goods
+
+Streaming services
+
+https://news.bloombergtax.com/daily-tax-report-state/states-scramble-to-answer-sales-tax-questions-on-digital-goods
+
+![](images/image-923086863.png)
+
+## Digital products by state
+
+https://www.quaderno.io/blog/sales-tax-digital-products-us
+
+From a tax perspective, there are 6 types of digital goods:
+
+-   Online data processing services.
+
+-   Downloaded software.
+
+-   Downloaded books, such as eBooks and Kindle.
+
+-   Downloaded music, digital audio files such as iTunes and podcasts.
+
+-   Downloaded movies or digital video, such as Netflix and Amazon Prime.
+
+-   Other downloaded electronic goods.
+
+## Marketplace
+
+https://www.taxadmin.org/assets/docs/Meetings/19rev_est/tanselle.pdf
+
+![](images/image-1399370531.png)
+
+![](images/image-931166375.png)
+
+![](images/image-1617147400.png)
+
+![](images/image-1365083148.png)

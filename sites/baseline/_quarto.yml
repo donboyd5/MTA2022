@@ -14,6 +14,8 @@ project:
 
 # https://quarto.org/docs/computations/execution-options.html    
 # for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
+# execute:
+#   freeze: auto  # re-render only when source changes
 execute:
   eval: true
   echo: false
@@ -21,6 +23,13 @@ execute:
   warning: false
   message: false  # not sure if allowed
   note: false  # not sure if allowed
+  freeze: auto  # during global project renders, re-render only when source changes
+  
+# The computational results of documents executed with freeze are stored in the
+# _freeze directory, and re-used when needed to fulfill document renders. You
+# should check the contents of _freeze into version control so that others 
+# rendering the project don’t need to reproduce your computational environment
+# to render it in their environment.  
   
 editor_options: 
   chunk_output_type: console
@@ -52,6 +61,7 @@ book:
       - countyalloc/county_allocation.qmd
     - part: "Revenue options"
       chapters: 
+      - options/sales_tax_digital.qmd
       - options/progressivity.qmd
       - options/revenue_options.qmd
       - options/comments_2022_11_09.qmd
