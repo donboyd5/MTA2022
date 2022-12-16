@@ -19,25 +19,31 @@ source(here::here("r", "functions.r"))
 
 -   How does Section 18-b work? What are the mechanics of the annual appropriation?
 
--   What's it's history - when and how did the state start paying MTA with MTA's own money (funding its share of 18-b from taxes that previously had been dedicated to MTA). (KW thinks the diversion may have started around 1996 but it looks from the below.)
+-   What's its history - when and how did the state start paying MTA with MTA's own money (funding its share of 18-b from taxes that previously had been dedicated to MTA). (KW notes that the diversion may have started around 1996.)
 
-### Capsule summary
+### Key conclusions
+
+-   State diversion of MTOA tax revenue for 18-b purposes first occurred in 1995-96. I am not sure yet whether diversions occurred in all subsequent years, but it appears to have occurred, at least, in 1995-96, 1995-97, and 1997-98, then again in 2001-02 and perhaps a few later years, and again in 2009-10 and probably all subsequent years. Annual **diversion amounts** were about \$150-160 million in early years. Cumulative diversions likely are \$2-3+ billion.
+
+-   In addition the formula for 18-b payments was overriden so that total 18-b payments were less than they otherwise would have been. If the **overridden funding formula** based on number of riders and vehicle miles were used, in 2006 the maximum permitted state subsidy would have been \$444 million, \$256 million above actual. The extra state aid would require an additional \$256 million in local government assistance. (NYCIBO) We could update this.
+
+### Capsule summary of 18-b diversion
 
 The summary immediately below (1) gives the history of 18-b and the diversion, and (2) relatively old NYC Comptroller and NYC IBO estimates of various approaches to recouping or reinstating the lost 18-b money. We could update some of these estimates without too much difficulty; I have not done so yet. Further below you'll find some not-well-organized useful items - statutory language of 18-b; appropriation bills for the state money; and more.
 
 Key sources: ([NYSDOT](https://www.dot.ny.gov/divisions/policy-and-strategy/public-transportation/funding-sources/STOA); NYC Comptroller -- [NYCC](https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf), [NYCIBO1](https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf) and [NYCIBO2](https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf))
 
-\"A Review of the Metropolitan Transportation Authority\'s Financial Outlook and Options for Closing the Gaps.\" New York City Independent Budget Office, June 1, 2007. <https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf>. (NYCIBO1)
+"A Review of the Metropolitan Transportation Authority's Financial Outlook and Options for Closing the Gaps." New York City Independent Budget Office, June 1, 2007. <https://www.ibo.nyc.ny.us/iboreports/MTAfiscal2007.pdf>. (NYCIBO1)
 
-\"For MTA, Tax & Fee Revenues Not Always on Track.\" New York City Independent Budget Office, August 2011. <https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf>. (NYCIBO2)
+"For MTA, Tax & Fee Revenues Not Always on Track." New York City Independent Budget Office, August 2011. <https://www.ibo.nyc.ny.us/iboreports/mtareportaugust2011.pdf>. (NYCIBO2)
 
-Thompson, William C. \"Options for Eliminating Fare Increases in 2008 and 2009,\" 2007. <https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf>. (NYCC)
+Thompson, William C. "Options for Eliminating Fare Increases in 2008 and 2009," 2007. <https://comptroller.nyc.gov/wp-content/uploads/documents/080707-MTA_revenue_options_rpt.pdf>. (NYCC)
 
--   1975-76: State established its first statewide transit operating assistance program
+-   **1975-76**: State established its first statewide transit operating assistance program
 
     -   Statewide Mass Transportation Operating Assistance (STOA) program (Transportation Law Section 18-b) (NYSDOT)
 
-    -   General fund appropriations administered by NYS DOT; capped by formula formula that involves the number of riders carried and the number of vehicle miles operated (NYSDOT, and NYCIBO1).
+    -   General fund appropriations administered by NYS DOT; capped by formula that involves the number of riders carried and the number of vehicle miles operated (NYSDOT, and NYCIBO1).
 
     -   (For the current formula, see Section 18-b(3) below - MTA could calculate this, or perhaps I could, under two approaches: (1) formula as written, and (2) formula with inflationary adjustment since the last time it was modified; I need to figure out when that was)
 
@@ -45,7 +51,7 @@ Thompson, William C. \"Options for Eliminating Fare Increases in 2008 and 2009,\
 
     -   Supports both upstate and downstate transit providers (NYCC)
 
--   1981-82 in anticipation of deficits, state:
+-   **1981-82** in anticipation of deficits, state:
 
     -   Created Mass Transportation Operating Assistance Fund (MMTOA) program for downstate transit providers (State Finance Law Section 88-a)
 
@@ -53,29 +59,47 @@ Thompson, William C. \"Options for Eliminating Fare Increases in 2008 and 2009,\
 
     -   Deposited into upstate and downstate accounts of MTOA (NYSDOT; NYCC)
 
--   Through SFY 2001: State appropriated its share of 18-b aid from its General Fund in addition to dedicated MMTOA funds (NYCC)
+-   **1995-96**: according to NYS Assembly, first state fiscal year when state payment from general fund was reduced and 18-b funding was diverted from MTOA. Total of GF and SRF (MTOA) appropriations in SFY 1994-95, 1995-96, and 1996-97 was \$224m. In 1994-95 \$222.4m was from the GF but in 1995-96 only \$99.4m was from the GF - the other \$129.6m was diversion. In 1996-97 GF dropped to \$73m and diversion rose to \$150m. (NY Assembly LCSLR)
 
--   SFY 2001-02: the State transferred \$161 million from the MMTOA fund to the 18-b program in lieu of General Fund dollars, reducing the amount of MMTOA funds otherwise available for transit. The \$161 million represented 77.5 percent of the State share of the downstate 18-b aid in SFY 2002.
+-   I am not yet sure exactly what happened after 1996-97.
 
--   In succeeding years, the State has continued to transfer revenue out of the MMTOA fund to pay for an increasing share of its 18-b aid while localities continue to fund their share from their operating budgets. (NYCC)
+-   **2001-02**: A NYC Comptoller report says, "From the program's inception until SFY 2001, the State appropriated its share of the 18-b aid from its General Fund". The report shows 2001-02 as the first year of the diversion. A table shows that from 1998-99 through 2000-01 the state GF paid for 18-b, not MTA taxes. (The report does not include 1997-98.) It estimates that in 2001-02 the State transferred \$161 million from the MMTOA fund to the 18-b program in lieu of General Fund dollars, reducing the amount of MMTOA funds otherwise available for transit. The \$161 million represented 77.5 percent of the State share of the downstate 18-b aid in SFY 2002. (NYCC)
 
--   In 2007, NYCIBO estimated:
+-   **After 2001-02**: A blog ([this](https://nyc.streetsblog.org/2010/03/09/albany-didnt-cut-the-mta-budget-they-stole-from-it/) and [this](https://nyc.streetsblog.org/2010/03/12/fare-hike-2010-your-chance-to-prop-up-albany/)) does not mention earlier diversions and says that diversion began in fall of 2009 (presumably SFY 2009-10).
+
+-   But the [same blog](https://nyc.streetsblog.org/2010/10/22/andrew-cuomos-transit-plan-worse-than-nothing/) also says, "Take for example, one piece of budget gimmickry started under George Pataki. The state is obligated to match local contributions to the MTA under a program called 18-b. **Starting in fiscal year 2001-2002**, the Pataki Administration stopped paying that match from the state's general fund, as it was meant to be, and started paying it out of a pool of taxes already dedicated to the MTA. According to a report by then-Comptroller William Thompson \[PDF\], that sleight-of-hand added up to a cut of between \$161 million and \$186 million each year for the MTA."
+
+-   So perhaps the state diverted in 1995-96 and 1996-97, then did not from 1997-98 through 2000-01, and then began diverting again in 2001-02, then did not for a while, and then began diverting again in 2009-10. I can figure out exactly what was diverted and when but it requires going through a few more again.
+
+### How much did MTA lose?
+
+#### Loss from the diversion
+
+-   The Assembly numbers shown earlier suggests losses of about \$130m in SFY 1995-96 and \$150m in 1996-97.
+
+-   In 2008, NYC Comptroller analyzed the 18-b diversion and reported a loss to MTA of \$161m to \$186m annually from SFY 2002-2006:
+
+![](images/image-1600150146.png)
+
+NYCC notes that about \$178m of the 18-b diversion would be for MTA, if the 18-b allocation formula used in recent years to distribute program dollars to downstate operators were used to allocate the additional MMTOA funds -- report Table 3. (\$178m would be for MTA - items with \*) (NYCC)
+
+![](images/image-195526490.png)
+
+-   What about other years? There may have been a diversion in 1997-98. In addition, I believe there were diversions in all years after 2007-08 but I have not verified yet. Cumulative losses probably exceed \$2-3 billion.
+
+-   In recent years state payments under 18-b have been about \$187m and disclosure says that "most" of them have been from MTOA. So I'd guess \$150-175m annually for most of the post 2007-08 period.
+
+-   Thus diversion amounts, cumulatively, seem likely to be \$2-3+ billion.
+
+#### Loss from overriding the formula
+
+-   In 2007, NYCIBO said:
 
     -   "IBO estimates that under the established formula, the maximum permitted state subsidy would have been \$444 million in 2006, \$256 million above the actual level. The extra state aid would require an additional \$256 million in local government assistance." (NYCIBO1)
 
     -   "If the 18-b operating subsidy had increased at the same rate as the MTA's operating expenditures (excluding debt service) since 2003, local government payments in 2008 would stand at about \$262 million, and the state's at \$258 million---together, \$142 million above their current budgeted levels. Increasing the local and state payments at the same rate as expenditures would yield an additional \$20 million annually." (NYCIBO1)
 
--   In 2008, NYC Comptroller ...
-
-![](images/image-1600150146.png)
-
--   If the 18-b allocation formula used in recent years to distribute program dollars to downstate operators were used to allocate the additional MMTOA funds, the distribution would be as shown in Table 3. (\$178m would be for MTA - items with \*) (NYCC)
-
-![](images/image-195526490.png)
-
--   Table 2 reflects that since SFY 2002, there has been no increase in 18-b funding to downstate transit providers. While Section 18-b of the State Transportation law provides for a funding formula based on ridership and vehicles miles operated by the transit systems, the State's appropriations have not increased since 2002. The City's Independent Budget Office has estimated that fully funding the 18-b subsidy based on the statutory formula would provide the MTA with an additional \$256 million in State aid and a corresponding \$256 million in City assistance annually. NYCT's share of that combined increase would be in the range of \$390.7 million. The City would pay for half of this increase and the State would fund the remainder. Lifting the cap on the 18-b operating assistance program requires action by the New York State Legislature. Unless the current law is modified, additional payments by the City along with higher payments by the suburban counties in the MTA region for the commuter railroads and their suburban bus systems would also be required. (NYCC)
-
--   
+-   NYCC notes also that since SFY 2002, there has been no increase in 18-b funding to downstate transit providers. While Section 18-b of the State Transportation law provides for a funding formula based on ridership and vehicles miles operated by the transit systems, the State's appropriations have not increased since 2002. The City's Independent Budget Office has estimated that fully funding the 18-b subsidy based on the statutory formula would provide the MTA with an additional \$256 million in State aid and a corresponding \$256 million in City assistance annually. NYCT's share of that combined increase would be in the range of \$390.7 million. The City would pay for half of this increase and the State would fund the remainder. Lifting the cap on the 18-b operating assistance program requires action by the New York State Legislature. Unless the current law is modified, additional payments by the City along with higher payments by the suburban counties in the MTA region for the commuter railroads and their suburban bus systems would also be required. (NYCC)
 
 ### Background
 
@@ -147,7 +171,7 @@ In addition, local cash (blue) is approximately \$187.9m annually. Accrual (gree
 
 According to [NYS DOT](https://www.dot.ny.gov/divisions/policy-and-strategy/public-transportation/funding-sources/STOA):
 
-In State Fiscal Year (SFY) 1975-76, the NYS Legislature enacted a permanent, ongoing STOA \[\] Program with appropriations from the State's General Fund and administered by the state Commissioner of Transportation (this is the Section 18-b Program). In SFY 1981-82, in response to anticipated continuing operating deficits of state mass transportation systems, the Legislature enacted a series of taxes; portions of these proceeds are deposited within the Mass Transit Operating Assistance (MTOA) fund. This fund is subdivided into upstate and downstate dedicated tax fund accounts. The Mass Transit Operating Assistance fund was created by Section 88-a of State Finance Law. The downstate account provides funding to transit systems in the 12-county New York metropolitan transportation commuter district and consists of revenues from the following sources: a portion of the Petroleum Business Tax (PBT); the MTA Corporate Tax Surcharge; a 1/4 Percent Sales Tax in the MTA region; and the Long Lines Tax. The upstate account provides funding to all transit systems outside the 12-county metropolitan transportation commuter district. A portion of the PBT is the sole dedicated revenue source for the upstate account.
+In State Fiscal Year (SFY) 1975-76, the NYS Legislature enacted a permanent, ongoing STOA \[State Transit Operating Assistance\] Program with appropriations from the State's General Fund and administered by the state Commissioner of Transportation (this is the Section 18-b Program). In SFY 1981-82, in response to anticipated continuing operating deficits of state mass transportation systems, the Legislature enacted a series of taxes; portions of these proceeds are deposited within the Mass Transit Operating Assistance (MTOA) fund. This fund is subdivided into upstate and downstate dedicated tax fund accounts. The Mass Transit Operating Assistance fund was created by Section 88-a of State Finance Law. The downstate account provides funding to transit systems in the 12-county New York metropolitan transportation commuter district and consists of revenues from the following sources: a portion of the Petroleum Business Tax (PBT); the MTA Corporate Tax Surcharge; a 1/4 Percent Sales Tax in the MTA region; and the Long Lines Tax. The upstate account provides funding to all transit systems outside the 12-county metropolitan transportation commuter district. A portion of the PBT is the sole dedicated revenue source for the upstate account.
 
 ### Appropriations
 
@@ -535,7 +559,7 @@ pursuant to section eighteen-b of the transportation law.\
 \
 (c) Notwithstanding any law to the contrary, the comptroller is hereby\
 authorized and directed to transfer from the general fund for deposit\
-into the public transportation system operating assistance account, upon\
+into the **public transportation system operating assistance account**, upon\
 request of the director of the budget, on or before March 31 of each\
 year, an amount equal to the following:\
 \
@@ -558,7 +582,7 @@ month period ending on December thirty-first, two thousand thirteen. In\
 no year will the amount of the deposit authorized under this section be\
 less than the amount made in the prior year.\
 \
-6. (a) The "urban mass transit operating assistance account" shall\
+6. (a) The "**urban mass transit operating assistance account**" shall\
 consist of the revenues required to be deposited therein pursuant to the\
 provisions of article thirty-one-a of the tax law, and all other moneys\
 credited or transferred thereto from any other fund or source pursuant\
@@ -588,8 +612,8 @@ amount to the comptroller for deposit in the urban mass transit\
 operating assistance account of the mass transportation operating\
 assistance fund to meet such insufficiency.\
 \
-7. (a) The "metropolitan mass transportation operating assistance\
-account" shall consist of the revenues derived from the taxes for the\
+7. (a) The "**metropolitan mass transportation operating assistance\
+account**" shall consist of the revenues derived from the taxes for the\
 metropolitan transportation district imposed by section eleven hundred\
 nine of the tax law and that proportion of the receipts received\
 pursuant to the tax imposed by article nine-a of such law as specified\
@@ -604,10 +628,10 @@ thereto from any other fund or source pursuant to law.\
 assistance account shall be paid on a quarterly basis beginning October\
 first, nineteen hundred eight-one. However, if there is a demonstrated\
 cash shortfall in any eligible system, payments to such system may be\
-accelerated. Such moneys shall be paid in accordance with schedules as\
+accelerated. **Such moneys shall be paid in accordance with schedules as\
 specified by appropriations for payment of operating costs of public\
 transportation systems in the metropolitan transportation commuter\
-district in order to meet the operating expenses of such systems,\
+district** in order to meet the operating expenses of such systems,\
 provided, however, with respect to the metropolitan transportation\
 authority, its affiliates and subsidiaries, and notwithstanding any\
 general or special law to the contrary, other than such a law which\
@@ -622,11 +646,11 @@ authority and the total amount paid pursuant to such appropriation or\
 appropriations shall be deposited to such metropolitan transportation\
 authority dedicated tax fund and distributed in accordance with the\
 provisions of section twelve hundred seventy-c of the public authorities\
-law. Nothing contained in this subdivision shall be deemed to restrict\
+law. **Nothing contained in this subdivision shall be deemed to restrict\
 the right of the state to amend, repeal, modify or otherwise alter\
 statutes imposing or relating to the taxes producing revenues for\
 deposit in the metropolitan mass transportation operating assistance\
-account or the appropriations relating thereto. The metropolitan\
+account or the appropriations relating thereto**. The metropolitan\
 transportation authority shall not include within any resolution,\
 contract or agreement with holders of the bonds or notes issued under\
 section twelve hundred sixty-nine of the public authorities law any\
@@ -654,25 +678,9 @@ Another IBO item from 1999 gives numbers 1992-1998
 
 ## NYS Assembly report shows drop in GF share of 18-b in 1995-96
 
-https://nyassembly.gov/Reports/Local/1997/t.htm
+Catalog of State and Federal Programs Aiding New York's Local Governments, June 1997, Legislative Commission on State-Local Relations, https://nyassembly.gov/Reports/Local/1997/ (Transportation at https://nyassembly.gov/Reports/Local/1997/t.htm)
 
-CATALOG OF
-
-STATE AND FEDERAL PROGRAMS
-
-AIDING NEW YORK'S
-
-LOCAL GOVERNMENTS
-
-June, 1997
-
-State of New York
-
-LEGISLATIVE COMMISSION
-
-ON STATE-LOCAL RELATIONS
-
-https://nyassembly.gov/Reports/Local/1997/
+Total of GF and SRF (MTOA) appropriations in SFY 1994-95, 1995-96, and 1996-97 was \$224m. In 1994-95 \$222.4m of it was from the GF but in 1995-96 only \$99.4m was from the GF - the other \$129.6m was diversion. In 1996-97 GF dropped to \$73m and diversion rose to \$150m. (NY Assembly LCSLR)
 
 ![](images/image-1982108745.png)
 

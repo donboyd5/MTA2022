@@ -4,17 +4,285 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Revenue Package: Taxing Digital Goods and Services, and Related Products
+## Revenue Package: Taxing Digital Goods and Services, and Related Products
 
-## Digital Goods That Compete Directly With Taxed Physical Goods
+## Summary table
 
-Streaming services
+Items considered as of 12/13/2022:
+
+![](images/image-611331456.png)
+
+## Tax package
+
+NAICS are 2017 unless noted.
+
+### Downloaded and streamed video, books, and music
+
+### Newspapers and periodicals, online and paper
+
+#### Policy option
+
+Impose state, NYC, MTA, and local sales taxes on online and printed newspapers and periodicals. To satisfy the Internet Tax Freedom Act, paper as well as online products would have to be taxed. The state probably could not tax general-interest newspapers and magazines [while exempting specialty publications](https://www.mtsu.edu/first-amendment/article/1150/taxation-of-newspapers).
+
+#### NY sales tax treatment
+
+Newspapers and periodicals, whether paper or online, are [exempt from the sales tax](https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/newspapers_periodicals.htm). (Tax Law 1101(b)(6), 1115(a)(5), Regulation Section 528.6, Section 1118(5).) In addition, Publishers of for-sale (as opposed to free) newspapers and periodicals make tax-free purchases of machinery, equipment, parts, tools, and supplies used directly and predominantly to publish newspapers and periodicals.
+
+Publications that don't qualify as newspapers or periodicals include listings and compilations that are information services, books or parts of books, and items once sold as periodicals but now sold for investment purposes (e.g., antiques) or similar purposes; these items are generally taxed.
+
+#### Examples of other sales states' tax treatment
+
+Taxed: [CA](https://www.salestaxhandbook.com/california/sales-tax-taxability/newspapers-and-magazines), [FL](https://www.salestaxhandbook.com/florida/sales-tax-taxability/newspapers-and-magazines),
+
+Exempt: [MA](https://www.salestaxhandbook.com/massachusetts/sales-tax-taxability/newspapers-and-magazines), NJ
+
+Mixed: [CT](https://www.salestaxhandbook.com/connecticut/sales-tax-taxability/newspapers-and-magazines), [TX](https://www.salestaxhandbook.com/texas/sales-tax-taxability/newspapers-and-magazines) (newspapers exempt, periodicals taxed)
+
+#### Industry classification
+
+Newspapers that are published in paper only, or both paper and online, are in NAICS 51111 Newspaper Publishers. Periodicals are in NAICS 51112 Periodical Publishers. Those that publish exclusively on the web are in NAICS 519, Other Information Services.
+
+#### Estimate for NYS
+
+##### NYS and NYC estimates
+
+DTF tax expenditure estimate is about \$41 million in 2022.
+
+![](images/image-1335013537.png)
+
+NYCDOF \$21m p.122.
+
+##### Boyd estimate
+
+I estimate \$50 million for NYS at 2022 levels.
+
+## Health memberships, online and in person
+
+NYS does not tax online health membership fees such as those for Peloton, YogaGlo, and FightCamp.
+
+NYS also does NOT tax in-person services provided by weight control and health salons, gymnasiums, Turkish and sauna baths, and similar facilities, including charges for use of these facilities. (NYC **does** tax these services.)
+
+Although NYS does not tax health facility memberships, it does tax health club memberships, where members members have an extensive role in the operation of the club.
+
+The policy option would be to include health and social memberships in the sales tax, whether online or in person.
+
+Questions will arise about activities such as bowling.
+
+-   **NYC BUT NOT NYS taxes** services provided by weight control and health salons, gymnasiums, Turkish and sauna baths, and similar facilities, including any charge for the use of these facilities - **what about Peloton??**
+
+    -   [Peloton says](https://support.onepeloton.com/hc/en-us/articles/115005446946-Tax-on-the-Peloton-Membership#:~:text=Peloton%20collects%20sales%20tax%20on,state%20and%20local%20tax%20requirements.): Peloton collects sales tax on Peloton Membership to comply with state and local tax requirements.; For sales tax purposes, electronically delivered products and services are generally considered to be delivered to a Member's address, as reflected by their billing address. If you live in a state that collects sales tax on digital subscriptions, you should expect applicable sales tax on your monthly or annual membership payments. 
+
+    -   Peloton users have filed a class action lawsuit against the at-home exercise bike and workout company, claiming it [improperly charged a sales tax](https://www.businessinsider.com/peloton-sued-charging-customers-with-a-sales-tax-2021-8) to its customers. Peloton, which costs \$39 a month for an "All-Access" membership and \$12.99 a month for a "Digitial" membership, unlawfully charged users an additional sales tax between 6.3% and 8.9% in New York, Virginia, and Massachusetts, according to court documents obtained by Bloomberg Law.  Because all Peloton memberships are digital, plaintiffs Brannon Skillern and Ryan Corken believe that Peloton memberships should not have sales tax and should be tax-exempt as "digital goods," according to the lawsuit. While Peloton no longer charges its customers a sales tax in the three states, Skillern and Corken are seeking unspecified compensatory, statutory, and punitive damages, and reasonable attorney's fees and costs.
+
+    -   NYS: Dues or membership fees paid to health and fitness facilities are not subject to New York State sales tax. These charges are also not subject to local sales taxes if the facility is located outside New York City.
+
+    -   See NYS discussion [generally](https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/health_and_fitness_clubs.htm) \-- clubs **are** taxed; facility fees **NOT** taxed
+
+        -   New York State and local sales taxes are imposed on dues and membership fees paid to any athletic **club** in the state. To be considered an athletic club, the club must be organized such that its members have an extensive role in the operation of the club. A club owned by a private operator where members pay a **seasonal fee** to belong to the club and do not have any role in operating the club is not considered to be an athletic club, and any fees paid for membership are **not** subject to sales tax. Also, a facility that provides exercise or other equipment, or that promotes exercising solely for health or weight reduction purposes, is not considered to be an athletic club. 
+
+        -   Health and fitness facilities are generally facilities that provide customers or members with access to exercise equipment. Pilates, aerobics, and fitness studios, weight reducing salons, spas, gyms, saunas, Turkish baths, tanning salons, and similar businesses are examples of health and fitness facilities. **Dues or membership fees paid to health and fitness facilities are not subject to New York State sales tax.** These charges are also not subject to local sales taxes if the facility is located outside New York City. However, charges for items such as locker fees; bottles for water or other beverages; bottled water; gym bags, towels, training aids, etc.; food sold from a snack bar or restaurant facility; and certain items sold from vending machines **ARE** subject to NY sales tax.
+
+-   
+
+## General principles of the sales tax
+
+### Goods generally taxed unless explicitly exempt. Services generally exempt unless explicity taxed
+
+State sales tax laws generally tax physical goods unless there is a specific exemption, because goods are tangible and can easily be tracked and taxed. Services, on the other hand, are often intangible and can be more difficult to tax. As a result, state sales taxes generally exempt services unless they are specifically included in the tax base. This approach is intended to make the tax system simpler and easier to administer.
+
+This means that as we increasingly move to a service-based economy, often with services taking the place of goods, a declining share of consumption is taxed under the sales tax. **Because many digital services are good substitutes for physical goods - for example, streaming movies are good substitutes for physical VCR tapes - much of the digital economy is untaxed because tax laws do not explicitly state that online services are subject to sales tax.**
+
+### Sales tax cannot be imposed on digital goods unless it is also imposed on simiar goods not sold over the Internet
+
+The Congressional Research Service describes the nondiscrimination rules under the federal Internet Tax Freedom Act as follows (@stupakInternetTaxFreedom):
+
+> The ban on discriminatory taxes prohibits additional taxes or an alternative tax rate on a good, service, or information delivered electronically that would differ from the tax or rate applied to the same, or similar, good, service, or information if it were purchased through traditional commerce (e.g., brick and mortar stores, catalog sales). In other words, under the moratorium the same tax rate must be applied to similar items regardless of how they were purchased. For example, purchasing a book through a local book store's website cannot be taxed at a higher rate than purchasing it at the local book store's physical location.
+
+[The act](https://uscode.house.gov/view.xhtml?req=(title:47%20section:151%20edition:prelim)) defines a discriminatory tax as:
+
+> \(2\) Discriminatory tax.-The term 'discriminatory tax' means-
+>
+> \(A\) any tax imposed by a State or political subdivision thereof on electronic commerce that-
+>
+> \(i\) is **not generally imposed and legally collectible by such State or such political subdivision on transactions involving similar property, goods, services, or information accomplished through other means**;
+>
+> \(ii\) is not generally imposed and legally collectible at the same rate by such State or such political subdivision on transactions involving similar property, goods, services, or information accomplished through other means, unless the rate is lower as part of a phase-out of the tax over not more than a 5-year period;
+>
+> \(iii\) imposes an obligation to collect or pay the tax on a different person or entity than in the case of transactions involving similar property, goods, services, or information accomplished through other means;
+>
+> \(iv\) establishes a classification of Internet access service providers or online service providers for purposes of establishing a higher tax rate to be imposed on such providers than the tax rate generally applied to providers of similar information services delivered through other means; or
+>
+> \(B\) any tax imposed by a State or political subdivision thereof, if-
+>
+> \(i\) the sole ability to access a site on a remote seller's out-of-State computer server is considered a factor in determining a remote seller's tax collection obligation; or
+>
+> \(ii\) a provider of Internet access service or online services is deemed to be the agent of a remote seller for determining tax collection obligations solely as a result of-
+>
+> (I) the display of a remote seller's information or content on the out-of-State computer server of a provider of Internet access service or online services; or
+>
+> (II) the processing of orders through the out-of-State computer server of a provider of Internet access service or online services.
+
+And it defines electronic commerce as:
+
+> \(3\) Electronic commerce.-The term 'electronic commerce' means any transaction conducted over the Internet or through Internet access, comprising the sale, lease, license, offer, or delivery of property, goods, services, or information, whether or not for consideration, and includes the provision of Internet access.
+
+Thus, if the sales tax is extended to a good or service sold over the internet, it must be applied to a good or service sold by other means.
+
+### "Retail" sales tax is a misnomer
+
+Sales taxes generally apply to many business purchases as well as end purchases at retail by individual consumers. In part, this helps avoid creating loopholes that allow people to avoid tax by purchasing through their businesses rather than as individuals. In part, it keeps the revenue higher than it otherwise would be.
+
+There's very little data on business purchases.
+
+### Avoiding pyramiding of taxes by exempting some business inputs from the tax
+
+Sales tax laws often try to avoid pyramiding of tax, where a business pays sales tax on its purchases, turns around and sells its product to another business, which pays sales tax on its purchase, and turns around and sells its product to a final consumer, who also pays sales tax. They do this by exempting some business purchases from the sales tax, often in limited cases where the purchase will be directly incorporated into the good that the business sells.
+
+## 2017 NAICS
+
+[Census](https://www.census.gov/naics)
+
+Selected firms and their primary NAICS codes (Gale Business Insights):
+
+-   Netflix
+
+-   Spotify
+
+-   Hulu
+
+-   HBO - Cable and Other Subscription Programming 515210, Motion Picture and Video Production 512110, and Motion Picture and Video Distribution 512120
+
+-   Amazon
+
+-   Time Warner Cable
+
+-   Comcast - Cable and Other Subscription Programming 515210
+
+![](images/image-1097978968.png)
+
+### **511 Publishing Industries (except Internet)**
+
+Industries in the Publishing Industries (except Internet) subsector group establishments engaged in the publishing of newspapers, magazines, other periodicals, and books, as well as directory and mailing list and software publishing. In general, these establishments, which are known as publishers, issue copies of works for which they usually possess copyright. Works may be in one or more formats including traditional print form, CD-ROM, or proprietary electronic networks. Publishers may publish works originally created by others for which they have obtained the rights and/or works that they have created in-house. Software publishing is included here because the activity, creation of a copyrighted product and bringing it to market, is equivalent to the creation process for other types of intellectual products.
+
+In NAICS, publishing\--the reporting, writing, editing, and other processes that are required to create an edition of a newspaper\--is treated as a major economic activity in its own right, rather than as a subsidiary activity to a manufacturing activity, printing. Thus, publishing is classified in the Information sector; whereas, printing remains in the Manufacturing sector. In part, the NAICS classification reflects the fact that publishing increasingly takes place in establishments that are physically separate from the associated printing establishments. More crucially, the NAICS classification of book and newspaper publishing is intended to portray their roles in a modern economy, in which they do not resemble manufacturing activities.
+
+**Music publishers are not included in the Publishing Industries (except Internet) subsector, but are included in the Motion Picture and Sound Recording Industries subsector**. Reproduction of prepackaged software is treated in NAICS as a manufacturing activity; on-line distribution of software products is in the Information sector; and **custom design of software to client specifications is included in the Professional, Scientific, and Technical Services sector**. These distinctions arise because of the different ways that software is created, reproduced, and distributed.
+
+The Publishing Industries (except Internet) subsector includes establishments that publish software exclusively on the Internet but *excludes establishments that publish other content **exclusively** on the Internet*. Establishments publishing content other than software exclusively on the Internet are included in Subsector 519, Other Information Services. The Publishing Industries (except Internet) subsector also excludes products, such as manifold business forms and appointment books. Information is not the essential component of these items. Establishments producing these items are included in Subsector 323, Printing and Related Support Activities.
+
+### 512110 Motion Picture and Video Production
+
+This industry comprises establishments primarily engaged in producing, or producing and distributing motion pictures, videos, television programs, or television commercials.
+
+\
+Cross-References. Establishments primarily engaged in\--
+
+-   Producing motion pictures and videos on contract as independent producers\--are classified in Industry 711510, Independent Artists, Writers, and Performers;
+
+-   Providing teleproduction and other postproduction services\--are classified in U.S. Industry 512191, Teleproduction and Other Postproduction Services;
+
+-   Providing video taping of weddings, special events, and/or business inventories\--are classified in Industry 54192, Photographic Services;
+
+-   Providing motion picture laboratory services\--are classified in U.S. Industry 512199, Other Motion Picture and Video Industries;
+
+-   Providing mass duplication and packaging of video discs, tapes, and film\--are classified in U.S. Industry 334614, Software and Other Prerecorded Compact Disc, Tape, and Record Reproducing; and
+
+-   Acquiring distribution rights and distributing motion pictures and videos\--are classified in Industry 512120, Motion Picture and Video Distribution.
+
+### 515210 Cable and Other Subscription Programming
+
+This industry comprises establishments primarily engaged in operating studios and facilities for the broadcasting of programs on a subscription or fee basis. The broadcast programming is typically narrowcast in nature (e.g., limited format, such as news, sports, education, or youth-oriented). These establishments produce programming in their own facilities or acquire programming from external sources. The programming material is usually delivered to a third party, such as cable systems or direct-to-home satellite systems, for transmission to viewers.\
+
+Cross-References. Establishments primarily engaged in\--
+
+-   Producing taped television program materials\--are classified in Industry 512110, Motion Picture and Video Production;
+
+-   Producing and transmitting television programs to affiliated stations\--are classified in Industry 515120, Television Broadcasting;
+
+-   **Furnishing cable and other pay television services\--are classified in U.S. Industry 517311**, Wired Telecommunications Carriers; and
+
+-   Retailing merchandise by electronic media, such as television\--are classified in Industry 454110, Electronic Shopping and Mail-Order Houses.
+
+#### Statistics
+
+![](images/image-1610067618.png)
+
+### **519130 Internet Publishing and Broadcasting and Web Search Portals**
+
+This industry comprises establishments primarily engaged in (1) publishing and/or broadcasting content on the Internet exclusively or (2) operating Web sites that use a search engine to generate and maintain extensive databases of Internet addresses and content in an easily searchable format (and known as Web search portals). The publishing and broadcasting establishments in this industry do not provide traditional (non-Internet) versions of the content that they publish or broadcast. They provide textual, audio, and/or video content of general or specific interest on the Internet exclusively. Establishments known as Web search portals often provide additional Internet services, such as email, connections to other Web sites, auctions, news, and other limited content, and serve as a home base for Internet users.
+
+\
+Illustrative Examples:
+
+Internet book publishers\
+Internet sports sites\
+Internet entertainment sites\
+Internet video broadcast sites\
+Internet news publishers\
+Internet periodical publishers\
+Internet radio stations\
+Internet search portals\
+Web search portals\
+Internet search Web sites\
+Internet social networking sites\
+\
+Cross-References. Establishments primarily engaged in\--
+
+-   Providing wired broadband Internet access using own operated telecommunications infrastructure\--are classified in U.S. Industry 517311, Wired Telecommunications Carriers;
+
+-   Providing both Internet publishing and other print or electronic (e.g., CD-ROM, diskette) editions in the same establishment or using proprietary networks to distribute content\--are classified in Subsector 511, Publishing Industries (except Internet), based on the materials produced;
+
+-   Providing Internet access via client-supplied telecommunications connections\--are classified in U.S. Industry 517919, All Other Telecommunications;
+
+-   Providing streaming services on content owned by others\--are classified in Industry 518210, Data Processing, Hosting, and Related Services;
+
+-   Wholesaling goods on the Internet\--are classified in Sector 42, Wholesale Trade;
+
+-   Retailing goods on the Internet\--are classified in Sector 44-45, Retail Trade; and
+
+-   Operating stock brokerages, travel reservation systems, purchasing services, and similar activities using the Internet rather than traditional methods\--are classified with the more traditional establishments providing these services.
+
+### 713940 Fitness and Recreational Sports Centers
+
+This industry comprises establishments primarily engaged in operating fitness and recreational sports facilities featuring exercise and other active physical fitness conditioning or recreational sports activities, such as swimming, skating, or racquet sports.
+
+Illustrative Examples:
+
+-   Aerobic dance or exercise centers
+
+-   Ice or roller skating rinks
+
+-   Gymnasiums
+
+-   Physical fitness centers
+
+-   Handball, racquetball, or tennis club facilities
+
+-   Swimming or wave pools
+
+## Taxing digital goods
+
+There are four broad categories of digital products:
+
+-   Products where physical goods are taxed, but analogous digital goods are not. Downloads of electronic books are an example of this in New York. The sales tax should be applied to the digital goods in part to help create a more-even playing field vis-a-vis sellers of the physical product.
+
+-   Products where neither the physical good nor the digital analogue is taxed. Physical and online newspapers are an example of this in New York. In general, to tax the online product a state will also need to tax the physical product, otherwise it will run afoul of nondiscrimination provisions in the federal Internet Tax Freedom Act.
+
+-   Goods for which there is no comparable physical analogue. An example of this is mobile ringtones for cell phones that a user may pay a small price to download.
+
+-   Online *services* (as opposed to goods), possibly with close offline substitutes that may or may not be taxed. An example is digital health memberships such as Peloton.
+
+### Physical goods taxed, digital goods not taxed
+
+This is straightforward conceptually: the law can be amended to tax the digital good.
+
+#### Digital downloads and streaming services
+
+By and large New York does not tax digital downloads and streaming services. An important exception is if those downloads are bundled with services that are subject to sales tax, in which case the full sale is subject to sales tax. A good example of this is Netflix, which announced in December 2021 that it would start collecting sales tax for its streaming services because it was bundling video games with its streaming services, without an extra charge for the video games. Because online and downloaded video games are subject to sales tax, the whole sale became subject to sales tax. Similarly
 
 https://news.bloombergtax.com/daily-tax-report-state/states-scramble-to-answer-sales-tax-questions-on-digital-goods
 
 ![](images/image-923086863.png)
-
-## Digital products by state
 
 https://www.quaderno.io/blog/sales-tax-digital-products-us
 
@@ -31,6 +299,12 @@ From a tax perspective, there are 6 types of digital goods:
 -   Downloaded movies or digital video, such as Netflix and Amazon Prime.
 
 -   Other downloaded electronic goods.
+
+### Neither physical nor digital goods taxed
+
+No physical counterpart to a digital good
+
+### 
 
 ## Marketplace
 

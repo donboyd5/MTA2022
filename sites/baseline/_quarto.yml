@@ -56,11 +56,13 @@ book:
       chapters:
       - primers/primer_internet_marketplace_tax.qmd
       - primers/primer_section_18b.qmd
+      - primers/primer_mtoa.qmd
     - part: "County allocation"
       chapters:
       - countyalloc/county_allocation.qmd
     - part: "Revenue options"
       chapters: 
+      - options/pmt_increase_dec2022.qmd
       - options/sales_tax_digital.qmd
       - options/progressivity.qmd
       - options/revenue_options.qmd

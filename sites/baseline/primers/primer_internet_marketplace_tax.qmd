@@ -1,3 +1,9 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
 # Internet marketplace tax
 
 New York's sales tax revenue has benefited from two significant changes related to the internet that were implemented in 2019: (1) The state's response to the June 2018 *Wayfair* decision, and (2) the Internet Marketplace Act adopted with the state 2019-2020 budget. The latter is our primary interest, but to understand that we also need to understand *Wayfair*.
@@ -22,7 +28,7 @@ With adoption of the 2019-2020 budget, New York's tax law was "amended to requir
 
 [@governorkathyhochulNewYorkState2022]
 
-In addition, the State will now require internet marketplace providers to collect sales taxes from third-party sellers that use their platforms. To help the MTA fund its 2020-2024 and successor capital programs, the Enacted Budget requires the City to direct a portion of its sales tax collections to the MTA (\$127.5 million in SFY 2019-20 reflecting the portion of the year in which it is effective, \$170 million in SFY 2020-21, and increasing by one percent per year thereafter). The City estimates that it will receive \$170 million annually from the additional internet sales tax but this will be offset by the City's required sales tax payment to the MTA. ([OSC](https://www.osc.state.ny.us/files/reports/budget/pdf/budget-enacted-2019-20.pdf); S.1509-C / A.2009-C, Chapter 59 of the Laws of 2019); also see [NYC IBO](https://ibo.nyc.ny.us/iboreports/recession-ahead-while-concerns-mount-projections-show-moderate-growth-in-nyc-tax-revenue-for-the-upcoming-years-may-2019.pdf).
+In addition, the State will now require internet marketplace providers to collect sales taxes from third-party sellers that use their platforms. To help the MTA fund its 2020-2024 and successor capital programs, the **Enacted Budget requires the City to direct a portion of its sales tax collections to the MTA (\$127.5 million in SFY 2019-20 reflecting the portion of the year in which it is effective, \$170 million in SFY 2020-21, and increasing by one percent per year thereafter).** The City estimates that it will receive \$170 million annually from the additional internet sales tax but this will be offset by the City's required sales tax payment to the MTA. ([OSC](https://www.osc.state.ny.us/files/reports/budget/pdf/budget-enacted-2019-20.pdf); S.1509-C / A.2009-C, Chapter 59 of the Laws of 2019); also see [NYC IBO](https://ibo.nyc.ny.us/iboreports/recession-ahead-while-concerns-mount-projections-show-moderate-growth-in-nyc-tax-revenue-for-the-upcoming-years-may-2019.pdf).
 
 ### Potential revenue impact
 
@@ -58,13 +64,13 @@ subt1 <- "NAICS 4541 Electronic Shopping and Mail-Order Houses"
 subt2 <- "\nEach point is first month of a sales tax quarter. Quarters start in March, June, September, & December"
 subt <- paste0(subt1, ".  ", subt2)
 
-format_dates <- function(x) {
-  months <- strftime(x, format = "%b")              # Abbreviated name of the month.
-  years <- lubridate::year(x)  # Year as a 4-digit number.
-  case_when(month(x)==1 ~ paste(years, months, sep = "-"),
-            month(x) %in% c(3, 6, 9) ~ months,
-            TRUE ~ "")
-}
+# format_dates <- function(x) {
+#   months <- strftime(x, format = "%b")              # Abbreviated name of the month.
+#   years <- lubridate::year(x)  # Year as a 4-digit number.
+#   case_when(month(x)==1 ~ paste(years, months, sep = "-"),
+#             month(x) %in% c(3, 6, 9) ~ months,
+#             TRUE ~ "")
+# }
 
 format_dates <- function(x) {
   # months <- strftime(x, format = "%b")              # Abbreviated name of the month.
@@ -141,4 +147,700 @@ pinternet
 #| include: true
 
 pall
+```
+
+## Payments to MTA related to internet marketplace
+
+### NYSAC
+
+According to [NYSAC](https://www.nysac.org/files/Initial%202019-20%20Final%20Budget%20Report%20updated%204-15.pdf), "On a full annual basis, the state estimates that as much as \$280 million in local sales tax could be collected through this"marketplace" fairness change -- DOB estimates \$158 million for all local governments (most of this will accrue to counties, but before any sales tax sharing) and \$122 million for New York City. The final budget also includes the creation of a New York City Business District fund where sales tax will be diverted annually from the local share of New York City sales tax (\$170 million), as well as a portion of state sales tax (\$150 million) to support the MTA capital plan."
+
+Also, Wayfair (NYSAC): "Due to the Wayfair decision, New York State made administrative changes in January 2019 that required internet-based vendors selling into the state to start collecting and remitting sales taxes if they met certain sales thresholds (\$300,000 in sales and they conduct more than 100 transactions into the state). These administrative provisions are estimated to bring in as much as \$110 million annually in currently uncollected local sales tax -- DOB estimates \$62 million for all local governments and \$48 million for New York City."
+
+According to the [NYS Comptroller report on the enacted 2019-20 budget](https://www.osc.state.ny.us/files/reports/budget/pdf/budget-enacted-2019-20.pdf), "The Enacted Budget also requires a portion of the State sales tax to be deposited to a new State fund, the Central Business District Trust Fund. Amounts to be deposited are \$112.5 million in SFY 2019-20 and \$150 million in SFY 2020-21, increasing by 1 percent annually thereafter. Payments from this fund will be subject to appropriation for distribution to the new TBTA fund. A portion of the City sales tax will also be deposited to the new TBTA fund. Deposits of \$127.5 million and \$170 million will be made in SFY 2019-20 and SFY 2020-21, respectively, with an additional 1 percent annually thereafter."
+
+### Central Business District Trust Fund
+
+[State Finance Law 99-ff: Central Business District Trust Fund](https://www.nysenate.gov/legislation/laws/STF/99-FF*2)
+
+SECTION 99-FF\*2
+
+New York central business district trust fund
+
+State Finance (STF) CHAPTER 56, ARTICLE 6
+
+\* § 99-ff. New York central business district trust fund. 1.\
+Establishment of the fund. There is hereby established in the joint\
+custody of the state comptroller and the commissioner of taxation and\
+finance a special fund to be known as the New York central business\
+district trust fund. Moneys in this account shall be kept separate and\
+not commingled with any other moneys in the custody of the comptroller.\
+\
+2. Sources of funds. The sources of funds shall consist of **all moneys\
+deposited pursuant to subdivision (c) of section eleven hundred\
+forty-eight of the tax law**. Any interest received by the comptroller on\
+moneys on deposit shall be retained and become part of the fund, unless\
+otherwise directed by law.\
+\
+3. Uses of funds. Following appropriation by the legislature, moneys\
+shall be available for distribution to the **central business district\
+tolling capital lockbox** established pursuant to section five hundred\
+fifty-three-j of the public authorities law.\
+\
+\* NB There are 2 § 99-ff's
+
+### Tax law 1148 Deposit and disposition of revenue \[sales tax\]
+
+Tax (TAX) CHAPTER 60, ARTICLE 28, PART 4
+
+§ 1148. Deposit and disposition of revenue. (a) All taxes, interest and penalties collected or received by the commissioner under this article shall be deposited and disposed of pursuant to the provisions of section one hundred seventy-one-a of this chapter; provided however, the comptroller shall on or before the twelfth day of each month, pay all such taxes, interest and penalties collected under this article and remaining to the comptroller's credit in such banks, banking houses or trust companies at the close of business on the last day of the preceding month, into the general fund of the state treasury.\
+\
+(b) Provided however, before the funds may be distributed pursuant to subdivision (a) of this section, such funds shall be distributed as otherwise provided in sections ninety-two-d, ninety-two-h, and ninety-two-r of the state finance law and sections eleven hundred two, eleven hundred four and eleven hundred nine of this article.\
+\
+(c) Provided however, after funds are distributed pursuant to subdivision (b) of this section but **before such funds are distributed pursuant to subdivision (a) of this section, funds shall be deposited by the comptroller into the New York central business district trust fund established pursuant to section ninety-nine-ff of the state finance law** in accordance with the following schedule: (1) in state fiscal year two\
+thousand nineteen - two thousand twenty, one hundred twelve million five hundred thousand dollars; (2) in state fiscal year two thousand twenty - two thousand twenty-one, **one hundred fifty million dollars**; and (3) in state fiscal year two thousand twenty-one - two thousand twenty-two and every succeeding state fiscal year, an amount equal to **one hundred one percent** of the amount deposited in the immediately preceding state\
+fiscal year. The funds deposited into the New York central business district trust fund shall be deposited monthly in equal installments.
+
+### Calculating alternative possible payments to MTA
+
+The state is required by law to pay MTA \$150 million annually beginning 2020-21, plus 1% annual growth (it made a smaller payment in 2019-20). The city is required by law to pay MTA \$170 million annually beginning 2020-21 plus 1% annual growth.
+
+The question is, how does this compare to what MTA might have received if (1) the increased sales tax revenue related to internet sales (somehow defined) had been paid to the MTA, or (2) the starting point (\$320 million) was the same, but the growth rate was different - for example, the inflation rate, or the rate at which internet sales grew.
+
+What is the right starting point: the total increase in internet-related sales, or the increase related to just the internet marketplace legislation, but not Wayfair? I was not able to find guidance in state documents, but the conservative approach would be to use the marketplace legislation. The NYSAC report provides some guidance on what share of total internet sales tax increase might be related to marketplace: they say that DOB estimates the Wayfair provision at \$110 million annually, and the marketplace piece at \$280 million, for a total of \$390 million. This puts the marketplace piece at 71.8% (\$280 / \$390). Inspection of the timing of increases in NAICS 4541 taxable sales post January 2019 suggests that this is conservative - that the marketplace provisions may have been the vast preponderance of the increase (i.e., possibly much more than 71.8%).
+
+And if we are estimating the state revenue from internet-related sales that might be paid to the MTA, should we base the state piece (the non-City piece), imposed at the 4% state tax rate, on revenue from statewide sales, or sales in the MTA region, or sales in New York City? Given that the state amount is \$150 million and the City amount is \$170 million, this suggests that DOB defined a simple relationship between tax rates and rounded -- that is, using the state 4% rate and the city 4.5% rate, we get to the city estimate of \$150 by assuming the same tax base for both -- the city tax base -- that gives 4.0 / 4.5 x \$170 = \$151.1, which is pretty close to \$150. Implicitly it also suggests they used the same tax base for both payments (the City base).
+
+### Estimates
+
+Based on the info above, the table belows show actual revenue gain from Internet marketplace by calculating a pre-baseline trend that extends the prior growth rate, subtracting the baseline trend from actual revenue, and multiplying by 71.8% to get at the marketplace-related increase. They also show the marketplace tax revenue gain in comparison to the payments made to MTA.
+
+```{r}
+#| label: explore
+#| include: false
+
+# from NYSAC (see text)
+wayfair <- c(lgall=62, nyc=48)
+mktplace <- c(lgall=158, nyc=122)
+wayfair + mktplace
+sum(wayfair + mktplace) # $ 390 million
+(mshare <- mktplace / (wayfair + mktplace)) # ~ 71.8% is mktplace
+
+# NYS comptroller - do state and city deposits re mktplace reflect rates?
+# city: $170m (4.5%), state $150 (4%)
++4.5 / 4 * 150 # probably yes -- $169m
++4 / 4.5 * 170 # 151.1
+
+# let's calculate a baseline pre marketplace & wayfair, forecast
+# that to future years, and compare the industry post
+
+
+# df1$stdate |> unique() |> sort()
+# 
+# priorpd <- as.Date(c("2018-06-01", "2018-09-01", "2018-12-01", "2019-03-01"))
+# 
+# taxrate <- .085
+# # give_share <- .718 # if the state is only giving marketplace
+# give_share <- 1
+# tmp <- df1 |>
+#   filter(naics==4541, uniname=="New York City",
+#          stdate >= "2017-03-01") |> # 4541
+#   select(stdate, styear, stqtr, txblsales) |> 
+#   arrange(stdate) |> 
+#   mutate(valya=lag(txblsales, 4),
+#          chya=txblsales - valya,
+#          pchya=chya / valya,
+#          chya_ma4=btools::ma(chya, 4),
+#          pchya_ma4=btools::ma(pchya, 4),
+#          val4=btools::ma(txblsales, 4) * 4 * taxrate / 1e6,
+#          valbase=sum(txblsales[stdate %in% priorpd] * taxrate / 1e6),
+#          basediff=val4 - valbase,
+#          basediff_pchya=basediff / lag(basediff, 4) - 1,
+#          owed=basediff * give_share)
+# 
+# tmp |> 
+#   select(stdate, styear, stqtr, txblsales, 
+#          val4, valbase, basediff, basediff_pchya, owed)
+# 
+# tmp |> 
+#   ggplot(aes(stdate, basediff)) +
+#   geom_line()
+ 
+```
+
+```{r}
+#| label: baseline
+#| include: false
+
+# calculate baseline using regional data
+# stdate >= "2012-03-01", stdate < "2019-03-01"
+# as.Date(stdateq) %m+% months(2) converts back to a sales tax quarter
+f_tostq <- function(yqtr){
+  # yqtr is a vector in yearquarter format, last month of quarter
+  # convert it back to a sales tax quarter by adding 2 months
+  as.Date(yqtr) %m+% months(2) 
+}
+
+mdata1 <- df1 |>
+  filter(naics==4541, uniname=="New York City") |>
+  arrange(stdate) |> 
+  mutate(stdateq=yearquarter(stdate),
+         sfy=year(stdate) + 1) |> 
+  select(styear, stqtr, stperiod, sfy, stdate, stdateq, txblsales)
+
+# mdata1 ends in the 2nd quarter of sfy 2023 so add 2 quarters to get full year
+
+# get average pchya over the pre-change period
+# collapsing to years ending in Dec, through Dec 2018, the last
+# pre-change month
+avgpch_nyc <- mdata1 |> 
+  filter(stdate <= "2018-12-01") |> 
+  summarise(txblsales=sum(txblsales), n=n(),
+            .by=sfy) |> 
+  filter(n==4) |> 
+  arrange(sfy) |> 
+  mutate(pchya=txblsales / lag(txblsales) - 1) |> 
+  filter(sfy %in% 2016:2019) |> 
+  mutate(avgpchya=mean(pchya))
+avgpch_nyc # this gets avgpch by fy, and then averages it across fyears
+avpch_nyc_scalar <- avgpch_nyc |> 
+  select(avgpchya) |> 
+  distinct() |> 
+  pull()
+
+newrows <- tibble(stdate=c("2022-09-01", "2022-12-01")) |> 
+  mutate(stdate=as.Date(stdate), stdateq=yearquarter(stdate),
+         sfy=year(stdate) + 1)
+newrows
+
+mdata2 <- 
+  bind_rows(mdata1, newrows) |> 
+  arrange(stdate) |> 
+  mutate(txblsales=ifelse(
+    stdate %in% as.Date(c("2022-09-01", "2022-12-01")),
+    (1 + avpch_nyc_scalar) * lag(txblsales, 4), # use average pre-change growth
+    txblsales))
+ht(mdata2)
+
+# mod <- mdata1 |>
+#   as_tsibble(index = stdateq) |>
+#   model(arima = ARIMA(log(txblsales)))
+
+# mod <- mdata |>  
+#   as_tsibble(index = stdateq) |>
+#   model(ets = ETS(log(txblsales) ~ 
+#                     error(method="A") +
+#                     trend(method="Ad") + 
+#                     season(method="A")))
+
+# fc <- mod |> 
+#   forecast(h = "6 months")
+
+# mdata2 <- mdata1 |> 
+#   bind_rows(fc |> 
+#               as_tibble() |> 
+#               select(stdateq, txblsales=.mean) |> 
+#               mutate(stdate=f_tostq(stdateq),
+#                      sfy=year(stdate) + 1)
+#               )
+
+# how does it look?
+mdata2 |> 
+  ggplot(aes(stdate, txblsales)) +
+  geom_line() +
+  geom_point()
+
+# (1 + .115)^(1:20)
+# start <- c(100, 105, 80 ,90)
+(grates <- rep((1 + avpch_nyc_scalar)^(1:4), each=5)) # go out at least as far as needed
+# start * grates
+base <- mdata2 |> filter(sfy==2019)
+fcvals <- base$txblsales * grates
+newvals1 <- c(mdata2$txblsales[mdata2$sfy <= 2019], fcvals)
+newvals <- newvals1[1:nrow(mdata2)]
+
+mdata3 <- mdata2 |> 
+  mutate(baseline=newvals)
+mdata3
+
+mdata3 |> 
+  pivot_longer(c(txblsales, baseline)) |> 
+  ggplot(aes(stdate, value, colour=name)) +
+  geom_line() +
+  geom_point()
+
+
+```
+
+```{r}
+#| label: plot-baseline
+#| include: false
+
+p <- mdata3 |>
+  pivot_longer(c(txblsales, baseline)) |> 
+  ggplot(aes(stdate, value, colour=name)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(name="Taxable sales ($ millions)", 
+                     limits = c(0, NA), 
+                     breaks=seq(0, 4e9, 500e6),
+                     labels=scales::number_format(accuracy=.1,
+                                                  scale = 1e-6)) +
+  scale_x_date(name=NULL) +
+  ggtitle("Baseline (prior law) Internet Taxable Sales, and Actual",
+          subtitle = "New York City") +
+  theme_bw()
+p
+
+```
+
+```{r}
+#| label: calc-counterfactual
+#| include: false
+
+# baseline and counterfactuals
+taxrate <- .085
+give_share <- .718 # if the state is only giving marketplace
+# give_share <- 1
+
+mdata4 <- mdata3 |> 
+  summarise(actual=sum(txblsales) / 1e6,
+            baseline=sum(baseline) / 1e6,
+            n=n(), .by=sfy) |> 
+  filter(n==4) |> 
+  select(-n) |> 
+  mutate(impact=actual - baseline,
+         bpch=baseline / lag(baseline) - 1,
+         apch=actual / lag(actual) - 1,
+         ipch=impact / lag(impact) - 1,
+         taximpact=impact * give_share * taxrate,
+         paid=case_when(sfy < 2020 ~ 0,
+                        sfy == 2020 ~ 240,
+                        TRUE ~ 320 * 1.01^(sfy -  2021)),
+         diff=taximpact - paid,
+         nysdiffshare=diff * 4 / 8.5
+         )
+  
+mdata4
+
+```
+
+```{r}
+#| label: show-counterfactual
+#| include: false
+
+tab <- mdata4 |> 
+  select(-contains("pch")) |> 
+  gt() |> 
+  tab_header(
+      title = "Estimated impact of Internet Marketplace legislation",
+      subtitle = "Based on NYC taxable sales, NAICS 4541 Electronic Shopping and Mail-Order Houses"
+  ) |> 
+  tab_spanner(columns = 
+                c(actual, baseline, impact),
+              label="Taxable sales, Wayfair + Marketplace, $ billions") |> 
+  tab_spanner(columns = c(paid, diff, nysdiffshare),
+                    label="Tax amounts, Marketplace only, $ millions") |> 
+  cols_label(
+    sfy=html("State fiscal year"),
+    actual=html("Actual sales (final 2 quarters estimated)"),
+    baseline=html("Old-law baseline (estimated)"),
+    impact=html("Change due to law"),
+    taximpact=html("Tax impact, assumes 71.8% Marketplace, 8.5% rate"),
+    paid=html("State + City paid to MTA"),
+    diff=html("Impact - paid"),
+    nysdiffshare=html("NYS share of difference")
+    ) |> 
+  fmt_number(columns=-sfy, decimals=1, scale=1)
+
+tab
+
+
+```
+
+## Impacts in the MTA region
+
+```{r}
+#| label: prep-mta
+#| include: false
+
+glimpse(df1)
+
+keepcos <- read_csv(
+"unifips, uniname, region, strate
+36000, New York State, nys, .04
+36027, Dutchess, suburban, .0375
+36059, Nassau, suburban, .0425
+36071, Orange, suburban, .0375
+36079, Putnam, suburban, .04
+36087, Rockland, suburban, .04
+36103, Suffolk, suburban, .0425
+36119, Westchester, suburban, .04
+3651000, New York City, nyc, .045
+36xx1, MCTD, mta, .0438
+")
+keepcos
+
+# drop NYS and MCTD, keep just NYC and the counties
+(usecos <- setdiff(keepcos$unifips, c("36000", "36xx1")))
+
+# get the needed data, and forecast 2 quarters
+df2 <- df1 |>
+  filter(naics==4541, unifips %in% usecos) |>
+  mutate(sfy=year(stdate) + 1) |> 
+  select(stdate, styear, sfy, 
+         unifips, uniname, actual=txblsales)
+summary(df2)
+
+avgpch_mta <- df2 |> 
+  filter(stdate <= "2018-12-01") |> 
+  summarise(actual=sum(actual), n=n(),
+            .by=c(unifips, uniname, sfy)) |> 
+  filter(n==4) |> 
+  group_by(unifips, uniname) |> 
+  arrange(sfy) |> 
+  mutate(pchya=actual / lag(actual) - 1) |> 
+  filter(sfy %in% 2016:2019) |> 
+  mutate(avgpchya=mean(pchya)) |> 
+  ungroup() |> 
+  arrange(unifips, sfy)
+avgpch_mta
+
+avgpch_mta_values <- avgpch_mta |> 
+  select(unifips, uniname, avgpchya) |> 
+  distinct()
+
+adddates <- as.Date(c("2022-09-01", "2022-12-01"))
+newrows_mta <- crossing(nesting(unifips=avgpch_mta_values$unifips, 
+                            uniname=avgpch_mta_values$uniname),
+                    stdate=adddates) |> 
+  mutate(sfy=2023)
+newrows_mta
+
+
+df3 <- df2 |> 
+  select(stdate, sfy, unifips, uniname, actual) |> 
+  bind_rows(newrows_mta) |> 
+  # bring in avg pchya
+  left_join(avgpch_mta_values |> select(-uniname),
+            by = join_by(unifips)) |> 
+  # bring in strate and region
+  left_join(keepcos |> select(unifips, region, strate),
+            by = join_by(unifips)) |> 
+  group_by(unifips) |> 
+  arrange(stdate) |> 
+  # simple forecast of last 2 quarters of sfy 2023
+  mutate(actual=ifelse(
+    stdate %in% adddates, # only forecast the 2nd half of 2023
+    (1 + avgpchya) * 
+      lag(actual, 4), # use average pre-change growth
+    actual)) |> 
+  ungroup()
+ht(df3)
+
+df3 |> 
+  ggplot(aes(stdate, actual)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~uniname, scales = "free")
+
+```
+
+```{r}
+#| label: internet-mta
+#| include: true
+
+# pinternet
+```
+
+```{r}
+#| label: baseline-mta
+#| include: false
+
+# df3 has the good data (with rest of 2023 estimated) 
+# now calculate counterfactual baseline for each sfy from 2020 forward
+
+df4 <- df3 |> 
+  mutate(qtr=quarter(stdate)) |> 
+  group_by(unifips, qtr) |> 
+  mutate(basesales=actual[sfy==2019], # use 2019 as our starting point
+         gfactor=(1 + avgpchya)^(sfy - 2019),
+         baseline=ifelse(sfy > 2019,
+                         basesales * gfactor,
+                         actual)) |> 
+  ungroup() |> 
+  select(-c(gfactor, basesales))
+
+# tmp1 <- mdata3 |> filter(sfy %in% 2019:2022)
+# tmp2 <- df4 |> filter(unifips=="3651000", sfy %in% 2019:2022)
+  
+# take a look
+df4 |> 
+  pivot_longer(cols=c(actual, baseline)) |> 
+  ggplot(aes(stdate, value, colour=name)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~uniname, scales = "free")
+
+# good everything looks good
+
+```
+
+### Baseline and actual taxable sales in MTA region
+
+```{r}
+#| label: plot-baseline-mta
+#| include: true
+
+p <- df4 |> 
+  pivot_longer(cols=c(actual, baseline)) |> 
+  ggplot(aes(stdate, value, colour=name)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(name="Taxable sales ($ millions)", 
+                     limits = c(0, NA)) +
+  scale_x_date(name=NULL) +
+  ggtitle("Baseline (prior law) Internet Taxable Sales, and Actual",
+          subtitle = "MTA Region") +
+  facet_wrap(~uniname, scales = "free") +
+  theme_bw()
+p
+
+```
+
+The following set of tables shows the *MTA region impact* for (1) the state, (2) NYC (same as above), (3) the suburban counties, and (4) for the sum of state, NYC, and suburban.
+
+```{r}
+#| label: calc-counterfactual-mta
+#| include: false
+
+# all good; now we can bring in tax rates and calc tax
+# this forms the basis for tables
+
+df5 <- df4 |>
+  filter(region %in% c("nyc", "suburban")) |>
+  mutate(# actual
+    statetax_actual=actual * .04,
+    localtax_actual=actual * strate,
+    tottax_actual=statetax_actual + localtax_actual,
+    # baseline
+    statetax_baseline=baseline * .04,
+    localtax_baseline=baseline * strate,
+    tottax_baseline=statetax_baseline + localtax_baseline) |>
+  select(stdate, sfy, unifips, uniname, region,
+         actual, baseline, strate,
+         contains("tax"))
+
+tabdata_base <- df5 |>
+  rename(txblsales_actual=actual,
+         txblsales_baseline=baseline) |> 
+  summarise(across(c(txblsales_actual, txblsales_baseline,
+                     contains("tax")),
+                   sum), .by=c(region, sfy))
+
+tabdata_long1 <- tabdata_base |> 
+  pivot_longer(-c(sfy, region)) |> 
+  separate(name, c("vname", "vtype"))
+
+# get mta totals
+tabdata_mta <- tabdata_long1 |> 
+  summarise(value=sum(value), .by=c(sfy, vname, vtype)) |> 
+  mutate(region="mta")
+
+
+mktplace_share <- .718 # if the state is only giving marketplace
+
+tabdata_long2 <- tabdata_long1 |> 
+  bind_rows(tabdata_mta) |> 
+  pivot_wider(names_from = vtype) |> 
+  mutate(change=actual - baseline,
+         mktchange=ifelse(str_detect(vname, "tax"),
+                                change * mktplace_share,
+                                change)) |> 
+  pivot_longer(c(actual, baseline, change, mktchange),
+               names_to = "vtype")
+
+
+# |>
+#   mutate(paybase=case_when(group=="nyc" ~ 170,
+#                            group=="nys" ~ 150,
+#                            TRUE ~ 0),
+#          paid=case_when(sfy < 2020 ~ 0,
+#                         group=="nys" & sfy == 2020 ~ 240,
+#                         sfy > 2020 ~ 
+#                           paybase * 1.01^(sfy -  2021),
+#                         TRUE ~ 0))
+
+```
+
+### Change in taxable sales
+
+```{r}
+#| label: tsales-change
+#| include: true
+
+
+tabdata <- tabdata_long2 |>
+  filter(vname=="txblsales", vtype!="mktchange") |> 
+  pivot_wider(names_from = c(region, vtype))
+
+tab <- tabdata |>
+  gt() |> 
+  cols_hide(vname) |> 
+  tab_header(title="Taxable sales in NAICS 4541, $ billions") |>
+  cols_label(sfy="State fiscal year",
+             suburban_actual="actual",
+             nyc_actual="actual",
+             mta_actual="actual",
+             suburban_baseline="baseline",
+             nyc_baseline="baseline",
+             mta_baseline="baseline",
+             suburban_change="change",
+             nyc_change="change",
+             mta_change="change"
+             ) |> 
+  tab_spanner(label="Suburban counties",
+              columns=contains("suburban")) |> 
+  tab_spanner(label="New York City",
+              columns=contains("nyc")) |> 
+  tab_spanner(label="MTA region total",
+              columns=contains("mta")) |> 
+  fmt_number(columns=-c(sfy, vname),
+             scale_by=1e-6,
+             decimals = 0)
+tab
+
+```
+
+### Change in state tax
+
+```{r}
+#| label: stax-change
+#| include: true
+
+tabdata <- tabdata_long2 |>
+  filter(vname=="statetax", vtype=="mktchange") |> 
+  pivot_wider(names_from = c(region))
+
+tab <- tabdata |>
+  gt() |> 
+  cols_hide(c(vname, vtype)) |> 
+  tab_header(title="State tax on marketplace gain in NAICS 4541 sales, $ millions, by region",
+             subtitle="State tax rate (4%) x 71.8% of suburban, NYC, or MTA gain in sales") |>
+  cols_label(sfy="State fiscal year",
+             suburban="Suburban",
+             nyc="New York City",
+             mta="MTA total") |> 
+  fmt_number(columns=-c(sfy, vname, vtype),
+             scale_by=1e-6,
+             decimals = 0)
+tab
+```
+
+### Change in local tax
+
+```{r}
+#| label: ltax-change
+#| include: true
+
+tabdata <- tabdata_long2 |>
+  filter(vname=="localtax", vtype=="mktchange") |> 
+  pivot_wider(names_from = c(region))
+
+tab <- tabdata |>
+  gt() |> 
+  cols_hide(c(vname, vtype)) |> 
+  tab_header(title="Local tax on marketplace gain in NAICS 4541 sales, $ millions, by region",
+             subtitle="Local tax rate x 71.8% of suburban, NYC, or MTA gain in sales") |>
+  cols_label(sfy="State fiscal year",
+             suburban="Suburban",
+             nyc="New York City",
+             mta="MTA total") |> 
+  fmt_number(columns=-c(sfy, vname, vtype),
+             scale_by=1e-6,
+             decimals = 0)
+tab
+```
+
+### Change in state + local tax combined
+
+```{r}
+#| label: tottax-change
+#| include: true
+
+tabdata <- tabdata_long2 |>
+  filter(vname=="tottax", vtype=="mktchange") |> 
+  pivot_wider(names_from = c(region))
+
+tab <- tabdata |>
+  gt() |> 
+  cols_hide(c(vname, vtype)) |> 
+  tab_header(title="State + local tax on marketplace gain in NAICS 4541 sales, $ millions, by region",
+             subtitle="State + local tax rate x 71.8% of suburban, NYC, or MTA gain in sales") |>
+  cols_label(sfy="State fiscal year",
+             suburban="Suburban",
+             nyc="New York City",
+             mta="MTA total") |> 
+  fmt_number(columns=-c(sfy, vname, vtype),
+             scale_by=1e-6,
+             decimals = 0)
+tab
+
+#   mutate(paybase=case_when(group=="nyc" ~ 170,
+#                            group=="nys" ~ 150,
+#                            TRUE ~ 0),
+#          paid=case_when(sfy < 2020 ~ 0,
+#                         group=="nys" & sfy == 2020 ~ 240,
+#                         sfy > 2020 ~ 
+#                           paybase * 1.01^(sfy -  2021),
+#                         TRUE ~ 0))
+
+```
+
+### Comparison of tax gain to payments from NYC and NYS
+
+Note: I am not 100% sure of the state and NYC payments to MTA in SFY 2020. I believe the total, \$240 million, is correct. I split this according to the state and NYC sales tax rates (NYC pays \$240 x 4.5 / 8.5, and NYS pays \$240 x 4.0 / 8.5).
+
+```{r}
+#| label: taxchange-vs-payment
+#| include: true
+
+tabdata <- tabdata_long2 |>
+  filter(str_detect(vname, "tax"), vtype=="mktchange") |> 
+  pivot_wider(names_from = c(region, vname)) |> 
+  arrange(sfy) |> 
+  mutate(statepaid=case_when(sfy < 2020 ~ 0,
+                             sfy==2020 ~ 240e6 * 4 / 8.5,
+                             sfy > 2020 ~ 150e6 * 1.01^(sfy -  2021)),
+         nycpaid=case_when(sfy < 2020 ~ 0,
+                             sfy==2020 ~ 240e6 * 4.5 / 8.5,
+                             sfy > 2020 ~ 170e6 * 1.01^(sfy -  2021)),
+         totpaid=statepaid + nycpaid,
+         nycincrease=nyc_localtax - nycpaid,
+         stateincrease=mta_statetax - statepaid,
+         totincrease=nycincrease + stateincrease) |> 
+  select(sfy, starts_with("nyc_"), starts_with("mta_"),
+         contains("paid"), contains("increase"))
+  
+
+tab <- tabdata |>
+  select(sfy, nyc_localtax, mta_statetax, 
+         nycpaid, statepaid, 
+         contains("increase")) |> 
+  gt() |> 
+  tab_header(title="State and NYC tax gain on marketplace sales vs. payments to MTA, $ millions") |>
+  cols_label(sfy="State fiscal year",
+             nyc_localtax="NYC tax gain in NYC",
+             mta_statetax="State tax gain in full MTA region",
+             nycpaid="NYC marketplace payment to MTA",
+             statepaid="NYS marketplace payment to MTA",
+             nycincrease="Potential NYC increase",
+             stateincrease="Potential state increase",
+             totincrease="Potential combined increase"
+             ) |> 
+  fmt_number(columns=-c(sfy),
+             scale_by=1e-6,
+             decimals = 0)
+tab
+
 ```

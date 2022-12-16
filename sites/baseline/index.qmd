@@ -30,7 +30,31 @@
 
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
 
+### December 16, 2022, Friday
+
+-   [PMT option to raise \$700 million](options/pmt_increase_dec2022.qmd), with and without state offset for legal changes
+
+### December 12, 2022, Monday
+
+-   [Digital sales tax package](options/sales_tax_digital.qmd)
+
+-   [Internet marketplace tax update](primers/primer_internet_marketplace_tax.qmd)
+
+-   [Section 18-b](primers/primer_section_18b.qmd) maybe
+
+### December 9, 2022, Friday
+
+-   [Section 18-b](primers/primer_section_18b.qmd)
+
+-   [Digital sales tax package](options/sales_tax_digital.qmd)
+
+-   [Internet marketplace tax update](primers/primer_internet_marketplace_tax.qmd)
+
 ### December 2, 2022, Friday
+
+-   Review high priority items for Wed Dec 7
+
+-   Discuss revenue package
 
 ### November 18, 2022, Friday
 

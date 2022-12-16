@@ -1,0 +1,378 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Increasing the Payroll Mobility Tax
+
+Questions raised on December 14, 2022.
+
+## Questions
+
+-   What rates (rounded to nearest basis point) would be required to raise \$700 million on a full year basis, at 2023 (?) wage levels:
+
+    -   If the state offset of the cost of exemptions is NOT increased?
+
+    -   If the state offset of the cost of exemptions IS increased commensurate with the tax rate increase?
+
+-   When is the earliest practical implementation date in 2023? How much initial-year revenue would be raised with that?
+
+-   Side question (possibly move elsewhere): What is the earliest practial implementation date for a sales-tax-on-digital-goods option, and how much initial-year revenue might that raise
+
+
+## Changes from this morning
+
+-   Made the proportionate increase in the low rates for small employers equal to the proportionate increase in the main rate, rather than equal to the basis-point increase in the main rate.
+
+-   Developed a better and more-conservative way to estimate (1) the portion of wages that qualify for the small-employer exclusion; in particular, I ensured that federal, state, and local governments are not excluded as they are undoubtedly big, and (2) the portion of wages that qualify the low rate (just above the small employer exclusion). For this second item, I did a better job of guessing at the share of small employers who would qualify - the data we have requires an interpolation approach because we don't know who fits into the categories defined by the 2011 law - and I think what I've done now is a bit better. These two changes reduce the estimated loss from the small employer changes, although the total loss still exceeds the state payment by a considerable amount.
+
+-   Modified the summary table to breakdown the tax loss from 2011 changes into its main components of losses due to:
+
+    -   the low rate for small employers (just above the exclusion threshold)
+    
+    -   the exclusion for very small employers
+    
+    -   the exclusion for K12 school districts
+    
+
+## Relationship to earlier increase analysis
+
+-   You may remember the previous estimate of \$741 million from raising the basic PMT rate from 0.34% to 0.50%, **for the wage portion of the tax**. At the time we were focused on the breakdown of a PMT increase by size of employer and by Work-From-Home industry characteristics, making the wage portion paramount. But **a wage-only estimate is lower than a full-PMT estimate because it does not include the self-employment component**.
+
+-   Previous analysis was for 2020: at the time, we only had BEA (Bureau of Economic Analysis) wage and self-employment earnings data through 2020, when wages were depressed due to Covid-19 (we did have the less-comprehensive but more detailed QCEW wage data for 2021 from U.S. Bureau of Labor Statistics). Since then BEA has released data for 2021 and I have incorporated that. Wages and gross earnings in the MTA region both increased by 8-9% in 2021, increasing the estimate as a result.
+
+-   I have updated the estimates to 2022 using the OMB estimate of 0.2% personal income growth for the calendar year [as reported by IBO](https://www.ibo.nyc.ny.us/iboreports/ibo-november-plan-testimony-december-2022.pdf). (This has a negligible positive impact on the estimate.) Note that QCEW quarterly wage data suggest growth in 2022 may have been greater than this, but I have not reconciled this with available forecasts and have not tried to estimate 2022 using the quarterly data. I have not forecast to 2023 because I do not have a good forecast of 2023 wage growth available; a forecast of 2023 would raise the estimate somewhat.
+
+-   As before, I have *not* taken into account any possible behavioral response to a payroll tax increase. A higher rate could reduce the gain from the rate increase, but researchers tend to estimate a very small response to tax rates, and we are not talking about large increases in the rate here. If we were to try to address this, it would reduce the estimate of the impact of a rate increase very slightly.
+
+-   I have calibrated these estimates to tax collection data. **THIS IS IMPORTANT.** I did the following:
+
+    -   Obtained monthly tax collections for the payroll and personal income tax components of the PMT from the NY open data site, and summarized them by calendar year.
+
+    -   Calculated current tax using the tax-base estimates I have derived from economic data (1) BEA wages minus estimates of federal wages, K12 wages, and small-employer wages, then broken into wages taxed at full rate vs. low rate and multiplied by tax rates, plus (2) estimate of nonwage tax base, again from BEA data, times the tax rate.
+
+    -   Compared calculated tax from each component to reported tax revenue - see the table below. The "tax\_" variables are calculated tax and the "pmtrev\_" variables are reported tax items. The "calib\_" items are calibration factors for the wage and nonwage components -- the result of dividing actual revenue by calculated revenue. As you can see, the economic data suggest higher revenue than we get (this is not unusual) - the wage factor is about 91% and the nonwage factor is about 50% (in the latest year). Overall, we get about 85% of what the economic data suggest.
+
+![](images/image-1834685891.png)
+
+    -   For comparison I copy below a table of PMT receipts from p.27 of the MTA's disclosure document as of June 2022. As you can see, the DTF monthly revenue data, summed to calendar year (pmtrev_tot), is a pretty faithful picture of the MTA calendar year total. This is comforting. (You may recall that I have adjusted some of the monthly DTF data because they have errors in it. This reflects those adjustments.)
+
+![](images/image-417343410.png)
+
+    -   I use calibration factors of 91.2% for wages and 49.9% for nonwage data in the analysis below.
+
+-   At present, I am not including the firm size and WFH analsis that was done there. I don't believe the conclusions from that analysis would change materially.
+
+```{r}
+#| label: libraries-constants
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+library(blscrapeR)
+
+```
+
+```{r}
+#| label: constants
+#| include: false
+  
+# BEA proprietors' income is much larger than IRS self-employment income
+# in the BEA documentation for non-farm proprietors' income,
+# https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf
+# Table 11.3—Relation of Nonfarm Proprietors’ Income in the National Income and Product
+# Accounts to Corresponding Measures as Published by the Internal Revenue Service
+# has estimates for 2015 of a relevant IRS concept ($831.7b) and NFPI ($1,130.8b)
+# I use that ratio to adjust propinc
+propinc_taxable_ratio <- 831.7 / 1130.8
+
+```
+
+
+```{r}
+#| label: calibrate-econdata-revdata
+#| include: false
+#| eval: true
+
+# pmt revenue for calibration ---------------------------------------------------------
+# pit part of pmt is net=gross + scoffset - refunds
+#   local_mtapmtpitnet = local_mtapmtpitgross + local_mtapmtpitscoffset - local_mtapmtpitrefunds 
+pmtrev <- readRDS(here::here("data", "dtf", "pmt_collections.rds")) # monthly dtf pmt revenue components
+
+pmtrev |> filter(year(date)==2019)
+
+tax_rev <- pmtrev |> 
+  select(date, pmtrev_tot=totpmt, pmtrev_wage=local_mtapmt, pmtrev_nonwage=local_mtapmtpitnet) |> 
+  mutate(year=year(date)) |> 
+  summarise(across(c(pmtrev_tot, pmtrev_wage, pmtrev_nonwage),
+                   ~ sum(.x, na.rm=TRUE)),
+            .by=year) |> 
+  filter(year %in% 2015:2021)
+tax_rev
+
+# calibration -------------------------------------------------------------
+# get calibration factors so that we can reflect collections
+
+# calculate annual wage and nonwage tax, then calibrate to collections
+pmtbase <- readRDS(here::here("data", "pmtbase_updated.rds")) # based on BEA and QCEW
+glimpse(pmtbase)
+
+tax_calc <- pmtbase |> 
+  mutate(tax_wagefullrate=wages_beafullrate * 0.0034,
+         tax_wagelowrate=wages_beasmallemp_lowrate * 0.0017,
+         tax_wage=tax_wagefullrate + tax_wagelowrate,
+         tax_nonwage=nonwage_beapmt * .0034,
+         tax_pmt=tax_wage + tax_nonwage) |> 
+  summarise(across(c(tax_wage, tax_nonwage, tax_pmt),
+                   ~ sum(.x, na.rm=TRUE)),
+            .by=year)
+tax_calc
+
+calibration_factors <- tax_calc |> 
+  left_join(tax_rev, by = join_by(year)) |> 
+  # actual revenue / estimated revenue
+  mutate(calib_wage=pmtrev_wage / tax_wage,
+         calib_nonwage=pmtrev_nonwage / tax_nonwage,
+         calib_tot=pmtrev_tot / tax_pmt)
+calibration_factors
+
+
+taxbase <- pmtbase |> 
+  select(fips, year, mtasuburb_county, area,
+         wages_beapmt, 
+         nonwage_beapmt, 
+         taxbase_beapmt, 
+         wages_beak12, wages_beafed, 
+         wages_beasmallemp_excluded, 
+         wages_beasmallemp_lowrate, 
+         wages_beafullrate) |> 
+  mutate(wages_excluded2011=wages_beak12 + wages_beasmallemp_excluded) |> 
+  left_join(calibration_factors |> 
+              select(year, starts_with("calib_")),
+            by = join_by(year)) |> 
+  mutate(wages_beafullrate_adj=
+           wages_beafullrate * calib_wage,
+         wages_beasmallemp_lowrate_adj=
+           wages_beasmallemp_lowrate * calib_wage,
+         
+         # don't adjust excluded k12 wages, on the theory that they are large
+         # employers and are not avoiding tax
+         wages_beak12_adj=wages_beak12, # NOTE - NO ADJUSTMENT
+         
+         # but do adjust small employer wages
+         wages_beasmallemp_excluded_adj=
+           wages_beasmallemp_excluded * calib_wage,
+         
+         wages_excluded2011_adj=
+           wages_beak12_adj + wages_beasmallemp_excluded_adj,
+         nonwage_beapmt_adj=
+           nonwage_beapmt * calib_nonwage)
+
+```
+
+
+```{r}
+#| label: tax-calcs
+#| include: false
+#| eval: true
+
+ns(taxbase)
+
+taxcalc <- function(newrate, policy){
+  baserate <- .0034
+  baselowrate <- .0017
+  # newlowrate <- baselowrate + (newrate - baserate) # increase lowrate by rate change
+  newlowrate <- newrate / baserate * baselowrate  # proportionate increase
+  
+  tax <- taxbase |> 
+    select(year, contains("_adj")) |> 
+    mutate(tax_wagefull=wages_beafullrate_adj * newrate,
+           tax_wagelow=wages_beasmallemp_lowrate_adj * newlowrate,
+           tax_wage=tax_wagefull + tax_wagelow,
+           
+           tax_nonwage=nonwage_beapmt_adj * newrate,
+           
+           tax_pmt=tax_wage + tax_nonwage,
+           
+           # calculate tax losses from the 2011 law
+           taxloss_smallemplowrate_2011=
+             wages_beasmallemp_lowrate_adj * (newrate - baselowrate),
+           
+           taxloss_smallempexcluded_2011=
+             wages_beasmallemp_excluded_adj * newrate, # we lose the full rate on excluded wages
+           taxloss_k12_2011=wages_beak12_adj * newrate, # full rate again
+           
+           taxloss_total_2011=
+             taxloss_smallemplowrate_2011 + 
+             taxloss_smallempexcluded_2011 + 
+             taxloss_k12_2011
+           ) |> 
+  summarise(across(c(contains("_adj"), contains("tax_"), contains("taxloss_")),
+                   sum),
+            .by=year) |> 
+  mutate(policy=policy, rate=newrate)
+  
+  tax
+  
+}
+
+# original effort .0034 + .0013116 no offset
+# .0034 + .00102 offset
+
+```
+
+
+```{r}
+#| label: tax-calcs-table
+#| include: true
+#| eval: true
+
+tax_current <- taxcalc(newrate=.0034, policy="current")
+tax_nooffset <- taxcalc(newrate=.0034 + .00139, policy="nooffset")
+tax_offset <- taxcalc(newrate=.0034 + .00110, policy="offset")
+
+stack <- bind_rows(tax_current, tax_nooffset, tax_offset)
+# glimpse(stack)
+
+tabdata <- stack |> 
+  filter(year==2021) |> 
+  select(policy, 
+         tax_pmt, 
+         taxloss_smallemplowrate_2011,
+         taxloss_smallempexcluded_2011,
+         taxloss_k12_2011,
+         taxloss_total_2011, 
+         rate) |> 
+  relocate(rate, .after=taxloss_total_2011) |> 
+  pivot_longer(-policy) |> 
+  pivot_wider(names_from = policy) |> 
+  mutate(change_nooffset=nooffset - current,
+         change_offset=offset - current) |> 
+  add_row(.after=5,
+          name="totchange",
+          current=NA_real_) |> 
+  mutate(change_nooffset=ifelse(name=="totchange",
+                       change_nooffset[name=="tax_pmt"],
+                       change_nooffset),
+         change_offset=ifelse(name=="totchange",
+                       change_offset[name=="tax_pmt"] +
+                         change_offset[name=="taxloss_total_2011"],
+                       change_offset))
+  
+tab <- tabdata  |> 
+  gt() |> 
+  sub_missing() |> 
+  tab_header(
+    title = "Potential PMT increase to raise $700 million - increase in low rate is proportionate to increase in regular rate",
+    subtitle = "Thousands of dollars"
+  ) |> 
+  # tab_spanner(columns = c(owner, renter, total),
+  #             label="Number of households") |> 
+  cols_label(name="Variable",
+             current = html("Current value"),
+             nooffset = html("Value if no change in state offsets"),
+             offset = html("Value if state offset adjusted to reflect increase in 2011-law losses"),
+             change_nooffset = 
+               html("Change from current if no change in state offsets"),
+             change_offset = 
+               html("Change from current if state offset adjusted to reflect increase in 2011-law losses")) |> 
+  fmt_number(columns=-name,
+             decimals=0) |> 
+  fmt_percent(columns=-name,
+              decimals = 5,
+              rows=nrow(tabdata))
+tab
+
+```
+
+
+<!-- ## Quarterly data (not used) -->
+
+```{r}
+#| label: get-qcew-api-quarterly
+#| include: false
+#| eval: false
+
+# CAUTION: I thought I was going to use qcew quarterly data to prepare an estimate
+# of 2022 wages in the MTA region. But the growth is very rapid and seemingly
+# inconsistent with most forecasts I could find, so for now I am not using 
+# this approach. But this section shows how to use qcew_api to get the data
+# so I am leaving the code in for that purpose.
+
+f <- function(qtr, year){
+  print(year)
+  print(qtr)
+  blscrapeR::qcew_api(year=year, qtr=qtr, slice="industry", sliceCode=10)
+}
+
+df2021 <- map_dfr(1:4, f, 2021)
+df2022 <- map_dfr(1:2, f, 2022)
+df1 <- bind_rows(df2021, df2022)
+glimpse(df1)
+
+df2 <- df1 |> 
+  filter(own_code==0, size_code==0, str_sub(area_fips, 1, 2)=="36") |> 
+  select(area_fips, agglvl_code, year, qtr, total_qtrly_wages, taxable_qtrly_wages)
+# count(df2, agglvl_code)
+
+saveRDS(df2, here::here("qcew_recent.rds"))
+
+
+# calculate YOY growth rate first 2 quarters
+
+qdf1 <- readRDS(here::here("qcew_recent.rds")) |> 
+  filter(qtr %in% 1:2) |> 
+  summarise(totwage=sum(total_qtrly_wages), .by=c(year, area_fips)) |> 
+  pivot_wider(names_from = year, values_from = totwage) |> 
+  mutate(change=`2022` - `2021`,
+         pch=change / `2021`) |> 
+  left_join(areas, by = join_by(area_fips))
+qdf1
+
+qdf2 <- qdf1 |> 
+  filter(area_fips %in% mtacos$unifips) |> 
+  rename(unifips=area_fips)
+
+```
+
+
+```{r}
+#| label: get-pmtbase-data
+#| include: false
+#| eval: false
+
+# DO NOT use the old pmtbase data -- I amusing pmtbase_updated data
+
+areas <- blscrapeR::area_titles
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+
+mtacos <- xwalkny |> 
+  filter(mta_county) |> 
+  select(unifips, uniname, nyc_county, mtasuburb_county)
+
+pmtbase <- readRDS(here::here("data", "pmtbase.rds"))
+glimpse(pmtbase)
+# here's how the base was calculated
+# wages_pmt=wages_bea * pmt_qcewbase / wage_tot,
+# nonwage_pmt=propinc_bea * propinc_taxable_ratio,
+# taxbase_pmt=wages_pmt + nonwage_pmt
+pmtbase |> filter(year==2021)
+pmtbase |> 
+  summarise(across(c(wages_pmt, nonwage_pmt, taxbase_pmt),
+                   sum),
+            .by=year) |> 
+  arrange(year) |> 
+  mutate(across(c(wages_pmt, nonwage_pmt, taxbase_pmt),
+                 ~ .x / lag(.x) - 1,
+                .names = "pch_{.col}"),
+         pmt_wage=wages_pmt * .0034,
+         pmt_nonwage=nonwage_pmt * .0034,
+         pmt_tot=taxbase_pmt * .0034)
+
+# let's add 2022 with 3% growth for all counties
+
+```

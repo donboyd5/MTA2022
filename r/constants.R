@@ -28,8 +28,8 @@ caption_left <- theme(plot.caption = element_text(hjust = 0))
 # these constants are ordered and NOT aligned with each other
 # constants$mtacos <- c("New York", "Bronx", "Kings", "Queens", "Richmond", "Rockland", 
 #             "Nassau", "Suffolk", "Orange", "Putnam", "Dutchess", "Westchester")
-# constants$mtafips <- c(36005, 36027, 36047, 36059, 36061, 36071, 36079, 36081, 36085, 36087, 36103, 36119) |> as.character()
-# constants$totnycfips <- "3651000"
+constants$mtafips <- c(36005, 36027, 36047, 36059, 36061, 36071, 36079, 36081, 36085, 36087, 36103, 36119) |> as.character()
+constants$totnycfips <- "3651000"
 # constants$mtafips_to_county <- function(fips) constants$mtacos[match(fips, constants$mtafips)]
 # constants$mtacos_to_fips <- function(county) constants$mtafips[match(county, constants$mtacos)]
 

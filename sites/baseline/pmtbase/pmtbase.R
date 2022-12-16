@@ -21,11 +21,11 @@ propinc_taxable_ratio <- 831.7 / 1130.8
 
 # get data ----------------------------------------------------------------
 
-qdf <- readRDS(here::here("data", "qcew", "qcew_mta.rds"))
-beadf <- readRDS(here::here("data", "bea", "bea_mta.rds"))
-pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds"))
-wagesize <- readRDS(here::here("data", "susb", "wagesize.rds"))
-xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds"))
+qdf <- readRDS(here::here("data", "qcew", "qcew_mta.rds")) # annual qcew wages in the mta region, through 2021
+beadf <- readRDS(here::here("data", "bea", "bea_mta.rds")) # annual bea income components, mta region, through 2021
+pmtdf <- readRDS(here::here("data", "dtf", "pmt_collections.rds")) # monthly dtf pmt revenue components
+wagesize <- readRDS(here::here("data", "susb", "wagesize.rds")) # 2019 SUSB wages by firm (?) size, 2019
+xwalkny <- readRDS(here::here("data", "xwalks", "xwalkny.rds")) # codes for NY counties
 
 # checks
 count(qdf, fips, area, mtasuburb_county)
@@ -44,7 +44,8 @@ pmt_qcewbase1 <- qdf |>
   filter(eval(keep)) |> 
   filter(year>=2015) |> 
   select(year, mtasuburb_county, fips, area, own, ownf, agglev, agglevf, ind, indf, wages)
-pmt_qcewbase1
+glimpse(pmt_qcewbase1)
+count(pmt_qcewbase1, year)
 
 # flip wages and compute base
 pmt_qcewbase2 <- pmt_qcewbase1 |> 
@@ -66,10 +67,12 @@ pmt_qcewbase2 |>
 
 # bring in wages LT $1.2m in 2019, from SUSB ---------------------------------------
 
-pmt_qcewbase3 <- pmt_qcewbase2 |> 
+pmt_qcewbase3 <- pmt_qcewbase2 |> # 2015-2021
   left_join(wagesize |> select(fips, pctelt20), by = "fips") |> 
   mutate(smallwages=wage_private * pctelt20,
          pmt_qcewbase=pmt_gross_qcewbase - smallwages)
+count(pmt_qcewbase3, year)
+# pmt_qcewbase3 has # 2015-2021
 
 pmt_qcewbase3 |> 
   filter(year==2020) |> 
@@ -78,10 +81,11 @@ pmt_qcewbase3 |>
   select(year, fips, area, pctgross, pctnet)
 
 # use BEA earnings data to calculate self-employment tax base -------------
-pmt_earnbase <- beadf |> 
+pmt_earnbase <- beadf |> # ends 2021
   filter(year>=2015) |>  # to be compatible with qcew year
   select(fips, area, year, vname, value) |> 
   pivot_wider(names_from = vname)
+count(pmt_earnbase, year)
 
 
 # payroll tax base -------------------------------------------------------
@@ -89,7 +93,7 @@ pmt_base1 <- pmt_earnbase |>
   select(fips, year, earnings_bea=earnings, wages_bea=wages, supplements_bea=supplements,
          propinc_bea=propinc, farminc_bea=farminc, nfpi_bea=nfpi) |> 
   left_join(pmt_qcewbase3,
-            by=c("fips", "year"))
+            by = join_by(fips, year))
 glimpse(pmt_base1)
 
 pmt_base2 <- pmt_base1 |> 
@@ -104,6 +108,7 @@ pmt_base2 <- pmt_base1 |>
          ends_with("_pmt"))
 glimpse(pmt_base2)
 count(pmt_base2, fips, area, mtasuburb_county)
+count(pmt_base2, year) # through 2021
 
 saveRDS(pmt_base2, here::here("data", "pmtbase.rds"))
 
