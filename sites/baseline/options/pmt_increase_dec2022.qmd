@@ -132,9 +132,8 @@ The PMT was amended by Chapter 56 of the Laws of 2011 (also can be found [here](
 
     -   Section 4 established the effective date.
 
-```{=html}
 <!-- -->
-```
+
 -   The effective date clause said, "This act shall take effect immediately; provided however, that section one of this act and the amendments in section two of this act that concern employers shall take effect for the quarter beginning on April 1, 2012." That is, the changes in school district taxation, employer rates, and employer thresholds took effect approximately 3 and 3/4 months after the bill became law.
 
 ### What might happen now with a PMT increase?
@@ -145,9 +144,15 @@ The PMT was amended by Chapter 56 of the Laws of 2011 (also can be found [here](
 
 -   Let's assume it had "reasonable" retroactivity:
 
-    -   For employers, applies to wages from April 1 forward, payments beginning in say July, but with, as in 2009, truing up by October so that we get all of the wages
+    -   For employers, applies to wages from April 1 forward, payments beginning in say July
 
-    -   For self-employed, applies to the entire tax year, but with a 9/12ths rule (I'm not sure why they did 10/12ths in the 2009 law); payments required to be trued up by September as in 2009; this latter seems a bit harsh for increasing an already-existing tax, which seems different to me than increasing an existing tax, so perhaps they might not pay as much as I assume below
+    -   For self-employed, applies to the entire tax year, but with a 9/12ths rule (I'm not sure why they did 10/12ths in the 2009 law)
+
+-   And assume truing up
+
+    -   For employers, as in 2009, truing up by October so that we get all of the wages through Sept by then
+
+    -   For self-employed, payments required to be trued up by September as in 2009; this latter seems a bit harsh for increasing an already-existing tax, which seems different to me than increasing an existing tax, so perhaps they might not pay as much as I assume below
 
 -   Here's a rough aggressive estimate (aggressive because of the truing-up assumptions and because it assumes April 1 wage start) ignoring any seasonality in wages:
 
@@ -157,13 +162,17 @@ The PMT was amended by Chapter 56 of the Laws of 2011 (also can be found [here](
 
     -   Total = 65.3% x 90% + 71.3% x 10% = 65.9% (90-10 wage/self-employed weighting) -- in other words about 2/3 of a year
 
--   This seems like the best case. Seems like you could lose the April-June quarter. If that happens, I think we'd have:
+-   This seems like the best case. But perhaps we'll lose the April-June quarter because they'll chose not to have any retroactivity, even a few days, giving us a 6/12 rule for both employer and self-employed tax. And perhaps they won't require truing up of the self-employed tax. If that happens, I think we'd have:
 
     -   Employers 6/12 x 98% for state, 5/12 x 98% for MTA -- 40.8%
 
-    -   Self-employed 6/12 x 95% for state and MTA -- 47.5%
+    -   For self-employed we now have to add some sort of safe harbor or behavioral rule for how much of the payments will occur in September vs. in January and the following April. For now, I'll use 80% but will investigate. This would give us:
 
-    -   Total 40.8% x 90% + 47.5% x 10% = 41.5% of a year
+    -   6/12 of a year's worth of income x 95% compliance x 80% payment in September for state and MTA -- 38%
+
+    -   Total 40.8% x 90% + 38% x 10% = 40.9% of a year
+
+-   Given that there's 25 percentage points difference between the more-aggressive and less-aggressive approaches (65.9% - 40.9%) and 25% of \$700 million is \$175 million, enough to care about, it would make sense to push try to get DOB to be as aggressive as practical in drafting the effective date of the bill.
 
 -   Obviously all very rough, and subject to things we could learn from the Tax Department about how quickly they could do it (legally, administratively) and from DOB/governor about how harsh they're willing to be in pushing for fast implementation. I can investigate the former if you want.
 
