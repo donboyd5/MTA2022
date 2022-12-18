@@ -20,7 +20,6 @@ Questions raised on December 14, 2022.
 
 -   Side question (possibly move elsewhere): What is the earliest practial implementation date for a sales-tax-on-digital-goods option, and how much initial-year revenue might that raise
 
-
 ## Changes from this morning
 
 -   Made the proportionate increase in the low rates for small employers equal to the proportionate increase in the main rate, rather than equal to the basis-point increase in the main rate.
@@ -30,11 +29,143 @@ Questions raised on December 14, 2022.
 -   Modified the summary table to breakdown the tax loss from 2011 changes into its main components of losses due to:
 
     -   the low rate for small employers (just above the exclusion threshold)
-    
+
     -   the exclusion for very small employers
-    
+
     -   the exclusion for K12 school districts
-    
+
+## What's the earliest possible implementation date in 2023?
+
+### What happened in 2009?
+
+The PMT was enacted in Chapter 25 of the Laws of 2009 (can be found [here](http://public.leginfo.state.ny.us/navigate.cgi)).
+
+-   Became a law **May 7, 2009**
+
+-   Part C established the payroll mobility tax.
+
+-   Note - the discussion below generally does not apply to school districts, which had special rules.
+
+-   The payment provisions in new Tax Law section 804 added by the act require:
+
+    -   employers generally to make quarterly payments at the same time as reporting for and payment of unemployment insurance taxes, except that larger employers will make electronic funds transfer (EFT) payments in the same way they do for income tax withholding (fast and frequent).
+
+    -   self-employed individuals to follow the personal income tax payment rules (generally estimated payments in April, June, September, and January, settling up with a tax return filed in April)
+
+-   Part C, Section 23, the effective date section, says the Part takes effect immediately except that:
+
+    -   the tax on employers shall apply on and after **March 1, 2009**
+
+    -   the tax on self-employment net earnings "net earnings from self-employment for **tax years beginning on or after January 1, 2009**, but the individual's tax liability for the 2009 tax year will be based only on ten-twelfths of such net earnings for the 2009 tax year"
+
+    -   for the employer tax:
+
+        -   the "initial payment of such metropolitan commuter transportation mobility tax enacted pursuant to section one of this act shall be made with the third quarterly payment due in tax year 2009";
+
+        -   "provided however, that the initial payment of such metropolitan commuter transportation mobility tax shall be made at the same time as the first payment of the withholding tax required to be paid pursuant to section 9 of the tax law that is due on or after after October 31, 2009, and such payment by employers shall include the taxes owed for the entire period beginning on March 1, 2009" (Tax Law [section 9](https://www.nysenate.gov/legislation/laws/TAX/9) pertains to EFT remittance of withholding taxes - quick and very current payment)
+
+    -   for the self-employment tax, initial payment is also the third quarterly payment "shall include the estimated taxes owed for the 2009 tax year as limited..." (by the 10/12ths year provision); interest on underpayment of previous payments is waived (that is, no interest on payments that might otherwise have been made in April and June of 2009)
+
+Synopsis:
+
+-   Effective May 7 2009
+
+-   Applies to:
+
+    -   wages beginning March 1, 2009 (slightly retroactive)
+
+    -   self-employment earnings for the whole tax year beginning January 1, 2009 (slightly retroactive) but only at a 10/12ths rate
+
+-   I am not at all surprised that the self-employment tax -- a taxable-year tax -- could be slightly retroactive (there was a prior court case on this), and I don't even think the 10/12ths rule would be required although it seems fair and appropriate.
+
+-   I am a little surprised that a wage tax based on quarterly wages could be applied retroactively. I am not a lawyer but I am not sure it would survive a legal challenge. However, given that it was really only 2 months retroactive (March and April for a law effective May 7th) perhaps the damage to employers was so small that a court would consider the state's actions reasonable. Perhaps a similar issue has been litigated in the past. I can look if you want, but haven't looked.
+
+-   Payments due:
+
+    -   for employer tax, beginning October 2009, covering wages for the whole period beginning March
+
+        -   as I interpret it, the initial October payment should include essentially March-Sept wages; for EFT payors, additional payments would be made in November and December
+
+    -   for self-employment tax, the initial payment would (for calendar year taxpayers) be the 3rd quarterly payment, due September 15; it would be based on 10/12th of estimated net self-employment earnings for the full year (I think this means it would include money normally due January 15, but I am not certain of this)
+
+    -   Long story short, before considering noncompliance, I think that a tax enacted in early May 2009 should have had payments within the 2009 calendar year of about:
+
+        -   9 to 9.5 / 12ths of a year of payroll -- essentially all of March-Sept (7 months) in Oct, plus multiple EFT payments in Oct, Nov, and Dec covering most of Oct and Nov, and perhaps half of December - call this 2.5 months, or perhaps more safely, 2 months
+
+        -   10 /12ths of a year of the net earnings tax
+
+    -   Then there are the questions of noncompliance (perhaps quite innocent) and timing of deposit of revenue to MTA.
+
+        -   Noncompliance - I really have no idea. I would expect a lot of innocent noncompliance for the self-employment tax. This is a pure guess, but I'd say 10%. Most of the employer tax would come from large employers, who were already known to the system. I'd only subtract a little - I'll say 2%, but with no basis.
+
+        -   Deposit - as I understand it from you, we're looking at a one-month lag. This could be investigated more carefully, but for now, I'll assume you lose 1 month of employer tax and no self-employment tax, because most will have been paid in September.
+
+-   So a very rough estimate would be of money to the MTA from the initial May 2009 creation of the tax would be:
+
+    -   Employer tax: 9/12 of a year x 98% compliance to the state, but only 8/12 x 98% to MTA, or 65% of a year
+
+    -   Self-employment tax: 10/12ths of a year x 90% to the state and to the MTA, or 75% of a year, and
+
+    -   Total tax = weight employer tax 90% (it was 91.4% in 2021) and self employment tax, giving us 90% x 65% + 10% x 75% = 66% of a year
+
+### What happened in 2011?
+
+The PMT was amended by Chapter 56 of the Laws of 2011 (also can be found [here](http://public.leginfo.state.ny.us/navigate.cgi)).
+
+-   Became a law December 9, 2011
+
+-   Part B amended the PMT - exempted school districts, raised employer thresholds, etc.
+
+    -   Section 1 of Part B:
+
+        -   raised the employer threshold for taxability from \$2,500 in a quarter to \$312,500
+
+        -   excluded school districts
+
+    -   Section 2:
+
+        -   established lower rates for employers with more than \$312,500 of wages and less than \$437,500 of wages
+
+        -   raised the self-employment threshold for taxability from \$10,000 in a tax year to \$50,000
+
+    -   Section 3 established the state PMT offset: "Any reductions in transit aid attributable to reductions in the metropolitan commuter transportation mobility tax authorized under article 23 of the tax law shall be offset through alternative sources that will be included in the state budget."
+
+    -   Section 4 established the effective date.
+
+```{=html}
+<!-- -->
+```
+-   The effective date clause said, "This act shall take effect immediately; provided however, that section one of this act and the amendments in section two of this act that concern employers shall take effect for the quarter beginning on April 1, 2012." That is, the changes in school district taxation, employer rates, and employer thresholds took effect approximately 3 and 3/4 months after the bill became law.
+
+### What might happen now with a PMT increase?
+
+-   Let's assume a straightforward PMT increase can be passed with the budget (end of March) and enacted (signed by governor, or allowed to go into effect with no action) 10 days later.
+
+-   We'd be just at the start of the 2nd wage quarter for employers, and just over a quarter of the way into the tax year for the self-employed.
+
+-   Let's assume it had "reasonable" retroactivity:
+
+    -   For employers, applies to wages from April 1 forward, payments beginning in say July, but with, as in 2009, truing up by October so that we get all of the wages
+
+    -   For self-employed, applies to the entire tax year, but with a 9/12ths rule (I'm not sure why they did 10/12ths in the 2009 law); payments required to be trued up by September as in 2009; this latter seems a bit harsh for increasing an already-existing tax, which seems different to me than increasing an existing tax, so perhaps they might not pay as much as I assume below
+
+-   Here's a rough aggressive estimate (aggressive because of the truing-up assumptions and because it assumes April 1 wage start) ignoring any seasonality in wages:
+
+    -   Employers: 9 months of wages -- 9/12 x 98% compliance, or 73.5% to the state; lose a month for MTA, giving MTA 65.3% of a year
+
+    -   Self employed: 9/12 x 95% compliance (why? not as good as with employers, but the tax is far better known and people are in the system, so not as bad as in 2009), giving the state and MTA 71.3% of a year
+
+    -   Total = 65.3% x 90% + 71.3% x 10% = 65.9% (90-10 wage/self-employed weighting) -- in other words about 2/3 of a year
+
+-   This seems like the best case. Seems like you could lose the April-June quarter. If that happens, I think we'd have:
+
+    -   Employers 6/12 x 98% for state, 5/12 x 98% for MTA -- 40.8%
+
+    -   Self-employed 6/12 x 95% for state and MTA -- 47.5%
+
+    -   Total 40.8% x 90% + 47.5% x 10% = 41.5% of a year
+
+-   Obviously all very rough, and subject to things we could learn from the Tax Department about how quickly they could do it (legally, administratively) and from DOB/governor about how harsh they're willing to be in pushing for fast implementation. I can investigate the former if you want.
 
 ## Relationship to earlier increase analysis
 
@@ -91,7 +222,6 @@ library(blscrapeR)
 propinc_taxable_ratio <- 831.7 / 1130.8
 
 ```
-
 
 ```{r}
 #| label: calibrate-econdata-revdata
@@ -174,7 +304,6 @@ taxbase <- pmtbase |>
 
 ```
 
-
 ```{r}
 #| label: tax-calcs
 #| include: false
@@ -224,7 +353,6 @@ taxcalc <- function(newrate, policy){
 # .0034 + .00102 offset
 
 ```
-
 
 ```{r}
 #| label: tax-calcs-table
@@ -289,7 +417,6 @@ tab
 
 ```
 
-
 <!-- ## Quarterly data (not used) -->
 
 ```{r}
@@ -338,7 +465,6 @@ qdf2 <- qdf1 |>
   rename(unifips=area_fips)
 
 ```
-
 
 ```{r}
 #| label: get-pmtbase-data
