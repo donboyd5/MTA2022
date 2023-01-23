@@ -41,6 +41,7 @@ book:
   date-format: long
   chapters:
     - index.qmd
+    # - todo.qmd
     - part: "Baseline"
       chapters:
       - intro/goals.qmd

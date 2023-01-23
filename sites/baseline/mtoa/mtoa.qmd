@@ -1,6 +1,298 @@
-# Mass Transportation Operating Assistance Fund (MTOA) and Metropolitan Mass Transportation Operating Assistance Account (MMTOA)
+# Mass Transportation Operating Assistance Fund (MTOAF)
 
-## Mass Transportation Operating Assistance Fund (MTOA)
+## Key documents
+
+### Office of the State Comptroller (OSC)
+
+-   [Fund Classification Manual](https://www.osc.state.ny.us/files/state-agencies/pdf/fund-classification-manual.pdf)
+
+    -   Gives statutory authority, purpose, list of receipt sources and expenditure uses, fund and account numbers in OSC accounting system, and more
+
+    -   See [OSC Fund classification manual], below
+
+-   [Comptroller's Annual Report to the Legislature on State Funds Cash Basis of Accounting](https://www.osc.state.ny.us/reports/finance) - Excel files and pdfs, multiple years, with state fiscal year actual receipts.
+
+    -   *Exhibit A-2 - Combining Statement of Cash Receipts, Disbursements and changes in Fund Balances, for Special Revenue Funds - State*:
+
+        -   Gives a high-level full financial view of individual State SRFs on an annual basis -- opening balance, receipts by major category, transfers in, disbursements by major category, transfers out, and closing balance.
+
+        -   MTOAF is a state SRF and is shown. (Individual MTOAF accounts are not given.)
+
+        -   See [OSC Annual MTOAF flows from Exhibit A-2] of high-level MTOAF flows below, constructed from annual A-2 tables.
+
+    -   *Schedule 4 Governmental Funds Combining Schedule of Tax Receipts* - Gives more detail on tax receipts for individual funds, including MTOAF (but not individual accounts).
+
+        -   See [OSC Detailed receipts per Schedule 4 and Exhibit A-2] for example Schedule 4, and table of details for most-recent 4 years.
+
+### DOB
+
+-   In the Economic & Revenue Outlook released with the executive budget, DOB gives historical estimates and a budget-year forecast of MTOAF tax revenue for individual taxes, some of which is estimated at the account level. DOB does not appear to give all MTOAF receipts numbers, but rather just tax receipts.
+
+-   With minor exceptions historical tax numbers match OSC numbers. The latest, for 2022-23 is [here](https://www.budget.ny.gov/pubs/archive/fy23/ex/ero/fy23ero.pdf). The 2023-24 version will be out by February 1. We should be able to construct full MTOAF estimates from that.
+
+-   See below for an example table, and a historical table I constructed from DOB tables that also shows the difference vs. OSC in total taxes.
+
+### Tax Department
+
+## 
+
+## OSC Fund classification manual
+
+See [this](https://www.osc.state.ny.us/files/state-agencies/pdf/fund-classification-manual.pdf).
+
+![](images/image-439090617.png)
+
+## OSC Annual MTOAF flows from Exhibit A-2
+
+Here's an excerpt from Exhibit A-2 from 2020-21:
+
+![](images/image-526358790.png){width="464"}
+
+Here's a 10-year history constructed from Exhibit A-2.
+
+![](images/image-931928124.png)
+
+## OSC Detailed receipts per Schedule 4 and Exhibit A-2
+
+Here's an example excerpt from Schedule 4:
+
+![](images/image-2040161413.png){width="499"}
+
+![](images/image-736608993.png)
+
+## Comparison to MTA MMTOA estimates
+
+It seems like we should be able to reconcile the State Comptroller's disbursements or total outflows from MTOAF with what the MTA shows as total receipts from MTOAF. For that, I probably need to use monthly data from the Comptroller and put them on an approximately calendar year. I'll do that next, but it would be good to talk about the right MTA numbers to compare to, and whether we can match specific payments out of MTOAF to specific receipts of the MTA.
+
+Below, FWIW,
+
+![](images/image-2141389204.png)
+
+Here is the MTA's MMTOA state fiscal year table from the current continuing disclosure statement.
+
+![](images/image-131623474.png)
+
+It is good to see that the tax receipts numbers match the OSC table above, repeated below. However, I don't yet see how to match the disbursements out of MTOAF. I must need to figure what goes out of MTOAF that does not go to MTA?
+
+![](images/image-736608993.png)
+
+![](images/image-931928124.png)
+
+## Tax receipts per DOB
+
+DOB gives historical estimates in the annual economic revenue outlook. Here's a sample historical table from the [2022-23 Executive Budget Economic & Revenue Outlook](https://www.budget.ny.gov/pubs/archive/fy23/ex/ero/fy23ero.pdf).
+
+![](images/image-1285919789.png)
+
+And here's a sample forecast table:
+
+![](images/image-461620804.png)
+
+Finally, here is a historical table constructed from the individual tax table. It also shows the comparison to OSC tax numbers; the difference is in the bank tax. I repeat the OSC table immediately below to make the comparison easier.
+
+![](images/image-1957228614.png)
+
+![](images/image-736608993.png)
+
+## OSC monthly receipts
+
+## Tax collections per the Tax Department
+
+## Cash flow
+
+## Law
+
+### Current law as of Jan 6, 2023
+
+*State Finance Law Section 88-a*
+
+§ 88-a. Mass transportation operating assistance fund. 1. There is\
+hereby established in the joint custody of the commissioner of taxation\
+and finance and the state comptroller a special fund to be known as the\
+"mass transportation operating assistance fund".\
+\
+2. Moneys in the mass transportation operating assistance fund shall\
+be kept separately from and shall not be commingled with any other\
+moneys in the joint or sole custody of the state comptroller or the\
+commissioner of taxation and finance.\
+\
+3. Except for moneys in the account established by subdivision six of\
+this section, moneys of the fund, following appropriation by the\
+legislature, shall be allocated upon a certificate of approval of\
+availability by the director of the budget solely for the transportation\
+assistance purposes set forth within the specific accounts contained\
+within the fund established by this section.\
+\
+4. The mass transportation operating assistance fund shall consist of\
+three separate and distinct accounts: (a) the "public transportation\
+systems operating assistance account", (b) the "urban mass transit\
+operating assistance account", and (c) the "metropolitan mass\
+transportation operating assistance account". Moneys in each of the\
+accounts shall be kept separately from and not commingled with any other\
+moneys in the mass transportation operating assistance fund.\
+\
+5. (a) The "public transportation systems operating assistance\
+account" shall consist of revenues required to be deposited therein\
+pursuant to the provisions of section one hundred eighty-two-a of the\
+tax law and all other moneys credited or transferred thereto from any\
+other fund or source pursuant to law.\
+\
+(b) Moneys in the public transportation systems operating assistance\
+account shall be paid on a quarterly basis beginning October first,\
+nineteen hundred eighty-one. However, if there is a demonstrated cash\
+shortfall in any eligible system, payments to such system may be\
+accelerated. Such payments shall be made in accordance with a schedule\
+as specified by appropriation for the payment of operating costs of\
+public mass transportation systems outside the metropolitan commuter\
+transportation district as defined by section twelve hundred sixty-two\
+of the public authorities law, eligible to receive operating assistance\
+pursuant to section eighteen-b of the transportation law.\
+\
+(c) Notwithstanding any law to the contrary, the comptroller is hereby\
+authorized and directed to transfer from the general fund for deposit\
+into the public transportation system operating assistance account, upon\
+request of the director of the budget, on or before March 31 of each\
+year, an amount equal to the following:\
+\
+(i) For the state fiscal year ending March 31, 2015, two million eight\
+hundred eight thousand ninety-six dollars;\
+\
+(ii) In each succeeding state fiscal year, the transfer shall equal\
+the product of the dollar amount in (i) and one plus the sales tax\
+growth factor. For the purposes of this subparagraph, the sales tax\
+growth factor is the percentage, if any, by which the aggregate amount\
+of sales and compensating use taxes imposed pursuant to the authority of\
+subpart B of part I of article twenty-nine of the tax law, excluding\
+such sales and compensating use taxes collected in the twelve counties\
+that comprise the metropolitan transportation commuter district created\
+and established pursuant to section twelve hundred sixty-two of the\
+public authorities law, for the twelve month period ending on December\
+thirty-first of the immediately preceding calendar year exceeds the\
+aggregate amount of such sales and compensating use taxes for the twelve\
+month period ending on December thirty-first, two thousand thirteen. In\
+no year will the amount of the deposit authorized under this section be\
+less than the amount made in the prior year.\
+\
+6. (a) The "urban mass transit operating assistance account" shall\
+consist of the revenues required to be deposited therein pursuant to the\
+provisions of article thirty-one-a of the tax law, and all other moneys\
+credited or transferred thereto from any other fund or source pursuant\
+to law.\
+\
+(b) Moneys in the urban mass transit operating assistance account\
+shall be available only for payment by the comptroller of refunds of,\
+and of judgments awarded for claims for refund of, taxes paid on or\
+after October first, nineten hundred eighty-one but before April\
+thirteenth, nineteen hundred eighty-two pursuant to the provisions of\
+article thirty-one-A of the tax law, provided that, in the case of a\
+refund, application for such refund has been made to the comptroller\
+prior to April first, nineteen hundred eighty-six. Interest at the rate\
+authorized by section sixteen of the state finance law shall be payable\
+with such refunds and shall be computed from February first, nineteen\
+hundred eighty-two or the date on which the tax was paid, whichever is\
+later.\
+\
+(c) When the comptroller determines that moneys of the account are\
+insufficient for the payment of any such refunds or judgments, he shall\
+certify to the commissioner of finance of the city of New York the\
+amount of such insufficiency and, from moneys in the special account or\
+accounts established by and pursuant to sections W46-2.0 and II46-4.0 of\
+the administrative code of the city of New York, such commissioner of\
+finance shall, within twelve days of such certification, pay over such\
+amount to the comptroller for deposit in the urban mass transit\
+operating assistance account of the mass transportation operating\
+assistance fund to meet such insufficiency.\
+\
+7. (a) The "metropolitan mass transportation operating assistance\
+account" shall consist of the revenues derived from the taxes for the\
+metropolitan transportation district imposed by section eleven hundred\
+nine of the tax law and that proportion of the receipts received\
+pursuant to the tax imposed by article nine-a of such law as specified\
+in section one hundred seventy-one-a of such law, and that proportion of\
+the receipts received pursuant to the tax imposed by article nine of\
+such law as specified in section two hundred five of such law, and the\
+receipts required to be deposited pursuant to the provisions of section\
+one hundred eighty-two-a, and all other moneys credited or transferred\
+thereto from any other fund or source pursuant to law.\
+\
+(b) Moneys in the metropolitan mass transportation operating\
+assistance account shall be paid on a quarterly basis beginning October\
+first, nineteen hundred eight-one. However, if there is a demonstrated\
+cash shortfall in any eligible system, payments to such system may be\
+accelerated. Such moneys shall be paid in accordance with schedules as\
+specified by appropriations for payment of operating costs of public\
+transportation systems in the metropolitan transportation commuter\
+district in order to meet the operating expenses of such systems,\
+provided, however, with respect to the metropolitan transportation\
+authority, its affiliates and subsidiaries, and notwithstanding any\
+general or special law to the contrary, other than such a law which\
+makes specific reference to this section, and subject to the provisions\
+of section twelve hundred seventy-c of the public authorities law, so\
+long as the metropolitan transportation authority dedicated tax fund\
+established by section twelve hundred seventy-c of the public\
+authorities law shall exist, any such appropriation to the metropolitan\
+transportation authority, its affiliates or its subsidiaries shall be\
+deemed to be an appropriation to the metropolitan transportation\
+authority and the total amount paid pursuant to such appropriation or\
+appropriations shall be deposited to such metropolitan transportation\
+authority dedicated tax fund and distributed in accordance with the\
+provisions of section twelve hundred seventy-c of the public authorities\
+law. Nothing contained in this subdivision shall be deemed to restrict\
+the right of the state to amend, repeal, modify or otherwise alter\
+statutes imposing or relating to the taxes producing revenues for\
+deposit in the metropolitan mass transportation operating assistance\
+account or the appropriations relating thereto. The metropolitan\
+transportation authority shall not include within any resolution,\
+contract or agreement with holders of the bonds or notes issued under\
+section twelve hundred sixty-nine of the public authorities law any\
+provision which provides that a default occurs as a result of the state\
+exercising its right to amend, repeal, modify or otherwise alter such\
+taxes or appropriations.\
+\
+9. Any moneys in the mass transportation operating assistance fund and\
+in any of the accounts in such fund may, at the discretion of the state\
+comptroller, be invested in securities and obligations as defined by\
+section ninety-eight-a of this chapter. Any income earned by the\
+investment of moneys in any of the accounts in such fund shall be added\
+to and become a part of, and shall be used for the purposes of such\
+account.
+
+### Summary
+
+Accounts (subd. 4):
+
+-   Public Transportation Systems Operating Assistance Account (PTSOA) ()
+
+Revenues from Tax Law §182-a (3/4% gross receipts tax on certain oil companies) plus any other
+
+-   urban mass transit operating assistance account (UMTOA)
+
+-   metropolitan mass transportation operating assistance account (MMTOA)
+
+## Goals
+
+-   MTOA model (initially, state taxes, then examine NYC taxes Urban, MRT)
+
+    -   Process from collection by Tax Dept to deposit in MTOA
+
+        -   Law
+        -   Reports and other documents and information sources
+        -   Actual data in past years
+            -   to what extent can we reconcile?
+            -   e.g., to what extent are taxes appropriated different from taxes collected in a given year
+
+    -   Model of the process
+
+        -   Can we create a model of this process?
+        -   Goal is NOT to forecast annual taxes, but rather...
+        -   Given a forecast of annual taxes
+            -   When should the money be collected during the year?
+            -   When should the money be deposited during the year?
+            -   Perhaps incorporate DOB cash flow forecast (if available); if not develop a history driven cash-flow forecast
+            -   Can we know if collections and deposits are different from what we'd expect - is the revenue on target, and if not, by how much is it off?
+        -   Can we do this with a spreadsheet model - for example, have it go out to the web, ge the latest data, and do the calculations?
+        -   Relatedly, when Executive Budget comes out, have a way to infer (a) the annual deposits to MTOA, and (b) the monthly cash flows
 
 -   How does revenue from statutorily dedicated taxes compare to appropriations from MTOA? How closely do they match?
+
 -   Beware issues such as the 18-b trick where spending previously paid from the state general fund is now paid from MTOA

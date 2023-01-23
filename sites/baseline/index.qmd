@@ -1,6 +1,44 @@
-# Priorities and Agendas
+# Links, Priorities, and Agendas
+
+## Fast links
+
+-   [Internet marketplace tax](primers/primer_internet_marketplace_tax.qmd)
+
+-   [Section 18-b](primers/primer_section_18b.qmd)
+
+-   [PMT \$700m increase analysis](options/pmt_increase_dec2022.qmd)
+
+-   PMT state replacement (i.e., offset) analysis
+
+-   [MTOA](mtoa/mtoa.qmd)
 
 ## Current High Priorities:
+
+-   Section 18-b quick review of Reinvent Albany report, don't spend much time on it; update 18-b calculations to use the state subsidy breakdown that Steve W. provided
+
+-   MTOA model (initially, state taxes, then examine NYC taxes Urban, MRT)
+
+    -   Process from collection by Tax Dept to deposit in MTOA
+
+        -   Law
+        -   Reports and other documents and information sources
+        -   Actual data in past years
+            -   to what extent can we reconcile?
+            -   e.g., to what extent are taxes appropriated different from taxes collected in a given year
+
+    -   Model of the process
+
+        -   Can we create a model of this process?
+        -   Goal is NOT to forecast annual taxes, but rather...
+        -   Given a forecast of annual taxes
+            -   When should the money be collected during the year?
+            -   When should the money be deposited during the year?
+            -   Perhaps incorporate DOB cash flow forecast (if available); if not develop a history driven cash-flow forecast
+            -   Can we know if collections and deposits are different from what we'd expect - is the revenue on target, and if not, by how much is it off?
+        -   Can we do this with a spreadsheet model - for example, have it go out to the web, ge the latest data, and do the calculations?
+        -   Relatedly, when Executive Budget comes out, have a way to infer (a) the annual deposits to MTOA, and (b) the monthly cash flows
+
+## Other Priorities
 
 -   Tax package related to digital economy and WFH
 
@@ -29,6 +67,18 @@
 <!-- quarto publish netlify --no-browser --no-prompt -->
 
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
+
+### January 20, 2023, Friday
+
+-   [MTOA](mtoa/mtoa.qmd)
+
+### January 6, 2023, Friday
+
+-   Discuss priorities
+
+    -   18-b
+
+    -   MTOA distribution and model
 
 ### December 16, 2022, Friday
 
