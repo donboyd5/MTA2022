@@ -1,8 +1,10 @@
 ---
-title: "Resources"
-format: html
-editor: visual
+output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
+
+# Resources
 
 ## Links
 
@@ -10,6 +12,14 @@ editor: visual
 -   [Zotero Group](https://www.zotero.org/groups/4744647/mta_revenue) - I have sent invitations to Kevin and Jai
 -   [MTA financial and budget statements](https://new.mta.info/transparency/financial-information/financial-and-budget-statements)
 -   [MTA subsidy descriptions](https://new.mta.info/budget/dedicated-taxes)
+
+## Legislation and legislative history
+
+Current law: <https://codes.findlaw.com/>
+
+Different vintages of statutes (i.e., as they stood at different points in time): <https://www.nysenate.gov/legislation>
+
+Chapters, bills, etc.: <http://public.leginfo.state.ny.us/navigate.cgi>
 
 ## People
 

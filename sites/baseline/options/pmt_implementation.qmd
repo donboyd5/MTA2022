@@ -1,0 +1,221 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Implementing a Payroll Mobility Tax increase
+
+## What's the earliest possible implementation date in 2023?
+
+### What happened in 2009?
+
+The PMT was enacted in Chapter 25 of the Laws of 2009 (can be found [here](http://public.leginfo.state.ny.us/navigate.cgi)).
+
+-   Became a law **May 7, 2009**
+
+-   Part C established the payroll mobility tax.
+
+-   Note - the discussion below generally does not apply to school districts, which had special rules.
+
+-   The payment provisions in new Tax Law section 804 added by the act require:
+
+    -   employers generally to make quarterly payments at the same time as reporting for and payment of unemployment insurance taxes, except that larger employers will make electronic funds transfer (EFT) payments in the same way they do for income tax withholding (fast and frequent).
+
+    -   self-employed individuals to follow the personal income tax payment rules (generally estimated payments in April, June, September, and January, settling up with a tax return filed in April)
+
+-   Part C, Section 23, the effective date section, says the Part takes effect immediately except that:
+
+    -   the tax on employers shall apply on and after **March 1, 2009**
+
+    -   the tax on self-employment net earnings "net earnings from self-employment for **tax years beginning on or after January 1, 2009**, but the individual's tax liability for the 2009 tax year will be based only on ten-twelfths of such net earnings for the 2009 tax year"
+
+    -   for the employer tax:
+
+        -   the "initial payment of such metropolitan commuter transportation mobility tax enacted pursuant to section one of this act shall be made with the third quarterly payment due in tax year 2009";
+
+        -   "provided however, that the initial payment of such metropolitan commuter transportation mobility tax shall be made at the same time as the first payment of the withholding tax required to be paid pursuant to section 9 of the tax law that is due on or after after October 31, 2009, and such payment by employers shall include the taxes owed for the entire period beginning on March 1, 2009" (Tax Law [section 9](https://www.nysenate.gov/legislation/laws/TAX/9) pertains to EFT remittance of withholding taxes - quick and very current payment)
+
+    -   for the self-employment tax, initial payment is also the third quarterly payment "shall include the estimated taxes owed for the 2009 tax year as limited..." (by the 10/12ths year provision); interest on underpayment of previous payments is waived (that is, no interest on payments that might otherwise have been made in April and June of 2009)
+
+Synopsis:
+
+-   Effective May 7 2009
+
+-   Applies to:
+
+    -   wages beginning March 1, 2009 (slightly retroactive)
+
+    -   self-employment earnings for the whole tax year beginning January 1, 2009 (slightly retroactive) but only at a 10/12ths rate
+
+-   I am not at all surprised that the self-employment tax -- a taxable-year tax -- could be slightly retroactive (there was a prior court case on this), and I don't even think the 10/12ths rule would be required although it seems fair and appropriate.
+
+-   I am a little surprised that a wage tax based on quarterly wages could be applied retroactively. I am not a lawyer but I am not sure it would survive a legal challenge. However, given that it was really only 2 months retroactive (March and April for a law effective May 7th) perhaps the damage to employers was so small that a court would consider the state's actions reasonable. Perhaps a similar issue has been litigated in the past. I can look if you want, but haven't looked.
+
+-   Payments due:
+
+    -   for employer tax, beginning October 2009, covering wages for the whole period beginning March
+
+        -   as I interpret it, the initial October payment should include essentially March-Sept wages; for EFT payors, additional payments would be made in November and December
+
+    -   for self-employment tax, the initial payment would (for calendar year taxpayers) be the 3rd quarterly payment, due September 15; it would be based on 10/12th of estimated net self-employment earnings for the full year (I think this means it would include money normally due January 15, but I am not certain of this)
+
+    -   Long story short, before considering noncompliance, I think that a tax enacted in early May 2009 should have had payments within the 2009 calendar year of about:
+
+        -   9 to 9.5 / 12ths of a year of payroll -- essentially all of March-Sept (7 months) in Oct, plus multiple EFT payments in Oct, Nov, and Dec covering most of Oct and Nov, and perhaps half of December - call this 2.5 months, or perhaps more safely, 2 months
+
+        -   10 /12ths of a year of the net earnings tax
+
+    -   Then there are the questions of noncompliance (perhaps quite innocent) and timing of deposit of revenue to MTA.
+
+        -   Noncompliance - I really have no idea. I would expect a lot of innocent noncompliance for the self-employment tax. This is a pure guess, but I'd say 10%. Most of the employer tax would come from large employers, who were already known to the system. I'd only subtract a little - I'll say 2%, but with no basis.
+
+        -   Deposit - as I understand it from you, we're looking at a one-month lag. This could be investigated more carefully, but for now, I'll assume you lose 1 month of employer tax and no self-employment tax, because most will have been paid in September.
+
+-   So a very rough estimate would be of money to the MTA from the initial May 2009 creation of the tax would be:
+
+    -   Employer tax: 9/12 of a year x 98% compliance to the state, but only 8/12 x 98% to MTA, or 65% of a year
+
+    -   Self-employment tax: 10/12ths of a year x 90% to the state and to the MTA, or 75% of a year, and
+
+    -   Total tax = weight employer tax 90% (it was 91.4% in 2021) and self employment tax, giving us 90% x 65% + 10% x 75% = 66% of a year
+
+### What happened in 2011?
+
+The PMT was amended by Chapter 56 of the Laws of 2011 (also can be found [here](http://public.leginfo.state.ny.us/navigate.cgi)).
+
+-   Became a law December 9, 2011
+
+-   Part B amended the PMT - exempted school districts, raised employer thresholds, etc.
+
+    -   Section 1 of Part B:
+
+        -   raised the employer threshold for taxability from \$2,500 in a quarter to \$312,500
+
+        -   excluded school districts
+
+    -   Section 2:
+
+        -   established lower rates for employers with more than \$312,500 of wages and less than \$437,500 of wages
+
+        -   raised the self-employment threshold for taxability from \$10,000 in a tax year to \$50,000
+
+    -   Section 3 established the state PMT offset: "Any reductions in transit aid attributable to reductions in the metropolitan commuter transportation mobility tax authorized under article 23 of the tax law shall be offset through alternative sources that will be included in the state budget."
+
+    -   Section 4 established the effective date.
+
+<!-- -->
+
+-   The effective date clause said, "This act shall take effect immediately; provided however, that section one of this act and the amendments in section two of this act that concern employers shall take effect for the quarter beginning on April 1, 2012." That is, the changes in school district taxation, employer rates, and employer thresholds took effect approximately 3 and 3/4 months after the bill became law.
+
+### What might happen now with a PMT increase?
+
+-   Let's assume a straightforward PMT increase can be passed with the budget (end of March) and enacted (signed by governor, or allowed to go into effect with no action) 10 days later.
+
+-   We'd be just at the start of the 2nd wage quarter for employers, and just over a quarter of the way into the tax year for the self-employed.
+
+-   Let's assume it had "reasonable" retroactivity:
+
+    -   For employers, applies to wages from April 1 forward, payments beginning in say July
+
+    -   For self-employed, applies to the entire tax year, but with a 9/12ths rule (I'm not sure why they did 10/12ths in the 2009 law)
+
+-   And assume truing up
+
+    -   For employers, as in 2009, truing up by October so that we get all of the wages through Sept by then
+
+    -   For self-employed, payments required to be trued up by September as in 2009; this latter seems a bit harsh for increasing an already-existing tax, which seems different to me than increasing an existing tax, so perhaps they might not pay as much as I assume below
+
+-   Here's a rough aggressive estimate (aggressive because of the truing-up assumptions and because it assumes April 1 wage start) ignoring any seasonality in wages:
+
+    -   Employers: 9 months of wages -- 9/12 x 98% compliance, or 73.5% to the state; lose a month for MTA, giving MTA 65.3% of a year
+
+    -   Self employed: 9/12 x 95% compliance (why? not as good as with employers, but the tax is far better known and people are in the system, so not as bad as in 2009), giving the state and MTA 71.3% of a year
+
+    -   Total = 65.3% x 90% + 71.3% x 10% = 65.9% (90-10 wage/self-employed weighting) -- in other words about 2/3 of a year
+
+-   This seems like the best case. But perhaps we'll lose the April-June quarter because they'll chose not to have any retroactivity, even a few days, giving us a 6/12 rule for both employer and self-employed tax. And perhaps they won't require truing up of the self-employed tax. If that happens, I think we'd have:
+
+    -   Employers 6/12 x 98% for state, 5/12 x 98% for MTA -- 40.8%
+
+    -   For self-employed we now have to add some sort of safe harbor or behavioral rule for how much of the payments will occur in September vs. in January and the following April. For now, I'll use 80% but will investigate. This would give us:
+
+    -   6/12 of a year's worth of income x 95% compliance x 80% payment in September for state and MTA -- 38%
+
+    -   Total 40.8% x 90% + 38% x 10% = 40.9% of a year
+
+-   Given that there's 25 percentage points difference between the more-aggressive and less-aggressive approaches (65.9% - 40.9%) and 25% of \$700 million is \$175 million, enough to care about, it would make sense to push try to get DOB to be as aggressive as practical in drafting the effective date of the bill.
+
+-   Obviously all very rough, and subject to things we could learn from the Tax Department about how quickly they could do it (legally, administratively) and from DOB/governor about how harsh they're willing to be in pushing for fast implementation. I can investigate the former if you want.
+
+## Implementation of other tax legislation
+
+### The 2021 millionaire tax increase (slightly-retroactive)
+
+The 2021-22 state budget enacted a personal income tax rate increase, effective retroactive to the start of the 2021 tax year. It was enacted (signed by governor) on April 19, 2021
+
+[Here's a good summary](https://www.cpajournal.com/2021/05/19/first-look-at-the-tax-provisions-of-the-new-york-state-2021-2022-budget-act/):
+
+> Effective for taxable year 2021, the Budget Act adds three new tax brackets for "high income taxpayers." These new tax brackets are for single taxpayers reporting more than \$1.1 million in taxable income and joint taxpayers reporting more than  \$2.2 million (from 8.82% to 9.65%), as well as additional tax brackets for those reporting more than \$5 million (10.3%) and more than \$25 million (11.90%). These replace the current top tax brackets of 8.82%. This provision also reduces the tax rates for middle-income taxpayers (Part A, sections 1, 2, 3).
+
+#### Legislation
+
+The change was adopted in 2021-22 budget-implementing legislation, Chapter 59 of the Laws of 2021. Part A amended section 601 of the Tax Law, which has tax rate schedules, to add new higher brackets and adjust others. Section 9 of Part A is the effective date, which says that it applies to the 2021 tax year (i.e., slightly retroactively) and later. Section 8 waives penalty interest on underpayments of estimated tax due in September 2021, to the extent underpayments for this payment are the result of the tax increase. Screenshot below:
+
+![](images/image-468956991.png)
+
+#### Forms and instructions
+
+The 2021 tax form does not appear to have required changes as a result of the act. Here's a screenshot of the relevant part of the main income tax form, the IT-201. It directs taxpayers to page 20 of the instructions.
+
+![](images/image-451188298.png)
+
+Page 20 of the instructions directs people to pages 51-52 of the instructions; page 51 shows the new rate schedule (new top tax brackets) for married joint filers. So it's clear that they had to revise the instructions.
+
+![](images/image-782806879.png)
+
+#### Income tax processing
+
+The tax schedule changes almost certainly required changes to Tax Department processing systems. I have not found a definitive (i.e., Tax Department) statement about how systems have changed, but this [note from the American Payroll Association](https://www.americanpayroll.org/news-resources/apa-news/news-detail/2021/07/09/new-york-yonkers-withholding-tables-updated-effective-july-1#:~:text=Effective%20July%201%2C%202021%2C%20the,wage%20tax%20rate%20remains%200.5%25.) (an association of payroll processing professionals) states pretty clearly that the Tax Department updated withholding tables effective July 1, 2021 as a result of the budget enactment. (The article's links to the Tax Department site don't work so I don't have their official notice.)
+
+Changing withholding tables would have required, among other things, printing and creating electronic versions of the new tables, modifying the Tax Department's processing systems to use the new tables (which might be a trivial task, I don't know), and reaching out to several hundred thousand businesses to alert them to the change.
+
+#### Conclusion
+
+The Tax Department can implement income tax changes that are enacted after the year starts.
+
+### Implementation of the PMT self-employment tax
+
+I am at a loss for why the Tax Department thinks adjusting the PMT self-employment tax rate within the tax year is hard, and why they think it is harder than when the self-employment tax rate was reported separately from the personal income tax.
+
+As I see it, they would:
+
+1.  NOT have to change personal income tax forms,
+
+2.  have to make very minor changes to instructions -- simply changing 0.0034 rate to 0.0050 in two places (twice in one of those places),
+
+3.  have to make whatever changes to processing systems are required to reflect the rate change, and
+
+4.  have to reach out to taxpayers and tax professionals to alert them to the changes.
+
+If the change were enacted a year in advance, they would have the luxury of doing items 2, 3, and 4 at a more leisurely pace, but I don't think those items would involve any less work. These kinds of changes often have been done on short notice in the past.
+
+Over the last decade, on multiple occasions the state has made within-the-tax-year changes to the income tax. Several of these changes have required changes that, in my mind, should pose similar challenges to changing the PMT self-employment tax rate within the year. In general, these changes have NOT required changes to the state's main personal income tax form, but have required changes to instructions, and must have required changes to processing systems. The Tax Department has managed to implement these changes.
+
+For example in April 2016, the state enacted a law with the 2016-17 state budget to transition the School Tax Relief (STAR) property tax relief program from a state-mandated school district property tax exemption to a state personal income tax credit for homeowners that was effective as of the start of the 2016 tax year. The state actually paid the credit to taxpayers without them filing a separate tax form, but (1) they had to include an alert in the instructions for the main income tax return (IT-201), and (2) they must have had to alter processing systems to account for the impact of the credit on tax liability, and they must have had to reach out to school districts to obtain information to allow them to make advance payments of the credit.
+
+In some ways the PMT self-employment tax is similar. It is incorporated as follows on the IT-201 (lines 54a and 54b). The rate is not given, which means that the form does not need to change if the rate changes:
+
+![](images/image-960912409.png)
+
+There are two places in the IT-201 instructions where the current 0.0034 rate is mentioned, and the instructions would have to be changed for this. I am sure there would be some changes to processing systems, web pages, and other administrative actions required, including outreach to taxpayers, CPAs and other tax professionals, but it is hard for me to see how it would be more complicated than determining and mailing out payments in relation to the new STAR tax credit that was enacted in 2016, and incorporating that credit into calculations of tax liability. After all, it is simply changing a tax rate.
+
+I cannot understand why the Tax Department thinks changing a rate is more challenging than other changes they have made in the past. However, if it truly is complex in ways that are not obvious, it seems like one possible workaround would be to create a 1-year transition add-on tax (with a 0.0016 rate) and fold it into the other taxes reported on line 45 of the IT-201.
+
+The add-on tax would be reported on form IT-201-ATT, line 20, shown below, and posted to the IT-201. The Tax Department would still have to provide instructions on the web, reach out to taxpayers and tax professionals, and incorporate the tax into its processing systems so I am not sure it is simpler.
+
+![](images/image-2112425427.png)
+
+ 
+
+ 

@@ -64,6 +64,7 @@ book:
     - part: "Revenue options"
       chapters: 
       - options/pmt_increase_dec2022.qmd
+      - options/pmt_implementation.qmd
       - options/sales_tax_digital.qmd
       - options/progressivity.qmd
       - options/revenue_options.qmd

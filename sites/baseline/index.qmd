@@ -6,7 +6,9 @@
 
 -   [Section 18-b](primers/primer_section_18b.qmd)
 
--   [PMT \$700m increase analysis](options/pmt_increase_dec2022.qmd)
+-   [Analysis of increasing PMT by \$700m, or raising top rate to 0.0050](options/pmt_increase_dec2022.qmd)
+
+-   [PMT implementation timing](options/pmt_implementation.qmd)
 
 -   PMT state replacement (i.e., offset) analysis
 
