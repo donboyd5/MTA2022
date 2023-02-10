@@ -38,6 +38,8 @@ library(DT)
 library(gt)
 library(gtExtras)
 library(janitor)
+library(skimr)
+library(vtable)
 
 # maps
 library(maps)

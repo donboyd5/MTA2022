@@ -1,0 +1,111 @@
+# PMT Self-Employment Tax
+
+## **Questions**
+
+-   What % of the self-employed in the MTA region pay the tax currently? What % do not pay as a result of the \$50,000 exclusion.
+
+-   What
+
+-   How much is current revenue from net earnings from self employment?
+
+## Primer
+
+-   The PMT imposes a self employment tax on the net earnings of the self-employed, as a complement to the payroll tax imposed on wages from employment. See [this](https://www.tax.ny.gov/bus/mctmt/selfemp.htm).
+
+-   In calendar year 2021, approximately \$147.7 million of the \$1,714.7 million in PMT revenue (payroll + self-employment) was from the self-employment tax (i.e., 8.6%), based on monthly data from the Tax Department obtained from the NY open data website.
+
+-   The self-employment tax is imposed on individuals, not on their business entity. It is an annual tax (unlike the payroll tax, which is quarterly) calculated on the NYS income tax form (for most taxpayers, the IT-201). The current rate is 0.0034% of net earnings from self-employment allocated to the MTA region. Income may be allocated using books and records (i.e., separate accounting) or may be allocated by formula.
+
+-   Employers with net earnings from self-employment (NESE) allocated to the MTA region of \$50,000 or less are excluded from the tax. (See [this](https://www.tax.ny.gov/pdf/publications/mctmt/pub420.pdf).) Those subject to the tax pay it from dollar one - that is, a taxpayer with NESE of \$50,000 pays no tax, and a taxpayer with NESE of \$50,001 pays \$170 of tax (\$50,001 x 0.0034).
+
+-   Net earnings from self-employment are determined under IRS definitions used for federal Schedule SE, which is used to calculate federal Medicare and Social Security self-employment taxes. While those taxes have caps on the earnings subject to tax, the MTCD self-employment tax does not cap net earnings.
+
+-   Regarding Schedule SE:
+
+    -   Sole proprietors report net earnings on their Schedule C (Profit or Loss from Business) and post net earnings to Schedule SE.
+
+    -   Members of single-member LLCs are considered sole proprietors for tax purposes and report their share of the LLC's income on Schedule C, and post net earnings to Schedule SE.
+
+    -   Partners report their share of partnership income on Schedule E and post it to Schedule SE. Members of multi-member LLCs are considered partners for tax purposes and report their share of the LLC's income on Schedule E, and post net earnings to Schedule SE.
+
+    -   Shareholders of S Corporations do NOT report net earnings and do not pay the federal self-employment taxes or the net-earnings portion of the PMT. \[I have not 100% verified this but based on all definitions I have read, I am highly confident it is correct.\]
+
+-   Thus, to get at the number of individuals who would be subject to the self-employment tax under the PMG, we want to get at the number of sole proprietors, the number of partners, and the number of LLC members.
+
+## Rough calculations
+
+-   I am unaware of any recent publicly available data on the number of sole proprietors, the number of partners, and the number of LLC members in New York or in the MTA region. I am sure the Tax Department has such data but I have not asked them for it.
+
+-   However, the IRS has a considerable amount of useful data:
+
+    -   The IRS publishes the number of returns with sole proprietor income, by size of business receipts. ([data](https://www.irs.gov/pub/irs-soi/20sp03szbr.xls))
+
+        -   In tax year 2020, nationally, there were 28.353 million federal income tax returns with sole proprietor receipts. This would include single-member LLCs as well as individual proprietors.
+
+        -   23.156 million of these returns (81.7%) had business receipts of less than \$50k.
+
+        -   While some sole proprietors with business receipts \< \$50k probably crept above that line between 2020 and 2023, the 81.7% of sole proprietors with business receipts is still likely to be a significant underestimate of the number of sole proprietors with net earnings from self-employment less than or equal to \$50k because net earnings are much smaller than total receipts.
+
+        -   In 2020, sole proprietors with business receipts \< \$50k had \$253.8 billion of net receipts but only \$48.6 billion of net income (19.1%). I don't have an easy way to estimate the share of proprietors nationally with net earnings below the \$50k threshold of taxability, but I think it's safe to say it would be at least 85-95%.
+
+    -   It's harder to get a handle on partnerships and multi-member LLCs.
+
+        -   In 2020 there were [28.247 million partners](https://www.irs.gov/pub/irs-soi/20pa09c.xlsx) in [4.281 million partnerships](https://www.irs.gov/pub/irs-soi/20pa09a.xlsx) in IRS records. I believe, but am not certain, that this includes members of multi-member LLCs and excludes members of single-member LLCs.
+
+        -   I have not found income on their size. However, in 2020 [1.996 million of the 4.281 million (46.6%) reported losses](https://www.irs.gov/pub/irs-soi/20pa09a.xlsxhttps://www.irs.gov/pub/irs-soi/20pa09a.xlsx), so presumably their members would have negative net earnings and would not be subject to the PMT net self-employment earnings tax.
+
+    -   What fraction of sole proprietors and partners are from New York? The latest data by state that I can find from the IRS is for tax year 2007, [here](https://www.irs.gov/pub/irs-soi/09fallbulsoleprop.pdf). In 2007:
+
+        -   6.5% of the overall population was from NY
+
+        -   6.6% of income tax returns with sole proprietor income were from NY; 8.4% of net profit was from NY returns, so they had a bit more income on average.
+
+        -   6.9% of partnership returns (that's partnerships, not partners) were from NY; 11.1% of partnership income was from NY, so NY partnerships had more income than the average partnership
+
+-   I'm not trying to be too precise here, but here's one way to turn this into a VERY ROUGH estimate:
+
+    -   Lower
+
+        -   28.353 sole proprietors nationally x MTA pop 4.1% of US = 1.162 m proprietors, MTA region
+
+        -   28.247 partners nationally x MTA pop 4.1% = 1.158 m partners
+
+        -   1.162m sole props x 10% included (90% excluded) = 116k included
+
+        -   1.158 partners x 53.4% included (46.6% excluded) = 618k included
+
+    -   High
+
+        -   28.353 sole proprietors nationally x MTA pop 4.1% of US x 8.4 / 6.5 size adjust = 1.502 m proprietors, MTA region
+
+        -   28.247 partners nationally x MTA pop 4.1% x 11.1 x 6.5 size adjust = 1.978 m partners
+
+        -   1.502m sole props x 10% included (90% excluded) = 150k included
+
+        -   1.978 partners x 53.4% included (46.6% excluded) = 1.1 m included
+
+    -   Note that either way there likely is some overlap between individuals who are sole proprietors and individuals who are partners
+
+-   So this is one reasonable fast approach to the IRS data. My guess is that this is a big overestimate of people included. In any event, it seems clear that a very small share of proprietors is paying the tax, and likely a small share of partners is paying the tax.
+
+## More primer information
+
+[SOI Tax Stats -- Individual Income Tax Returns Complete Report (Publication 1304)](https://www.irs.gov/pub/irs-pdf/p1304.pdf)
+
+[IRS](https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes):
+
+> **What is Self-Employment Tax?**
+>
+> Self-employment tax is a tax consisting of Social Security and Medicare taxes **primarily for individuals who work for themselves**. It is similar to the Social Security and Medicare taxes withheld from the pay of most wage earners.
+>
+> Employers calculate Social Security and Medicare taxes of most wage earners. However, you figure self-employment tax (SE tax) yourself using Schedule SE (Form 1040 or 1040-SR). Also, you can deduct the employer-equivalent portion of your SE tax in figuring your adjusted gross income. Wage earners cannot deduct Social Security and Medicare taxes.
+>
+> The self-employment tax rate is 15.3%. The rate consists of two parts: 12.4% for social security (old-age, survivors, and disability insurance) and 2.9% for Medicare (hospital insurance).
+>
+> For 2021, the first \$142,800 of your combined wages, tips, and net earnings is subject to any combination of the Social Security part of self-employment tax, Social Security tax, or railroad retirement (tier 1) tax. The amount increased to \$147,000 for 2022. (For SE tax rates for a prior year, refer to the Schedule SE for that year).
+>
+> All your combined wages, tips, and net earnings in the current year are subject to any combination of the 2.9% Medicare part of Self-Employment tax, Social Security tax, or railroad retirement (tier 1) tax.
+>
+> If your wages and tips are subject to either social security tax or the Tier 1 part of railroad retirement tax, or both, and total at least \$142,800, do not pay the 12.4% social security part of the SE tax on any of your net earnings. However, you must pay the 2.9% Medicare part of the SE tax on all your net earnings.
+
+![](images/image-1997136239.png)

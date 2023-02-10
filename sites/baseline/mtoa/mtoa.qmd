@@ -1,6 +1,34 @@
 # Mass Transportation Operating Assistance Fund (MTOAF)
 
+## Goals
+
+-   MTOA model (initially, state taxes, then examine NYC taxes Urban, MRT)
+
+    -   Process from collection by Tax Dept to deposit in MTOA
+
+        -   Law
+        -   Reports and other documents and information sources
+        -   Actual data in past years
+            -   to what extent can we reconcile?
+            -   e.g., to what extent are taxes appropriated different from taxes collected in a given year
+
+    -   Model of the process
+
+        -   Can we create a model of this process?
+        -   Goal is NOT to forecast annual taxes, but rather...
+        -   Given a forecast of annual taxes
+            -   When should the money be collected during the year?
+            -   When should the money be deposited during the year?
+            -   Perhaps incorporate DOB cash flow forecast (if available); if not develop a history driven cash-flow forecast
+            -   Can we know if collections and deposits are different from what we'd expect - is the revenue on target, and if not, by how much is it off?
+        -   Can we do this with a spreadsheet model - for example, have it go out to the web, ge the latest data, and do the calculations?
+        -   Relatedly, when Executive Budget comes out, have a way to infer (a) the annual deposits to MTOA, and (b) the monthly cash flows
+
 ## Key documents
+
+-   I've created an [MTOA Google drive folder](https://drive.google.com/drive/folders/1gi0RZbja6sTNWMfZC6wygXTILaoowtDZ?usp=sharing), with separate subfolders by agency. It has many of the documents listed below so that they are all in one place.
+
+-   The DOB documents will be what we need on budget day.
 
 ### Office of the State Comptroller (OSC)
 
@@ -26,13 +54,33 @@
 
 ### DOB
 
--   In the Economic & Revenue Outlook released with the executive budget, DOB gives historical estimates and a budget-year forecast of MTOAF tax revenue for individual taxes, some of which is estimated at the account level. DOB does not appear to give all MTOAF receipts numbers, but rather just tax receipts.
+-   History through budget year are in the [Economic & Revenue Outlook](#economic-revenue-outlook). Selected outyear projections are in the [Five-Year Financial Plan].
 
--   With minor exceptions historical tax numbers match OSC numbers. The latest, for 2022-23 is [here](https://www.budget.ny.gov/pubs/archive/fy23/ex/ero/fy23ero.pdf). The 2023-24 version will be out by February 1. We should be able to construct full MTOAF estimates from that.
+-   I have not found a budget document that gives tax-by-tax MTOA estimates. I think we will have to estimate them from the all-funds estimates for taxes.
+
+#### Economic & Revenue Outlook {#economic-revenue-outlook}
+
+-   The Economic & Revenue Outlook released with the executive budget is a critical document. The 2023-24 version will be out by February 1. We should be able to construct full MTOAF estimates from that.
+
+-   Here are links to the [2022-23](https://www.budget.ny.gov/pubs/archive/fy23/ex/ero/fy23ero.pdf) and 2023-24 \[to come\] versions.
+
+-   DOB gives historical estimates and a budget-year forecast of MTOAF tax revenue for individual taxes, some of which is estimated at the account level. DOB does not appear to give all MTOAF receipts numbers, but rather just tax receipts.
+
+-   I have not found a budget document that
+
+-   With minor exceptions historical tax numbers match OSC numbers.
 
 -   See below for an example table, and a historical table I constructed from DOB tables that also shows the difference vs. OSC in total taxes.
 
-### Tax Department
+#### Five-Year Financial Plan
+
+-   Has receipts and disbursements projections for the year that is ending, plus 5 more years. It also has some projections on a fund basis and a program basis (transportation). Thus, the 2023-24 budget will have FY 2022-23 through 2027-28.
+
+-   In the 2022-23 budget, there were two versions, the plan [released on the day of the budget](https://www.budget.ny.gov/pubs/archive/fy23/ex/fp/fy23fp-ex.pdf), and the [version released with the 30-day amendments](https://www.budget.ny.gov/pubs/archive/fy23/ex/fp/fy23fp-ex-amend.pdf). As far as I can tell, the two plans were the same for MTOA
+
+-   
+
+### DTF - Department of Taxation and finance
 
 ## 
 
