@@ -1,0 +1,223 @@
+# Casino revenues
+
+## Question
+
+What are current revenue provisions (license fee and ongoing?), how were they to be split (state/city 80/20?), are some earmarked for education, what items are in law, what items are political agreements.
+
+## Existing casino revenue
+
+The following info is from secondary sources, to be verified against the law (not done yet).
+
+Here are the current rates, per [ero](https://www.budget.ny.gov/pubs/archive/fy24/ex/ero/fy24ero.pdf) p. 194
+
+![](images/image-337190689.png)
+
+The following table shows the current distribution of revenue ([ero](https://www.budget.ny.gov/pubs/archive/fy24/ex/ero/fy24ero.pdf) p.190):
+
+![](images/image-1499866298.png)
+
+Longer history:
+
+![](images/image-192273547.png)
+
+Why the big drop in SFY 2021? I don't know yet. It is not obvious from the changes mentioned in the budget what caused it.
+
+According to ero p.196,
+
+> The Gaming Commission regulates casinos and administers the tax on commercial gaming revenues. Casinos file tax returns and remit payment to the State Treasury on a weekly basis based on statutory rates for slot and table games. Funds from such payments are then allocated to the Commercial Gaming Revenue Fund. For zone 2 facilities, the Commission also collected license fees totaling \$171 million as established by the New York Gaming Facility Location Board. For the additional licenses, the Board has set the minimum license fee amount at \$500 million for each casino.
+
+My reading of [this doc](https://www.gaming.ny.gov/pdf/RFI%20Commercial%20Casino%20Development%20FINAL%20102021.pdf) is that Zone 2 facilities are the four existing casinos in NY.
+
+## The 2023-24 Executive Budget proposal
+
+### Revenue from new casinos
+
+According to [ero](https://www.budget.ny.gov/pubs/archive/fy24/ex/ero/fy24ero.pdf) p.194:
+
+> For the three additional casino licenses, the tax rates will be determined through a competitive bidding process in which the tax on gross gaming revenue from slot machines shall be no less than 25 percent and the tax on gross gaming revenue from all other sources (e.g. table games) shall be no less than 10 percent.
+
+### Disposition of revenue
+
+According to the [bill memo](https://www.budget.ny.gov/pubs/archive/fy24/ex/artvii/ted-memo.pdf) (Part R):
+
+> The issuance of the three remaining commercial casino licenses was authorized in 2022. Each selected licensee will be required to pay a minimum license fee of \$500 million dollars. In addition, the **gross gaming revenue** of these **new** gaming facilities would be subject to a State tax.
+>
+> ...The State portion of taxes and fees (80%) would be directed to the MTA. If a facility is located in New York City (NYC), the local portion (20%) would be directed to the MTA. Host and regional municipalities outside of NYC would continue to receive 20% of these funds.
+>
+> ...This bill would take effect immediately and expire and be **repealed in 10 years**.
+>
+> \[emphasis added\]
+
+Key elements of Part R of [the bill](https://www.budget.ny.gov/pubs/archive/fy24/ex/artvii/ted-bill.pdf):
+
+-   Section 1:
+
+    -   Disposition of revenue: Amends Racing, pari-mutuel wagering and breeding law 1352
+
+        -   New 1352(1)(b): For the 3 new facilities licensed under Title 2-A of article 13 (destination resorts), commission will pay, **without appropriation**, into the MTA Finance Fund (PAL 1270-h)
+
+            -   For facilities outside NYC: 80% of Article 13 taxes and licensing fees, except that there is an education aid hold harmless:
+
+                -   For a facility already authorized to operate VL gaming under Tax Law 617-a, the commission will first deposit into the state lottery fund the greater of revenue from the facility for state lottery education aid received in (1) the 12 months before it began operating as a commercial casino, or (2) SFY 2022, with the remainder going to the MTA Finance Fund
+
+                -   According to DOB's economic and revenue outlook ([ero.pdf](https://www.budget.ny.gov/pubs/archive/fy24/ex/ero/fy24ero.pdf), p.192), "VLTs are in use at Batavia Downs Gaming, Empire City Casino by MGM Resorts, Finger Lakes Gaming & Racetrack, Hamburg Gaming, Jake's 58 (Suffolk OTB facility), Resorts World New York City Casino (which also hosts the Nassau OTB machines), Saratoga Casino Hotel, Vernon Downs Casino Hotel, and Resorts World Hudson Valley Casino. In FY 2022, approximately 58 percent of the education funding contribution from VLT facilities was derived from Resorts World and Empire City."
+
+        -   For facilities inside NYC: 100% of Article 13 taxes and licensing fees will go to the MTA Finance Fund
+
+-   The following revenue would go into the Commercial Gaming Revenue Fund established under SFL 97-nnnn, for facilities outside NYC:
+
+    -   10% for purposes of SFL 97-nnnn
+
+    -   10% for real property tax relief and education assistance
+
+## Current revenue flow
+
+According to [Senate Finance Minority](https://www.nysenate.gov/sites/default/files/article/attachment/2023-24_white_book_web.pdf) (p.186; to be verified):
+
+> As of February 2018, all four Destination Resort Casinos have opened within the Capital, Central, and Hudson Valley regions of New York as established by the 2013 Gaming Economic Development Act. These casinos pay 80 percent of their tax to Education, with the remaining 20 percent going to host and non-host municipalities. The FY 2024 Executive Budget recommends Commercial Casinos local assistance appropriation authority of \$62 million, consistent with FY 2023.
+
+## Law and revenue
+
+## Legislation and proposals
+
+**I have looked and cannot find any proposed legislation in the budget to implement the governor's 2023-24 budget proposal.**
+
+### Early history
+
+In 1988 Congress passed the Indian Gaming Regulatory Act (IGRA) permitting federally recognized "Indian tribes" the ability to conduct gaming activities under certain circumstances.1 Traditional forms of Indian gaming are within the exclusive jurisdiction of the Indian tribes and are not subject to IGRA. IGRA allows bingo, pull tabs, lotto, punch boards, tip jars and certain card games on tribal land. These activities may be regulated by the tribe, or in some instances, in conjunction with the National Indian Gaming Commission. All other forms of tribal gaming are regulated in accordance with IGRA, which requires, among other things, that the gaming be conducted in conformance with State-Tribal gaming compacts.
+
+Today, in New York State, the Oneida Nation, the St. Regis Mohawk Tribe and the Seneca Nation of Indians operate full-scale casinos. All three tribes have reached State-Tribal gaming compacts with the State of New York. Contained in two of the compacts, and in one case, a settlement 1 See United States Code, Title 25, Section 2701 et seq. agreement, are exclusivity agreements, in which the Nation or Tribe agrees to contribute to the State a portion of the proceeds from the operation and conduct of each category of Gaming Device for which exclusivity exists. The State may make financial agreements with certain local governments to allow the State to share a portion of the revenue. 2 Those local governments generally may choose to share a portion of the revenue with other local governments or school districts.
+
+In July 2013, Governor Andrew Cuomo signed into law the Upstate New York Gaming Economic Development Act of 2013 (UNYGEDA). The law authorized the establishment of four destination resort casinos in New York State with the intent to boost tourism and economic development and provide added revenue to the State. The revenue realized from the casinos must be utilized to increase support for education and provide real property tax relief in communities throughout the State. ([osc 2017](https://www.osc.state.ny.us/files/local-government/publications/pdf/gamingrevenues.pdf))
+
+In 2013, voters approved an amendment to the State Constitution to authorize up to seven commercial casinos, and four have opened to date. ([osc 2020](https://www.osc.state.ny.us/files/reports/special-topics/pdf/gaming-report.pdf))
+
+### Actions leading up to the constitutional amendment
+
+-   1st legislative passage: March 14, 2012
+
+[2013 Gov's program bill](https://www.governor.ny.gov/sites/default/files/archive/assets/documents/GPB10-BILL.pdf)
+
+[S5883 of 2013](https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=S05883&term=2013&Summary=Y&Memo=Y&Text=Y) became Chapter 174, Laws of 2013, Upstate New York Gaming and Economic Development Act.
+
+Amends Racing, Pari-mutuel Wagering and Breeding Law to establish Article 13, DESTINATION RESORT GAMING.
+
+Sections 1348-1355 of the article deal with taxation.
+
+![](images/image-1642776530.png)
+
+Bill section 10 adds State finance law section 97-nnnn. Commercial gaming revenue fund, which receives revenue from Article 13. There are some amendments to the tax law but I haven't been through them carefully yet. Preliminarily, I think the main provisions are in Article 13 of RPWBL.
+
+-   2nd passage: June 21, 2013
+
+On July 30, 2013 Governor Cuomo signed the Upstate New York Gaming and Economic Development Act, which authorized four **upstate** casinos. According to DOB, "by the statute, 80 percent of the State's tax revenues will be used statewide for elementary and secondary education or property tax relief. Ten percent of the State's tax revenues will be split equally between host municipalities and host counties. Ten percent of the State's tax revenues will go to other counties in the region of the destination gaming resort to provide tax relief or educational assistance. The educational aid will be additive and will not be part of the State's existing education formulae." [DOB analysis Oct 2 2013](budget.ny.gov/pubs/press/2013/pressRelease13_gamingAct.html)
+
+One [very high level summary](https://trackbill.com/bill/new-york-senate-bill-5883-enacts-the-upstate-new-york-gaming-economic-development-act-of-2013/384592/) said:
+
+> The pending concurrent resolution to amend the New York State Constitution to permit casino gaming is not self-executing. This legislation would provide a statutory framework for gaming should the concurrent resolution obtain second passage and be approved by the State electorate. Additionally, this bill provides the authority to execute and it approves the Settlement Agreement between the Oneida Nation of New York and the State of New York entered into on the sixteenth of May, two thousand thirteen. Finally, it would amend the Indian Law and the Tax Law related to properly identify Indian nations and tribes, and the Penal Law relating to gaming crimes.
+>
+> § 1348 places a \$500 annual assessment on each slot machine or table game at each licensed gaming facility that would be used for problem gambling education and treatment.
+>
+> § 1351 places a tax on gross gaming revenues, but a gaming facility licensee as part of the bidding contractual process, can agree to pay additional funds to the State.
+>
+> § 1352 establishes a commercial gaming revenue fund.
+
+DOB estimates
+
+![](images/image-253169786.png)
+
+Summary states that location decisions based on merit by separately appointed Resort Gaming Facility Location Board. Facility Location Board will be appointed by State Gaming Commission.
+
+### Constitutional amendment
+
+[From summary](https://www.gaming.ny.gov/pdf/UpstateNYGamingDevelopmentAct_FINAL.pdf)
+
+On November 5, 2013 the proposed amendment went before the voters.
+
+The following is from [ballotpedia](https://ballotpedia.org/New_York_Casino_Gambling_Amendment,_Proposal_1_(2013)) unless noted.
+
+Ballot proposal:
+
+> The proposed amendment to section 9 of article 1 of the Constitution would allow the Legislature to authorize up to seven casinos in New York State for the legislated purposes of promoting job growth, increasing aid to schools, and permitting local governments to lower property taxes through revenues generated. Shall the amendment be approved?
+
+Proposal 1 amended Article I, Section 9, subdivision 1 of the Constitution of New York to read:
+
+> No law shall be passed abridging the rights of the people peaceably to assemble and to petition the government, or any department thereof; nor shall any divorce be granted otherwise than by due judicial proceedings; except as hereinafter provided, no lottery or the sale of lottery tickets, pool-selling, book-making, or any other kind of gambling, except lotteries operated by the state and the sale of lottery tickets in connection therewith as may be authorized and prescribed by the legislature, the net proceeds of which shall be applied exclusively to or in aid or support of education in this state as the legislature may prescribe, and except pari-mutual betting on horse races as may be prescribed by the legislature and from which the state shall derive a reasonable revenue for the support of government, [and except casino gambling at no more than seven facilities as authorized and prescribed by the legislature]{.underline} shall hereafter be authorized or allowed within this state; and the legislature shall pass appropriate laws to prevent offenses against any of the provisions of this section.
+
+The proposal passed 57-43.
+
+\[As I read it, the revenue is NOT constitutionally required to be dedicated to education.\] However, a previously approved statute does require dedication.
+
+Gov. Cuomo (D) and legislative leaders, while not transcribed into the amendment nor ballot measure language, agreed to a two phase expansion of casinos upon the measure's approval:
+
+Phase 1: Allow for the construction and running of four total casinos in upstate New York - two in the Catskills, one in the Southern Tier and one near Albany.
+
+**Phase 2: After seven years pass, allow for the construction and running of three casinos in New York City.**
+
+![](images/image-123244625.png)
+
+### Recent history
+
+In 2019, the Gaming Commission adopted regulations to allow sports wagering at the four commercial casinos. All four casinos are now operating a sports book at their facility. In 2021 a process was established for casinos to petition for a slot tax rate no lower than 30 percent. In 2022 the State authorized the Facility Location Board to select up to three additional applicants for commercial casino licensure. (ero)
+
+The state Gaming Commission is authorized to issue up to three licenses in the Big Apple downstate region, and Mayor Eric Adams has said he wants at least two of the licenses given to the city. ([nyp](https://nypost.com/2022/07/24/nyc-developers-eyeing-casinos-for-hudson-yards-times-square-willets-point-coney-island/))
+
+### The 2022 budget legislation
+
+S.8006-C (ELFA) Laws 2022, Ch. 56
+
+Adds title 2-A to Article 13 of the racing, pari-mutuel wagering and breeding law: FACILITY DETERMINATION AND LICENSING: ADDITIONAL GAMING FACILITIES
+
+The Budget also authorizes the creation of three commercial casinos downstate. The process for licensing the new casinos would essentially mirror the process for the upstate casinos; the New York State Gaming Facility Location Board (the "Board") reviewing applications and awarding licenses. Since the Board was disbanded after the awarding of the four upstate casino licenses, it would have to be re-formed, comprised of five members appointed by the Gaming Commission. Once the Board is created, a request for applications (RFA) for the gaming licenses is required to be issued within 90 days. ([osc](https://www.osc.state.ny.us/files/reports/budget/pdf/executive-budget-report-2022-23.pdf))
+
+### The 2023 budget proposal
+
+A share of \$1.5 billion in licensing fees for up to 3 downstate casino licenses and between \$462-\$826 million in annual tax revenue, according to scenarios outlined in the [Spectrum Gaming Market Study](https://www.gaming.ny.gov/pdf/Spectrum%20New%20York%20Gaming%20Study%20Main%20Report,%20Final.pdf), will be directed to the MTA for operating purposes. Specific amounts and timing are dependent on the license award process, but are not anticipated until **2026 or later**. ([ebbb](https://www.budget.ny.gov/pubs/archive/fy24/ex/book/briefingbook.pdf))
+
+### Timing
+
+"The state will issue a formal request for proposal (RFP) for casino applicants next month. The selection panel will then move some responses to a state siting committee, which is expected to choose one location in the five boroughs before the end of the year." ([nypost 12/4/2022](https://nypost.com/2022/12/04/jay-z-joins-times-square-team-bidding-for-prized-nyc-casino/))
+
+"New York state is expected to issue three downstate casino licenses in the first half of 2023, with the facilities operating two years after, bringing a financial boon to the state and the winners. Already, the state has seen more than \$500 million of revenue through early November from online gambling, which made its debut early this year, according to State Senator Joseph P. Addabbo, Jr. Multi-billion-dollar development plans, spanning the five boroughs, were submitted following Gov. Kathy Hochul's January announcement of an accelerated pace for the development of the downstate casinos, along with four upstate facilities, which were approved by voters on a 2013 ballot." ([bondbuyer 12/9/2022](https://www.bondbuyer.com/news/new-york-state-rushing-toward-casino-decision-as-deficit-looms))
+
+### Other sources
+
+The proposal to use tax revenues from planned casinos hinges on the gaming facilities actually opening. State officials are currently taking bids on three licenses to open Las Vegas-style casinos in the downstate area. The licenses will command a \$500 million fee, part of which Hochul wants to direct to the MTA, as well as up to \$826 million in annual tax revenue from the casinos.
+
+For the three additional casino licenses, the tax rates will be determined through a competitive bidding process in which the tax on gross gaming revenue from slot machines shall be no less than 25 percent and the tax on gross gaming revenue from all other sources (e.g. table games) shall be no less than 10 percent.
+
+## Current casinos and tax rates
+
+The Gaming Commission regulates casinos and administers the tax on commercial gaming revenues. Casinos file tax returns and remit payment to the State Treasury on a weekly basis based on statutory rates for slot and table games. Funds from such payments are then allocated to the Commercial Gaming Revenue Fund. For zone 2 facilities, the Commission also collected license fees totaling \$171 million as established by the New York Gaming Facility Location Board. For the additional licenses, the Board has set the minimum license fee amount at \$500 million for each casino.
+
+The four casinos licensed and operating in NYS are:
+
+-   Tioga Downs Casino Resort opened in December 2016;
+
+-   del Lago Resort & Casino and Rivers Casino & Resort both opened in February 2017; and
+
+-   Resorts World Catskills opened in February 2018.
+
+![](images/image-231842115.png)
+
+For the three additional casino licenses, the tax rates will be determined through a competitive bidding process in which the tax on gross gaming revenue from slot machines shall be no less than 25 percent and the tax on gross gaming revenue from all other sources (e.g. table games) shall be no less than 10 percent.
+
+## Revenue
+
+### History (ero)
+
+![](images/image-445774979.png)
+
+### Budget period
+
+Commercial gaming (casino) tax receipts are estimated to decrease slightly, primarily due to Tioga receiving a retroactive slot tax reduction for FY 2022. ([ero](https://www.budget.ny.gov/pubs/archive/fy24/ex/ero/fy24ero.pdf))
+
+![](images/image-1458954275.png)
+
+### Outyears (from the fp document)
+
+Commercial appears to correspond to casinos.
+
+"commercial gaming receipts are expected to increase significantly in FY 2027 as slot tax rates for Rivers, Resorts World Catskills, and del Lago casinos are set to revert to their higher rates."
+
+![](images/image-891341892.png)

@@ -1,0 +1,17 @@
+# Impact of the PMT on local governments
+
+-   What is the cost of the 2011 base exclusions in NYC? How much is NYC public schools vs. NYC private? What would be their pmt offset?
+
+\*\* NOTE: NYC public school employees probably use the MTA for commuting more than other public school employees in the rest of MTA region does.\*\*
+
+-   Impact of PMT and PMT increases on municipalities in the MTA region -- and implications for property tax (not school districts or school district property taxes, of course)
+
+## Local government PMT increase as % of local government property tax
+
+The table below shows (1) the total property LEVY (not actual collections, which would be slightly less, with different timing) in the MTA region by county, (2) the PMT increase (going from 0.34% to 0.50%) for non-K12 local government wages in the MTA region, and (3) that increase as % of ALL local govt levies in the region (county, town, village, AND school districts). Why include school districts in the denominator even though not in the denominator? Because the perspective is the taxpayer - if the PMT increase that their county, city, town, and villages pay is passed on in higher CCTV property taxes, how much will that increase the "average" person's total property bill, where their total bill is CCTV plus SD.
+
+One data anomaly is that the QCEW employment data suppress K12 employees and wages in Putnam county due to the small numbers, for disclosure avoidance, and so I did not subtract any K12 wages from their local government total wages.
+
+Note that while I have included NYC in the table below, their tax structure is far more diverse and extensive than tax structures in the counties.
+
+![](images/image-991765265.png)

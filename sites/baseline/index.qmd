@@ -2,69 +2,79 @@
 
 ## Fast links
 
+-   [casinos](misc/casinos.qmd)
+
+-   [MTOA budget](mtoa/mtoa_budget.qmd)
+
+-   [Unemployment insurance tax](misc/uitax.qmd)
+
+-   [PMT local governments](pmt/pmt_local_governments.qmd)
+
 -   [Internet marketplace tax](primers/primer_internet_marketplace_tax.qmd)
 
 -   [Section 18-b](primers/primer_section_18b.qmd)
 
--   [Analysis of increasing PMT by \$700m, or raising top rate to 0.0050](options/pmt_increase_dec2022.qmd)
+-   [PMT self-employment payors](pmt/pmt_self_employment_tax.qmd)
 
--   [PMT implementation timing](options/pmt_implementation.qmd)
+## Priorities
 
--   PMT state replacement (i.e., offset) analysis
+By mid-week:
 
--   [PMT self-employment payors](options/pmt_self_employment_tax.qmd)
+-   If we exempt local governments from the PMT increase, how much higher would the rate have to be to raise the same revenue?
 
--   [MTOA](mtoa/mtoa.qmd)
+-   What would it cost to exempt local governments from the PMT completely? How much higher would the rate have to be?
 
--   [questions from 1/27/2023](misc/misc.qmd) call (Corp franchise tax increase, casino revenue, UI tax)
+-   Is the NYC TA a local government or part of the state government, legally, and in the QCEW? (It is an affiliate of the MTA, unlike other entities, which are subsidiaries.)
 
-## Current High Priorities:
+    -   On additional investigation (after the question below), I suspect that TA employees are in the local government owner code.
+        -   statewide there were 52,283 local employees in NAICS 4851 in 2021, about 31% of the U.S. total; statewide, no state employees were disclosed, and private was very small
 
--   From 1/27/2023 phone call
+        -   So I think they must be in NAICS 4851 local; I don't know why there are no local ownership NAICS 4851 data published at the county level
+    -   Another question is, who is the employer and who remits the tax
+        -   Does the MTA, as a state employer?
 
-    -   Example employers - impact of 0.34 to 0.50 % rate; QCEW; employers from OS docs
+        -   Does the TA, as a City employer?
+    -   I sent the following question to the QCEW folks:
 
-    -   the pandemic corp franchise tax increase and sunset - was there a written or implied agreement to make sure rate drops?
+> Hi, I'm trying to figure out (1) where NYC transit workers would be in QCEW, and (2) whether they would be listed as local owner or state owner.
+>
+> For #1, I suspected NAICS 4851, but no data come up (they are suppressed) via the multi-table search for the 2 available owner codes, private and local, for New York County and for Kings County NY, the two counties likely to have the largest \# of employees.
+>
+> For #2, it is tricky. The MTA (Metropolitan Transportation Authority), the umbrella organization, is a state public benefit corporation. But transit employees generally are employed by the Transit Authority, technically an affiliate of the MTA that appears to belong to NYC. I thought if I could find data in state and local owner codes, I could figure it out because the TA would have so many employees that it would be clear whether they are in state or local. But the state owner code does not come up in the search of NAICS 4851 for New York or Kings County, and data for the local owner are suppressed (even though there must be tens of thousands of transit workers).
+>
+> Can you provide advice on how to answer these questions? Many thanks.
 
-    -   casino revenues - what are the revenue provisions (license fee and ongoing?), how were they to be split (state/city 80/20?), are some earmarked for education, what items are in law, what items are political agreements
+-   PMT offset by county (???)
 
-    -   UI tax, when scheduled for increase, how does it work, where are the data?
+-   PMT exemptions, by county (estimates, %)?
 
--   Section 18-b quick review of Reinvent Albany report, don't spend much time on it; update 18-b calculations to use the state subsidy breakdown that Steve W. provided
+-   How much of state budget increase in 2023-24 goes to NYC? How does that differ from 2022-23?
 
--   MTOA (1) Process from collection by Tax Dept to deposit in MTOA, and (2) Tracking MTOA revenue sources
-
--   How many self-employed under PMT?
-
-## Other Priorities
-
--   Tax package related to digital economy and WFH
-
--   Extend estimates of marketplace tax
-
--   18b diversion 1996-plus; growth with inflation
-
--   MMTOA tracking collections, receipts, appropriations
-
--   Policy-oriented primers on selected taxes -- base, rate, history, interaction with other taxes, other relevant issues
-
-    -   Noncorporate entities (partnerships, LLCs, trusts, etc.)
-
-        -   Tax treatment generally
-
-        -   Pass-through entity tax
-
-    -   MTA corporate surcharge
-
-    -   MTA sales tax
+-   The state budget reserve increasing from 4% to 15% according to the governor. Track it down.
 
 ## Agendas
 
-<!-- (taxes/payroll_mobility_tax.qmd#incidence) -->
+<!-- (pmt/payroll_mobility_tax.qmd#incidence) -->
 
 <!-- quarto publish netlify --no-browser --no-prompt -->
 
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
+
+### February 17, 2023 Friday
+
+### February 10, 2023 Friday
+
+### February 3, 2023 Friday
+
+### January 27, 2023, Friday
+
+-   Example employers - impact of 0.34 to 0.50 % rate; QCEW; employers from OS docs
+
+-   the pandemic corp franchise tax increase and sunset - was there a written or implied agreement to make sure rate drops?
+
+-   casino revenues - what are the revenue provisions (license fee and ongoing?), how were they to be split (state/city 80/20?), are some earmarked for education, what items are in law, what items are political agreements
+
+-   UI tax, when scheduled for increase, how does it work, where are the data?
 
 ### January 20, 2023, Friday
 
@@ -80,7 +90,7 @@
 
 ### December 16, 2022, Friday
 
--   [PMT option to raise \$700 million](options/pmt_increase_dec2022.qmd), with and without state offset for legal changes
+-   [PMT option to raise \$700 million](pmt/pmt_increase_dec2022.qmd), with and without state offset for legal changes
 
 ### December 12, 2022, Monday
 
@@ -134,7 +144,7 @@
 
 Near-term priorities ordered from highest to lowest. For any items that result in tables or graphs, provide links to a spreadsheet with data needed to produce MTA-prepared versions of same. Prepare as much of the following by Monday Oct 31:
 
--   Examine impact of PMT, starting with simplest approach (see [this](option_analysis/pmt_howlarge.qmd), [this](option_analysis/pmt_impact_employment.qmd), and [this](option_analysis/pmt_payroll_tax_rates.qmd))
+-   Examine impact of PMT, starting with simplest approach (see [this](pmt/pmt_howlarge.qmd), [this](pmt/pmt_impact_employment.qmd), and [this](pmt/pmt_payroll_tax_rates.qmd))
 
     -   How large is the PMT relative to selected other taxes?
 
@@ -150,7 +160,7 @@ Near-term priorities ordered from highest to lowest. For any items that result i
 
     -   How much does the PMT worsen NY's tax ranking - what would happen to NY's ranking (state and local taxes relative to the economy) if the PMT did not exist? **DONE**
 
--   TCJA and MTA taxes see [this](option_analysis/pmt_tcja_ptet.qmd)
+-   TCJA and MTA taxes see [this](primers/primer_tcja_ptet.qmd)
 
     -   How much did NY-ers save federally as a result of the pass-through entity tax? How does that compare to the size of a hypothetical PMT increase? **DONE**
 
@@ -178,7 +188,7 @@ Review priorities for next items (see Nov 2 agenda above).
 
 As much of following as practical, in priority order. I have gotten as far as the horizontal rule below. click on the links below:
 
--   For [hypothetical PMT increase from 0.34% to 0.50%](option_analysis/pmt_increase.qmd)
+-   For [hypothetical PMT increase from 0.34% to 0.50%](pmt/pmt_increase.qmd)
 
     -   MCTD-wide impact, by size of employer
 
@@ -188,7 +198,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
     -   By average industry pay
 
--   Ways to analyze [impact of PMT on the economy](option_analysis/pmt_impact_employment.qmd)
+-   Ways to analyze [impact of PMT on the economy](pmt/pmt_impact_employment.qmd)
 
     -   Pre- and post- employment in MTA and other regions
 
@@ -288,7 +298,7 @@ As much of following as practical, in priority order. I have gotten as far as th
 
 -   Review themes and templates for [revenue options](options/revenue_options.qmd)
 
--   FYI - I added a discussion on the [incidence of payroll taxes](taxes/payroll_mobility_tax.qmd#incidence)
+-   FYI - I added a discussion on the [incidence of payroll taxes](pmt/payroll_mobility_tax.qmd#incidence)
 
 -   Other discussion topics?
 

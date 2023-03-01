@@ -17,18 +17,17 @@
 #     $312.5k-$375k / qtr 0.11% (from 0.34%) -- ($1.25m-$1.5m annual)
 #     $375k-$437.5k / qtr 0.23% (from 0.34%) -- ($1.5m-$1.75m annual)
 #     I have been treating the rate below $1.75m as if it is 0.17% effective rate
-#     I don't really have data for this
 
+# If we exempt local governments from the PMT increase, how much higher would the rate have to be to raise the same revenue?
 
-# libraries ---------------------------------------------------------------
+# setup -------------------------------------------------------------------
+
 
 source(here::here("r", "libraries.r"))
 source(here::here("r", "libraries_ts.r"))
 source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
-
-# constants ---------------------------------------------------------------
 # BEA proprietors' income is much larger than IRS self-employment income
 # in the BEA documentation for non-farm proprietors' income,
 # https://www.bea.gov/resources/methodologies/nipa-handbook/pdf/chapter-11.pdf
@@ -39,8 +38,181 @@ source(here::here("r", "functions.r"))
 propinc_taxable_ratio <- 831.7 / 1130.8
 
 
-# ONETIME SUSB employment and wages by firm's number of employees ----------------------------------
+# get data ----------------------------------------------------------------
+# tax_rev
+# A tibble: 7 × 4
+# year pmtrev_tot pmtrev_wage pmtrev_nonwage
+# <dbl>      <dbl>       <dbl>          <dbl>
+#   1  2015    1316314     1258182          58132
+# 2  2016    1364267     1214131         150136
+# 3  2017    1443574     1313317         130257
+# 4  2018    1482570     1367498         115072
+# 5  2019    1572583     1451425         121158
+# 6  2020    1566775     1447558         119217
+# 7  2021    1714667     1567003         147664
 
+
+# tax dept annual revenue -------------------------------------------------------------
+
+pmtrev <- readRDS(here::here("data", "dtf", "pmt_collections.rds")) # monthly dtf pmt revenue components
+
+pmtrev |> filter(year(date)==2019)
+
+tax_rev <- pmtrev |> 
+  select(date, 
+         pmtrev_tot=totpmt, 
+         pmtrev_wage=local_mtapmt, pmtrev_nonwage=local_mtapmtpitnet) |> 
+  mutate(year=year(date)) |> 
+  summarise(across(c(pmtrev_tot, pmtrev_wage, pmtrev_nonwage),
+                   ~ sum(.x, na.rm=TRUE)),
+            .by=year) |> 
+  filter(year %in% 2015:2021)
+tax_rev
+
+
+# calibration -------------------------------------------------------------
+
+# calculate annual wage and nonwage tax, then calibrate to collections
+pmtbase <- readRDS(here::here("data", "pmtbase_updated.rds")) # based on BEA and QCEW
+glimpse(pmtbase) # the 12 counties, NOT by income range
+summary(pmtbase)
+skim(pmtbase) 
+
+tax_calc <- pmtbase |> 
+  mutate(tax_wagefullrate=wages_beafullrate * 0.0034,
+         tax_wagelowrate=wages_beasmallemp_lowrate * 0.0017,
+         tax_wage=tax_wagefullrate + tax_wagelowrate,
+         tax_nonwage=nonwage_beapmt * .0034,
+         tax_pmt=tax_wage + tax_nonwage) |> 
+  summarise(across(c(tax_wage, tax_nonwage, tax_pmt),
+                   ~ sum(.x, na.rm=TRUE)),
+            .by=year)
+tax_calc
+
+calibration_factors <- tax_calc |> 
+  left_join(tax_rev, by = join_by(year)) |> 
+  select(year, 
+         tax_wage, tax_nonwage,  tax_pmt,
+         pmtrev_wage, pmtrev_nonwage, pmtrev_tot) |> 
+  # actual revenue / estimated revenue
+  mutate(calib_wage=pmtrev_wage / tax_wage,
+         calib_nonwage=pmtrev_nonwage / tax_nonwage,
+         calib_tot=pmtrev_tot / tax_pmt)
+calibration_factors
+
+
+taxbase <- pmtbase |> 
+  select(fips, year, mtasuburb_county, area,
+         wages_beapmt, 
+         nonwage_beapmt, 
+         taxbase_beapmt, 
+         wages_beak12, wages_beafed, 
+         wages_beasmallemp_excluded, 
+         wages_beasmallemp_lowrate, 
+         wages_beafullrate) |> 
+  mutate(wages_excluded2011=wages_beak12 + wages_beasmallemp_excluded) |> 
+  left_join(calibration_factors |> 
+              select(year, starts_with("calib_")),
+            by = join_by(year)) |> 
+  mutate(
+    # adjust wages and nonwage income so that current tax rates yield current revenue
+    wages_beafullrate_adj=
+      wages_beafullrate * calib_wage,
+    
+    wages_beasmallemp_lowrate_adj=
+      wages_beasmallemp_lowrate * calib_wage,
+    
+    # don't adjust excluded k12 wages, on the theory that they are large
+    # employers and are not avoiding tax
+    wages_beak12_adj=wages_beak12, # NOTE - NO ADJUSTMENT
+    
+    # but do adjust excluded small employer wages - these are the zero rate wages
+    wages_beasmallemp_excluded_adj=
+      wages_beasmallemp_excluded * calib_wage,
+    
+    # this next line computes wages excluded under the 2011 legal changes
+    # i.e., the sum of excluded k12 wages and excluded small-employer wages
+    wages_excluded2011_adj=
+      wages_beak12_adj + wages_beasmallemp_excluded_adj,
+    
+    # and here we calculate nonwage taxbase, calibrated to generate observed nonwage revenue
+    nonwage_beapmt_adj=
+      nonwage_beapmt * calib_nonwage)
+
+
+# function tax calc by county ---------------------------------------------
+
+
+taxcalc2 <- function(newrate, policy){
+  baserate <- .0034
+  baselowrate <- .0017
+  # newlowrate <- baselowrate + (newrate - baserate) # OLD: increase lowrate by rate change
+  newlowrate <- newrate / baserate * baselowrate  # proportionate increase
+  
+  tax <- taxbase |> 
+    select(year, fips, area, contains("_adj")) |> 
+    mutate(tax_wagefull=wages_beafullrate_adj * newrate,
+           tax_wagelow=wages_beasmallemp_lowrate_adj * newlowrate,
+           tax_wage=tax_wagefull + tax_wagelow,
+           
+           tax_nonwage=nonwage_beapmt_adj * newrate,
+           
+           tax_pmt=tax_wage + tax_nonwage,
+           
+           # calculate tax losses from the 2011 law:
+           # impact of the low rate for small employers above the minimum
+           # we lose the full rate minus the lowrate
+           # previous code was newrate -  baselowrate, WRONG!! fixed 2023-02-23
+           # it should have been newrate - newlowrate rather than baselow rate
+           
+           # so when newrate was 0.0034 (the total current rate) and
+           # baselowrate was 0.0017, the calc loss was 0.0017, which was correct
+           
+           # but when newrate was 0.00479 (to raise $700 million)
+           # baselowrate was still 0.0017 but new low rate would be
+           # 0.0017 * 0.00479 / 0.0034 = 0.002395
+           # so calc loss was (0.00479 - 0.0017) = 0.00309
+           # but calc loss should have been 0.00479 - 0.002395 = 0.00240
+           # so calc loss was 309 / 240 -1 too high, or 28.75% too high
+           # calc loss was $140.6 million but should have been $108.996
+           # so calc loss was $31.7m too high, this carried through to total loss
+           taxloss_smallemplowrate_2011=
+             wages_beasmallemp_lowrate_adj * (newrate - newlowrate),
+           
+           # impact of excluding all wages of very small employers complete untaxed
+           # we lose the full rate on excluded wages
+           taxloss_smallempexcluded_2011=
+             wages_beasmallemp_excluded_adj * newrate, 
+           
+           # full rate for k12 because we lose all their wages
+           taxloss_k12_2011=wages_beak12_adj * newrate, 
+           
+           taxloss_total_2011=
+             taxloss_smallemplowrate_2011 + 
+             taxloss_smallempexcluded_2011 + 
+             taxloss_k12_2011
+    ) |> 
+    summarise(across(c(contains("_adj"), contains("tax_"), contains("taxloss_")),
+                     sum),
+              .by=c(year, fips, area)) |> 
+    mutate(policy=policy, rate=newrate)
+  
+  tax
+  
+}
+
+tax_current2 <- taxcalc2(newrate=.0034, policy="current")
+tax_nooffset2 <- taxcalc2(newrate=.005, policy="nooffset")
+
+
+
+# more --------------------------------------------------------------------
+
+
+
+# rebuild the pmt base at the industry level??? ---------------------------
+
+##.. ONETIME SUSB employment and wages by firm's number of employees ----------------------------------
 # get wage share by firm size by county by 2-digit naics
 fn <- "county_3digitnaics_2019.xlsx"
 df1 <- read_excel(here::here("data", "susb", fn), skip=2, n_max=Inf)
@@ -93,7 +265,11 @@ glimpse(firmsize_wide)
 firmsize_wide |> 
   filter(county=="Bronx", naics=="23", measure=="pct")
 
-saveRDS(firmsize_wide, here::here("data", "susb", "firmsize_wide.rds"))
+# saveRDS(firmsize_wide, here::here("data", "susb", "firmsize_wide.rds"))
+# https://www.census.gov/data/tables/2019/econ/susb/2019-susb-annual.html
+# note that I did this at 2 digits but maybe could be 3 digits
+firmsize_wide <- readRDS(here::here("data", "susb", "firmsize_wide.rds")) # by major industry, county, 2019
+##.. VERIFY (99% sure) -- SUSB is just private? ok, anyway ----
 
 
 # IMPORTANT: calculate potential PRIVATE wage loss due to small size --------------
@@ -235,7 +411,7 @@ glimpse(pmt_base2)
 count(pmt_base2, fips, area, mtasuburb_county)
 count(pmt_base2, year) # through 2021
 
-saveRDS(pmt_base2, here::here("data", "pmtbase_updated.rds"))
+# saveRDS(pmt_base2, here::here("data", "pmtbase_updated.rds"))
 
 
 

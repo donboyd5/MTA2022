@@ -1,0 +1,29 @@
+# Unemployment insurance tax
+
+When is the unemployment insurance tax scheduled to increase, how does it work, where are the data?
+
+According to the [state comptroller](https://www.osc.state.ny.us/reports/update-new-yorks-unemployment-insurance-trust-fund-challenges-continue) ([pdf](https://www.osc.state.ny.us/files/reports/pdf/update-unemployment-insurance-trust-fund.pdf)):
+
+> In 2022, State UI tax rates have remained at the highest levels allowed under law for the range of tax rates applied to employers, depending on their experience in the State's unemployment insurance system. If New York does not repay its outstanding advance by November 10, 2022, the federal UI tax rate will increase by 0.3 percent to 0.9 percent for 2022. (See Figure 4.) This would represent **an additional annual federal tax payment of \$21 per employee;** compared to 2020, the new rate would represent an increase in total tax payments of 30.5 percent for employers required to pay the highest UI tax rates and of 182.3 percent for those who currently pay the lowest rates. **If New York continues to hold an outstanding balance on January 1, 2023, employers' federal tax rate will go up to 1.2 percent, representing an additional cost of \$42 per employee over current levels. This additional cost will increase by \$21 per year for each employee as long as New York retains an outstanding balance on November 10 in the relevant tax year**.
+
+[CBC](https://cbcny.org/research/options-address-nys-unemployment-insurance-trust-fund-debt) June 2022:
+
+> Now, the Trust Fund owes over \$8 billion to the federal government, a balance not likely to be repaid fully until 2027....In order to repay the debt, State UI tax rates already have increased, while the federal UI tax rate will increase annually starting this year. Depending on the length of the current recovery, it is reasonably probable that New York will enter the next recession with its Trust Fund still in debt or with a very low balance.
+>
+> The State has three options for addressing the Trust Fund's current debt, each of which have trade-offs and implications that should be considered:
+>
+> 1.  Pay off the debt over time with \[the already\] higher \[state\] tax rates, which is the standard practice;
+>
+> 2.  Partially accelerate repayment of the debt using State revenues; or
+>
+> 3.  Rapidly pay off the debt using State revenues, which would provide immediate tax relief to employers.
+>
+> Under Options 1 and 2, the State also could provide additional targeted relief to small- and mid-sized employers through business tax credits that offset higher UI tax payments.
+>
+> ...New York's State UI tax rates have already increased, and federal rates will increase soon. In January 2021, the New York Department of Labor increased State UI tax rates to their highest possible levels, as required by State law. Specifically, in 2021, the minimum State rate increased from 0.6 percent to 2.1 percent (up to \$247.80 per employee per year), and the maximum State rate increased from 7.9 percent to 9.9 percent (up to \$1,168 per employee per year).16 As a result, the average State UI rate on employers increased from 2.2 percent in 2019 to 3.6 percent in 2021, an increase of 64 percent, from \$292.80 to \$466.80 per employee.
+>
+> ...NYS UI taxes were already set to increase marginally due to growth of the wage base subject to the rate; however, the increases have been and will be significantly higher due to rate changes associated with the Trust Fund's deficit. Though UI taxes represent a relatively small share of an employer's total payroll tax obligations and overall costs, businesses that face tighter margins may find these additional burdens hard to manage in an already difficult labor market and business environment.
+>
+> ...New York's UI Trust Fund likely will return to a positive balance in 2027, based on CBC's analysis of past average UI tax rates and benefit payments, coupled with projected employment and personal income growth.
+
+

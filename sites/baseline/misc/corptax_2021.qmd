@@ -1,0 +1,19 @@
+# The pandemic-period corporate franchise tax increase enacted 2021
+
+The pandemic corp franchise tax increase and sunset - was there a written or implied agreement to make sure rate drops?
+
+-   Chapter 59 of the Laws of 2021 (signed Apr 19, 2021), Part HHH, amended Tax Law §§ 210(1)(a) and 210(1)(b).
+
+-   Temporary increase in the corporate income tax rate for taxpayers with a business income base of more than \$5 million to 7.25%, from 6.5%, for tax years beginning in 2021, 2022, 2023. It also raised the tax rate for the capital base. Effective date was immediate.
+
+![](images/image-2059131683.png)
+
+-   There does not seem to be a transcript of the Assembly or Senate floor debate, or a memo, so I can't use that to get at what members thought.
+
+-   Hodgson Russ, a major tax law firm, [did not give any indication](https://www.hodgsonruss.com/newsroom-publications-13235.html) that they thought there was agreement either to extend the law after 2023, or guarantee that it sunsets. They have always been heavily involved in Albany and usually are in the know. They do note that "This change came a bit out of nowhere, and was not part of the Governor's executive budget proposal."
+
+-   [KPMG notes](https://kpmg.com/us/en/home/insights/2021/04/tnf-new-york-state-tax-measures-2021-budget-agreement.html) that "the final corporate franchise tax increase would be less than that proposed by the legislature last month. The Assembly had proposed a temporary three-year surcharge of 18% across all New York's corporate taxes, including those under the Article 9 tax regime, the Article 9A regime, and the Article 33 life insurance company income tax. The Senate, in contrast, had proposed to permanently increase the 6.5% rate to 9.5% for taxpayers with over \$5 million in business income." At a minimum, this suggests that the Senate would not have committed not to extend the sunset.
+
+-   [PWC noted](https://www.pwc.com/us/en/services/tax/library/new-york-budget-increases-tax-rates-and-makes-other-changes.html), "Taxpayers may be surprised to learn of the corporate tax rate increases since they were not included in the original budget. The increased rates take effect in 2021 and will require taxpayers to immediately assess their impact." They gave no hint that they thought there was a commitment about what to do when the scheduled sunset arises.
+
+-   In my experience, it would be unusual for the governor or legislature to commit that a sunset will happen. They would be more likely to say it is their plan, or what they expect, or that they'll fight for it to sunset.

@@ -119,6 +119,8 @@ tax_rev
 # calculate annual wage and nonwage tax, then calibrate to collections
 pmtbase <- readRDS(here::here("data", "pmtbase_updated.rds")) # based on BEA and QCEW
 glimpse(pmtbase)
+summary(pmtbase)
+skim(pmtbase)
 
 tax_calc <- pmtbase |> 
   mutate(tax_wagefullrate=wages_beafullrate * 0.0034,
@@ -183,6 +185,10 @@ taxbase <- pmtbase |>
 
 # the result is the tax base, by MTA county, 2015-2021, calibrated to hit revenue in
 # each year: 12 counties x 7 years = 84 records
+
+
+
+
 
 ```
 

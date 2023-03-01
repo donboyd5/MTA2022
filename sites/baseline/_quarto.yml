@@ -3,19 +3,6 @@ project:
   # comments: 
   #   hypothesis: true
 
-# after checking out a new quarto-cli commit
-# exit terminal here, go to terminal in gitkraken, then
-#   cd C:\Users\donbo\quarto\quarto-cli
-#   .\configure.cmd
-
-# quarto publish netlify --no-render
-# quarto publish netlify --no-browser --no-prompt
-# quarto publish netlify --no-render --no-browser --no-prompt
-
-# https://quarto.org/docs/computations/execution-options.html    
-# for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
-# execute:
-#   freeze: auto  # re-render only when source changes
 execute:
   eval: true
   echo: false
@@ -24,12 +11,6 @@ execute:
   message: false  # not sure if allowed
   note: false  # not sure if allowed
   freeze: auto  # during global project renders, re-render only when source changes
-  
-# The computational results of documents executed with freeze are stored in the
-# _freeze directory, and re-used when needed to fulfill document renders. You
-# should check the contents of _freeze into version control so that others 
-# rendering the project don’t need to reproduce your computational environment
-# to render it in their environment.  
   
 editor_options: 
   chunk_output_type: console
@@ -46,10 +27,40 @@ book:
       chapters:
       - intro/goals.qmd
       - intro/boyd_questions.qmd
-    - part: "Taxes"
+    - part: "Payroll mobility tax: primer and background"
+      chapters:
+      - pmt/payroll_mobility_tax.qmd
+      - pmt/pmt_payroll_tax_rates.qmd
+      - pmt/pmt_self_employment_tax.qmd         
+      - pmt/pmt_howlarge.qmd
+      - pmt/pmt_impact_employment.qmd  
+      - pmt/pmt_local_governments.qmd
+    - part: "Payroll mobility tax: history and base"
+      chapters:
+      - pmtbase/payroll_mobility_tax_base.qmd
+      - pmtbase/pmt_legislation.qmd
+      - pmtbase/pmt_reconcile_data.qmd
+      - pmtbase/pmt_forecast.qmd
+    - part: "Payroll mobility tax: options"
+      chapters:
+      - pmt/pmt_increase.qmd      
+      - pmt/pmt_increase_dec2022.qmd
+      - pmt/pmt_implementation.qmd
+    - part: "Miscellaneous issues"
       chapters: 
-      - taxes/current_taxes.qmd
-      - taxes/payroll_mobility_tax.qmd
+      - misc/corptax_2021.qmd
+      - misc/casinos.qmd
+      - misc/uitax.qmd
+    - part: "MTOA and MMTOA"
+      chapters: 
+      - mtoa/mtoa_budget.qmd
+      - mtoa/mtoa.qmd
+    - part: "County allocation"
+      chapters:
+      - countyalloc/county_allocation.qmd      
+    - part: "Taxes other than PMT"
+      chapters: 
+      # - taxes/current_taxes.qmd
       - taxes/petroleum_business_tax.qmd
       # - taxes/mortgage_recording_tax.qmd
       - taxes/miscellaneous_revenue.qmd
@@ -57,14 +68,10 @@ book:
       chapters:
       - primers/primer_internet_marketplace_tax.qmd
       - primers/primer_section_18b.qmd
-      - primers/primer_mtoa.qmd
-    - part: "County allocation"
-      chapters:
-      - countyalloc/county_allocation.qmd
-    - part: "Revenue options"
+      - primers/primer_tcja_ptet.qmd 
+
+    - part: "Other (non-PMT) revenue options"
       chapters: 
-      - options/pmt_increase_dec2022.qmd
-      - options/pmt_implementation.qmd
       - options/sales_tax_digital.qmd
       - options/progressivity.qmd
       - options/revenue_options.qmd
@@ -73,27 +80,10 @@ book:
       - options/sales_tax_aviation_fuel.qmd
       - options/sales_tax_capital_improvements.qmd
       - options/sales_tax_video_streaming.qmd
-    - part: "Analysis of options"
+    - part: "Analysis of options other than PMT"
       chapters:
       - option_analysis/breakdowns.qmd
-      - option_analysis/pmt_increase.qmd
-      - option_analysis/pmt_howlarge.qmd
-      - option_analysis/pmt_impact_employment.qmd
-      - option_analysis/pmt_payroll_tax_rates.qmd
-      - option_analysis/pmt_tcja_ptet.qmd
-    - part: "MTOA and MMTOA"
-      chapters: 
-      - mtoa/mtoa.qmd
-    - part: "Payroll mobility tax base"
-      chapters:
-      - pmtbase/payroll_mobility_tax_base.qmd
-      - pmtbase/pmt_legislation.qmd
-      - pmtbase/pmt_reconcile_data.qmd
-      - pmtbase/pmt_forecast.qmd
-    - part: "Miscellaneous issues"
-      chapters: 
-        - misc/misc.qmd
-        - options/pmt_self_employment_tax.qmd
+      
     - bibliography.qmd      
     - part: "Appendix: Project notes"
       chapters:
@@ -111,6 +101,24 @@ format:
     theme: cosmo
   # pdf:
   #   documentclass: scrreprt
+  
+# after checking out a new quarto-cli commit
+# exit terminal here, go to terminal in gitkraken, then
+#   cd C:\Users\donbo\quarto\quarto-cli
+#   .\configure.cmd
 
+# quarto publish netlify --no-render
+# quarto publish netlify --no-browser --no-prompt
+# quarto publish netlify --no-render --no-browser --no-prompt
 
+# https://quarto.org/docs/computations/execution-options.html    
+# for cell options: https://quarto.org/docs/reference/cells/cells-knitr.html
+# execute:
+#   freeze: auto  # re-render only when source changes  
+  
+# The computational results of documents executed with freeze are stored in the
+# _freeze directory, and re-used when needed to fulfill document renders. You
+# should check the contents of _freeze into version control so that others 
+# rendering the project don’t need to reproduce your computational environment
+# to render it in their environment.  
 

@@ -40,6 +40,10 @@
 
 -   [Comptroller's Annual Report to the Legislature on State Funds Cash Basis of Accounting](https://www.osc.state.ny.us/reports/finance) - Excel files and pdfs, multiple years, with state fiscal year actual receipts.
 
+[osc](https://www.osc.state.ny.us/files/reports/finance/cash-basis/pdf/cash-basis-annual-2022.pdf)
+
+![](images/image-768656226.png)
+
     -   *Exhibit A-2 - Combining Statement of Cash Receipts, Disbursements and changes in Fund Balances, for Special Revenue Funds - State*:
 
         -   Gives a high-level full financial view of individual State SRFs on an annual basis -- opening balance, receipts by major category, transfers in, disbursements by major category, transfers out, and closing balance.
@@ -78,11 +82,10 @@
 
 -   In the 2022-23 budget, there were two versions, the plan [released on the day of the budget](https://www.budget.ny.gov/pubs/archive/fy23/ex/fp/fy23fp-ex.pdf), and the [version released with the 30-day amendments](https://www.budget.ny.gov/pubs/archive/fy23/ex/fp/fy23fp-ex-amend.pdf). As far as I can tell, the two plans were the same for MTOA
 
--   
 
 ### DTF - Department of Taxation and finance
 
-## 
+
 
 ## OSC Fund classification manual
 
