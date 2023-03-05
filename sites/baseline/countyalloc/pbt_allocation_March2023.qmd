@@ -1,0 +1,103 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: libraries-constants
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+library(blscrapeR)
+
+```
+
+# Petroleum Business Tax Allocation
+
+The question, from Steve W., by email March 1, 2023:
+
+"The PBT is allocated 100% to NYC and MTA suburbs, but I think there should be an allocation to suburbs outside of the MTA district? I understand this is a complicated one because PBT is a combination of business privilege tax, gasoline/diesel excise tax, and vehicle registration fees. Also, I went through all the taxes and subsidies and I think the only times this issue arises are with: PBT, PBT-MMTOA, and possibly Corporate Franchise-MMTOA. Please let us know what you think."
+
+I'm trying to make sure I understand the question. I think this says:
+
+-   When I allocated 100% of the MMTOA PBT to MTA, that is incorrect. Even though the revenue goes to the MTA, some of it is generated outside the area and you want to allocate some of that revenue to the rest of the state.
+
+-   It took me a while to track down all the revenue
+
+## PBT Revenue
+
+From the 2023-24 Executive Budget here is breakdown of PBT recent history:
+
+![](images/image-803882843.png)
+
+Here are the amounts I thought I was supposed to allocate (3rd row) from SubsidiesforDB0920922
+
+![](images/image-2066395654.png)
+
+And here are the total amounts I allocated, which match:
+
+![](images/image-299137710.png)
+
+According to the MTA 2022 Continuing Disclosure document, "Pursuant to State law, 10.835% of the PBT basic tax collections are deposited in the MMTOA Account (excluding receipts from aviation fuel, which are deposited in an aviation purpose account from which no receipts are directed to MMTOA)."
+
+Also, "After payment of Section 18-b general operating assistance to the various transportation systems, MTA receives 84.6% of the moneys deposited into the MMTOA Account, with the remaining 15.4% available to other transportation properties within the MTA Commuter Transportation District, such as MTA Bus, which currently operates the routes formerly operated by the City private franchise bus lines."
+
+![](images/image-798738829.png)
+
+![](images/image-1847168294.png)
+
+![](images/image-111440856.png)
+
+"Petroleum business tax receipts derived from motor fuel and diesel motor fuel are **assumed to follow the same consumption trends as fuel subject to the motor fuel excise tax** (refer to Motor Fuel Tax section of this volume). In terms of the share of PBT base and supplemental receipts in FY 2022, gasoline and diesel **receipts based on reported gallonage constituted 84 and 14 percent of the total**, respectively." In other words, the motor fuel tax base seems to be a good proxy for 98% of the PBT. That is what I used for the prior allocation.
+
+```{r}
+#| label: ONETIME-save-file-created-in-October
+#| eval: false
+#| include: false
+
+df <- readRDS(here::here("results", "allocation_results.rds")) # these are from a file dated 2022-10-31
+
+outpath <- here::here("results", "allocation_results_2022-10-31.xlsx")
+write.xlsx(df, outpath) # , asTable = FALSE, overwrite = TRUE, ...
+
+
+
+```
+
+```{r}
+
+mft1 <- readRDS(here::here("data", "dtf", "mft.rds"))
+count(mft1, name)
+count(mft1, county)# 60: nyc, nys, mctd
+count(mft1, fyear)
+
+mft1 |> 
+  mutate(group=case_when(!county %in% c("NYS", "MCTD") ~ "county",
+                         TRUE ~ county)) |> 
+  summarise(value=sum(value), .by = c(group, fyear))
+
+mft1 |> 
+  filter(fyear==2021) |> 
+  arrange(desc(value))
+
+# 22 county  2021 12765793944
+# 23 MCTD    2021  5444395816
+# 24 NYS     2021 10704159291
+
+shares <- mft |> 
+  filter(!county %in% c("NYS", "MCTD")) |> 
+  mutate(share=value / sum(value), .by=c(fyear))
+skim(shares)
+count(shares, county)
+
+openxlsx::write.xlsx(shares, here::here("results", "mft_tsp_run2023-03-03.xlsx"))
+
+
+
+
+```

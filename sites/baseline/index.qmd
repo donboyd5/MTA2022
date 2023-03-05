@@ -52,6 +52,24 @@ By mid-week:
 
 -   The state budget reserve increasing from 4% to 15% according to the governor. Track it down.
 
+### Reserves
+
+In the [2023-24 Executive Budget financial plan document](https://www.budget.ny.gov/pubs/archive/fy24/ex/fp/fy24fp-ex.pdf), DOB says, "In October 2021, the Governor committed to building the State's reserves to ensure that it could honor its current commitments through good and bad times. The extraordinary gains in tax receipts have been directed to accomplish that purpose. By the end of FY 2023, the State will have boosted its reserves by over \$20 billion since FY 2020. It will have also prepaid over \$10 billion in future debt service costs that were due in FY 2024 through FY 2027."
+
+"...the impact of an economic slowdown is highly unpredictable. A second, new risk has been created by the Pass-Through Entity Tax (PTET) program, which has introduced a high degree of uncertainty in the level and timing of PIT tax collections."
+
+![](images/image-1887337479.png)
+
+![](images/image-1005187056.png)
+
+![](images/image-234555020.png)
+
+![](images/image-2131709841.png)
+
+![](images/image-2146552345.png)
+
+![](images/image-111378700.png)
+
 ## Agendas
 
 <!-- (pmt/payroll_mobility_tax.qmd#incidence) -->
