@@ -2,6 +2,8 @@
 
 ## Fast links
 
+-   [CFT vs. the PMT](misc/cft_vs_pmt.qmd)
+
 -   [casinos](misc/casinos.qmd)
 
 -   [MTOA budget](mtoa/mtoa_budget.qmd)
@@ -48,9 +50,21 @@ By mid-week:
 
 -   PMT exemptions, by county (estimates, %)?
 
+-   Data for estimating firm-specific impacts?
+
+    -   Sent SUSB data
+
 -   How much of state budget increase in 2023-24 goes to NYC? How does that differ from 2022-23?
 
 -   The state budget reserve increasing from 4% to 15% according to the governor. Track it down.
+
+    -   Bottom line: Yes, reserves are being increased dramatically, from 8% in SFY 2022 to 16% in SFY 2023, and then maintained (albeit with outyear gaps).
+
+    -   Primary (but not only) driver is the uncertainty around timing of PTET revenue and associated PIT credits.
+
+    -   Determining whether reserves really need to be this large would take some digging.
+
+    -   Some details below.
 
 ### Reserves
 
@@ -77,6 +91,10 @@ In the [2023-24 Executive Budget financial plan document](https://www.budget.ny.
 <!-- quarto publish netlify --no-browser --no-prompt -->
 
 <!-- quarto publish netlify --no-render --no-browser --no-prompt -->
+
+### March 3, 2023, Friday
+
+### February 24, Friday
 
 ### February 17, 2023 Friday
 

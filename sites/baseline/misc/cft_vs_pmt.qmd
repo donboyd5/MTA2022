@@ -1,0 +1,132 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# The Corporate Franchise Tax Compared to the Payroll Mobility Tax as a Revenue Source for the MTA
+
+Next steps:
+
+-   Nexus
+
+-   Combination
+
+-   Allocation
+
+-   Finish industry breakdown
+
+-   Progressivity
+
+
+## Structure of the respective taxes
+
+The payroll mobility tax is a broad based tax on payroll in the MTA region at a general rate of 0.34% of payroll, with certain exceptions and exclusions. School districts, the federal government, and very small employers with quarterly payroll of up to \$312,500 are excluded from the tax. Employers with quarterly payroll above \$312,500 and less than \$437,500 pay reduced tax rates. Other than for the exceptions just given, the tax is imposed on employers regardless of business form - C Corporations, S Corporations, partnerships, Limited Liability Companies, sole proprietors, and governmental employers. A complementary net earnings tax is imposed on the self-employment income of individual partners and members of LLCs.
+
+New York's corporate franchise tax is imposed only on corporations, including C Corporations, S Corporations, and real estate investment trusts (REITS). It is not imposed on partnerships or LLCs. Corporations compute the tax three ways and pay whichever tax is the highest:
+
+-   A 7.25% tax on business income apportioned to New York (or 6.5% if business income is \$5 million or less). (Rate reverts to 6.5% in 2024 but budget proposes to extend to 2024, 2025, and 2026.) This base is approximately 94% of the tax;
+
+-   A tax on capital of up to 0.1875%. (Scheduled to go to zero in 2024; budget proposes extending through 2026.) This base is approximately 4% of the tax;
+
+-   A fixed-dollar minimum. This base is approximately 2% of the tax.
+
+Thus, 96% of the tax is based largely on a measure of profits.
+
+## Volatility
+
+In general, corporate franchise taxes imposed on profits will be far more volatile than taxes on payroll. We do not have data on profits by state or county, but the plot below illustrates the volatility of profits, relative to payroll, for the U.S. as a whole
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+stack <- readRDS(here::here("sites", "baseline", "misc", "pbtxwages.rds"))
+
+```
+
+```{r}
+#| label: plot
+#| include: true
+#| fig-width: 8
+#| fig-height: 8
+
+years <- 2000:2022
+recdf <- recdata(years)
+
+p <- stack |> 
+  filter(year(date) %in% years) |> 
+  # calculate % above or below average for a period
+  mutate(pdrvalue=rvalue / mean(rvalue, na.rm=TRUE) - 1,
+         .by=vname) |> 
+  mutate(vname=factor(vname, levels=c("profits", "wages"),
+                      labels=c("Corporate profits", "Employer payroll"))) |> 
+  ggplot(aes(date, pdrvalue)) +
+  geom_band(recdf, period="monthly", fill="#fc9272") +
+  geom_line(colour="blue", linewidth=1) +
+  geom_hline(yintercept = 0) +
+  scale_x_date(name=NULL, breaks = "2 years", date_labels = "%Y") +
+  scale_y_continuous(name="% above or below period average",
+                     breaks=seq(-1, 1, .1),
+                     labels=percent_format(accuracy = 1)) +
+  facet_wrap(~vname, ncol=1) +
+  theme_bw() +
+  ggtitle("U.S. Corporate profits and employer payroll, adjusted for inflation",
+          "% above or below period average, 2000-2022") +
+  labs(caption="Source: U.S. Bureau of Economic Analysis\nNote:Recession periods are shaded") +
+  caption_left
+
+p
+
+```
+
+```{r}
+
+#| label: plot-pch
+#| include: true
+#| fig-width: 8
+#| fig-height: 8
+
+years <- 2000:2022
+recdf <- recdata(years)
+
+p <- stack |> 
+  # calculate % above or below average for a period
+  mutate(pdrvalue=rvalue / mean(rvalue, na.rm=TRUE) - 1,
+         pch=rvalue / lag(rvalue, 4) - 1,
+         .by=vname) |> 
+  filter(year(date) %in% years) |> 
+  mutate(vname=factor(vname, levels=c("profits", "wages"),
+                      labels=c("Corporate profits", "Employer payroll"))) |> 
+  ggplot(aes(date, pch)) +
+  geom_band(recdf, period="monthly", fill="#fc9272") +
+  geom_line(colour="blue", linewidth=1) +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = .1, linetype="dashed") +
+  geom_hline(yintercept = -.1, linetype="dashed") +
+  scale_x_date(name=NULL, breaks = "2 years", date_labels = "%Y") +
+  scale_y_continuous(name="% change",
+                     breaks=c(seq(-1, 2, .2), seq(-.2, .2, .1)),
+                     labels=percent_format(accuracy = 1)) +
+  facet_wrap(~vname, ncol=1) +
+  theme_bw() +
+  ggtitle("U.S. Corporate profits and employer payroll, adjusted for inflation",
+          "% change vs. year ago") +
+  labs(caption="Source: U.S. Bureau of Economic Analysis\nNote:Recession periods are shaded") +
+  caption_left
+
+p
+
+```
+
+## Distribution of tax burden
+
+The corporate franchise tax does not impose tax on sole proprietors, partnerships, or LLCs, and imposes only minimal tax on S Corporations. The payroll tax applies to employers regardless of form. [IRS data](https://www.irs.gov/pub/irs-soi/15ot3naics.xls) show that in 2015, for the nation as a whole, only 37% of net income from businesses was from C Corporations. Thus, large segments of the economy that benefit from mass transportation would not pay much tax under a corporation franchise tax where 96% of the revenue comes from C Corporations.
+
+![](images/image-1479778226.png)
+
+## Progressivity and incidence
