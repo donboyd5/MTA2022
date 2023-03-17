@@ -1,0 +1,54 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# One-house budget resolutions
+
+## Introduction
+
+The Assembly resolution is E190 and the Senate resolution is R555. There is also an Assembly Ways and Means summary report. I didn't see one for the Senate. The Assembly amended budget bills but the Senate appears to have shown its proposed changes in the resolution.
+
+Both houses propose to raise top state personal income tax rates from 10.3% to 10.8% for taxpayers making \$5 million to \$25 million, and from 10.9% to 11.4% for those making more than \$25 million.
+
+## Senate
+
+## Assembly
+
+### Financial plan
+
+Assembly proposes to increase general funding by \$4.4 billion above the governor, and all funds spending by \$5.9 billion. The increase reflects rejection of governor Hochul's proposal to shift \$624 million in Medicaid costs to local governments and increases to school aid, higher education, housing, and other social services.
+
+They would fund the spending increase primarily by reducing undesignated reserves by \$4.4 billion (screenshots below from their summary doc) and by increasing the personal income tax on high-income taxpayers, offset in part by other reductions.
+
+![](images/image-573824454.png)
+
+![](images/image-865791859.png)
+
+### Revenue
+
+I list below selected items in the Assembly summary that are directly relevant for transit or are of interest from a financial plan or political perspective. Except for the last item, the Part references are for the revenue bill:
+
+-   Part B --- Clarification of the Treatment of Limited Partners for the Metropolitan Commuter Transportation Mobility Tax (MCTMT): The Assembly accepts the Executive proposal to amend the definition of "net earnings from self-employment" for the purposes of the MCTMT, to include limited partners who are actively engaged in the management of the partnership.
+
+-   Part I --- Extend Certain Provisions of the Tax Law: The Assembly amends the Executive proposal to modify various tax provisions, to:
+
+    -   accept the proposal to extend the current 7.25 percent business income tax rate for three years, through tax year 2026, for taxpayers with a business income base over \$5 million, and extend the current 0.1875 percent capital base tax rate for three years, through tax year 2026;
+
+    -   modify the proposal to extend the current business income tax rate by **increasing the current tax rate, by two percent, to 9.25 percent for certain taxpayers with a business income base over \$5 million. Revenue collected within the Metropolitan Commuter Transportation District (MCTD) would support the operations of the Metropolitan Transportation Authority (MTA), while non-MCTD collections would support various transit systems within the respective transit region;**
+
+-   Part P --- Eliminate Congestion Surcharge Registration Requirements: The Assembly **accepts** the Executive proposal to remove a congestion surcharge registration requirement, and provide that any congestion surcharge registration fees already paid would not be refundable.
+
+-   Part DD --- Increase the Personal Income Tax (PIT) Rates on Taxpayers Earning over \$5 million: The Assembly includes language to **increase the current 10.30 percent PIT rate to 10.80 percent for taxpayers between \$5 million and \$25 million, and increase the current 10.90 percent rate to 11.40 percent for taxpayers over \$25 million**.
+
+-   Part EE --- Enhance Earned Income Tax Credit (EITC), Empire State Child Credit (ESCC), and Extend Supplemental Payments for One Year: The Assembly includes language to extend the Supplemental EITC and Supplemental ESCC advance payments enacted in last year's budget, for one year. The Assembly also proposes to **expand the ESCC** to children under the age of four, and to **expand the EITC** to include taxpayers with an Individual Taxpayer Identification Number (ITIN).
+
+-   Part FF --- Apply State and Local Sales Tax to **Digital Streaming Products**: The Assembly includes language to apply the four percent State and four percent local sales tax to certain digital streaming products, excluding newspapers or periodicals. Revenue raised from this proposal would be **directed to transit systems** across the State.
+
+-   Part HH --- Zero Percent Tax Rate on Pass-Through Manufacturers: The Assembly includes language to establish a zero percent tax rate for pass-through manufacturers. The **current tax rate on these entities would be phased out** over three years, beginning in tax year 2023.
+
+-   Part JJ --- Establish a Statewide Fee on Delivery Transactions: The Assembly includes language to apply a \$0.25 fee on any delivery transaction occurring in the State. This fee would apply to online and in-store purchase deliveries. However, deliveries of medicine, medical supplies and equipment, food, diapers and baby formula would be exempt from the fee. Revenue raised from this proposal would be **directed to transit systems** across the State.
+
+-   TED Part R -- Provide Financial Relief to the Metropolitan Transportation Authority (MTA): The Assembly **accepts** the Executive proposal to direct any state portion of **fees and recurring revenue** received from the three remaining casino licenses in the downstate region **to the MTA** instead of the Commercial Gaming Fund for educational purposes.
+
+### Legislative language re revenue

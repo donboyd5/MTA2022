@@ -17,7 +17,6 @@ Next steps:
 
 -   Progressivity
 
-
 ## Structure of the respective taxes
 
 The payroll mobility tax is a broad based tax on payroll in the MTA region at a general rate of 0.34% of payroll, with certain exceptions and exclusions. School districts, the federal government, and very small employers with quarterly payroll of up to \$312,500 are excluded from the tax. Employers with quarterly payroll above \$312,500 and less than \$437,500 pay reduced tax rates. Other than for the exceptions just given, the tax is imposed on employers regardless of business form - C Corporations, S Corporations, partnerships, Limited Liability Companies, sole proprietors, and governmental employers. A complementary net earnings tax is imposed on the self-employment income of individual partners and members of LLCs.
@@ -32,9 +31,93 @@ New York's corporate franchise tax is imposed only on corporations, including C 
 
 Thus, 96% of the tax is based largely on a measure of profits.
 
+## Nexus rules for the New York State Corporation Franchise Tax
+
+The Nexus rules for New York State Corporate Franchise Tax determine whether a corporation is subject to tax in the state of New York. **A** **substantial economic presence, even temporarily, is sufficient to trigger taxation**:
+
+1.  Physical Presence: A corporation is subject to tax if it has a physical presence in New York State, which includes an office, warehouse, or other property.
+
+2.  Economic Presence: A corporation is subject to tax if it derives at least \$1.138 million in receipts from New York State sources and has more than \$1.138 million of New York State assets or payroll.
+
+3.  Agency Presence: A corporation is subject to tax if it has an agent or representative in New York State who performs regular and continuous activities on its behalf.
+
+4.  Affiliate Presence: A corporation is subject to tax if it is affiliated with another corporation doing business in New York State and the combined group has more than \$1.138 million in New York State receipts.
+
+The presence of a corporation's employees, agents, or representatives in New York State, even temporarily, can trigger nexus. The rules apply to both domestic and foreign corporations doing business in New York State.
+
+According to the [NYS Tax Department](https://www.tax.ny.gov/bus/ct/corp_tax_reform_faqs.htm):
+
+> Businesses that exercise a corporate franchise, do business, employ capital, own or lease property, maintain an office, or derive receipts (of \$1 million or more in a tax year beginning on or after January 1, 2015 and before January 1, 2022, or of \$1.138 million or more in a tax year beginning on or after January 1, 2022) from activity conducted in New York will be subject to tax for that tax year. Franchisors that sell goods and services, or licenses, to franchisees located in New York State are not specifically exempt from tax. Therefore, they are subject to the same tax provisions as any other corporation that conducts activities in New York State.\
+> \
+> In addition, businesses that exercise a corporate franchise, do business, employ capital, own or lease property, or maintain an office in the Metropolitan Commuter Transportation District (MCTD), or derive receipts (of \$1 million or more in a tax year beginning on or after January 1, 2015 and before January 1, 2022, or of \$1.138 million or more in a tax year beginning on or after January 1, 2022, from activity in the MCTD) are subject to the metropolitan transportation business tax (MTA surcharge).
+
+The following is from [Hodgson Russ August 2014](https://www.hodgsonruss.com/newsroom-publications-new-york-nexus-widens.html):
+
+> Earlier this year, New York State became the latest US state to adopt an economic nexus standard in order to subject an out-of-state corporation to state-level corporate income and franchise tax. New York's bright-line provision, effective for tax years beginning after 2014, imposes a corporate franchise tax filing obligation on an out-of state corporation that derives more than \$1 million in receipts from New York State, whether or not the corporation ever had a physical presence in the state. This change is significant: currently, a corporation not incorporated in New York must have some form of physical presence in the state in order to attract income or franchise tax. A Canco that has effectively connected income (ECI) from a US source may now be subject to a New York franchise tax obligation if it meets this new purely economic threshold.
+>
+> Other rule changes extend the franchise tax's scope. New York State's 2014-15 budget legislation (which was enacted on March 31, 2014 and includes other corporate tax reforms) (1) extends its franchise tax reach over out-of-state and alien corporations; (2) repeals a longstanding nexus safe harbour for a corporation that uses the services of a New York fulfillment service to store inventory and fulfill orders; and (3) establishes that a corporate partner in a partnership that does business in New York can be subject to New York tax, whether it is a general partner, a limited partner, or a member of an LLC that is taxed as a partnership.
+>
+> Economic nexus. Economic-presence provisions adopted in New York and other states (such as California, Colorado, Connecticut, Ohio, and Washington) make it easier than ever for a US state to assert the corporate income and franchise tax liability of an out-of-state corporation or a non-USco no matter how carefully a corporation has structured its US presence. Under New York's new nexus standard, any corporation "deriving receipts from activity" within New York is subject to franchise tax obligations if its New York receipts total at least \$1 million for the taxable year, even if it has no physical presence in the state. However, a non-USco---even if it meets the receipts-based threshold---is subject to franchise tax under the new law only if it also has ECI for federal purposes or if it is a deemed domestic corporation (such as a stapled stock entity) under the Code: otherwise, the non-USco is not subject to tax on its income, and it is not subject to inclusion in a combined reporting group (whether or not it has a physical or an economic presence).
+
+## What is a corporation franchise tax payor (combination)?
+
+## How is income apportioned to New York?
+
+Here is a summary of the rules by tax in New York, as of 2020, from a [Tax Notes-State article by Tim Noonan of Hodgson Russ](https://www.hodgsonruss.com/assets/htmldocuments/TNS%20-%204.27.20.pdf)-- single factor sales for C Corps, based on market sourcing for services and destination sourcing for TPP; with 3-factor apportionment for the MTA surcharge:
+
+![](images/image-2099860395.png)
+
+### Sourcing
+
+"Market-based sourcing looks to where the customer is, which is routinely determined by a hierarchy of rules, beginning with where the benefit of the sale is received. Many states have since adopted this approach, presumably because it favors in-state companies. States such as New York, however, have only partially adopted it."
+
+## Apportionment for purposes of the MTA surcharge
+
+From the same [Tax Notes-State article](https://www.hodgsonruss.com/assets/htmldocuments/TNS%20-%204.27.20.pdf), here is what they say about MTA surcharge apportionment:
+
+![](images/image-122150664.png)
+
+(This is the reason I think GDP makes pretty good sense for allocating corporate income to the MTA region, and within the MTA region - it is a broad-based measure of economic activity. And we don't really have data on corporate property and sales in and out of the MTA region.)
+
+## How is the MTA surcharge rate set?
+
+## How is the MTA surcharge calculated?
+
+The MTA surcharge is allocated to the MTA region based on a formula that takes into account the amount of taxable income generated by a business within the region. The allocation is determined as follows:
+
+1.  First, the total amount of MTA surcharge revenue collected is calculated.
+
+2.  Next, the total taxable income generated by all businesses subject to the surcharge within the MTA region is determined.
+
+3.  The proportion of each business's taxable income to the total taxable income generated within the MTA region is then calculated.
+
+4.  Finally, each business's proportionate share of the total MTA surcharge revenue is allocated to the MTA region.
+
+In summary, the MTA surcharge is allocated to the MTA region based on the proportion of taxable income generated by each business subject to the surcharge within the region.
+
+## Various distributional questions
+
+-   What % of MTA corporate franchise tax surcharge payors pay 90% of the tax?
+
+-   How would we allocated the MTA surcharge to NYC and other counties? What % would NYC have?
+
+-   What would it cost to exempt small employers from the increase?
+
+-   What would it cost to exempt self-employed from the increase?
+
 ## Volatility
 
-In general, corporate franchise taxes imposed on profits will be far more volatile than taxes on payroll. We do not have data on profits by state or county, but the plot below illustrates the volatility of profits, relative to payroll, for the U.S. as a whole
+In general, corporate franchise taxes imposed on profits will be far more volatile than taxes on payroll. We do not have data on profits by state or county, but the plot below illustrates the volatility of profits, relative to payroll, for the U.S. as a whole. The data are from the Bureau of Economic Analysis, obtained via FRED (Federal Reserve Economic Data). The specific sources for profits, wages, and the price index for inflation adjustment are as follows (the FRED site provides links to the original BEA data tables):
+
+>U.S. Bureau of Economic Analysis, Corporate business: Profits before tax
+(without IVA and CCAdj) [A446RC1Q027SBEA], retrieved from FRED, Federal
+Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/A446RC1Q027SBEA,
+March 10, 2023.
+
+>U.S. Bureau of Economic Analysis, Compensation of Employees: Wages and Salary Accruals [WASCUR], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/WASCUR, March 10, 2023.
+
+>U.S. Bureau of Economic Analysis, Gross Domestic Product: Chain-type Price Index [GDPCTPI], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/GDPCTPI, March 10, 2023.
+
 
 ```{r}
 #| label: setup
@@ -46,6 +129,20 @@ source(here::here("r", "constants.r"))
 source(here::here("r", "functions.r"))
 
 stack <- readRDS(here::here("sites", "baseline", "misc", "pbtxwages.rds"))
+
+# U.S. Bureau of Economic Analysis, Corporate business: Profits before tax
+# (without IVA and CCAdj) [A446RC1Q027SBEA], retrieved from FRED, Federal
+# Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/A446RC1Q027SBEA,
+# March 10, 2023.
+
+# U.S. Bureau of Economic Analysis, Compensation of Employees: Wages and Salary
+# Accruals [WASCUR], retrieved from FRED, Federal Reserve Bank of St. Louis;
+# https://fred.stlouisfed.org/series/WASCUR, March 10, 2023.
+
+# U.S. Bureau of Economic Analysis, Gross Domestic Product: Chain-type Price
+# Index [GDPCTPI], retrieved from FRED, Federal Reserve Bank of St. Louis;
+# https://fred.stlouisfed.org/series/GDPCTPI, March 10, 2023.
+
 
 ```
 

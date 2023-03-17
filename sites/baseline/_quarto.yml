@@ -52,6 +52,8 @@ book:
       - misc/casinos.qmd
       - misc/uitax.qmd
       - misc/cft_vs_pmt.qmd
+      - misc/one_house_budget_resolutions.qmd
+      - misc/one_house_budget_resolutions_overview.qmd
     - part: "MTOA and MMTOA"
       chapters: 
       - mtoa/mtoa_budget.qmd

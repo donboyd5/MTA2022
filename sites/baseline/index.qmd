@@ -4,6 +4,8 @@
 
 -   [CFT vs. the PMT](misc/cft_vs_pmt.qmd)
 
+-   [One-house budget resolutions](misc/one_house_budget_resolutions.qmd)
+
 -   [casinos](misc/casinos.qmd)
 
 -   [MTOA budget](mtoa/mtoa_budget.qmd)

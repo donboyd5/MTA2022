@@ -67,14 +67,15 @@ pmtcft3 |>
 
 # look at corporate profits and wages -------------------------------------
 
-# U.S. Bureau of Economic Analysis, Corporate business: Profits before tax
-# (without IVA and CCAdj) [A446RC1Q027SBEA], retrieved from FRED, Federal
-# Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/A446RC1Q027SBEA,
-# March 10, 2023.
 
 # U.S. Bureau of Economic Analysis, Total wages and salaries, BLS
 # [BA06RC1A027NBEA], retrieved from FRED, Federal Reserve Bank of St. Louis;
 # https://fred.stlouisfed.org/series/BA06RC1A027NBEA, March 10, 2023.
+
+# U.S. Bureau of Economic Analysis, Corporate business: Profits before tax
+# (without IVA and CCAdj) [A446RC1Q027SBEA], retrieved from FRED, Federal
+# Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/A446RC1Q027SBEA,
+# March 10, 2023.
 
 # U.S. Bureau of Economic Analysis, Compensation of Employees: Wages and Salary
 # Accruals [WASCUR], retrieved from FRED, Federal Reserve Bank of St. Louis;
@@ -96,6 +97,37 @@ stack <- bind_rows(
   mutate(rvalue=value * 129.502 / gdppi)
 
 saveRDS(stack, here::here("sites", "baseline", "misc", "pbtxwages.rds"))
+
+
+stack1 <- readRDS(here::here("sites", "baseline", "misc", "pbtxwages.rds"))
+
+skim(stack1)
+
+stack2 <- stack1 |>
+  mutate(pch=rvalue / lag(rvalue, 4) - 1,
+         .by=vname) |> 
+  filter(year(date) %in% 2000:2022) |> 
+  # calculate % above or below average for a period
+  mutate(meanrvalue=mean(rvalue, na.rm=TRUE),
+         pdrvalue=rvalue / mean(rvalue, na.rm=TRUE) - 1,
+         .by=vname)
+
+stack3 <- stack2 |> 
+  select(date, vname, value, gdppi, rvalue, meanrvalue, pch, pdrvalue) |> 
+  pivot_wider(names_from=vname,
+              values_from=c(value, gdppi, rvalue, meanrvalue, pch, pdrvalue))
+
+write_csv(stack3, here::here("sites", "baseline", "misc", "profits_wages_for_Steve_2023-03-16.csv"))
+
+stack3 |> 
+  ggplot(aes(date)) +
+  geom_line(aes(y=pdrvalue_wages)) +
+  geom_line(aes(y=pdrvalue_profits))
+
+stack3 |> 
+  ggplot(aes(date)) +
+  geom_line(aes(y=pch_wages)) +
+  geom_line(aes(y=pch_profits))
 
 
 # 

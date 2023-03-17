@@ -1,0 +1,118 @@
+---
+editor_options: 
+  chunk_output_type: console
+---
+
+# One house bills and related matters
+
+## Senate
+
+### Remove local governments from PMT
+
+### Remove residents of local governments from vehicle/license fees
+
+### Corporate Franchise Tax Surcharge Increase (from 30% to 45% of State Liabilities)
+
+-   S.4009B
+
+-   
+
+### NYC Residential parking permit
+
+### Surcharge on Uber/Lyft in NYC
+
+### Repeal MSG's tax exemption
+
+### Contribution to maintain Staten Island reable for VZN bridge
+
+### Casino License Fees Only
+
+## Assembly
+
+### Corporate Franchise Tax Increase (2% of Business Income)
+
+-   A.3009B, Part I, Subpart A
+
+    -   Section 1:
+
+        -   current: for tax years beginning (TYB) in 2021-2023 for taxpayers with (NY) business incomes above \$5 million rate is 7.25% ; scheduled to drop to 6.5% in 2024+; governor proposed keeping at 7.25% through 2026
+
+        -   Assembly: increase rate to 9.25% for tax years beginning 2023 through 2026. The rate increase would apply to the full 2023 tax year and would not be prorated based on date of enactment. (amends sec 210 of the tax law)
+
+    -   Section 2:
+
+        -   current: capital tax rate is 0.1875% through TYB 2023; governor proposed extending through TYB 2026
+
+        -   Assembly keep it at 0.1875% through TYB 2026
+
+-   Statewide; revenue allocated to transport
+
+-   ONLY applies to Article 9a (general business corporation tax) not other business taxes
+
+-   Next 2 screenshots are from DOB economic and revenue outlook and financial plan docs respectively. Note that in FY2024 about 6.7% of CFT is from audits (\$510/\$7,650). Rate increase will only affect the nonaudit piece, in early years.
+
+-   Other revenue considerations:
+
+    -   OTOH, these numbers are after tax credits, which can be substantial. The rate increase affects business income and therefore we'd like to calculate tax before credits but don't have data for that. With more time, might be possible. That would drive revenue estimate upward.
+
+    -   Corporate tax payment behavior is erratic and hard to predict. Large corporations with liabilities above \$100k make a mandatory first installment of 40% of the liability two years prior, in the 3rd month of their fiscal year. This will not kick in until March 2025, I believe although it would take time to be sure (it could be 2026). Thus, revenue is not likely to really kick in until the MTA 2025 year, although there will be increases via estimated payments.
+
+![](images/image-1934279784.png)
+
+![](images/image-1074519022.png)
+
+-   The Assembly revenue estimates for the state as a whole:
+
+    -   SFY 2024 \$865m
+
+    -   SFY 2025 \$1,964m
+
+    -   SFY 2026 \$2,110m
+
+    -   SFY 2027 \$1,901m
+
+-   This is reasonably consistent with what we might estimate, simply, on a full-year basis:
+
+    -   \$7,140 x 96% for the \$5m+ NY business income taxpayers
+
+    -   27.6% rate increase (2 / 7.25)
+
+    -   \~\$1,890 statewide, perhaps raised some because it would be based on income tax before credits and
+
+    -   Example: Suppose tax after credits is \$7,140, and credits are \$1,000 so that tax before credits was \$8,140. Income would have been \$112,226 (\$8,140 / 2%)
+
+    -   2% of that is \$2,246 (not \$1,890)
+
+    -   but we might not get all of that \$2,246 because some firms subject to the increase will have unused credits that they will be able to use, offsetting some of the increase
+
+    -   until we can get data to examine this I'd say \$1.9 billion full year is reasonable
+
+### Digital products tax
+
+includes movies, shows, audiobooks, apps, games, podasts, satellite radio
+
+excludes catv, satellite, and newspapers and periodicals
+
+based on previous extrapolation my estimates were
+
+![](images/image-433131529.png)
+
+Issues:
+
+-   might be lower depending on how much currently is being collected (Netflix, Prime)
+
+-   might be able to get updated data from industry, might have to purchase it
+
+-   hard to compare to Assembly because it is not clear what their numbers are
+
+### Delivery transaction fee
+
+### Potential dedicated tax revenue from casinos
+
+## Miscellaneous issues
+
+-   PIT increase high income taxpayers
+
+    -   Note that revenue flow will be odd, somewhat like Assembly estimates, because withholding would only be in effect for part of a state fiscal year but tax increase would be in effect for entire tax year
+
+    -   Interplay with PTET and associated PIT credit requires thought; could cause changes in cash flow

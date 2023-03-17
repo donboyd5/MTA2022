@@ -143,6 +143,25 @@ combined <- mtawide2 |>
   mutate(# totlevy=ifelse(county == "New York City", NA_real_, totlevy),
          pmtinc_pctptax=pmtincrease / totlevy)
 
+
+# data for Steve ----------------------------------------------------------
+
+steve <- combined |> 
+  select(county, wages_localxk12) |> 
+  adorn_totals() |> 
+  mutate(tax34=wages_localxk12 * .0034,
+         tax50=wages_localxk12 * .0050,
+         taxincrease=tax50 - tax34)
+
+write_csv(steve, here::here("sites", "baseline", "misc", "localgovtwages_excluding_k12_for_Steve_2023-03-16.csv"))
+
+
+
+
+# end data for Steve ------------------------------------------------------
+
+
+
 tab <- combined |> 
   # filter(county != "New York City") |> 
   select(county, wages_localxk12, pmtincrease, totlevy, pmtinc_pctptax) |> 
