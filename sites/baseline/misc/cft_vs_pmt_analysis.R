@@ -15,6 +15,65 @@ skim(taxmonthly)
 count(taxmonthly, type, tax, vname)
 
 
+# cft ---------------------------------------------------------
+cft1 <- taxmonthly |> 
+  filter(vname %in% c("bus_cft"))
+skim(cft1)
+# 1996-04-01
+# rates
+# https://fiscalpolicy.org/state-corporate-tax-cut-would-cost-new-york-1-2-billion-in-annual-revenue
+
+# 1996	9.225%
+# 1997-99	9.000%
+# 1999-00	8.500%
+# 2000-01	8.000%
+# 2001-05	7.500%
+# 2006	7.500%
+# 2007-2015	7.100%
+# 2016-2021	6.500% – Cuomo corporate tax cut
+# 2021-2023	7.250% – 2021 corporate tax increase
+
+cft2 <- cft1 |> 
+  mutate(year=year(date),
+         rate=case_when(year==1996 ~ 9.225,
+                        year %in% 1997:1999 ~ 9,
+                        year %in% 1999:2000 ~ 8.5,
+                        year %in% 2000:2001 ~ 8.0, # ???
+                        year %in% 2002:2005 ~ 7.5,
+                        year %in% 2006 ~ 7.5,
+                        year %in% 2007:2015 ~ 7.1,
+                        year %in% 2016:2021 ~ 6.5,
+                        year %in% 2021:2023 ~ 7.25,
+                        TRUE ~ NA_real_),
+         value_adj = rate / 7.25 * value)
+
+
+# make quarterly
+cft3 <- cft2 |> 
+  filter(date <= "2022-12-01") |>
+  mutate(qdate=floor_date(date, "quarter")) |> 
+  select(qdate, value, value_adj) |> 
+  summarise(value=sum(value),
+            value_adj=sum(value_adj), .by=c(qdate)) |> 
+  arrange(qdate) |> 
+  mutate(pch=value_adj / lag(value_adj, 4) - 1)
+
+
+years <- 1996:2022
+(recdf <- recdata(years))
+
+cft3 |>
+  ggplot(aes(qdate, pch)) +
+  geom_line(colour="blue") +
+  geom_point(colour="blue") +
+  geom_hline(yintercept = c(-.1, .1), linetype="dashed") +
+  scale_y_continuous(limits=c(-.5, .5)) +
+  geom_hline(yintercept = 0) +
+  theme_bw()
+
+
+
+
 # get pmt and cft ---------------------------------------------------------
 pmtcft1 <- taxmonthly |> 
   filter(vname %in% c("local_mtapmt", "local_mtapmtpitnet") |
@@ -37,7 +96,19 @@ pmtcft3 <- pmtcft2 |>
   select(date=date2, tax=taxcat, value) |> 
   summarise(value=sum(value), .by=c(tax, date))
 
-pmtcft3 |> 
+# cft
+pmtcft3 |>
+  filter(tax=="cft") |> 
+  arrange(date) |> 
+  mutate(pch=value / lag(value, 4) - 1) |> 
+  ggplot(aes(date, pch)) +
+  geom_line(colour="blue") +
+  geom_point(colour="blue") +
+  scale_y_continuous(limits=c(-.5, .5)) +
+  geom_hline(yintercept = 0) +
+  theme_bw()
+
+qpmtcft3 |> 
   filter(date>="2010-01-01",
          date <= "2022-07-01") |> 
   mutate(value=ifelse(year(date) < 2010 & tax=="pmt",

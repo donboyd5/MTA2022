@@ -79,6 +79,20 @@ From the same [Tax Notes-State article](https://www.hodgsonruss.com/assets/htmld
 
 (This is the reason I think GDP makes pretty good sense for allocating corporate income to the MTA region, and within the MTA region - it is a broad-based measure of economic activity. And we don't really have data on corporate property and sales in and out of the MTA region.)
 
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+
+```
+
+
 ## How is the MTA surcharge rate set?
 
 ## How is the MTA surcharge calculated?
@@ -99,13 +113,13 @@ In summary, the MTA surcharge is allocated to the MTA region based on the propor
 
 -   What % of MTA corporate franchise tax surcharge payors pay 90% of the tax?
 
--   How would we allocated the MTA surcharge to NYC and other counties? What % would NYC have?
+-   How would we allocate the MTA surcharge to NYC and other counties? What % would NYC have?
 
 -   What would it cost to exempt small employers from the increase?
 
 -   What would it cost to exempt self-employed from the increase?
 
-## Volatility
+## Volatility -- profits and wages
 
 In general, corporate franchise taxes imposed on profits will be far more volatile than taxes on payroll. We do not have data on profits by state or county, but the plot below illustrates the volatility of profits, relative to payroll, for the U.S. as a whole. The data are from the Bureau of Economic Analysis, obtained via FRED (Federal Reserve Economic Data). The specific sources for profits, wages, and the price index for inflation adjustment are as follows (the FRED site provides links to the original BEA data tables):
 
@@ -120,13 +134,8 @@ March 10, 2023.
 
 
 ```{r}
-#| label: setup
+#| label: profits-wages-data
 #| include: false
-
-source(here::here("r", "libraries.r"))
-source(here::here("r", "libraries_ts.r"))
-source(here::here("r", "constants.r"))
-source(here::here("r", "functions.r"))
 
 stack <- readRDS(here::here("sites", "baseline", "misc", "pbtxwages.rds"))
 
@@ -145,6 +154,8 @@ stack <- readRDS(here::here("sites", "baseline", "misc", "pbtxwages.rds"))
 
 
 ```
+
+
 
 ```{r}
 #| label: plot
@@ -182,7 +193,6 @@ p
 ```
 
 ```{r}
-
 #| label: plot-pch
 #| include: true
 #| fig-width: 8
@@ -219,6 +229,198 @@ p <- stack |>
 p
 
 ```
+
+## Volatility -- corporate franchise tax and payroll mobility tax
+
+Another way to get a sense of volatility is to look at actual revenue collections. While this, in concept, is closer to the actual tax base than looking at corporate profits and wages, it presents its own set of challenges because tax laws change and it is not practical to adjust for those changes.
+
+The graphs below examine collections for the state corporate franchise tax and for the MTA payroll tax over time periods for which we have full data, using data from the Department of Taxation and Finance.
+
+These graphs use data NOT adjusted for tax-law changes, but exclude very large year over year changes.
+
+I also made an attempt at adjusting crudely for tax-rate changes but it is not practical to do this well (perhaps ever) in large part because of uncertain delays between when laws change and when tax revenue chagnes. As a result, I do not show those graphs. They are pretty similar to the ones I do present. If you want them I can provide them. I'd prefer to defend not adjusting for tax-law changes than to defend adjustments that are sure to be very wrong.
+
+
+```{r}
+#| label: cft-pmt-data
+#| include: false
+
+# get monthly data
+cftpmt <- readRDS(here::here("sites", "baseline", "misc", "cftpmt.rds"))
+skim(cftpmt)
+count(cftpmt, tax)
+
+# quarterly data
+cftpmtq <- cftpmt |> 
+  filter(date <= "2022-12-01") |>
+  mutate(qdate=floor_date(date, "quarter")) |> 
+  summarise(value=sum(value),
+            .by=c(qdate, tax, valtype)) |> 
+  arrange(qdate) |> 
+  mutate(pch=value / lag(value, 4) - 1,
+         .by=c(tax, valtype))
+
+# annual data
+cftpmta <- cftpmt |> 
+  filter(date <= "2021-12-01") |>
+  mutate(year=year(date)) |> 
+  summarise(value=sum(value),
+            .by=c(year, tax, valtype)) |> 
+  arrange(year) |> 
+  mutate(pch=value / lag(value) - 1,
+         .by=c(tax, valtype))
+
+```
+
+### Quarterly growth rates
+
+The graph below compares year over year growth in quarterly revenue growth, excluding data for quarters where growth is more than +/- 75%. Note that this excludes the July-Sept 2020 quarter for the corporate franchise tax because revenue was 3.8 times as large as it was in the prior year. Because of this quarter, on a calendar year annual basis, the corporate franchise tax actually was up in 2020 over the prior year, despite the pandemic.
+
+
+```{r}
+#| label: plot-cftpmt-quarterly-pch
+#| include: true
+#| fig-width: 10
+#| fig-height: 8
+
+years <- 1996:2022
+recdf <- recdata(years)
+
+cols2 <- c('#7fc97f','#beaed4')
+# cols2 <- c("lightblue", "green")
+
+src1 <- "Source: N.Y. Department of Taxation and Finance"
+src2 <- "(https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb)"
+src <- paste0(src1, "\n", src2)
+note1 <- "Notes:  Recession periods are shaded."
+# note2 <- "Corporate franchise tax crudely adjusted for rate changes."
+note3 <- "% change truncated at +/- 75% to exclude corporate franchise outliers."
+note <- paste0(note1, " ", note3)
+capt <- paste0(src, "\n", note)
+
+pdataq <- cftpmtq |> 
+  filter(year(qdate) %in% years, valtype=="unadjusted") |>
+  filter(!(tax=="pmt" & qdate < "2011-01-01")) |>
+  filter(!(tax=="pmt" & qdate >= "2022-10-01")) |> 
+  mutate(taxf=factor(tax, levels=c("cft", "pmt"),
+                    labels=c("Corporate franchise", "Payroll mobility"))) 
+
+datelimits <- as.Date(c("2011-01-01", "2022-10-01"))
+p <- pdataq |> 
+  ggplot(aes(qdate, pch, fill=taxf)) +
+  geom_band(recdf, period="monthly", fill="grey90") +
+  geom_bar (stat="identity", position = position_dodge2(preserve="single")) +
+  scale_fill_manual(values=cols2) +
+  geom_hline(yintercept = c(-.1, .1), linetype="dashed") +
+  scale_x_date(name=NULL, 
+               breaks = "1 years", date_labels = "%Y", 
+               # limits=as.Date(c("1997-01-01", "2022-10-01")),
+               limits=datelimits,
+               expand=c(0,0)) +
+  scale_y_continuous(name="% change",
+                     breaks=seq(-1, 1, .1),
+                     labels=percent_format(accuracy = 1),
+                     limits=c(-.75, .75),
+                     expand=c(0,0)) +
+  theme_bw() +
+  legend_notitle +
+  ggtitle("NYS corporate franchise tax and MTA payroll mobility tax",
+          "year over year % change of quarterly values") +
+  labs(caption=capt) +
+  caption_left
+
+p
+
+```
+
+
+Here are the values from the plot above. The qdate column is the first day of a quarter. The values include outliers that were truncated and not shown in the plot (for example, the corporate franchise tax in the July-September quarter of 2020).
+
+
+```{r}
+#| label: pdataq
+#| include: true
+#| paged.print: false
+
+pdataq |> 
+  filter(qdate >= datelimits[1], qdate <= datelimits[2]) |> 
+  select(qdate, tax, value, pch) |> 
+  pivot_wider(names_from = tax, values_from = c(value, pch))
+
+```
+
+
+### Annual growth rates
+
+This next plot shows year over year growth in calendar year tax revenue.
+
+```{r}
+#| label: plot-cftpmt-annual-pch
+#| include: true
+#| fig-width: 10
+#| fig-height: 8
+
+years <- 1996:2022
+recdf <- recdata(years)
+
+cols2 <- c('#7fc97f','#beaed4')
+# cols2 <- c("lightblue", "green")
+
+src1 <- "Source: N.Y. Department of Taxation and Finance"
+src2 <- "(https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb)"
+src <- paste0(src1, "\n", src2)
+note <- "Note: Recession periods are shaded"
+capt <- paste0(src, "\n", note)
+
+pdataa <- cftpmta |> 
+  filter(year %in% years) |>
+  filter(!(tax=="pmt" & year < 2011)) |>
+  filter(!(tax=="pmt" & year >= 2022)) |> 
+  mutate(taxf=factor(tax, levels=c("cft", "pmt"),
+                    labels=c("Corporate franchise", "Payroll mobility"))) 
+
+p <- pdataa |> 
+  filter(year >= 2011, valtype=="unadjusted") |> 
+  ggplot(aes(year, pch, fill=taxf)) +
+  geom_band(recdf, period="annual", fill="grey90") +
+  geom_bar (stat="identity", position = position_dodge2(preserve="single")) +
+  scale_fill_manual(values=cols2) +
+  geom_hline(yintercept = c(-.1, .1), linetype="dashed") +
+  scale_x_continuous(name=NULL, breaks=2011:2022, limits=c(2011, 2021)) +
+  scale_y_continuous(name="% change",
+                     breaks=seq(-1, 1, .1),
+                     labels=percent_format(accuracy = 1)) +
+  theme_bw() +
+  legend_notitle +
+  ggtitle("NYS corporate franchise tax and MTA payroll mobility tax",
+          "year over year % change of quarterly values") +
+  labs(caption=capt) +
+  caption_left
+
+p
+
+```
+
+
+Here are the values from the plot above. The data are for calendar years. No outliers were excluded in the plot above.
+
+
+```{r}
+#| label: pdataa
+#| include: true
+#| paged.print: false
+
+pdataa |> 
+  filter(year >= 2011, valtype=="unadjusted") |> 
+  select(year, tax, value, pch) |> 
+  pivot_wider(names_from = tax, values_from = c(value, pch))
+
+```
+
+
+
+
+
 
 ## Distribution of tax burden
 
