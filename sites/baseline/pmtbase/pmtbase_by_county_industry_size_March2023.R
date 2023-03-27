@@ -225,19 +225,315 @@ count(fsize, fips, county) # all 12
 count(fsize, naics, naicsdesc)
 naicsvals <- count(fsize, naics, naicsdesc)
 
-## prep the fsize data by getting nyc ----
+## prep the fsize data by collapsing nyc ----
 fsize_prep1 <- fsize |> 
   filter(measure=="value", variable %in% c("emp", "wages", "nestabs")) |> 
   mutate(area=ifelse(fips %in% constants$nycfips, "New York City", county),
          fips=ifelse(fips %in% constants$nycfips, "36xxx", fips),
-         variable=ifelse(variable=="nestabs", "estabs", variable))
+         variable=ifelse(variable=="nestabs", "estabs", variable)) |> 
+  # fill missing with zero even though we know it's not correct
+  mutate(across(elt20:e500p, ~ replace_na(., 0)),
+         sum=rowSums(across(elt20:e500p))) |> 
+  relocate(sum, .after=total)
+  
 count(fsize_prep1, fips, area, county)  
 
-# collapse, recognizing that we will overstate the number of firms as there is double counting
+## collapse NYC, recognizing that we will overstate the number of firms as there is double counting ----
 # but wages will be ok
 fsize_prep2 <- fsize_prep1 |> 
   summarise(across(total:e500p, ~ sum(.x, na.rm=TRUE)), .by=c(fips, area, naics, naicsdesc, variable)) |> # collapses NYC
-  mutate(sum = rowSums(across(elt20:e500p), na.rm=TRUE)) |> 
+  mutate(sum = rowSums(across(elt20:e500p), na.rm=TRUE))
+
+## get average wages for every group -- adds records ----
+fsize_prep3 <- fsize_prep2 |> 
+  pivot_longer(cols=total:e500p) |> 
+  pivot_wider(names_from = variable) |> 
+  mutate(avgwage=wages * 1000 / emp) |> 
+  pivot_longer(cols=estabs:avgwage, names_to = "variable") |> 
+  pivot_wider()
+
+
+# split into smaller employment groups based on CBP and uniform assumptions ----
+fn <- "cbp20co.txt"
+
+df1 <- read_csv(here::here("data", "cbp", fn))
+
+df2 <- df |> 
+  mutate(fips=paste0(fipstate, fipscty)) |> 
+  filter(fips %in% constants$mtafips)
+
+fn <- "CBP2020.CB2000CBP-Data.csv"
+# df1 <- read_csv(here::here("data", "cbp", fn), 
+#                 col_names = FALSE,
+#                 col_types = cols(.default = col_character()))
+
+df1 <- read_csv(here::here("data", "cbp", fn), 
+                col_types = cols(.default = col_character()))
+
+
+defs <- df1 |> 
+  filter(row_number() ==1) |> 
+  pivot_longer(cols=everything(),
+               names_to = "vname",
+               values_to = "desc") |> 
+  mutate(vnum=row_number()) |> 
+  relocate(vnum)
+
+df2 <- df1 |> 
+  filter(row_number() !=1) |> 
+  lcnames() |> 
+  mutate(sumlev=str_sub(geo_id, 1, 3),
+         rectype=case_when(sumlev=="040" ~ "state", 
+                           sumlev=="050" ~ "county",
+                           TRUE ~ "ERROR"),
+         fips=str_extract_after_last(geo_id, "US")) |> 
+  select(rectype, sumlev, fips, name, naics=naics2017, naicsdesc=naics2017_label,
+         lfo, lfo_label,
+         empsize=empszes, empsizef=empszes_label, year, estabs=estab,
+         wages=payann, emp) |> 
+  mutate(across(c(estabs, wages, emp), 
+                as.numeric)) 
+
+# we have estabs, wages, emp for the state (and also lfo) by sizes but only estabs by size for counties
+# so attribute state emp and wages shares to counties, controlling to ensure we hit the totals
+
+count(df2, empsize, empsizef)
+
+nys1 <- df2 |> filter(rectype=="state")
+cnty <- df2 |> filter(rectype=="county")
+skim(cnty)
+
+nys2 <- nys1 |> 
+  filter(lfo=="001") |> 
+  select(-c(rectype, sumlev, name, year, lfo, lfo_label)) |> 
+  mutate(empestabs_nys=emp / estabs,
+         avgwage_nys=wages * 1000 / emp) |> 
+  mutate(avgwageratio_nys=avgwage_nys / avgwage_nys[empsize=="001"],
+         .by=naics) |> 
+  mutate(across(c(estabs, wages, emp),
+         ~ .x / .x[empsize=="001"],
+         .names = "{.col}_share"),
+         .by=naics)
+
+# get cartesian product so that we have every state industry and size, for every county
+indsize <- nys2 |> 
+  select(naics, naicsdesc, empsize, empsizef) |> 
+  distinct()
+
+areas <- cnty |> 
+  select(fips, name) |> 
+  distinct()
+
+base <- crossing(areas, indsize)
+
+## create a complete county file with all counties, all industries, all sizes ----
+cnty_imputed1 <- base |> 
+  left_join(cnty |> 
+              select(fips, naics, empsize, estabs, wages, emp),
+            by = join_by(fips, naics, empsize)) |> 
+  left_join(nys2 |> select(naics, empsize, contains("_")),
+            by = join_by(naics, empsize))
+
+## ensure that county-industry details # eestablishments add to total establishments for every group ----
+# use the nys info to help fill in
+cnty_imputed2 <- cnty_imputed1 |> 
+  mutate(grouptot=ifelse(empsize=="001", TRUE, FALSE)) |> 
+  mutate(fillneed=estabs[grouptot] - sum(estabs[!grouptot], na.rm=TRUE),
+         fillin=ifelse(!grouptot, fillneed * estabs_share, NA_real_),
+         ifillin=as.integer(fillin),
+         ifillin=ifelse(grouptot, sum(ifillin, na.rm=TRUE), ifillin),
+         # dump truing-up fillin in the first employment category
+         trueup=fillneed[grouptot] - ifillin[grouptot],
+         # final fillin
+         ffillin=ifelse(row_number()==2, ifillin + trueup, ifillin),
+         estabs2=ifelse(grouptot, estabs, naz(estabs) + ffillin),
+         .by=c(fips, naics)) |> 
+  relocate(fillneed, fillin, ifillin, trueup, ffillin, estabs2, .before=estabs)
+
+# check - do we every have a situation where sum of estabs2 not = estabs[grouptot]
+check <- cnty_imputed2 |> 
+  group_by(fips, name, naics, naicsdesc) |> 
+  summarise(estabs_tot=estabs[grouptot],
+            estabs_sum=sum(estabs[!grouptot], na.rm=TRUE),
+            estabs2_tot=estabs2[grouptot],
+            estabs2_sum=sum(estabs2[!grouptot], na.rm=TRUE),
+            .groups="drop"
+            )
+
+check |> 
+  filter(estabs2_tot != estabs_tot |
+           estabs2_sum != estabs_tot)
+# good, details ALWAYS sum to totals
+
+
+## now that establishments are filled in, construct employment details that sum to total for each group ----
+cnty_imputed3 <- cnty_imputed2 |> 
+  select(-c(fillneed, fillin, ifillin, ffillin, estabs, trueup)) |> 
+  rename(estabs=estabs2) |> 
+  # get establishment detail
+  mutate(emp1=ifelse(!grouptot, estabs * empestabs_nys, NA_real_),
+         emp1sum=sum(emp1, na.rm=TRUE),
+         emp2=emp1 * emp[grouptot] / emp1sum[grouptot],
+         emp2=ifelse(grouptot, sum(emp2[!grouptot]), emp2),
+         .by=c(fips, naics)) |>  
+  relocate(emp1, emp1sum, emp2, .after=emp)
+
+# check -- is total employment always equal to what we expected?
+check <- cnty_imputed3 |> 
+  filter(grouptot) |> 
+  filter(emp != emp2) |> 
+  select(1:6, estabs, wages, emp, emp2) |> 
+  mutate(diff=emp - emp2) |> 
+  arrange(desc(abs(diff)))
+
+# all good
+
+## get group average wages then calc detailed avg wages to hit total wages ----
+#   when adjusted, avg wages * emp = total wages
+cnty_imputed4 <- cnty_imputed3 |> 
+  select(-c(emp, emp1, emp1sum)) |> 
+  rename(emp=emp2) |> 
+  mutate(avgwage=wages * 1000 / emp,
+         avgwage1=ifelse(!grouptot, avgwage[grouptot] * avgwageratio_nys, NA_real_),
+         wages1=ifelse(grouptot, NA_real_, avgwage1 * emp / 1000),
+         wages1sum=sum(wages1, na.rm=TRUE),
+         avgwage2=avgwage1 * wages[grouptot] / wages1sum[grouptot],
+         wages2=ifelse(!grouptot, emp * avgwage2 / 1000, NA_real_),
+         wages2=ifelse(grouptot, sum(wages2[!grouptot], na.rm=TRUE), wages2),
+         avgwage3=wages2 * 1000 / emp,
+         .by=c(fips, naics)) |> 
+  relocate(avgwage, avgwage1, wages1, wages1sum, avgwage2, wages2, avgwage3, .after=wages)
+
+# check: are wages and avg wages ever inconsistent with expected totals?
+check <- cnty_imputed4 |> 
+  filter(grouptot) |> 
+  select(1:9, emp, wages2, avgwage3) |> 
+  mutate(diff1=wages2 - wages, diff2=avgwage - avgwage3) |> 
+  arrange(desc(abs(diff1)))
+
+# chautauqua all other industries off by $76k, the rest look good
+# 36013 Chautauqua County, New York 99 Industries not classified 001 All establishments 4 76
+# it has 0 emp -- maybe someday force it to have 2 employees?
+
+cnty_imputed <- cnty_imputed4 |>
+  select(fips, name, naics, naicsdesc, empsize, empsizef, estabs, wages=wages2, avgwage=avgwage3, grouptot) |> 
+  mutate(estpayroll=wages * 1000 / estabs) |> 
+  relocate(estpayroll, .before=grouptot)
+
+saveRDS(cnty_imputed, here::here("data", "cbp", "cbp_filledin.rds"))
+
+
+
+# now make up subranges with interpolation --------------------------------
+
+cbp1 <- readRDS(here::here("data", "cbp", "cbp_filledin.rds"))
+skim(cbp1)
+count(cbp1, empsize, empsizef)
+cbp1 |> filter(fips %in% constants$mtafips, naics=="00")
+
+cbp1 |> filter(fips %in% constants$mtafips, naics=="00", empsize=="241") # 2049
+cbp1 |> filter(fips %in% constants$mtafips, naics=="00", empsize=="242") # 5099
+cbp1 |> filter(fips %in% constants$mtafips, naics=="00", empsize=="251") # 100249
+
+cbp1 |> filter(fips %in% constants$mtafips, naics=="00", fips=="36059") # 2049
+
+# fill in 5099 and 100-249 and 250499 by 25
+# simple buckets uniform even though we know wrong, for estabs and emp, keep avgwages at group constant??
+
+
+
+  
+
+xlsx::write.xlsx(cnty_imputed2 |> filter(row_number() <= 50), file = here::here("check.xlsx"))
+  
+
+
+
+
+
+
+## split certain employment groups into smaller groups ----
+# based on BED data https://www.bls.gov/news.release/cewfs.nr0.htm
+# shares of group shown relative to its larger group
+
+
+
+
+e2049_firmshare <- .75
+e2049_empshare <- .57
+# e100249 / e100499	firms 76.5%	emp 59.1%
+e100249_firmshare <- .77
+e100249_empshare <- .59
+
+esize_splits <- read_csv("
+original, new, estabshare, empshare
+e2099, e2049, .75, 
+e2099, e5099, .25
+e100499, e100249, .77
+e100499, e250e499, .23
+")
+
+fsize_prep4 <- fsize_prep3 |> 
+  mutate(e2049=case_when(variable=="estabs" ~ e2049_firmshare * e2099, # based on shares at link above
+                         variable=="avgwage" ~ e2099,
+                         variable=="emp" ~ e2049_empshare * e2099,
+                         # wages will have the same share as employment because we assume same avgwage
+                         variable=="wages"~ e2049_empshare * e2099),
+         e5099=ifelse(variable=="avgwage", e2099, e2099 - e2049),
+         
+         e100249=case_when(variable=="estabs" ~ e100249_firmshare * e100499, # based on shares at link above
+                         variable=="avgwage" ~ e100499,
+                         variable=="emp" ~ e100249_empshare * e100499,
+                         # wages will have the same share as employment because we assume same avgwage
+                         variable=="wages"~ e100249_empshare * e100499),
+         e250499=ifelse(variable=="avgwage", e100499, e100499 - e100249)) |> 
+  relocate(e2049, e5099, .after=e2099) |> 
+  relocate(e100249, e250499, .after=e100499) |> 
+  # fill missing with zero to deal with sum=0 case
+  mutate(across(sum:e500p, ~ replace_na(., 0)))
+
+# check
+xlsx::write.xlsx(fsize_prep4, file = here::here("check.xlsx"))
+skim(fsize_prep4)
+
+
+# save the firm size data because they are KNOWN - then we'll gues --------
+saveRDS(fsize_prep4, here::here("sites", "baseline", "pmtbase", "firmsize_byemp.rds"))
+tmp <- fsize_prep4
+
+
+# make the final firm-size prep file ----
+firmemp <- read_csv("
+egroup, firmemp
+elt20, 10
+e2049, 35
+e5099, 75
+e100249, 175
+e250499, 375
+e500p, 600")
+firmemp
+
+fsize_prep <- fsize_prep4 |> 
+  # drop the two groups we just disaggregated and inspected, as their new details will always sum to them
+  select(-c(e2099, e100499)) |> 
+  # guess at average firm payroll in each group by using avgwage and midpoint employees
+  pivot_longer(cols=total:e500p, names_to = "egroup") |> 
+  pivot_wider(names_from = variable) |> 
+  left_join(firmemp, by = join_by(egroup)) |> 
+  mutate(avgfirmqpayroll=firmemp * avgwage / 4)
+
+tmp <- fsize_prep |> filter(egroup=="e2049")
+tmp <- fsize_prep |> filter(egroup=="e5099")
+
+saveRDS(fsize_prep, here::here("sites", "baseline", "pmtbase", "firmsize_synthetic.rds"))
+  
+
+# now that we have the firmsize groups we want, calculate shares of total ----
+
+fsize_pcts <- fsize_prep4 |> 
+  # drop the two groups we just disaggregated and inspected, as their new details will always sum to them
+  select(-c(e2099, e100499)) |> 
+  # now calc percents
   mutate(across(elt20:e500p, ~ naz(.x) / sum, .names="{.col}_pct")) |> 
   # deal with edge cases
   mutate(elt20_pct=ifelse(sum==0, 1, elt20_pct),
@@ -376,10 +672,11 @@ areanames <- wages |>
   mutate(area=str_remove(area, ", New York"))
 
 nonwage <- readRDS(here::here("sites", "baseline", "pmtbase", "pmt_bea_nonwage.rds"))
+sum(nonwage$nonwage_beapmt) / 1e3
 
 wages
 nonwage2 <- nonwage |> 
-  select(year, fips, area, nonwage=propinc_bea) |> 
+  select(year, fips, area, nonwage=nonwage_beapmt) |> 
   mutate(ind="10", indf="all", rectype="nonwage", size="total",
          nonwage=nonwage * 1000)
 
@@ -413,6 +710,9 @@ payroll <- avgwages |>
                         size=="e100499" ~ 100,
                         size=="e500p" ~ 500),
          qprmin=awage_mean * emin / 4)
+
+# |> 
+#   mutate(share0011)
 payroll
 
 # get 2021 revenue by type
@@ -439,7 +739,7 @@ taxecon1 <- econbase |>
                            ind=="localk12" ~ 0,
                            ind=="localnonk12" ~ 0.0034,
                            size=="elt20" ~ 0,
-                           size=="e2099" ~ 0.0011 * 0.3 + 0.0023 * .7,
+                           size=="e2099" ~ 0.0011 * 0.75 + 0.0023 * .25, # assumes 75%
                            size=="e100499" ~ 0.0034,
                            size=="e500p" ~ 0.0034,
                            rectype=="nonwage" ~ 0.0034,
@@ -462,6 +762,8 @@ calib <- taxecon |>
   mutate(wagecalib=wagerev / wagetax,
          nonwagecalib=nonwagerev / nonwagetax,
          totcalib=totrev / tottax) # multiply econ data by these factors to get a calibrated tax base
+calib
+
 
 # now calibrate the data
 rateshares <- read_csv(

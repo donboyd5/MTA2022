@@ -1,9 +1,8 @@
 ---
+output: html_document
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
-
-
 ## Hypothetical increase in PMT from 0.34% to 0.50%
 
 Prep data

@@ -1,0 +1,297 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Stopgap estimates of PMT-relevant information
+
+```{r}
+#| label: libraries-constants
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+
+fsemp <- readRDS(here::here("sites", "baseline", "pmtbase", "firmsize_byemp.rds"))
+fss <- readRDS(here::here("sites", "baseline", "pmtbase", "firmsize_synthetic.rds"))
+
+```
+
+Estimates of private sector wages by county, industry, and more-detailed firmsize breakdown, using 2019 SUSB data, "synthetically" decomposed into finer firm-size groups using relatively old Business Employment Dynamics data https://www.bls.gov/news.release/cewfs.nr0.htm.
+
+## Quarterly breadowns by ***employment*** size
+
+```{r}
+#| label: data-checks
+#| include: false
+
+fsemp |> 
+  filter(naics == "10") |>
+  filter(variable=="avgwage")
+
+
+```
+
+```{r}
+#| label: empsize-prep
+#| include: false
+
+tabbase <- fsemp |> 
+  # filter(naics != "10") |>
+  filter(variable!="avgwage") |> 
+  select(-c(total, e2099, e100499)) |> 
+  relocate(sum, .after=e500p)
+
+
+```
+
+
+```{r}
+#| label: empsize-tab-function
+#| include: false
+
+
+empsize_tab <- function(variable){
+  
+  tabdata <- tabbase |> 
+    filter(variable==!!variable, naics=="10") |> 
+    adorn_totals()|> 
+    mutate(across(-c(fips, area, naics, naicsdesc, variable, sum),
+                ~ .x / sum))
+  
+  vlab <- case_when(variable=="wages" ~ "wages ($ millions)",
+                    variable=="estabs" ~ "establishments",
+                    variable=="emp" ~ "employment",
+                    TRUE ~ "ERROR")
+  
+  vscale <- case_when(variable=="wages" ~ 1e-3,
+                    TRUE ~ 1)
+  
+  title <- paste0("% share of private sector ", vlab, " by area and employment size")
+
+  tab <- tabdata |> 
+    gt() |> 
+    tab_header(
+      title = html(title),
+      subtitle = html("Based on SUSB and other sources")
+    ) |>
+    cols_label(
+      elt20="< 20 employees",
+      e2049="20-49 employees (estimated from 20-99)",
+      e5099="50-99 employees (estimated from 20-99)",
+      e100249="100-249 employees (estimated from 100-249)",
+      e250499="250-499 employees (estimated from 100-249)",
+      e500p="500+ employees",
+      sum="SUSB sum (will be lower than QCEW)"
+    ) |> 
+    fmt_percent(columns=-c(fips, area, sum),
+               decimals=1) |> 
+    fmt_number(columns=sum,
+             scale=vscale,
+             decimals=0)
+  
+  tab
+}
+
+```
+
+
+### Wages by employment size
+
+```{r}
+#| label: empsize-wages
+#| include: true
+
+
+tab <- empsize_tab("wages")
+tab
+
+```
+
+
+```{r}
+#| label: empsize-establishments
+#| include: true
+
+tab <- empsize_tab("estabs")
+tab
+
+```
+
+
+
+```{r}
+#| label: empsize-employment
+#| include: true
+
+tab <- empsize_tab("emp")
+tab
+
+```
+
+
+
+
+## EXPERIMENTAL: Quarterly payroll breadowns by guessed-at wage sizes
+
+```{r}
+#| label: data-prep
+#| include: false
+
+df1 <- fss |> 
+  filter(naics != "10", !egroup %in% c("total", "sum"), estabs > 0) |> 
+  mutate(paygroup=cut(avgfirmqpayroll, c(0, 100000, 312500, 375000, 437500, Inf)))
+
+cuts <- c(0, 100000, 312500, 375000, 437500, 500000, Inf)
+df1 <- fss |> 
+  filter(naics != "10", !egroup %in% c("total", "sum"), estabs > 0) |> 
+  mutate(paygroup=cut(avgfirmqpayroll, cuts)) |> 
+  summarise(across(c(estabs, emp, wages), sum),
+            .by=c(fips, area, naics, naicsdesc, paygroup))
+skim(df1)
+
+areapaygroup <- df1 |> 
+  summarise(across(c(estabs, emp, wages), sum),
+            .by=c(fips, area, paygroup))
+
+
+df1 |> filter(is.na(paygroup))
+
+count(df1, paygroup)
+
+```
+
+### Breakdown by area and payroll size (ESTIMATED)
+
+#### Wages by area
+
+```{r}
+#| label: wagetable
+#| include: true
+
+tabbase <- areapaygroup |> 
+  select(fips, area, paygroup, wages) |> 
+  arrange(paygroup) |> 
+  pivot_wider(names_from = paygroup, values_from = wages, values_fill = 0) |> 
+  mutate(sum=rowSums(across(-c(fips, area)))) |> 
+  adorn_totals()
+
+tabdata <- tabbase |> 
+  mutate(across(-c(fips, area, sum), ~ .x / sum))
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = html("% share of private sector wages in area by quarterly payroll"),
+    subtitle = html("Based on SUSB and other sources")
+  ) |>
+  fmt_percent(columns=-c(fips, area, sum),
+             # scale=1e-9,
+             decimals=1)
+
+tab
+  
+```
+
+### Establishments by area
+
+```{r}
+#| label: estabstable
+#| include: true
+
+tabbase <- areapaygroup |> 
+  select(fips, area, paygroup, estabs) |> 
+  arrange(paygroup) |> 
+  pivot_wider(names_from = paygroup, values_from = estabs, values_fill = 0) |> 
+  mutate(sum=rowSums(across(-c(fips, area)))) |> 
+  adorn_totals()
+
+tabdata <- tabbase |> 
+  mutate(across(-c(fips, area, sum), ~ .x / sum))
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = html("% share of private sector establishments in area by quarterly payroll"),
+    subtitle = html("Based on SUSB and other sources")
+  ) |>
+  fmt_percent(columns=-c(fips, area, sum),
+             # scale=1e-9,
+             decimals=1)
+
+tab
+  
+```
+
+### Wages by industry
+
+```{r}
+indpaygroup <- df1 |> 
+  summarise(across(c(estabs, emp, wages), sum),
+            .by=c(naics, naicsdesc, paygroup))
+
+```
+
+```{r}
+#| label: wageindtable
+#| include: true
+
+tabbase <- indpaygroup |> 
+  select(naics, naicsdesc, paygroup, wages) |> 
+  arrange(paygroup) |> 
+  pivot_wider(names_from = paygroup, values_from = wages, values_fill = 0) |> 
+  mutate(sum=rowSums(across(-c(naics, naicsdesc)))) |> 
+  adorn_totals() |> 
+  arrange(desc(sum))
+
+tabdata <- tabbase |> 
+  mutate(across(-c(naics, naicsdesc, sum), ~ .x / sum)) |> 
+  arrange(desc(sum))
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = html("% share of private sector wages in industries by quarterly payroll"),
+    subtitle = html("Based on SUSB and other sources")
+  ) |>
+  fmt_percent(columns=-c(naics, naicsdesc, sum),
+             # scale=1e-9,
+             decimals=1)
+
+tab
+  
+```
+
+```{r}
+#| label: estabsindtable
+#| include: true
+
+tabbase <- indpaygroup |> 
+  select(naics, naicsdesc, paygroup, estabs) |> 
+  arrange(paygroup) |> 
+  pivot_wider(names_from = paygroup, values_from = estabs, values_fill = 0) |> 
+  mutate(sum=rowSums(across(-c(naics, naicsdesc)))) |> 
+  adorn_totals() |> 
+  arrange(desc(sum))
+
+tabdata <- tabbase |> 
+  mutate(across(-c(naics, naicsdesc, sum), ~ .x / sum)) |> 
+  arrange(desc(sum))
+
+tab <- tabdata |> 
+  gt() |> 
+  tab_header(
+    title = html("% share of private sector establishments in industries by quarterly payroll"),
+    subtitle = html("Based on SUSB and other sources")
+  ) |>
+  fmt_percent(columns=-c(naics, naicsdesc, sum),
+             # scale=1e-9,
+             decimals=1)
+
+tab
+  
+```
