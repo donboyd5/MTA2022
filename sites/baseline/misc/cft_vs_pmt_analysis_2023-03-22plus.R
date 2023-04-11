@@ -47,13 +47,29 @@ saveRDS(stack, here::here("sites", "baseline", "misc", "pbtxwages.rds"))
 taxmonthly <- readRDS(here::here("data", "dtf", "taxmonthly.rds"))
 glimpse(taxmonthly)
 skim(taxmonthly)
-count(taxmonthly, type, tax, vname)
+tmp <- count(taxmonthly, type, tax, vname)
+
+xldir <- r"(G:\My Drive\Consulting\MTA revenue\DataForMTA\PMT_analysis)"
+xlsx::write.xlsx(taxmonthly, file = path(xldir, "taxmonthly.xlsx"))
+
+tmp <- taxmonthly |> 
+  filter(vname=="local_mtasurch")
+
+tmp2 <- tmp |>
+  mutate(qdate=floor_date(date, "quarter")) |> 
+  summarize(value=sum(value, na.rm=TRUE), .by=qdate) |> 
+  mutate(valya=lag(value, 4),
+         pchya=value / valya - 1) 
+
+tmp2 |> 
+  ggplot(aes(qdate, pchya)) +
+  geom_line()
 
 
-## cft ---------------------------------------------------------
-cft1 <- taxmonthly |> 
-  filter(vname %in% c("bus_cft"))
-skim(cft1)
+#.  cft ---------------------------------------------------------
+cftbank1 <- taxmonthly |> 
+  filter(vname %in% c("bus_cft", "bus_bank"))
+skim(cftbank1)
 # 1996-04-01
 # rates
 # https://fiscalpolicy.org/state-corporate-tax-cut-would-cost-new-york-1-2-billion-in-annual-revenue
@@ -67,8 +83,16 @@ skim(cft1)
 # 2007-2015	7.100%
 # 2016-2021	6.500% – Cuomo corporate tax cut
 # 2021-2023	7.250% – 2021 corporate tax increase
+cftbank1a <- cftbank1 |> 
+  arrange(date, type, desc(tax), typesort) |> 
+  summarise(across(c(value, value_original),
+                   ~ sum(.x, na.rm=TRUE)),
+                   .by=c(date, sfy, typesort),
+            tax=first(tax)) |> 
+  mutate(taxsort=1, vname="bus_cftbank")
 
-cft2 <- cft1 |> 
+
+cftbank2 <- cftbank1a |> 
   mutate(year=year(date),
          rate=case_when(year==1996 ~ 9.225,
                         year %in% 1997:1999 ~ 9,
@@ -94,29 +118,29 @@ pmt2 <- pmt1 |>
             .by=c(date, tax))
 
 ## combine and save ----
-glimpse(cft2)
+glimpse(cftbank2)
 glimpse(pmt2)
 
-cftpmt1 <- bind_rows(cft2 |> 
-                       select(date, value=value_adj) |> mutate(tax="cft"),
+cftpmt1 <- bind_rows(cftbank2 |> 
+                       select(date, value=value_adj) |> mutate(tax="cftbank"),
                      pmt2)
 
 cftpmt1unadj <- bind_rows(cft2 |> 
-                       select(date, value=value) |> mutate(tax="cft"),
+                       select(date, value=value) |> mutate(tax="cftbank"),
                      pmt2)
 
 cftpmt <- bind_rows(cftpmt1 |> 
-                      mutate(valtype="cft_adjusted"),
+                      mutate(valtype="cftbank_adjusted"),
                     cftpmt1unadj |> 
                       mutate(valtype="unadjusted"))
 skim(cftpmt)
 
 
-saveRDS(cftpmt, here::here("sites", "baseline", "misc", "cftpmt.rds"))
+saveRDS(cftpmt, here::here("sites", "baseline", "misc", "cftbankpmt.rds"))
 
 # plot with cft and pmt data ----------------------------------------------
 
-cftpmt <- readRDS(here::here("sites", "baseline", "misc", "cftpmt.rds"))
+cftpmt <- readRDS(here::here("sites", "baseline", "misc", "cftbankpmt.rds"))
 skim(cftpmt)
 count(cftpmt, tax)
 
@@ -147,7 +171,7 @@ cols2 <- c('#7fc97f','#beaed4')
 
 capt1 <- "Source: N.Y. Department of Taxation and Finance (https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb)"
 capt2 <- "Notes:  Recession periods are shaded."
-capt3 <- "Corporate franchise tax crudely adjusted for rate changes."
+capt3 <- "Corporate franchise and bank tax crudely adjusted for rate changes."
 capt3 <- NULL
 capt4 <- "% change truncated at +/- 75% to exclude corporate franchise outliers."
 capt <- paste0(capt1, "\n", capt2, " ", capt3, " ", capt4)
@@ -156,8 +180,8 @@ pdataq <- cftpmtq |>
   filter(year(qdate) %in% years, valtype=="unadjusted") |>
   filter(!(tax=="pmt" & qdate < "2011-01-01")) |>
   filter(!(tax=="pmt" & qdate >= "2022-10-01")) |> 
-  mutate(tax=factor(tax, levels=c("cft", "pmt"),
-                    labels=c("Corporate franchise", "Payroll mobility"))) 
+  mutate(tax=factor(tax, levels=c("cftbank", "pmt"),
+                    labels=c("Corporate franchise (incl bank)", "Payroll mobility"))) 
 
 p <- pdataq |> 
   ggplot(aes(qdate, pch, fill=tax)) +

@@ -1,10 +1,32 @@
 ---
 output: html_document
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
-# Stopgap estimates of PMT-relevant information
+# Size breakdowns based on County Business Patterns - PRIVATE SECTOR ONLY
+
+I have updated things substantially today (3/29/2023) with a new and improved methodology. I'll write up details in a day or two but here's the essence of it:
+
+-   As with yesterday I used County Business Patterns (CBP, from Census Bureau) data for 2020 as starting point. This is different from earlier in project when I used Statistics of U.S. Businesses (SUSB, from Census) for 2019, which is based on unpublished CBP data. There are pros and cons - CBP has more-detailed groupings, but they are based on *establishment* employment size. At the county level, CBP only has establishments by establishment-size, plus county totals for wages and employment. It has establishments, wages, and employment by size at the state level. CBP is more recent, but SUSB has *f*i*rm* employment-size groupings. Both are private sector only.
+
+-   Today's methodology for inferring details from the data is improved. Here's roughly how ot works. Suppose for a particular county and industry we have real data for the 100-249 employees group, and we want to estimate details for the 100-109, 110-119, ..., 240-249 subgroups (that don't exist in the data). Basically, after a lot of data cleaning, I estimate number of establishments, total employment, and total wages for each constructed ("synthetic") employment subgroup (e.g., 100-109, etc.) simultaneously using optimization techniques in a fashion that (1) estimates employment in each subgroup (e.g., 100-109) in a way that forces employment per establishment to be in the range in question (e.g., between 100 and 109) and forces the sum of employment over all subgroups in the group to equal the known employment total for the group (100-249), (2) tries to keep average wages in the subgroups (100-109, etc.) near the overall group average (e.g., average for 100-249), and (3) forces wages for the group (100-249), calculated as the employment x average wages in each subgroup (100-109, etc.) summed over all subgroups in the group to equal the known group total for wages. There's a little more to it than this but that's the essence of it.
+
+After that, I calculate average payroll per establishment for each of the many employment-size groups and put them into payroll-size bins to allow calculation of tax thresholds.
+
+I've put the results for wages below and I ran one breakdown by employment size, but haven't done anything more.
+
+There are two wage tables below: one with wages in each county and wage bin, and another with cumulative wages, which with some work and allows back-of-the-envelope estimates of tax impacts.
+
+Here are some things to think about if doing back-of-the-envelope estimates:
+
+-   These are private sector wages only so the full tax of course includes state and non-school local governments.
+
+-   The data are for 2020 so we're looking at 3 years growth since then.
+
+-   They don't include the self-employment tax.
+
+It's possible to remedy or adjust for some of these things but it was all out getting to this point.
 
 ```{r}
 #| label: libraries-constants
@@ -20,6 +42,599 @@ fsemp <- readRDS(here::here("sites", "baseline", "pmtbase", "firmsize_byemp.rds"
 fss <- readRDS(here::here("sites", "baseline", "pmtbase", "firmsize_synthetic.rds"))
 
 ```
+
+Most tables below are also in separate Excel files, in [this folder](https://drive.google.com/drive/folders/1NvC7kQT41vXZC0BDJJV2AZj6svVcxm9X?usp=share_link), which Kevin, Jai, and Steve all should have access to. I've tried to name the files descriptively.
+
+```{r}
+#| label: get-cbp
+#| include: false
+
+stack <- readRDS(here::here("data", "cbp", "cbp_synthetic.rds")) |> 
+  arrange(fips, area, grouptot, sublb, subub) |>  
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) 
+
+xldir <- r"(G:\My Drive\Consulting\MTA revenue\DataForMTA\PMT_analysis)"
+# xlsx::write.xlsx(stack, file = here::here("cbp_by_empsize.xlsx"))
+# xlsx::write.xlsx(stack, file = path(xldir, "cbp_by_empsize.xlsx"))
+
+```
+
+## Comparison of SUSB 2019 and CBP 2020 for MTA region
+
+### SUSB 2019 data -- employment grouping is by FIRM SIZE
+
+Here is a screenshot of SUSB data for the full MTA region. It is the same as what we looked at in our March 28, 2022 phone call, with a few columns I have added to the right. These are real data, not synthetic data pushed around by me.
+
+![](images/image-259433653.png)
+
+### Comparable table from CBP 2020
+
+```{r}
+#| label: comp-table
+#| include: true
+
+# glimpse(stack)
+# count(stack |> filter(!grouptot), lb, ub, egroup)
+
+grouped <- stack |> 
+  mutate(egroup2=case_when(grouptot ~ "1: Total",
+                           ub < 20 ~ "2: < 20",
+                           ub < 100 ~ "3: 20-99",
+                           ub < 500 ~ "4: 100-499",
+                           ub >= 500 ~ "5: 500+",
+                           TRUE ~ "error")) |> 
+  summarise(across(c(estabs, emp, wages), sum),
+            .by=egroup2) |> 
+  mutate(avgpayroll=wages * 1000 /estabs,
+         avgpay=wages * 1000 / emp,
+         avgempest=emp / estabs) |> 
+  arrange(egroup2)
+
+tab <- grouped |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+              rows = everything(),
+              missing_text = "--") |> 
+  tab_header(
+      title = html("CBP 2020 wages by ESTABLISHMENT EMPLOYMENT SIZE, MTA region"),
+      subtitle = html("# establishments by group, and total wages and employment are reported.\nEmployment and wages by group are estimated.")
+    ) |>
+    cols_label(
+      egroup2=html("ESTABLISHMENT <br># employees"),
+      estabs=html("# establishments<br> (reported)"),
+      emp=html("Employment <br>(total reported,<br> details estimated"),
+      wages=html("Payroll ($000)<br> (total reported,<br> details estimated)"),
+      avgpayroll=html("Average payroll<br> per establishment"),
+      avgpay=html("Average wages<br> per employee"),
+      avgempest=html("Average # employees<br> per establishment")
+    ) |> 
+    fmt_number(columns=c(estabs, emp, wages, avgpayroll, avgpay),
+               decimals=0) |> 
+  fmt_number(columns=c(avgempest),
+               decimals=1)
+tab           
+  
+
+```
+
+There are some big differences between CBP and SUSB - for example, immediately relevant to the revenue estimate is SUSB wages in the 20-99 employees firm size group vs CBP wages in the 20-99 employees establishment size group. I've gone back to the raw data in both cases and I can't see anything I've done wrong. So I believe the differences are differences in how size groups are defined (firms vs. establishments). For now, I'd take the SUSB data are more accurate representation of firm size vis-a-vis PMT threshold definitions. However, please note that we don't have an easy way to get at the number of firms affected because we can't add number of firms across counties. Please read next section.
+
+### We can't add \# of firms in the SUSB across counties
+
+The SUSB reports \# of firms operating in each county. However, many of the same firms will be operating in multiple counties - for example, IBM probably has offices in most counties in the MTA region and would be in the firm counts for the region. Thus, adding up the number of firms across counties will double count. As firm size increases, it is more likely we will double count (or even 12-count).
+
+In the interest of speed, I am providing raw data by county that I think are of relevance.
+
+```{r}
+#| label: get-fsize
+#| include: false
+
+fsize <- readRDS(here::here("data", "susb", "firmsize_wide.rds"))
+glimpse(fsize)
+count(fsize, county)
+count(fsize, measure)
+count(fsize, variable)
+
+fsize2 <- fsize |> 
+  filter(naics=="10",
+         measure=="value") |> 
+  select(fips, county, variable, starts_with("e")) |> 
+  pivot_longer(starts_with("e"), names_to = "empsize") |> 
+  pivot_wider(names_from = variable) |> 
+  mutate(avgfirmpay=wages * 1000 / nfirms,
+         avgestabpay=wages * 1000 / nestabs)
+fsize2
+
+
+```
+
+```{r}
+#| label: susb-raw
+#| include: true
+#| column: page
+
+tab <- fsize2 |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+              rows = everything(),
+              missing_text = "--") |> 
+  tab_header(
+      title = html("SUSB 2019 raw data"),
+      subtitle = html("each row has info by firm size (defined by # employees)")
+    ) |>
+    fmt_number(columns=-c(fips, county, empsize),
+               decimals=0)
+tab           
+  
+
+```
+
+## Breakdowns by estimated establishment ANNUAL PAYROLL size
+
+These numbers will be less trustworhthy than data by establishment employment size because they involve additional assumptions that may not be correct.
+
+```{r}
+#| label: wages-paygroup_cuts
+#| include: false
+
+# glimpse(stack)
+# payroll groups in millions
+payroll_cuts <- c(0, 312.5 * 4 / 1000,
+                  375 * 4 / 1000,
+                  437.5 * 4 / 1000,
+                  2, 3, 4, 5, 10, 200, Inf)
+
+```
+
+### Total wages by county and ESTABLISHMENT ESTIMATED annual payroll size group
+
+```{r}
+#| label: wages-payrollgroup
+#| include: true
+#| column: page
+
+# glimpse(stack)
+# payroll groups in millions
+tabdata <- stack |> 
+  filter(!grouptot) |> 
+  mutate(paygroup=cut(avgpayroll / 1e6, payroll_cuts)) |> 
+  summarise(wages=sum(wages, na.rm=TRUE), .by=c(fips, paygroup, area2)) |> 
+  arrange(fips, paygroup) |> 
+  select(paygroup, area2, wages) |> 
+  pivot_wider(names_from = area2, values_from = wages) |> 
+  arrange(paygroup) |> 
+  mutate(mta=rowSums(across(-c(1)), na.rm=TRUE)) |> 
+  adorn_totals()
+
+# xlsx::write.xlsx(tabdata, file = here::here("wages_by_payrollsize.xlsx"))
+xlsx::write.xlsx(tabdata, file = path(xldir, "wages_by_payrollsize_v2.xlsx"))
+
+# tabdata
+#   
+# count(tabdata, paygroup)  
+
+tab <- tabdata |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+  rows = everything(),
+  missing_text = "--") |> 
+    tab_header(
+      title = html("Wages by county and ESTABLISHMENT ESTIMATED ANNUAL PAYROLL size group, $ millions"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      paygroup="Annual Payroll ($ millions)",
+      mta="MTA total"
+    ) |> 
+    fmt_number(columns=-c(paygroup),
+               scale=1e-3,
+               decimals=1)
+  
+tab
+
+```
+
+### Cumulative total wages by county by ESTABLISHMENT ESTIMATED annual ***payroll*** size group
+
+```{r}
+#| label: wagescumul-payrollgroup
+#| include: true
+#| column: page
+
+# glimpse(stack)
+# payroll groups in millions
+tabdata <- stack |> 
+  filter(!grouptot) |> 
+  mutate(paygroup=cut(avgpayroll / 1e6, payroll_cuts)) |> 
+  summarise(wages=sum(wages, na.rm=TRUE), .by=c(fips, paygroup, area2)) |> 
+  arrange(fips, paygroup) |> 
+  select(paygroup, area2, wages) |> 
+  pivot_wider(names_from = area2, values_from = wages) |> 
+  arrange(paygroup) |> 
+  mutate(mta=rowSums(across(-c(1)), na.rm=TRUE)) |> 
+  mutate(across(-paygroup, ~ cumsum(naz(.x))))
+
+# xlsx::write.xlsx(tabdata, file = here::here("wages_by_payrollsize.xlsx"))
+xlsx::write.xlsx(tabdata, file = path(xldir, "wagescumul_by_payrollsize.xlsx"))
+
+# tabdata
+#   
+# count(tabdata, paygroup)  
+
+tab <- tabdata |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+  rows = everything(),
+  missing_text = "--") |> 
+    tab_header(
+      title = html("Wages by county and ESTABLISHMENT ESTIMATED ANNUAL PAYROLL size group, $ millions"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      paygroup="Annual Payroll ($ millions)",
+      mta="MTA total"
+    ) |> 
+    fmt_number(columns=-c(paygroup),
+               scale=1e-3,
+               decimals=1)
+  
+tab
+
+```
+
+### Wages as % of total in county, by county and ESTABLISHMENT ESTIMATED annual payroll size group
+
+TO COME
+
+```{r}
+#| label: wagespct-payrollgroup
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+# payroll groups in millions
+tabdata <- stack |> 
+  filter(!grouptot) |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  mutate(paygroup=cut(avgpayroll / 1e6, payroll_cuts)) |> 
+  summarise(wages=sum(wages, na.rm=TRUE), .by=c(fips, paygroup, area2)) |> 
+  select(-fips) |> 
+  pivot_wider(names_from = area2, values_from = wages) |> 
+  mutate(mta=rowSums(across(-c(1)), na.rm=TRUE)) |> 
+  arrange(paygroup) |> 
+  adorn_totals() |> 
+  mutate(across(-1, ~ .x / .x[paygroup=="Total"]))
+  
+xlsx::write.xlsx(tabdata, file = path(xldir, "wages_pct_by_payrollsize.xlsx"))
+
+# tabdata
+#   
+# count(tabdata, paygroup)  
+
+tab <- tabdata |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+  rows = everything(),
+  missing_text = "--") |> 
+    tab_header(
+      title = html("Wages as % of total in by county, by ESTABLISHMENT ESTIMATED ANNUAL PAYROLL size group, $ millions"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      paygroup="Annual Payroll ($ millions)",
+      mta="MTA total"
+    ) |> 
+    fmt_percent(columns=-c(paygroup),
+               decimals=1)
+  
+  
+tab
+
+```
+
+### Wages cumulative % of total in county, by county and ESTABLISHMENT ESTIMATED annual payroll size group
+
+TO COME
+
+```{r}
+#| label: wagescumpct-payrollgroup
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+# payroll groups in millions
+tabdata <- stack |> 
+  filter(!grouptot) |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  mutate(paygroup=cut(avgpayroll / 1e6, payroll_cuts)) |> 
+  summarise(wages=sum(wages, na.rm=TRUE), .by=c(fips, paygroup, area2)) |> 
+  select(-fips) |> 
+  pivot_wider(names_from = area2, values_from = wages) |> 
+  mutate(mta=rowSums(across(-c(1)), na.rm=TRUE)) |> 
+  arrange(paygroup) |> 
+  adorn_totals() |> 
+  mutate(across(-1, ~ cumsum(naz(.x)) / .x[paygroup=="Total"])) |> 
+  filter(paygroup!="Total")
+  
+xlsx::write.xlsx(tabdata, file = path(xldir, "wages_cumpct_by_payrollsize.xlsx"))
+
+# tabdata
+#   
+# count(tabdata, paygroup)  
+
+tab <- tabdata |> 
+    gt() |> 
+  sub_missing(columns = everything(),
+  rows = everything(),
+  missing_text = "--") |> 
+    tab_header(
+      title =  html("Cumulative wages as % of total in by county, by ESTABLISHMENT ESTIMATED ANNUAL PAYROLL size group, $ millions"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      paygroup="Annual Payroll ($ millions)",
+      mta="MTA total"
+    ) |> 
+    fmt_percent(columns=-c(paygroup),
+               decimals=1)
+  
+tab
+
+```
+
+## Total wages by county and ESTABLISHMENT employment size group
+
+```{r}
+#| label: wages
+#| include: true
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  select(grouptot, area2, subegroup, sublb, subub, wages) |> 
+  pivot_wider(names_from = area2, values_from = wages) |> 
+  arrange(grouptot, sublb, subub) |> 
+  mutate(mta=rowSums(across(-c(1:4)), na.rm=TRUE),
+         subegroup=ifelse(grouptot, "Totals", subegroup))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "wages_by_empsize_v2.xlsx"))
+
+
+tab <- tabdata |> 
+  select(-grouptot) |> 
+    gt() |> 
+    tab_header(
+      title = html("Wages by county and ESTABLISHMENT employment size group, $ millions"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      subegroup="Employment size group",
+      sublb="Employment lower bound",
+      subub="Employment upper bound",
+      mta="MTA total"
+    ) |> 
+    fmt_number(columns=-c(subegroup, sublb, subub),
+               scale=1e-3,
+               decimals=1)
+  
+tab
+
+```
+
+### Average payroll per ESTABLISHMENT by county and ESTABLISHMENT employment size group
+
+```{r}
+#| label: avgpayroll
+#| include: true
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  select(grouptot, area2, subegroup, sublb, subub, avgpayroll) |> 
+  pivot_wider(names_from = area2, values_from = avgpayroll) |> 
+  arrange(grouptot, sublb, subub) |> 
+  mutate(mta=rowMeans(across(-c(1:4)), na.rm=TRUE),
+         subegroup=ifelse(grouptot, "Totals", subegroup))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "avgpayroll_by_empsize_v2.xlsx"))
+
+tab <- tabdata |> 
+  select(-grouptot) |> 
+    gt() |> 
+    tab_header(
+      title = html("Average payroll per ESTABLISHMENT by county and ESTABLISHMENT employment size group"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      subegroup="Employment size group",
+      sublb="Employment lower bound",
+      subub="Employment upper bound",
+      mta="MTA SIMPLE MEAN (CAUTION)"
+    ) |> 
+    fmt_number(columns=-c(subegroup, sublb, subub),
+               decimals=0)
+  
+tab
+
+```
+
+### Total payroll by county and ESTABLISHMENT employment size group as % of total payroll in county
+
+```{r}
+#| label: wagepct
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  select(area2, egroup2, emplb2, empub2, grouptot, wages) |> 
+  mutate(pct=wages / wages[grouptot], .by=area2) |> 
+  select(-wages) |> 
+  pivot_wider(names_from = area2, values_from = pct) |> 
+  mutate(grouptot=egroup2=="e0_Inf") |> 
+  arrange(grouptot, emplb2, empub2) |> 
+  relocate(grouptot) |> 
+  mutate(mta=rowMeans(across(-c(1:4)), na.rm=TRUE),
+         egroup2=ifelse(grouptot, "Totals", egroup2))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "payroll_pct_by_empsize.xlsx"))
+
+tab <- tabdata |> 
+  select(-grouptot) |> 
+    gt() |> 
+    tab_header(
+      title = html("Total payroll by county and ESTABLISHMENT employment size group as % of total payroll in county"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      egroup2="Employment size group",
+      emplb2="Employment lower bound",
+      empub2="Employment upper bound",
+      mta="MTA SIMPLE MEAN (CAUTION)"
+    ) |> 
+    fmt_percent(columns=-c(egroup2, emplb2, empub2),
+               decimals=1)
+  
+tab
+
+```
+
+### Total payroll by county and ESTABLISHMENT employment size group as CUMULATIVE % of total payroll in county
+
+```{r}
+#| label: wagecumpct
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  filter(egroup2 != "e0_Inf") |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  arrange(fips, area2, emplb2) |> 
+  mutate(pct=wages / sum(wages, na.rm=TRUE),
+         cumpct=cumsum(pct),
+         .by=area2) |> 
+  select(area2, egroup2, emplb2, empub2, cumpct) |> 
+  pivot_wider(names_from = area2, values_from = cumpct) |> 
+  mutate(mta=rowMeans(across(-c(1:4)), na.rm=TRUE))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "payroll_cumulative_pct_by_empsize.xlsx"))
+
+tab <- tabdata |> 
+    gt() |> 
+    tab_header(
+      title = html("Cumulative % of payroll in county county by ESTABLISHMENT employment size group"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      egroup2="Employment size group",
+      emplb2="Employment lower bound",
+      empub2="Employment upper bound",
+      mta="MTA SIMPLE MEAN (CAUTION)"
+    ) |> 
+    fmt_percent(columns=-c(egroup2, emplb2, empub2),
+               decimals=1)
+  
+tab
+
+```
+
+### Total \# ESTABLISHMENTS by county and ESTABLISHMENT employment size group as % of total payroll in county
+
+```{r}
+#| label: estabspct
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  select(area2, egroup2, emplb2, empub2, grouptot, estabs) |> 
+  mutate(pct=estabs / estabs[grouptot], .by=area2) |> 
+  select(-estabs) |> 
+  pivot_wider(names_from = area2, values_from = pct) |> 
+  mutate(grouptot=egroup2=="e0_Inf") |> 
+  arrange(grouptot, emplb2, empub2) |> 
+  relocate(grouptot) |> 
+  mutate(mta=rowMeans(across(-c(1:4)), na.rm=TRUE),
+         egroup2=ifelse(grouptot, "Totals", egroup2))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "numestabs_pct_by_empsize.xlsx"))
+
+tab <- tabdata |> 
+  select(-grouptot) |> 
+    gt() |> 
+    tab_header(
+      title = html("# ESTABLISHMENTS by county and ESTABLISHMENT employment size group as % of total # ESTABLISHMENTS in county"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      egroup2="Employment size group",
+      emplb2="Employment lower bound",
+      empub2="Employment upper bound",
+      mta="MTA SIMPLE MEAN (CAUTION)"
+    ) |> 
+    fmt_percent(columns=-c(egroup2, emplb2, empub2),
+               decimals=1)
+  
+tab
+
+```
+
+### Number of ESTABLISHMENTS by county and ESTABLISHMENT employment size group as CUMULATIVE % of total \# ESTABLISHMENTS in county
+
+```{r}
+#| label: estabscumpct
+#| eval: false
+#| include: false
+#| column: page
+
+# glimpse(stack)
+
+tabdata <- stack |> 
+  filter(egroup2 != "e0_Inf") |> 
+  mutate(area2=ifelse(fips=="36xxx", "NYC", str_remove(area, " County"))) |> 
+  arrange(fips, area2, emplb2) |> 
+  mutate(pct=estabs / sum(estabs, na.rm=TRUE),
+         cumpct=cumsum(pct),
+         .by=area2) |> 
+  select(area2, egroup2, emplb2, empub2, cumpct) |> 
+  pivot_wider(names_from = area2, values_from = cumpct) |> 
+  mutate(mta=rowMeans(across(-c(1:4)), na.rm=TRUE))
+
+xlsx::write.xlsx(tabdata, file = path(xldir, "numestabs_cumulative_pct_by_empsize.xlsx"))
+
+tab <- tabdata |> 
+    gt() |> 
+    tab_header(
+      title = html("# ESTABLISHMENTS as cumulative % of ESTABLISHMENTS in county county by ESTABLISHMENT employment size group"),
+      subtitle = html("Based on 2020 County Business Patterns. Detailed size groups estimated by author.")
+    ) |>
+    cols_label(
+      egroup2="Employment size group",
+      emplb2="Employment lower bound",
+      empub2="Employment upper bound",
+      mta="MTA SIMPLE MEAN (CAUTION)"
+    ) |> 
+    fmt_percent(columns=-c(egroup2, emplb2, empub2),
+               decimals=1)
+  
+tab
+
+```
+
+## OLDER ITEMS BELOW HERE
 
 Estimates of private sector wages by county, industry, and more-detailed firmsize breakdown, using 2019 SUSB data, "synthetically" decomposed into finer firm-size groups using relatively old Business Employment Dynamics data https://www.bls.gov/news.release/cewfs.nr0.htm.
 
@@ -48,7 +663,6 @@ tabbase <- fsemp |>
 
 
 ```
-
 
 ```{r}
 #| label: empsize-tab-function
@@ -99,7 +713,6 @@ empsize_tab <- function(variable){
 
 ```
 
-
 ### Wages by employment size
 
 ```{r}
@@ -112,7 +725,6 @@ tab
 
 ```
 
-
 ```{r}
 #| label: empsize-establishments
 #| include: true
@@ -122,8 +734,6 @@ tab
 
 ```
 
-
-
 ```{r}
 #| label: empsize-employment
 #| include: true
@@ -132,9 +742,6 @@ tab <- empsize_tab("emp")
 tab
 
 ```
-
-
-
 
 ## EXPERIMENTAL: Quarterly payroll breadowns by guessed-at wage sizes
 

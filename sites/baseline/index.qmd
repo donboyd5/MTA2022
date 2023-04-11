@@ -2,6 +2,8 @@
 
 ## Fast links
 
+-   [PMT self-employment income](pmtbase/pmt_net_selfemp_income.qmd)
+
 -   [CFT vs. the PMT](misc/cft_vs_pmt.qmd)
 
 -   [One-house budget resolutions](misc/one_house_budget_resolutions.qmd)

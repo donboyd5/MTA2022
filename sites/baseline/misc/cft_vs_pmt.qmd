@@ -246,7 +246,7 @@ I also made an attempt at adjusting crudely for tax-rate changes but it is not p
 #| include: false
 
 # get monthly data
-cftpmt <- readRDS(here::here("sites", "baseline", "misc", "cftpmt.rds"))
+cftpmt <- readRDS(here::here("sites", "baseline", "misc", "cftbankpmt.rds"))
 skim(cftpmt)
 count(cftpmt, tax)
 
@@ -293,8 +293,8 @@ src1 <- "Source: N.Y. Department of Taxation and Finance"
 src2 <- "(https://data.ny.gov/Government-Finance/New-York-State-Local-and-Local-Purpose-Taxes-and-F/2vni-8tmb)"
 src <- paste0(src1, "\n", src2)
 note1 <- "Notes:  Recession periods are shaded."
-# note2 <- "Corporate franchise tax crudely adjusted for rate changes."
-note3 <- "% change truncated at +/- 75% to exclude corporate franchise outliers."
+# note2 <- "Corporate franchise (including banks) tax crudely adjusted for rate changes."
+note3 <- "% change truncated at +/- 75%, values replaced by +/- 75%."
 note <- paste0(note1, " ", note3)
 capt <- paste0(src, "\n", note)
 
@@ -302,15 +302,23 @@ pdataq <- cftpmtq |>
   filter(year(qdate) %in% years, valtype=="unadjusted") |>
   filter(!(tax=="pmt" & qdate < "2011-01-01")) |>
   filter(!(tax=="pmt" & qdate >= "2022-10-01")) |> 
-  mutate(taxf=factor(tax, levels=c("cft", "pmt"),
-                    labels=c("Corporate franchise", "Payroll mobility"))) 
+  mutate(taxf=factor(tax, levels=c("cftbank", "pmt"),
+                    labels=c("Corporate franchise (incl. banks)", "Payroll mobility"))) 
+
+xldir <- r"(G:\My Drive\Consulting\MTA revenue\DataForMTA\PMT_analysis)"
+xlsx::write.xlsx(pdataq, file = path(xldir, "cftbanks_pmt_volatility.xlsx"))
 
 datelimits <- as.Date(c("2011-01-01", "2022-10-01"))
 p <- pdataq |> 
+  mutate(pch=ifelse(abs(pch) > .75, NA_real_, pch)) |> 
   ggplot(aes(qdate, pch, fill=taxf)) +
   geom_band(recdf, period="monthly", fill="grey90") +
   geom_bar (stat="identity", position = position_dodge2(preserve="single")) +
+  geom_point(aes(qdate, pch, colour=taxf),
+             size=2,
+             data=pdataq |> filter(abs(pch) > .75) |> mutate(pch=sign(pch)*.75)) +
   scale_fill_manual(values=cols2) +
+  scale_colour_manual(values=c("darkgreen", cols2[2])) +
   geom_hline(yintercept = c(-.1, .1), linetype="dashed") +
   scale_x_date(name=NULL, 
                breaks = "1 years", date_labels = "%Y", 
@@ -320,11 +328,11 @@ p <- pdataq |>
   scale_y_continuous(name="% change",
                      breaks=seq(-1, 1, .1),
                      labels=percent_format(accuracy = 1),
-                     limits=c(-.75, .75),
+                     limits=c(-.8, .8),
                      expand=c(0,0)) +
   theme_bw() +
   legend_notitle +
-  ggtitle("NYS corporate franchise tax and MTA payroll mobility tax",
+  ggtitle("NYS corporate franchise (incl. banks) tax and MTA payroll mobility tax",
           "year over year % change of quarterly values") +
   labs(caption=capt) +
   caption_left
@@ -376,7 +384,7 @@ pdataa <- cftpmta |>
   filter(year %in% years) |>
   filter(!(tax=="pmt" & year < 2011)) |>
   filter(!(tax=="pmt" & year >= 2022)) |> 
-  mutate(taxf=factor(tax, levels=c("cft", "pmt"),
+  mutate(taxf=factor(tax, levels=c("cftbank", "pmt"),
                     labels=c("Corporate franchise", "Payroll mobility"))) 
 
 p <- pdataa |> 

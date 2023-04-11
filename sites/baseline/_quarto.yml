@@ -42,6 +42,7 @@ book:
       - pmtbase/pmt_reconcile_data.qmd
       - pmtbase/pmt_forecast.qmd
       - pmtbase/pmt_stopgap.qmd
+      - pmtbase/pmt_net_selfemp_income.qmd
     - part: "Payroll mobility tax: options"
       chapters:
       - pmt/pmt_increase.qmd      

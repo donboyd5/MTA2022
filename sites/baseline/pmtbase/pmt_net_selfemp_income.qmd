@@ -1,0 +1,137 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# PMT net self-employment income - data relating to raising the taxability threshold
+
+Given your deadlilnes, I am posting tables as I have them. I will add data as the day goes on. For now I focus on getting tables posted; we can have spreadsheets later if needed.
+
+The primary initial source is data from the state tax department. They have a [set of datasets](https://www.tax.ny.gov/research/stats/statistics/pit-filers-summary-datasets-beginning-tax-year-2015.htm) that summarize rent, royalty, partnership, estate, and trust income (***rrpet*** in tables below) and business income (***businc*** in tables below). These are the main elements of self-employment income. For a refresher on what goes into self-employment income, see the [primer page](../pmt/pmt_self_employment_tax.qmd) I prepared previously. I am not sure yet whether some of this income might be excluded (based on its character) from the PMT self-employment tax (for example, I suspect estate and trust income is not included, but that rent, royalty and income generally is), but I think these are the main elements and go mostly into the self-employment tax.
+
+The datasets report "gains" (positive income) and losses separately. I need to research this more carefully but I am 95% sure we only need to focus on the gains - that an individual reports either gain or loss on their return, and only the gains would be subject to the PMT self-employment tax. (That is, I don't think we need to net losses against gains. But I will verify.)
+
+The data report rrpet and businc separately. For now, I do not combine them as I suspect often they are different people and this is important for thinking about \$ thresholds of taxation. In other words, within an income range some people might have business income, some might have rrpet income, and some might have both. I don't know how much is separate individuals and how much might be the same individuals and therefore how much could be added together to evaluate thresholds. Eventually I could do it both ways to allow us to get a range, but for now I keep them separate. Of course, some people could have positive businc and negative rrpet income, so adding together wouldn't necessarily put people closer to or over a taxability threshold.
+
+One of the datasets is for the state as a whole. It has more-detailed income ranges so it gives you a good sense of where the money is in the income ranges you care about. I summarize that first, then I'll move on to the dataset(s) that give information by county.
+
+In the tables below, an "n" prefix means it refers to the number of returns with a positive or negative value for an item; if there is no "n" prefix, it refers to the amount of an item. A "g" prefix refers to a gain, or positive amount of an item; an "l" prefix refers to a loss, or negative amount.
+
+
+```{r}
+#| label: libraries-constants
+#| include: false
+
+source(here::here("r", "libraries.r"))
+source(here::here("r", "libraries_ts.r"))
+source(here::here("r", "constants.r"))
+source(here::here("r", "functions.r"))
+
+pdir <- here::here("sites", "baseline", "pmtbase")
+
+ds3base <- readRDS(path(pdir, "ds3base.rds"))
+
+
+```
+
+## Statewide information
+
+The income ranges are adjusted gross income ranges, ***NOT*** self-employment income ranges (we do not have data on that). However, within-agi-range averages (the 2nd table) helps to understand size of self-employment income. Note that I have collapsed the lowest agi ranges and the \$1 million+ income ranges to make tables more readable.
+
+### Numbers of returns and gains and losses (g&l in \$ millions)
+
+The main takeaways for me are (1) business income is more important than rrpet in the income ranges we are likely to care about (although rrpet is more important in higher ranges), (2) both kinds of self-employment income are quite uniformly distributed across the \$50-100k agi ranges, which is comforting if we need to do some back of the envelope calculations assuming uniform distribution across ranges, and (3) partnership-type losses are overwhelming in the lower agi ranges, although I don't think that's especially relevant for PMT self-employment tax purposes (although it is for personal income tax purposes).
+
+```{r}
+#| label: state-amounts
+#| include: true
+#| column: page
+
+tab <- ds3base |> 
+  mutate(lrrpet=-lrrpet, lbusinc=-lbusinc) |> 
+  gt() |> 
+  cols_hide(ysort) |> 
+  tab_header(
+    title = html("Statewide potential self employment income by AGI group in 2020 (DTF dataset 3)"),
+    subtitle = html("Amounts are in $ millions")
+  ) |>
+  # cols_label(
+  #   egroup2="Employment size group",
+  #   emplb2="Employment lower bound",
+  #   empub2="Employment upper bound",
+  #   mta="MTA SIMPLE MEAN (CAUTION)"
+  # ) |> 
+  # fmt_percent(columns=-c(fips, area, sum),
+  #            decimals=1) |> 
+  tab_spanner(columns = c(ngrrpet, nlrrpet, ngbusinc, nlbusinc),
+              label="Numbers with gain or loss") |> 
+  tab_spanner(columns = c(grrpet, lrrpet, gbusinc, lbusinc),
+              label="Amount of gain or loss ($ millions)") |> 
+  fmt_number(columns=c(numret, starts_with("ng"), starts_with("nl")),
+             decimals=0) |> 
+  fmt_number(columns=c(starts_with("ny"),
+                       starts_with("g"),
+                       starts_with("l")),
+             scale=1e-6,
+             decimals=0) |> 
+  fmt_number(columns=c(starts_with("ny"),
+                       starts_with("g"),
+                       starts_with("l")),
+             rows=c(1, nrow(.data)),
+             pattern = "${x}",
+             scale=1e-6,
+             decimals=0) |> 
+  #gt_theme_guardian() |> 
+  tab_style(
+    style = cell_fill(color = "grey96"),
+    locations = cells_body(rows = even(1:nrow(ds3base))) # even(1:nrow(.data))
+  )
+  # gt_theme_guardian()
+
+tab
+
+
+
+```
+
+### Average gains and losses
+
+The takeaways for me are (1) we don't get into average rrpet or businc above \$50k until we get to agi above \$200k - if you're trying to protect the small business owner, it seems like you already are, and (2) if you raise the threshold to \$100k, you're going to be protecting some pretty big people - agi up to \$500k on average but really higher than that because this is all rrpet and businc of taxpayers, but the threshold applies to income earned in the MTA region only. You could easily have someone with AGI of \$1+ million, or more, including self-employment income of \$200k, but only \$99,999 of that in the MTA region, and therefore paying no PMT if the threshold is raised to \$100k.
+
+```{r}
+#| label: state-averages
+#| include: true
+#| column: page
+
+tab <- ds3base |> 
+  mutate(lrrpet=-lrrpet, lbusinc=-lbusinc) |> 
+  mutate(grrpetavg=grrpet / ngrrpet,
+         lrrpetavg=lrrpet / nlrrpet,
+         gbusincavg=gbusinc / ngbusinc,
+         lbusincavg=lbusinc / nlbusinc) |> 
+  select(agirange, numret, nyagi, contains("avg")) |> 
+  gt() |> 
+  tab_header(
+    title = html("Statewide potential self employment income by AGI group in 2020 (DTF dataset 3)"),
+    subtitle = html("Average per return with gain or loss, $")
+  ) |>
+  fmt_number(columns=numret,
+             decimals=0) |> 
+  fmt_number(columns=-c(agirange, numret),
+             decimals=0) |> 
+  fmt_number(columns=c(),
+             rows=c(1, nrow(.data)),
+             pattern = "${x}",
+             decimals=0) |> 
+  tab_style(
+    style = cell_fill(color = "grey96"),
+    locations = cells_body(rows = even(1:nrow(ds3base))) # even(1:nrow(.data))
+  )
+# gt_theme_guardian()
+
+tab
+
+```
+
+## County information for MTA regoin (TO COME)
